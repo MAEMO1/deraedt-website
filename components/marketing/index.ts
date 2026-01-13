@@ -1,0 +1,7 @@
+export { Hero } from "./hero";
+export { Services } from "./services";
+export { ProjectCard } from "./project-card";
+export { FeaturedProjects } from "./featured-projects";
+export { AboutTeaser } from "./about-teaser";
+export { CertificateBar } from "./certificate-bar";
+export { CTASection } from "./cta-section";
