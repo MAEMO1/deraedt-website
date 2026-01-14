@@ -31,27 +31,38 @@ function RevealText({ children, delay = 0 }: { children: string; delay?: number 
 function AnimatedWord() {
   const words = ["ERFGOED", "INNOVATIE", "VAKMANSCHAP", "TOEKOMST"];
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % words.length);
     }, 3500);
     return () => clearInterval(interval);
   }, []);
 
+  // Show first word immediately on server, then animate on client
+  if (!mounted) {
+    return (
+      <span className="text-[#C9A227]">
+        {words[0]}
+      </span>
+    );
+  }
+
   return (
-    <span className="relative inline-block h-[1.1em] overflow-hidden align-bottom">
+    <span className="relative inline-block min-w-[300px] sm:min-w-[400px]">
       <AnimatePresence mode="wait">
         <motion.span
           key={currentIndex}
-          initial={{ y: "100%", opacity: 0 }}
+          initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: "-100%", opacity: 0 }}
+          exit={{ y: -50, opacity: 0 }}
           transition={{
-            duration: 0.8,
+            duration: 0.6,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="absolute left-0 whitespace-nowrap text-gradient-gold"
+          className="inline-block text-[#C9A227]"
         >
           {words[currentIndex]}
         </motion.span>
@@ -90,7 +101,6 @@ function StatCounter({
   useEffect(() => {
     if (!isVisible) return;
     const timer = setTimeout(() => {
-      let start = 0;
       const duration = 2000;
       const startTime = performance.now();
 
@@ -133,52 +143,43 @@ export function Hero() {
   });
 
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.7, 0.9]);
 
   return (
     <section
       ref={containerRef}
       className="relative h-screen min-h-[900px] overflow-hidden bg-[#08111C]"
     >
-      {/* Background Image with Parallax */}
+      {/* Background Image with Parallax - FULL COVERAGE */}
       <motion.div
-        style={{ scale: imageScale, opacity: imageOpacity }}
-        className="absolute inset-0"
+        style={{ scale: imageScale }}
+        className="absolute inset-0 z-0"
       >
         <Image
           src="/images/original-site/team-collage.jpg"
           alt="De Raedt team at work"
           fill
-          className="object-cover image-elegant"
+          className="object-cover"
           priority
-          quality={95}
+          quality={90}
         />
+        {/* Lighter gradient overlay - image more visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#08111C]/60 via-[#08111C]/40 to-[#08111C]/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#08111C]/70 via-transparent to-[#08111C]/50" />
       </motion.div>
 
-      {/* Cinematic Gradient Overlays */}
-      <motion.div
-        style={{ opacity: overlayOpacity }}
-        className="absolute inset-0 bg-gradient-to-b from-[#08111C]/80 via-[#08111C]/50 to-[#08111C]"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#08111C]/90 via-transparent to-[#08111C]/70" />
-
-      {/* Architectural grid pattern */}
-      <div className="absolute inset-0 grid-pattern opacity-30" />
-
-      {/* Noise texture for premium feel */}
-      <div className="absolute inset-0 noise-texture" />
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 z-[1] grid-pattern opacity-20 pointer-events-none" />
 
       {/* Vertical Lines - Architectural Element */}
-      <div className="absolute inset-0 flex justify-between px-[10%] pointer-events-none">
+      <div className="absolute inset-0 z-[1] flex justify-between px-[10%] pointer-events-none">
         {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
             transition={{ duration: 1.5, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="w-px bg-white/[0.03] origin-top"
+            className="w-px bg-white/[0.05] origin-top"
           />
         ))}
       </div>
@@ -208,12 +209,12 @@ export function Hero() {
           </motion.div>
 
           {/* Main Headline - Dramatic Typography */}
-          <div className="space-y-2">
-            <h1 className="font-heading text-[clamp(3.5rem,12vw,11rem)] leading-[0.85] tracking-[0.02em] text-white">
+          <div className="space-y-0">
+            <h1 className="font-heading text-[clamp(3.5rem,11vw,10rem)] leading-[0.9] tracking-[0.02em] text-white">
               <RevealText delay={0.3}>BOUWEN</RevealText>
             </h1>
-            <h1 className="font-heading text-[clamp(3.5rem,12vw,11rem)] leading-[0.85] tracking-[0.02em] text-white">
-              <RevealText delay={0.4}>AAN</RevealText>{" "}
+            <h1 className="font-heading text-[clamp(3.5rem,11vw,10rem)] leading-[0.9] tracking-[0.02em] text-white flex flex-wrap items-baseline gap-x-6">
+              <RevealText delay={0.4}>AAN</RevealText>
               <AnimatedWord />
             </h1>
           </div>
@@ -223,7 +224,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 max-w-xl text-base sm:text-lg text-white/50 leading-relaxed font-body"
+            className="mt-10 max-w-xl text-base sm:text-lg text-white/60 leading-relaxed font-body"
           >
             Bouwwerken De Raedt Ivan NV — Uw betrouwbare partner voor
             erfgoedrenovatie, nieuwbouw en facility management.
@@ -246,7 +247,7 @@ export function Hero() {
             </Link>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-3 border border-white/20 text-white px-10 py-5 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-500 hover:bg-white/10 hover:border-white/40"
+              className="group inline-flex items-center gap-3 border border-white/30 text-white px-10 py-5 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-500 hover:bg-white/10 hover:border-white/50"
             >
               <span>Contact</span>
             </Link>
@@ -259,11 +260,11 @@ export function Hero() {
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute bottom-0 left-0 right-0 border-t border-white/[0.06]"
+        className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10"
       >
-        <div className="relative bg-[#08111C]/90 backdrop-blur-xl">
+        <div className="relative bg-[#08111C]/95 backdrop-blur-xl">
           <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-10 sm:py-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/[0.06]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/10">
               <div className="md:pr-8">
                 <StatCounter end={STATS.yearsExperience} label="Jaar Ervaring" delay={1800} />
               </div>
@@ -290,7 +291,7 @@ export function Hero() {
       >
         <button
           onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
-          className="flex flex-col items-center gap-3 text-white/30 hover:text-white/60 transition-colors duration-500"
+          className="flex flex-col items-center gap-3 text-white/40 hover:text-white/70 transition-colors duration-500"
           aria-label="Scroll naar beneden"
         >
           <span className="text-[10px] uppercase tracking-[0.3em] font-medium [writing-mode:vertical-lr]">
@@ -310,17 +311,17 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute top-8 right-8 w-32 h-32 pointer-events-none"
+        className="absolute top-8 right-8 w-32 h-32 pointer-events-none z-10"
       >
-        <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#C9A227]/30" />
+        <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#C9A227]/40" />
       </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-48 left-8 w-24 h-24 pointer-events-none hidden lg:block"
+        className="absolute bottom-48 left-8 w-24 h-24 pointer-events-none z-10 hidden lg:block"
       >
-        <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-white/10" />
+        <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-white/20" />
       </motion.div>
     </section>
   );
