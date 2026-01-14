@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { NAV_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
@@ -26,18 +25,18 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
+        "fixed left-0 right-0 top-0 z-50 transition-all duration-500",
         scrolled || !isHomepage
-          ? "bg-white/95 shadow-sm backdrop-blur-sm"
+          ? "bg-white/95 backdrop-blur-md border-b border-[#0A1628]/5"
           : "bg-transparent"
       )}
     >
-      <div className="container-custom">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-20">
         <div className="flex h-20 items-center justify-between">
           <Logo variant={scrolled || !isHomepage ? "default" : "white"} />
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:block">
+          <nav className="hidden lg:block">
             <ul className="flex items-center gap-1">
               {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.href;
@@ -46,17 +45,25 @@ export function Header() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
+                        "px-5 py-2 text-sm font-medium transition-all duration-300 relative",
                         scrolled || !isHomepage
                           ? isActive
-                            ? "bg-[#EBF4FF] text-[#1E3A5F]"
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "text-[#0A1628]"
+                            : "text-[#0A1628]/60 hover:text-[#0A1628]"
                           : isActive
-                            ? "bg-white/20 text-white"
-                            : "text-white/90 hover:bg-white/10 hover:text-white"
+                            ? "text-white"
+                            : "text-white/70 hover:text-white"
                       )}
                     >
                       {item.label}
+                      {isActive && (
+                        <span
+                          className={cn(
+                            "absolute bottom-0 left-5 right-5 h-0.5",
+                            scrolled || !isHomepage ? "bg-[#B8860B]" : "bg-white"
+                          )}
+                        />
+                      )}
                     </Link>
                   </li>
                 );
@@ -64,19 +71,18 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4">
-            <Button
-              asChild
-              variant={scrolled || !isHomepage ? "outline" : "secondary"}
+          <div className="flex items-center gap-6">
+            <Link
+              href="/login"
               className={cn(
-                "hidden md:inline-flex",
+                "hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-sm font-semibold transition-all duration-300",
                 scrolled || !isHomepage
-                  ? "border-[#1E3A5F] text-[#1E3A5F] hover:bg-[#1E3A5F] hover:text-white"
-                  : "border-white bg-transparent text-white hover:bg-white hover:text-[#1E3A5F]"
+                  ? "border border-[#0A1628] text-[#0A1628] hover:bg-[#0A1628] hover:text-white"
+                  : "border border-white/30 text-white hover:bg-white hover:text-[#0A1628]"
               )}
             >
-              <Link href="/portal/login">Klantenportaal</Link>
-            </Button>
+              Klantenportaal
+            </Link>
 
             <div className={cn(scrolled || !isHomepage ? "" : "text-white")}>
               <MobileNav />

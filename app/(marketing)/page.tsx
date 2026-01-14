@@ -4,20 +4,16 @@ import {
   ClientLogos,
   FeaturedProjects,
   AboutTeaser,
-  Certifications,
-  CTASection,
 } from "@/components/marketing";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Services />
       <ClientLogos />
+      <Services />
       <FeaturedProjects />
       <AboutTeaser />
-      <Certifications />
-      <CTASection />
     </>
   );
 }

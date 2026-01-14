@@ -5,13 +5,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
 
-  /* Brand Colors */
+  /* Premium Brand Colors */
+  --color-brand-dark: #0A1628;
   --color-brand-primary: #1E3A5F;
   --color-brand-secondary: #2C5282;
   --color-brand-accent: #4299E1;
+  --color-brand-copper: #B8860B;
   --color-brand-light: #EBF4FF;
   --color-brand-muted: #F7FAFC;
 
