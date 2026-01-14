@@ -31,43 +31,30 @@ function RevealText({ children, delay = 0 }: { children: string; delay?: number 
 function AnimatedWord() {
   const words = ["ERFGOED", "INNOVATIE", "VAKMANSCHAP", "TOEKOMST"];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % words.length);
     }, 3500);
     return () => clearInterval(interval);
   }, []);
 
-  // Show first word immediately on server, then animate on client
-  if (!mounted) {
-    return (
-      <span className="text-[#C9A227]">
-        {words[0]}
-      </span>
-    );
-  }
-
   return (
-    <span className="relative inline-block min-w-[300px] sm:min-w-[400px]">
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={currentIndex}
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -50, opacity: 0 }}
-          transition={{
-            duration: 0.6,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="inline-block text-[#C9A227]"
-        >
-          {words[currentIndex]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
+    <AnimatePresence mode="wait">
+      <motion.span
+        key={currentIndex}
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -40, opacity: 0 }}
+        transition={{
+          duration: 0.5,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="text-[#C9A227]"
+      >
+        {words[currentIndex]}
+      </motion.span>
+    </AnimatePresence>
   );
 }
 
@@ -209,12 +196,11 @@ export function Hero() {
           </motion.div>
 
           {/* Main Headline - Dramatic Typography */}
-          <div className="space-y-0">
-            <h1 className="font-heading text-[clamp(3.5rem,11vw,10rem)] leading-[0.9] tracking-[0.02em] text-white">
-              <RevealText delay={0.3}>BOUWEN</RevealText>
+          <div>
+            <h1 className="font-heading text-[clamp(3rem,10vw,9rem)] leading-[0.95] tracking-[0.02em] text-white">
+              <RevealText delay={0.3}>BOUWEN AAN</RevealText>
             </h1>
-            <h1 className="font-heading text-[clamp(3.5rem,11vw,10rem)] leading-[0.9] tracking-[0.02em] text-white flex flex-wrap items-baseline gap-x-6">
-              <RevealText delay={0.4}>AAN</RevealText>
+            <h1 className="font-heading text-[clamp(3rem,10vw,9rem)] leading-[0.95] tracking-[0.02em]">
               <AnimatedWord />
             </h1>
           </div>
