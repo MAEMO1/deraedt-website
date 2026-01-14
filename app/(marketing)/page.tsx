@@ -1,9 +1,10 @@
 import {
   Hero,
   Services,
+  ClientLogos,
   FeaturedProjects,
   AboutTeaser,
-  CertificateBar,
+  Certifications,
   CTASection,
 } from "@/components/marketing";
 
@@ -12,9 +13,10 @@ export default function HomePage() {
     <>
       <Hero />
       <Services />
+      <ClientLogos />
       <FeaturedProjects />
       <AboutTeaser />
-      <CertificateBar />
+      <Certifications />
       <CTASection />
     </>
   );

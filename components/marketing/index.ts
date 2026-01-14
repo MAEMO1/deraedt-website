@@ -5,3 +5,5 @@ export { FeaturedProjects } from "./featured-projects";
 export { AboutTeaser } from "./about-teaser";
 export { CertificateBar } from "./certificate-bar";
 export { CTASection } from "./cta-section";
+export { ClientLogos } from "./client-logos";
+export { Certifications } from "./certifications";
