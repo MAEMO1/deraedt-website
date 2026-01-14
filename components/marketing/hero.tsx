@@ -7,28 +7,51 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { STATS } from "@/lib/constants";
 
-// Animated text that cycles through words
-function AnimatedTagline() {
-  const words = ["erfgoed", "innovatie", "vakmanschap", "toekomst"];
+// Staggered text reveal animation
+function RevealText({ children, delay = 0 }: { children: string; delay?: number }) {
+  return (
+    <span className="relative inline-block overflow-hidden">
+      <motion.span
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        transition={{
+          duration: 1,
+          delay,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="inline-block"
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+// Animated word that cycles with elegant transitions
+function AnimatedWord() {
+  const words = ["ERFGOED", "INNOVATIE", "VAKMANSCHAP", "TOEKOMST"];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % words.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <span className="relative inline-block min-w-[280px] text-left">
+    <span className="relative inline-block h-[1.1em] overflow-hidden align-bottom">
       <AnimatePresence mode="wait">
         <motion.span
           key={currentIndex}
-          initial={{ y: 40, opacity: 0 }}
+          initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -40, opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#B8860B] to-[#DAA520]"
+          exit={{ y: "-100%", opacity: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="absolute left-0 whitespace-nowrap text-gradient-gold"
         >
           {words[currentIndex]}
         </motion.span>
@@ -37,18 +60,20 @@ function AnimatedTagline() {
   );
 }
 
-// Animated counter for statistics
-function AnimatedCounter({
+// Statistics counter with elegant animation
+function StatCounter({
   end,
   suffix = "",
-  duration = 2000,
+  label,
+  delay = 0,
 }: {
   end: number;
   suffix?: string;
-  duration?: number;
+  label: string;
+  delay?: number;
 }) {
   const [count, setCount] = useState(0);
-  const countRef = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -58,28 +83,45 @@ function AnimatedCounter({
       },
       { threshold: 0.1 }
     );
-    if (countRef.current) observer.observe(countRef.current);
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     if (!isVisible) return;
-    let startTime: number;
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [isVisible, end, duration]);
+    const timer = setTimeout(() => {
+      let start = 0;
+      const duration = 2000;
+      const startTime = performance.now();
+
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        setCount(Math.floor(eased * end));
+        if (progress < 1) requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [isVisible, end, delay]);
 
   return (
-    <span ref={countRef}>
-      {count}
-      {suffix}
-    </span>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay: delay / 1000, ease: [0.22, 1, 0.36, 1] }}
+      className="text-center"
+    >
+      <div className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-tight">
+        {count}
+        <span className="text-[#C9A227]">{suffix}</span>
+      </div>
+      <div className="mt-2 text-[11px] sm:text-xs text-white/40 uppercase tracking-[0.25em] font-medium">
+        {label}
+      </div>
+    </motion.div>
   );
 }
 
@@ -90,14 +132,15 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.7, 0.9]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-screen min-h-[800px] overflow-hidden bg-[#0A1628]"
+      className="relative h-screen min-h-[900px] overflow-hidden bg-[#08111C]"
     >
       {/* Background Image with Parallax */}
       <motion.div
@@ -108,25 +151,36 @@ export function Hero() {
           src="/images/original-site/team-collage.jpg"
           alt="De Raedt team at work"
           fill
-          className="object-cover"
+          className="object-cover image-elegant"
           priority
-          quality={90}
+          quality={95}
         />
-        {/* Gradient overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/80 via-transparent to-[#0A1628]/60" />
       </motion.div>
 
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <svg className="w-full h-full">
-          <defs>
-            <pattern id="hero-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-grid)" />
-        </svg>
+      {/* Cinematic Gradient Overlays */}
+      <motion.div
+        style={{ opacity: overlayOpacity }}
+        className="absolute inset-0 bg-gradient-to-b from-[#08111C]/80 via-[#08111C]/50 to-[#08111C]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#08111C]/90 via-transparent to-[#08111C]/70" />
+
+      {/* Architectural grid pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-30" />
+
+      {/* Noise texture for premium feel */}
+      <div className="absolute inset-0 noise-texture" />
+
+      {/* Vertical Lines - Architectural Element */}
+      <div className="absolute inset-0 flex justify-between px-[10%] pointer-events-none">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 1.5, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="w-px bg-white/[0.03] origin-top"
+          />
+        ))}
       </div>
 
       {/* Main Content */}
@@ -134,127 +188,140 @@ export function Hero() {
         style={{ y: contentY }}
         className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 lg:px-20"
       >
-        <div className="max-w-6xl">
-          {/* Overline */}
+        <div className="max-w-7xl mx-auto w-full">
+          {/* Overline with animated line */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex items-center gap-4 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="flex items-center gap-6 mb-10"
           >
-            <div className="h-px w-16 bg-[#B8860B]" />
-            <span className="text-[#B8860B] text-sm font-medium tracking-[0.3em] uppercase">
-              Sinds 1930
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="h-px w-20 bg-[#C9A227] origin-left"
+            />
+            <span className="text-[#C9A227] text-xs sm:text-sm font-medium tracking-[0.4em] uppercase">
+              Sinds 1930 · België
             </span>
           </motion.div>
 
-          {/* Main Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-bold text-white leading-[0.95] tracking-tight">
-              Bouwen aan
-              <br />
-              <AnimatedTagline />
+          {/* Main Headline - Dramatic Typography */}
+          <div className="space-y-2">
+            <h1 className="font-heading text-[clamp(3.5rem,12vw,11rem)] leading-[0.85] tracking-[0.02em] text-white">
+              <RevealText delay={0.3}>BOUWEN</RevealText>
             </h1>
-          </motion.div>
+            <h1 className="font-heading text-[clamp(3.5rem,12vw,11rem)] leading-[0.85] tracking-[0.02em] text-white">
+              <RevealText delay={0.4}>AAN</RevealText>{" "}
+              <AnimatedWord />
+            </h1>
+          </div>
 
           {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8 max-w-xl text-lg sm:text-xl text-white/60 leading-relaxed"
+            transition={{ duration: 1, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 max-w-xl text-base sm:text-lg text-white/50 leading-relaxed font-body"
           >
-            Bouwwerken De Raedt Ivan NV - Uw betrouwbare partner voor
-            erfgoedrenovatie, nieuwbouw en facility management in België.
+            Bouwwerken De Raedt Ivan NV — Uw betrouwbare partner voor
+            erfgoedrenovatie, nieuwbouw en facility management.
+            Generaties van vakmanschap in dienst van België.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 1, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
             className="mt-12 flex flex-wrap items-center gap-6"
           >
             <Link
               href="/projecten"
-              className="group inline-flex items-center gap-3 bg-white text-[#0A1628] px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#B8860B] hover:text-white"
+              className="group relative inline-flex items-center gap-3 bg-[#C9A227] text-[#08111C] px-10 py-5 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-500 hover:bg-white overflow-hidden"
             >
-              <span>Bekijk Projecten</span>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              <span className="relative z-10">Ontdek Projecten</span>
+              <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-3 border border-white/30 text-white px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+              className="group inline-flex items-center gap-3 border border-white/20 text-white px-10 py-5 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-500 hover:bg-white/10 hover:border-white/40"
             >
               <span>Contact</span>
             </Link>
           </motion.div>
         </div>
-
-        {/* Statistics Bar - Bottom */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-[#0A1628]/80 backdrop-blur-md"
-        >
-          <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
-              {[
-                { value: STATS.yearsExperience, label: "Jaar Ervaring", suffix: "" },
-                { value: 500, label: "Projecten Voltooid", suffix: "+" },
-                { value: 40, label: "Vakmannen", suffix: "+" },
-                { value: 6, label: "Klasse Erkenning", suffix: "" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
-                  className="py-6 sm:py-8 px-4 sm:px-8 text-center md:text-left"
-                >
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-semibold text-white">
-                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <div className="mt-1 text-xs sm:text-sm text-white/50 tracking-wide uppercase">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-          className="absolute bottom-32 sm:bottom-36 right-6 sm:right-12 lg:right-20"
-        >
-          <button
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
-            className="flex flex-col items-center gap-2 text-white/40 hover:text-white/70 transition-colors"
-            aria-label="Scroll naar beneden"
-          >
-            <span className="text-[10px] uppercase tracking-[0.2em] font-medium">Scroll</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ArrowDown className="w-5 h-5" />
-            </motion.div>
-          </button>
-        </motion.div>
       </motion.div>
 
-      {/* Corner Accents */}
-      <div className="absolute top-8 right-8 w-32 h-32 border-t-2 border-r-2 border-white/10 pointer-events-none" />
-      <div className="absolute bottom-40 left-8 w-24 h-24 border-b-2 border-l-2 border-white/10 pointer-events-none" />
+      {/* Statistics Bar - Bottom */}
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute bottom-0 left-0 right-0 border-t border-white/[0.06]"
+      >
+        <div className="relative bg-[#08111C]/90 backdrop-blur-xl">
+          <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-10 sm:py-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/[0.06]">
+              <div className="md:pr-8">
+                <StatCounter end={STATS.yearsExperience} label="Jaar Ervaring" delay={1800} />
+              </div>
+              <div className="md:px-8">
+                <StatCounter end={500} suffix="+" label="Projecten" delay={2000} />
+              </div>
+              <div className="md:px-8">
+                <StatCounter end={40} suffix="+" label="Vakmannen" delay={2200} />
+              </div>
+              <div className="md:pl-8">
+                <StatCounter end={6} label="Klasse Erkenning" delay={2400} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 2 }}
+        className="absolute bottom-44 sm:bottom-48 right-6 sm:right-12 lg:right-20 z-20"
+      >
+        <button
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+          className="flex flex-col items-center gap-3 text-white/30 hover:text-white/60 transition-colors duration-500"
+          aria-label="Scroll naar beneden"
+        >
+          <span className="text-[10px] uppercase tracking-[0.3em] font-medium [writing-mode:vertical-lr]">
+            Scroll
+          </span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ArrowDown className="w-4 h-4" />
+          </motion.div>
+        </button>
+      </motion.div>
+
+      {/* Corner Decorations */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1 }}
+        className="absolute top-8 right-8 w-32 h-32 pointer-events-none"
+      >
+        <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#C9A227]/30" />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        className="absolute bottom-48 left-8 w-24 h-24 pointer-events-none hidden lg:block"
+      >
+        <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-white/10" />
+      </motion.div>
     </section>
   );
 }

@@ -10,82 +10,96 @@ import { FEATURED_PROJECTS } from "@/lib/constants";
 function ProjectCard({
   project,
   index,
-  featured = false,
+  size = "normal",
 }: {
   project: (typeof FEATURED_PROJECTS)[number];
   index: number;
-  featured?: boolean;
+  size?: "featured" | "normal" | "wide";
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const sizeClasses = {
+    featured: "md:col-span-2 md:row-span-2 aspect-[4/3] md:aspect-[16/12]",
+    normal: "aspect-[4/3]",
+    wide: "md:col-span-3 aspect-[21/9]",
+  };
+
   return (
-    <motion.div
+    <motion.article
       ref={ref}
       initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
+      transition={{ duration: 0.9, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className={`group relative ${sizeClasses[size]}`}
     >
-      <Link href={`/projecten/${project.slug}`} className="block">
-        <div
-          className={`relative overflow-hidden bg-[#0A1628] ${
-            featured ? "aspect-[16/10]" : "aspect-[4/3]"
-          }`}
-        >
+      <Link href={`/projecten/${project.slug}`} className="block h-full">
+        <div className="relative h-full overflow-hidden bg-[#08111C]">
           {/* Image */}
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover transition-all duration-1000 ease-out group-hover:scale-105 image-elegant"
           />
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/20 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#08111C] via-[#08111C]/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-95" />
 
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
+          <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10">
             {/* Category tag */}
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/90 bg-white/10 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
+              className="mb-4"
+            >
+              <span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
+                <span className="w-4 h-px bg-[#C9A227]" />
                 {project.category}
               </span>
-            </div>
+            </motion.div>
 
             {/* Title */}
             <h3
-              className={`font-heading font-bold text-white leading-tight ${
-                featured ? "text-3xl sm:text-4xl md:text-5xl" : "text-xl sm:text-2xl"
+              className={`font-display font-semibold text-white leading-[1.1] transition-colors duration-300 ${
+                size === "featured"
+                  ? "text-3xl sm:text-4xl md:text-5xl"
+                  : size === "wide"
+                  ? "text-3xl sm:text-4xl"
+                  : "text-2xl sm:text-3xl"
               }`}
             >
               {project.title}
             </h3>
 
             {/* Client */}
-            <p className="mt-2 text-sm text-white/60">{project.client}</p>
+            <p className="mt-3 text-sm text-white/50 font-medium">{project.client}</p>
 
-            {/* Description - only on featured */}
-            {featured && (
-              <p className="mt-4 max-w-lg text-white/50 leading-relaxed hidden sm:block">
+            {/* Description - only on featured/wide */}
+            {(size === "featured" || size === "wide") && (
+              <p className="mt-4 max-w-lg text-white/40 leading-relaxed text-sm hidden sm:block">
                 {project.description}
               </p>
             )}
 
-            {/* Arrow indicator */}
-            <div className="mt-6 flex items-center gap-2 text-white/60 group-hover:text-[#B8860B] transition-colors">
-              <span className="text-sm font-medium">Bekijk project</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            {/* View link */}
+            <div className="mt-6 flex items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/40 group-hover:text-[#C9A227] transition-colors duration-500">
+                Bekijk project
+              </span>
+              <ArrowUpRight className="w-4 h-4 text-white/40 group-hover:text-[#C9A227] transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           </div>
 
           {/* Corner accent on hover */}
-          <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-[#B8860B]" />
+          <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-500">
+            <div className="w-10 h-10 border-t border-r border-[#C9A227]/50" />
           </div>
         </div>
       </Link>
-    </motion.div>
+    </motion.article>
   );
 }
 
@@ -94,102 +108,90 @@ export function FeaturedProjects() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-24 sm:py-32 bg-[#F8F9FA]">
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-20">
+    <section className="py-28 sm:py-36 bg-[#FAF8F5] relative">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-30" />
+
+      <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-20 relative">
         {/* Section Header */}
-        <motion.div
+        <motion.header
           ref={headerRef}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16"
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-20"
         >
           <div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="h-px w-12 bg-[#B8860B]" />
-              <span className="text-[#B8860B] text-sm font-medium tracking-[0.2em] uppercase">
+            {/* Overline */}
+            <div className="flex items-center gap-4 mb-6">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={isHeaderInView ? { scaleX: 1 } : {}}
+                transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="h-px w-16 bg-[#C9A227] origin-left"
+              />
+              <span className="text-[#C9A227] text-xs font-medium tracking-[0.3em] uppercase">
                 Portfolio
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-[#0A1628] leading-tight">
-              Recente
+
+            {/* Title */}
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-heading tracking-[0.02em] text-[#08111C] leading-none">
+              RECENTE
               <br />
-              <span className="text-[#1E3A5F]">Realisaties</span>
+              <span className="text-[#1A2D42]">REALISATIES</span>
             </h2>
           </div>
 
           <Link
             href="/projecten"
-            className="group inline-flex items-center gap-3 text-[#0A1628] hover:text-[#B8860B] transition-colors"
+            className="group inline-flex items-center gap-4 text-[#08111C] hover:text-[#C9A227] transition-colors duration-500"
           >
-            <span className="text-base font-semibold">Alle projecten</span>
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <span className="text-sm font-semibold uppercase tracking-[0.15em]">Alle projecten</span>
+            <div className="flex items-center justify-center w-12 h-12 border border-current transition-all duration-500 group-hover:bg-[#C9A227] group-hover:border-[#C9A227] group-hover:text-[#08111C]">
+              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </div>
           </Link>
-        </motion.div>
+        </motion.header>
 
-        {/* Projects Grid - Asymmetric Layout */}
-        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
+        {/* Projects Grid - Editorial Layout */}
+        <div className="grid md:grid-cols-3 gap-5">
           {/* Featured large project */}
           <ProjectCard
             project={FEATURED_PROJECTS[0]}
             index={0}
-            featured={true}
+            size="featured"
           />
 
           {/* Smaller projects */}
-          {FEATURED_PROJECTS.slice(1, 4).map((project, index) => (
+          {FEATURED_PROJECTS.slice(1, 3).map((project, index) => (
             <ProjectCard
               key={project.slug}
               project={project}
               index={index + 1}
+              size="normal"
             />
           ))}
         </div>
 
-        {/* Bottom Row - Full Width Project */}
-        {FEATURED_PROJECTS[4] && (
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-4 sm:mt-6"
-          >
-            <Link href={`/projecten/${FEATURED_PROJECTS[4].slug}`} className="group block">
-              <div className="relative aspect-[21/9] overflow-hidden bg-[#0A1628]">
-                <Image
-                  src={FEATURED_PROJECTS[4].image}
-                  alt={FEATURED_PROJECTS[4].title}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        {/* Bottom Row - Wide Project */}
+        {FEATURED_PROJECTS[3] && (
+          <div className="mt-5 grid md:grid-cols-3 gap-5">
+            <ProjectCard
+              project={FEATURED_PROJECTS[3]}
+              index={3}
+              size="normal"
+            />
+            {FEATURED_PROJECTS[4] && (
+              <div className="md:col-span-2">
+                <ProjectCard
+                  project={FEATURED_PROJECTS[4]}
+                  index={4}
+                  size="wide"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/90 via-[#0A1628]/40 to-transparent" />
-
-                <div className="absolute inset-0 flex items-center p-8 sm:p-12 lg:p-16">
-                  <div className="max-w-2xl">
-                    <span className="inline-block px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/90 bg-white/10 backdrop-blur-sm mb-4">
-                      {FEATURED_PROJECTS[4].category}
-                    </span>
-                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white leading-tight">
-                      {FEATURED_PROJECTS[4].title}
-                    </h3>
-                    <p className="mt-2 text-white/60">{FEATURED_PROJECTS[4].client}</p>
-                    <p className="mt-4 text-white/50 leading-relaxed hidden sm:block">
-                      {FEATURED_PROJECTS[4].description}
-                    </p>
-                    <div className="mt-6 flex items-center gap-2 text-white/60 group-hover:text-[#B8860B] transition-colors">
-                      <span className="text-sm font-medium">Bekijk project</span>
-                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute top-0 right-0 w-24 h-24 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-[#B8860B]" />
-                </div>
               </div>
-            </Link>
-          </motion.div>
+            )}
+          </div>
         )}
       </div>
     </section>

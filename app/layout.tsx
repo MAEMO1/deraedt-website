@@ -1,25 +1,28 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Syne } from "next/font/google";
+import { Cormorant_Garamond, Instrument_Sans, Bebas_Neue } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_CONFIG, COMPANY } from "@/lib/constants";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const playfair = Playfair_Display({
+// Elegant serif for display - refined, editorial
+const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const syne = Syne({
+// Clean, modern sans for body
+const instrument = Instrument_Sans({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+// Bold display for hero headlines
+const bebas = Bebas_Neue({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -62,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl-BE">
-      <body className={`${dmSans.variable} ${playfair.variable} ${syne.variable} font-body antialiased`}>
+      <body className={`${instrument.variable} ${cormorant.variable} ${bebas.variable} font-body antialiased`}>
         {children}
         <Toaster position="top-right" />
       </body>
