@@ -1,44 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
-// Client logos based on De Raedt's actual clients from their website
+// Client logos with actual images from De Raedt's website
 const CLIENTS = [
-  { name: "Infrabel", category: "infrastructure" },
-  { name: "AG Vespa", category: "public" },
-  { name: "NMBS/SNCB", category: "infrastructure" },
-  { name: "Provincie Oost-Vlaanderen", category: "public" },
-  { name: "Stad Gent", category: "public" },
-  { name: "Thuis Gent", category: "housing" },
-  { name: "VEB", category: "public" },
-  { name: "Woonpunt Mechelen", category: "housing" },
-  { name: "Stad Brussel", category: "public" },
-  { name: "Sibelga", category: "infrastructure" },
-  { name: "Regie der Gebouwen", category: "public" },
-  { name: "Provincie Antwerpen", category: "public" },
-  { name: "Fluvius", category: "infrastructure" },
-  { name: "Leefmilieu Brussel", category: "public" },
+  { name: "Infrabel", logo: "/images/original-site/Infrabel-logo.png", width: 120, height: 40 },
+  { name: "AG Vespa", logo: "/images/original-site/ag-vespa-logo.svg", width: 100, height: 40 },
+  { name: "NMBS/SNCB", logo: "/images/original-site/Logo-Nmbs.webp", width: 100, height: 40 },
+  { name: "Provincie Oost-Vlaanderen", logo: "/images/original-site/logo-provincie-Oost-Vlaanderen.png", width: 140, height: 35 },
+  { name: "Stad Gent", logo: "/images/original-site/logoggent.svg", width: 80, height: 40 },
+  { name: "Thuis Gent", logo: "/images/original-site/thuispuntgent_logo.svg", width: 100, height: 40 },
+  { name: "VEB", logo: "/images/original-site/logo-veb.svg", width: 80, height: 40 },
+  { name: "Woonpunt Mechelen", logo: "/images/original-site/woonpunt.svg", width: 100, height: 40 },
+  { name: "Stad Brussel", logo: "/images/original-site/bxl-stad.svg", width: 100, height: 40 },
+  { name: "Sibelga", logo: "/images/original-site/Logo-Sibelga-website-5.png", width: 100, height: 40 },
+  { name: "Regie der Gebouwen", logo: "/images/original-site/regiedergebouwen.svg", width: 120, height: 40 },
+  { name: "Provincie Antwerpen", logo: "/images/original-site/antwerpen.svg", width: 100, height: 40 },
+  { name: "Fluvius", logo: "/images/original-site/Fluvius_logo.svg", width: 100, height: 35 },
+  { name: "Leefmilieu Brussel", logo: "/images/original-site/leefmilieu.svg", width: 120, height: 40 },
+  { name: "BXL Régie", logo: "/images/original-site/bxl-regie.svg", width: 100, height: 40 },
+  { name: "OCMW Brussel", logo: "/images/original-site/bxl.svg", width: 80, height: 40 },
 ];
 
-function LogoPlaceholder({ name }: { name: string }) {
-  // Generate initials from company name
-  const initials = name
-    .split(" ")
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-
+function ClientLogo({ client }: { client: typeof CLIENTS[number] }) {
   return (
-    <div className="flex items-center justify-center h-12 px-6 rounded-lg bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#4299E1]/20 hover:-translate-y-0.5">
-      <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center w-8 h-8 rounded bg-gradient-to-br from-[#1E3A5F] to-[#2C5282] text-white text-xs font-bold">
-          {initials}
-        </div>
-        <span className="text-sm font-medium text-[#1E3A5F]/70 whitespace-nowrap">
-          {name}
-        </span>
-      </div>
+    <div className="flex items-center justify-center h-16 px-6 rounded-xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#4299E1]/20 hover:-translate-y-0.5 min-w-[160px]">
+      <Image
+        src={client.logo}
+        alt={`${client.name} logo`}
+        width={client.width}
+        height={client.height}
+        className="object-contain max-h-10 w-auto grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+      />
     </div>
   );
 }
@@ -53,7 +47,7 @@ function MarqueeRow({
   speed?: number;
 }) {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden py-2">
       {/* Gradient masks */}
       <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#FAFBFD] to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#FAFBFD] to-transparent z-10 pointer-events-none" />
@@ -74,7 +68,7 @@ function MarqueeRow({
       >
         {/* Double the logos for seamless loop */}
         {[...clients, ...clients].map((client, index) => (
-          <LogoPlaceholder key={`${client.name}-${index}`} name={client.name} />
+          <ClientLogo key={`${client.name}-${index}`} client={client} />
         ))}
       </motion.div>
     </div>
@@ -132,9 +126,9 @@ export function ClientLogos() {
         </motion.div>
 
         {/* Logo marquees */}
-        <div className="space-y-6">
-          <MarqueeRow clients={firstHalf} direction="left" speed={35} />
-          <MarqueeRow clients={secondHalf} direction="right" speed={40} />
+        <div className="space-y-4">
+          <MarqueeRow clients={firstHalf} direction="left" speed={40} />
+          <MarqueeRow clients={secondHalf} direction="right" speed={45} />
         </div>
 
         {/* Stats row */}

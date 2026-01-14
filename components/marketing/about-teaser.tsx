@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Users, Clock, Building, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { STATS, COMPANY } from "@/lib/constants";
@@ -57,8 +58,20 @@ function TimelineVisual() {
 
   return (
     <div ref={ref} className="relative">
-      {/* Main visual container */}
-      <div className="relative aspect-[4/5] lg:aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-[#0F1E2E] via-[#1E3A5F] to-[#2C5282]">
+      {/* Main visual container with team photo */}
+      <div className="relative aspect-[4/5] lg:aspect-square overflow-hidden rounded-3xl">
+        {/* Team collage background image */}
+        <Image
+          src="/images/original-site/team-collage.jpg"
+          alt="De Raedt team"
+          fill
+          className="object-cover"
+          priority
+        />
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0F1E2E]/90 via-[#1E3A5F]/80 to-[#2C5282]/70" />
+
         {/* Background patterns */}
         <div className="absolute inset-0 opacity-[0.05]">
           <svg className="w-full h-full">
@@ -81,10 +94,6 @@ function TimelineVisual() {
           </svg>
         </div>
 
-        {/* Gradient orbs */}
-        <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#4299E1]/20 blur-[80px]" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-[#63B3ED]/15 blur-[60px]" />
-
         {/* Central content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
           <motion.div
@@ -94,12 +103,12 @@ function TimelineVisual() {
             className="text-center"
           >
             <div
-              className="text-[7rem] lg:text-[9rem] font-light text-white leading-none"
+              className="text-[7rem] lg:text-[9rem] font-light text-white leading-none drop-shadow-lg"
               style={{ fontFamily: "'Georgia', serif" }}
             >
               {STATS.yearsExperience}
             </div>
-            <div className="mt-2 text-xl text-white/70 font-medium tracking-wide">
+            <div className="mt-2 text-xl text-white/90 font-medium tracking-wide">
               Jaar Bouwtraditie
             </div>
           </motion.div>
@@ -109,19 +118,19 @@ function TimelineVisual() {
             initial={{ scale: 0, opacity: 0 }}
             animate={isInView ? { scale: 1, opacity: 1 } : {}}
             transition={{ duration: 1, delay: 0.3 }}
-            className="absolute inset-12 rounded-full border border-white/10"
+            className="absolute inset-12 rounded-full border border-white/20"
           />
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={isInView ? { scale: 1, opacity: 1 } : {}}
             transition={{ duration: 1, delay: 0.4 }}
-            className="absolute inset-16 rounded-full border border-white/5"
+            className="absolute inset-16 rounded-full border border-white/10"
           />
         </div>
 
         {/* Timeline along the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <div className="relative h-1 bg-white/10 rounded-full overflow-hidden">
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/30 to-transparent">
+          <div className="relative h-1 bg-white/20 rounded-full overflow-hidden">
             <motion.div
               initial={{ scaleX: 0 }}
               animate={isInView ? { scaleX: 1 } : {}}
@@ -129,7 +138,7 @@ function TimelineVisual() {
               className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-[#4299E1] to-[#63B3ED] origin-left"
             />
           </div>
-          <div className="mt-4 flex justify-between text-xs text-white/50">
+          <div className="mt-4 flex justify-between text-xs text-white/70">
             {milestones.map((milestone, i) => (
               <motion.div
                 key={milestone.year}
@@ -138,7 +147,7 @@ function TimelineVisual() {
                 transition={{ duration: 0.4, delay: 0.8 + i * 0.1 }}
                 className="text-center"
               >
-                <div className="font-bold text-white/80">{milestone.year}</div>
+                <div className="font-bold text-white">{milestone.year}</div>
                 <div className="mt-1">{milestone.label}</div>
               </motion.div>
             ))}
