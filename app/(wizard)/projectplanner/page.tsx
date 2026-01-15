@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
@@ -16,69 +16,67 @@ import {
   Check,
   X,
   Phone,
-  Mail,
   RotateCcw,
   Loader2,
-  CheckCircle2,
 } from "lucide-react";
 import { COMPANY } from "@/lib/constants";
 
-// Question flow configuration
+// Streamlined questions
 const questions = [
   {
     id: "projectType",
-    headline: "Laten we bouwen",
-    question: "Welk type project heeft u in gedachten?",
+    overline: "Stap 1",
+    headline: "Wat wilt u\nbouwen?",
     type: "cards" as const,
     options: [
-      { id: "nieuwbouw", icon: Building2, label: "Nieuwbouw", desc: "Nieuw gebouw realiseren" },
-      { id: "renovatie", icon: Hammer, label: "Renovatie", desc: "Bestaand pand vernieuwen" },
-      { id: "erfgoed", icon: Landmark, label: "Erfgoed", desc: "Monumentale restauratie" },
-      { id: "onderhoud", icon: Wrench, label: "Onderhoud", desc: "Facility & interventies" },
+      { id: "nieuwbouw", icon: Building2, label: "Nieuwbouw" },
+      { id: "renovatie", icon: Hammer, label: "Renovatie" },
+      { id: "erfgoed", icon: Landmark, label: "Erfgoed" },
+      { id: "onderhoud", icon: Wrench, label: "Onderhoud" },
     ],
   },
   {
     id: "clientType",
-    headline: "Over u",
-    question: "Hoe omschrijft u zichzelf het beste?",
+    overline: "Stap 2",
+    headline: "Wie bent u?",
     type: "cards" as const,
     options: [
-      { id: "particulier", icon: Home, label: "Particulier", desc: "Privépersoon of gezin" },
-      { id: "bedrijf", icon: Building, label: "Bedrijf", desc: "KMO of onderneming" },
-      { id: "overheid", icon: Landmark, label: "Overheid", desc: "Publieke instelling" },
-      { id: "ontwikkelaar", icon: Briefcase, label: "Ontwikkelaar", desc: "Projectontwikkelaar" },
+      { id: "particulier", icon: Home, label: "Particulier" },
+      { id: "bedrijf", icon: Building, label: "Bedrijf" },
+      { id: "overheid", icon: Landmark, label: "Overheid" },
+      { id: "ontwikkelaar", icon: Briefcase, label: "Ontwikkelaar" },
     ],
   },
   {
     id: "scope",
-    headline: "Projectomvang",
-    question: "Wat is de geschatte omvang van uw project?",
-    type: "list" as const,
+    overline: "Stap 3",
+    headline: "Budget?",
+    type: "pills" as const,
     options: [
-      { id: "small", label: "Kleinschalig", desc: "Tot €100.000" },
-      { id: "medium", label: "Middelgroot", desc: "€100.000 – €500.000" },
-      { id: "large", label: "Grootschalig", desc: "€500.000 – €2.000.000" },
-      { id: "enterprise", label: "Enterprise", desc: "Meer dan €2.000.000" },
-      { id: "unknown", label: "Nog onbekend", desc: "Graag advies" },
+      { id: "small", label: "< €100K" },
+      { id: "medium", label: "€100K – €500K" },
+      { id: "large", label: "€500K – €2M" },
+      { id: "enterprise", label: "> €2M" },
+      { id: "unknown", label: "Nog onbekend" },
     ],
   },
   {
     id: "timeline",
-    headline: "Planning",
-    question: "Wanneer wilt u het project starten?",
-    type: "list" as const,
+    overline: "Stap 4",
+    headline: "Wanneer?",
+    type: "pills" as const,
     options: [
-      { id: "urgent", label: "Zo snel mogelijk", desc: "Binnen 1 maand" },
-      { id: "soon", label: "Binnenkort", desc: "1 – 3 maanden" },
-      { id: "planned", label: "Gepland", desc: "3 – 6 maanden" },
-      { id: "future", label: "Later", desc: "6+ maanden" },
+      { id: "urgent", label: "Direct" },
+      { id: "soon", label: "1-3 maanden" },
+      { id: "planned", label: "3-6 maanden" },
+      { id: "future", label: "Later" },
     ],
   },
   {
     id: "location",
-    headline: "Locatie",
-    question: "In welke regio bevindt het project zich?",
-    type: "regions" as const,
+    overline: "Stap 5",
+    headline: "Waar?",
+    type: "pills" as const,
     options: [
       { id: "oost-vlaanderen", label: "Oost-Vlaanderen" },
       { id: "west-vlaanderen", label: "West-Vlaanderen" },
@@ -86,13 +84,13 @@ const questions = [
       { id: "vlaams-brabant", label: "Vlaams-Brabant" },
       { id: "limburg", label: "Limburg" },
       { id: "brussel", label: "Brussel" },
-      { id: "wallonie", label: "Wallonië" },
+      { id: "andere", label: "Andere" },
     ],
   },
   {
     id: "contact",
-    headline: "Contact",
-    question: "Hoe kunnen we u bereiken?",
+    overline: "Laatste stap",
+    headline: "Uw gegevens",
     type: "form" as const,
     options: [],
   },
@@ -108,7 +106,6 @@ interface FormData {
   email: string;
   phone: string;
   company: string;
-  message: string;
 }
 
 export default function ProjectplannerPage() {
@@ -123,14 +120,12 @@ export default function ProjectplannerPage() {
     email: "",
     phone: "",
     company: "",
-    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [direction, setDirection] = useState(1);
 
   const currentQuestion = questions[step];
-  const progress = ((step + 1) / questions.length) * 100;
+  const progress = (step / (questions.length - 1)) * 100;
 
   const updateField = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -138,34 +133,22 @@ export default function ProjectplannerPage() {
 
   const selectOption = (optionId: string) => {
     updateField(currentQuestion.id as keyof FormData, optionId);
-    // Auto-advance after selection with slight delay
     setTimeout(() => {
       if (step < questions.length - 1) {
-        setDirection(1);
         setStep(step + 1);
       }
-    }, 400);
+    }, 250);
   };
 
-  const canProceed = () => {
-    if (currentQuestion.type === "form") {
-      return formData.name && formData.email && formData.phone;
-    }
-    return formData[currentQuestion.id as keyof FormData] !== "";
-  };
+  const canSubmit = () => formData.name && formData.email && formData.phone;
+  const prevStep = () => step > 0 && setStep(step - 1);
 
-  const nextStep = () => {
-    if (step < questions.length - 1 && canProceed()) {
-      setDirection(1);
-      setStep(step + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (step > 0) {
-      setDirection(-1);
-      setStep(step - 1);
-    }
+  const handleSubmit = async () => {
+    if (!canSubmit()) return;
+    setIsSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsSubmitting(false);
+    setIsComplete(true);
   };
 
   const restart = () => {
@@ -180,87 +163,81 @@ export default function ProjectplannerPage() {
       email: "",
       phone: "",
       company: "",
-      message: "",
     });
     setIsComplete(false);
   };
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsComplete(true);
-  };
-
-  // Animation variants
-  const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 100 : -100,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir: number) => ({
-      x: dir < 0 ? 100 : -100,
-      opacity: 0,
-    }),
-  };
-
-  // Success screen
+  // Success screen - dramatic dark
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-[#FAFAF8] flex flex-col">
-        {/* Minimal header */}
-        <header className="p-6 sm:p-8">
-          <Link href="/" className="inline-block">
-            <span className="font-display text-xl text-[#0C0C0C]">De Raedt</span>
-          </Link>
-        </header>
+      <div className="fixed inset-0 bg-[#0C0C0C] overflow-hidden">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0C0C0C] via-[#0C0C0C] to-[#1a1815]" />
 
-        {/* Success content */}
-        <div className="flex-1 flex items-center justify-center px-6">
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px'
+          }}
+        />
+
+        <div className="relative h-full flex items-center justify-center px-6">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-lg text-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-md"
           >
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="w-24 h-24 mx-auto mb-10 rounded-full bg-[#1A5D3A]/10 flex items-center justify-center"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 150, damping: 15 }}
+              className="w-24 h-24 mx-auto mb-12 rounded-full border border-[#9A6B4C]/30 flex items-center justify-center"
             >
-              <CheckCircle2 className="w-12 h-12 text-[#1A5D3A]" />
+              <Check className="w-10 h-10 text-[#9A6B4C]" />
             </motion.div>
 
-            <h1 className="font-display text-4xl sm:text-5xl text-[#0C0C0C] tracking-[-0.02em]">
-              Aanvraag ontvangen
-            </h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="font-display text-5xl sm:text-6xl lg:text-7xl text-white tracking-[-0.03em]"
+            >
+              Bedankt
+            </motion.h1>
 
-            <p className="mt-6 text-lg text-[#6B6560] leading-relaxed max-w-md mx-auto">
-              Bedankt, {formData.name.split(" ")[0]}. Ons team neemt binnen 48 uur contact met u op om uw {" "}
-              {formData.projectType === "nieuwbouw" ? "nieuwbouwproject" :
-               formData.projectType === "renovatie" ? "renovatieproject" :
-               formData.projectType === "erfgoed" ? "erfgoedproject" : "project"} te bespreken.
-            </p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-6 text-lg text-white/40"
+            >
+              We nemen binnen 48 uur contact op.
+            </motion.p>
 
-            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="mt-16 flex flex-col sm:flex-row gap-4 justify-center"
+            >
               <Link
                 href="/"
-                className="inline-flex items-center justify-center gap-2 bg-[#0C0C0C] text-white px-8 py-4 text-sm font-semibold tracking-wide transition-all duration-300 hover:bg-[#9A6B4C]"
+                className="group inline-flex items-center justify-center gap-3 bg-white text-[#0C0C0C] px-8 py-4 font-medium transition-all duration-300 hover:bg-[#9A6B4C] hover:text-white"
               >
-                Terug naar home
+                <span>Naar home</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/projecten"
-                className="inline-flex items-center justify-center gap-2 border border-[#0C0C0C]/20 text-[#0C0C0C] px-8 py-4 text-sm font-medium transition-all duration-300 hover:border-[#0C0C0C]/40"
+                className="inline-flex items-center justify-center gap-2 border border-white/20 text-white/60 px-8 py-4 font-medium transition-all duration-300 hover:text-white hover:border-white/40"
               >
-                Bekijk onze projecten
+                Bekijk projecten
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -268,163 +245,157 @@ export default function ProjectplannerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] flex flex-col">
-      {/* Progress bar - thin red line at top */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-[#0C0C0C]/5 z-50">
+    <div className="fixed inset-0 bg-[#F8F7F4] overflow-hidden">
+      {/* Subtle diagonal lines */}
+      <div
+        className="absolute inset-0 opacity-[0.015]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+            -45deg,
+            #0C0C0C,
+            #0C0C0C 1px,
+            transparent 1px,
+            transparent 40px
+          )`
+        }}
+      />
+
+      {/* Progress bar */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-[#0C0C0C]/5 z-50">
         <motion.div
           className="h-full bg-[#9A6B4C]"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
         />
       </div>
 
       {/* Header */}
-      <header className="p-6 sm:p-8 flex items-center justify-between">
-        <Link href="/" className="inline-block">
-          <span className="font-display text-xl text-[#0C0C0C]">De Raedt</span>
-        </Link>
-
-        <div className="flex items-center gap-4">
-          <a
-            href={`tel:${COMPANY.contact.phone}`}
-            className="hidden sm:flex items-center gap-2 text-sm text-[#6B6560] hover:text-[#9A6B4C] transition-colors"
-          >
-            <Phone className="w-4 h-4" />
-            {COMPANY.contact.phone}
-          </a>
-          <Link
-            href="/"
-            className="p-2 text-[#6B6560] hover:text-[#0C0C0C] transition-colors"
-          >
-            <X className="w-5 h-5" />
+      <header className="absolute top-0 left-0 right-0 z-40 p-6 sm:p-8 lg:p-10">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3">
+            <div className="w-11 h-11 bg-[#0C0C0C] flex items-center justify-center transition-colors group-hover:bg-[#9A6B4C]">
+              <span className="text-white font-display text-sm tracking-wide">DR</span>
+            </div>
           </Link>
+
+          <div className="flex items-center gap-4 sm:gap-6">
+            <a
+              href={`tel:${COMPANY.contact.phone}`}
+              className="hidden sm:flex items-center gap-2 text-sm text-[#0C0C0C]/40 hover:text-[#0C0C0C] transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              <span className="font-medium">{COMPANY.contact.phone}</span>
+            </a>
+            <Link
+              href="/"
+              className="w-11 h-11 flex items-center justify-center text-[#0C0C0C]/30 hover:text-[#0C0C0C] hover:bg-[#0C0C0C]/5 transition-all"
+            >
+              <X className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </header>
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="w-full max-w-2xl">
-          <AnimatePresence mode="wait" custom={direction}>
+      <main className="absolute inset-0 flex items-center justify-center px-6 pt-20 pb-24">
+        <div className="w-full max-w-3xl">
+          <AnimatePresence mode="wait">
             <motion.div
               key={step}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+              className="text-center"
             >
+              {/* Overline */}
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-block text-[11px] font-bold tracking-[0.25em] uppercase text-[#9A6B4C] mb-6"
+              >
+                {currentQuestion.overline}
+              </motion.span>
+
               {/* Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.7 }}
+                className="font-display text-6xl sm:text-7xl lg:text-8xl xl:text-9xl text-[#0C0C0C] tracking-[-0.04em] leading-[0.85] whitespace-pre-line"
+              >
+                {currentQuestion.headline}
+              </motion.h1>
+
+              {/* Options container */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.5 }}
-                className="text-center mb-12"
+                transition={{ delay: 0.3 }}
+                className="mt-14 sm:mt-20"
               >
-                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-[#0C0C0C] tracking-[-0.03em] leading-[0.9]">
-                  {currentQuestion.headline}
-                </h1>
-                <p className="mt-6 text-xl text-[#6B6560]">
-                  {currentQuestion.question}
-                </p>
-              </motion.div>
-
-              {/* Card options */}
-              {currentQuestion.type === "cards" && (
-                <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto">
-                  {currentQuestion.options.map((option, index) => {
-                    const Icon = option.icon!;
-                    const isSelected = formData[currentQuestion.id as keyof FormData] === option.id;
-                    return (
-                      <motion.button
-                        key={option.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 + index * 0.05, duration: 0.5 }}
-                        onClick={() => selectOption(option.id)}
-                        className={`group relative p-6 sm:p-8 text-center transition-all duration-300 ${
-                          isSelected
-                            ? "bg-[#0C0C0C] text-white shadow-2xl scale-[1.02]"
-                            : "bg-white hover:shadow-xl hover:scale-[1.01]"
-                        }`}
-                      >
-                        <div
-                          className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center transition-all duration-300 ${
+                {/* Card grid - 4 columns */}
+                {currentQuestion.type === "cards" && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                    {currentQuestion.options.map((option, index) => {
+                      const Icon = option.icon!;
+                      const isSelected = formData[currentQuestion.id as keyof FormData] === option.id;
+                      return (
+                        <motion.button
+                          key={option.id}
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.35 + index * 0.06 }}
+                          onClick={() => selectOption(option.id)}
+                          className={`group relative aspect-[4/5] flex flex-col items-center justify-center gap-4 transition-all duration-300 ${
                             isSelected
-                              ? "bg-[#9A6B4C]"
-                              : "bg-[#FAF7F2] group-hover:bg-[#9A6B4C]/10"
+                              ? "bg-[#0C0C0C] scale-[1.02]"
+                              : "bg-white hover:bg-[#0C0C0C]"
                           }`}
                         >
-                          <Icon className={`w-7 h-7 ${isSelected ? "text-white" : "text-[#9A6B4C]"}`} />
-                        </div>
-                        <div className="font-display text-xl sm:text-2xl">{option.label}</div>
-                        <div className={`mt-2 text-sm ${isSelected ? "text-white/60" : "text-[#6B6560]"}`}>
-                          {option.desc}
-                        </div>
-
-                        {/* Selection indicator */}
-                        {isSelected && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="absolute top-3 right-3 w-6 h-6 bg-[#9A6B4C] rounded-full flex items-center justify-center"
+                          <div
+                            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-300 ${
+                              isSelected
+                                ? "bg-[#9A6B4C]"
+                                : "bg-[#F8F7F4] group-hover:bg-[#9A6B4C]"
+                            }`}
                           >
-                            <Check className="w-4 h-4 text-white" />
-                          </motion.div>
-                        )}
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* List options */}
-              {currentQuestion.type === "list" && (
-                <div className="max-w-md mx-auto space-y-3">
-                  {currentQuestion.options.map((option, index) => {
-                    const isSelected = formData[currentQuestion.id as keyof FormData] === option.id;
-                    return (
-                      <motion.button
-                        key={option.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 + index * 0.05, duration: 0.5 }}
-                        onClick={() => selectOption(option.id)}
-                        className={`w-full p-5 flex items-center gap-4 transition-all duration-300 ${
-                          isSelected
-                            ? "bg-[#0C0C0C] text-white"
-                            : "bg-white hover:shadow-lg"
-                        }`}
-                      >
-                        <div
-                          className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isSelected ? "bg-[#9A6B4C]" : "bg-[#FAF7F2]"
-                          }`}
-                        >
-                          {isSelected ? (
-                            <Check className="w-5 h-5 text-white" />
-                          ) : (
-                            <span className="w-3 h-3 rounded-full bg-[#0C0C0C]/10" />
-                          )}
-                        </div>
-                        <div className="flex-1 text-left">
-                          <div className="font-semibold text-lg">{option.label}</div>
-                          <div className={`text-sm ${isSelected ? "text-white/60" : "text-[#6B6560]"}`}>
-                            {option.desc}
+                            <Icon
+                              className={`w-6 h-6 sm:w-7 sm:h-7 transition-colors duration-300 ${
+                                isSelected ? "text-white" : "text-[#0C0C0C]/50 group-hover:text-white"
+                              }`}
+                              strokeWidth={1.5}
+                            />
                           </div>
-                        </div>
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              )}
+                          <span
+                            className={`text-base sm:text-lg font-medium transition-colors duration-300 ${
+                              isSelected ? "text-white" : "text-[#0C0C0C] group-hover:text-white"
+                            }`}
+                          >
+                            {option.label}
+                          </span>
 
-              {/* Region options */}
-              {currentQuestion.type === "regions" && (
-                <div className="max-w-lg mx-auto">
-                  <div className="flex flex-wrap justify-center gap-3">
+                          {isSelected && (
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                              className="absolute top-4 right-4 w-6 h-6 bg-[#9A6B4C] rounded-full flex items-center justify-center"
+                            >
+                              <Check className="w-3.5 h-3.5 text-white" />
+                            </motion.div>
+                          )}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Pills */}
+                {currentQuestion.type === "pills" && (
+                  <div className="flex flex-wrap justify-center gap-3 max-w-xl mx-auto">
                     {currentQuestion.options.map((option, index) => {
                       const isSelected = formData[currentQuestion.id as keyof FormData] === option.id;
                       return (
@@ -432,183 +403,124 @@ export default function ProjectplannerPage() {
                           key={option.id}
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.2 + index * 0.03, duration: 0.4 }}
+                          transition={{ delay: 0.35 + index * 0.04 }}
                           onClick={() => selectOption(option.id)}
-                          className={`px-6 py-3 text-sm font-medium transition-all duration-300 ${
+                          className={`relative px-7 py-4 text-base font-medium transition-all duration-300 ${
                             isSelected
-                              ? "bg-[#0C0C0C] text-white"
-                              : "bg-white text-[#0C0C0C] hover:bg-[#0C0C0C]/5"
+                              ? "bg-[#0C0C0C] text-white scale-105"
+                              : "bg-white text-[#0C0C0C] hover:bg-[#0C0C0C] hover:text-white"
                           }`}
                         >
                           {option.label}
+                          {isSelected && (
+                            <motion.span
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#9A6B4C] rounded-full flex items-center justify-center"
+                            >
+                              <Check className="w-3 h-3 text-white" />
+                            </motion.span>
+                          )}
                         </motion.button>
                       );
                     })}
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Contact form */}
-              {currentQuestion.type === "form" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="max-w-md mx-auto"
-                >
-                  <div className="bg-white p-8 space-y-6">
-                    <div>
-                      <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
-                        Naam *
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => updateField("name", e.target.value)}
-                        placeholder="Uw volledige naam"
-                        className="w-full bg-[#FAFAF8] border-0 px-4 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/50 focus:outline-none focus:ring-2 focus:ring-[#9A6B4C]/20 transition-all"
+                {/* Form */}
+                {currentQuestion.type === "form" && (
+                  <div className="max-w-sm mx-auto space-y-4">
+                    {[
+                      { key: "name", placeholder: "Naam *", type: "text" },
+                      { key: "email", placeholder: "E-mail *", type: "email" },
+                      { key: "phone", placeholder: "Telefoon *", type: "tel" },
+                      { key: "company", placeholder: "Bedrijf (optioneel)", type: "text" },
+                    ].map((field, index) => (
+                      <motion.input
+                        key={field.key}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.35 + index * 0.08 }}
+                        type={field.type}
+                        value={formData[field.key as keyof FormData]}
+                        onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
+                        placeholder={field.placeholder}
+                        className="w-full bg-white px-6 py-5 text-[#0C0C0C] text-center text-lg placeholder:text-[#0C0C0C]/25 focus:outline-none focus:ring-2 focus:ring-[#9A6B4C]/30 transition-all"
                       />
-                    </div>
+                    ))}
 
-                    <div>
-                      <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
-                        E-mail *
-                      </label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => updateField("email", e.target.value)}
-                        placeholder="uw@email.be"
-                        className="w-full bg-[#FAFAF8] border-0 px-4 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/50 focus:outline-none focus:ring-2 focus:ring-[#9A6B4C]/20 transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
-                        Telefoon *
-                      </label>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => updateField("phone", e.target.value)}
-                        placeholder="+32 xxx xx xx xx"
-                        className="w-full bg-[#FAFAF8] border-0 px-4 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/50 focus:outline-none focus:ring-2 focus:ring-[#9A6B4C]/20 transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
-                        Bedrijf <span className="text-[#6B6560] font-normal">(optioneel)</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.company}
-                        onChange={(e) => updateField("company", e.target.value)}
-                        placeholder="Naam van uw organisatie"
-                        className="w-full bg-[#FAFAF8] border-0 px-4 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/50 focus:outline-none focus:ring-2 focus:ring-[#9A6B4C]/20 transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
-                        Bericht <span className="text-[#6B6560] font-normal">(optioneel)</span>
-                      </label>
-                      <textarea
-                        value={formData.message}
-                        onChange={(e) => updateField("message", e.target.value)}
-                        placeholder="Vertel ons meer over uw project..."
-                        rows={3}
-                        className="w-full bg-[#FAFAF8] border-0 px-4 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/50 focus:outline-none focus:ring-2 focus:ring-[#9A6B4C]/20 transition-all resize-none"
-                      />
-                    </div>
+                    <motion.button
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.7 }}
+                      onClick={handleSubmit}
+                      disabled={!canSubmit() || isSubmitting}
+                      className={`w-full mt-8 py-5 text-base font-semibold tracking-wide transition-all duration-300 flex items-center justify-center gap-3 ${
+                        canSubmit() && !isSubmitting
+                          ? "bg-[#9A6B4C] text-white hover:bg-[#7A5339]"
+                          : "bg-[#0C0C0C]/10 text-[#0C0C0C]/25 cursor-not-allowed"
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Even geduld...
+                        </>
+                      ) : (
+                        <>
+                          Verstuur aanvraag
+                          <ArrowRight className="w-5 h-5" />
+                        </>
+                      )}
+                    </motion.button>
                   </div>
-                </motion.div>
-              )}
+                )}
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>
       </main>
 
-      {/* Footer navigation */}
-      <footer className="p-6 sm:p-8">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          {/* Back button */}
+      {/* Footer */}
+      <footer className="absolute bottom-0 left-0 right-0 z-40 p-6 sm:p-8 lg:p-10">
+        <div className="flex items-center justify-between max-w-3xl mx-auto">
+          {/* Back */}
           <button
             onClick={prevStep}
-            disabled={step === 0}
-            className={`inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
-              step === 0
-                ? "text-[#6B6560]/30 cursor-not-allowed"
-                : "text-[#6B6560] hover:text-[#0C0C0C]"
+            className={`flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
+              step === 0 ? "opacity-0 pointer-events-none" : "text-[#0C0C0C]/40 hover:text-[#0C0C0C]"
             }`}
           >
             <ArrowLeft className="w-4 h-4" />
-            Vorige
+            <span className="hidden sm:inline">Vorige</span>
           </button>
 
-          {/* Center - step indicator */}
+          {/* Dots */}
           <div className="flex items-center gap-2">
             {questions.map((_, i) => (
-              <div
+              <button
                 key={i}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                onClick={() => i < step && setStep(i)}
+                disabled={i >= step}
+                className={`h-2 transition-all duration-300 ${
                   i === step
-                    ? "bg-[#9A6B4C] w-6"
+                    ? "w-8 bg-[#9A6B4C]"
                     : i < step
-                    ? "bg-[#9A6B4C]"
-                    : "bg-[#0C0C0C]/10"
+                    ? "w-2 bg-[#9A6B4C]/60 hover:bg-[#9A6B4C] cursor-pointer rounded-full"
+                    : "w-2 bg-[#0C0C0C]/10 rounded-full"
                 }`}
               />
             ))}
           </div>
 
-          {/* Next / Submit button */}
-          {step < questions.length - 1 ? (
-            currentQuestion.type === "form" ? (
-              <button
-                onClick={nextStep}
-                disabled={!canProceed()}
-                className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold transition-all duration-300 ${
-                  canProceed()
-                    ? "bg-[#9A6B4C] text-white hover:bg-[#7A5339]"
-                    : "bg-[#0C0C0C]/10 text-[#0C0C0C]/30 cursor-not-allowed"
-                }`}
-              >
-                Volgende
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                onClick={restart}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#6B6560] hover:text-[#0C0C0C] transition-colors"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Opnieuw
-              </button>
-            )
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={!canProceed() || isSubmitting}
-              className={`inline-flex items-center gap-2 px-8 py-4 text-sm font-semibold transition-all duration-300 ${
-                canProceed() && !isSubmitting
-                  ? "bg-[#9A6B4C] text-white hover:bg-[#7A5339]"
-                  : "bg-[#0C0C0C]/10 text-[#0C0C0C]/30 cursor-not-allowed"
-              }`}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Verzenden...
-                </>
-              ) : (
-                <>
-                  Verstuur aanvraag
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          )}
+          {/* Restart */}
+          <button
+            onClick={restart}
+            className="flex items-center gap-2 text-sm font-medium text-[#0C0C0C]/40 hover:text-[#0C0C0C] transition-colors"
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span className="hidden sm:inline">Opnieuw</span>
+          </button>
         </div>
       </footer>
     </div>
