@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { Building2, Hammer, Landmark, ArrowRight, Phone } from "lucide-react";
+import { Building2, Hammer, Landmark, Wrench, ArrowRight, Phone } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 import { SERVICES, COMPANY } from "@/lib/constants";
@@ -10,6 +10,7 @@ const iconMap = {
   Building2,
   Hammer,
   Landmark,
+  Wrench,
 };
 
 function ServiceCard({
