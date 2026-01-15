@@ -149,8 +149,15 @@ export const NAV_ITEMS = [
   { href: "/over-ons", label: "Over Ons" },
   { href: "/diensten", label: "Diensten" },
   { href: "/projecten", label: "Projecten" },
+  { href: "/werken-bij", label: "Werken Bij" },
   { href: "/contact", label: "Contact" },
 ] as const;
+
+// CTA voor navigatie
+export const NAV_CTA = {
+  href: "/projectplanner",
+  label: "Start Project",
+} as const;
 
 // Contact form onderwerpen
 export const CONTACT_SUBJECTS = [

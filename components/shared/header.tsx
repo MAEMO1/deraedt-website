@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_ITEMS } from "@/lib/constants";
+import { NAV_ITEMS, NAV_CTA } from "@/lib/constants";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { MobileNav } from "./mobile-nav";
@@ -71,17 +72,18 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             <Link
-              href="/login"
+              href={NAV_CTA.href}
               className={cn(
-                "hidden lg:inline-flex items-center px-6 py-2.5 text-[12px] font-semibold tracking-[0.1em] transition-all duration-300",
+                "group hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] transition-all duration-300",
                 scrolled || !isHomepage
-                  ? "border border-[#0C0C0C]/20 text-[#0C0C0C] hover:bg-[#0C0C0C] hover:text-white hover:border-[#0C0C0C]"
-                  : "border border-white/30 text-white hover:bg-white hover:text-[#0C0C0C]"
+                  ? "bg-[#9A6B4C] text-white hover:bg-[#7A5339]"
+                  : "bg-white text-[#0C0C0C] hover:bg-[#9A6B4C] hover:text-white"
               )}
             >
-              KLANTENPORTAAL
+              {NAV_CTA.label}
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
 
             <div className={cn(scrolled || !isHomepage ? "text-[#0C0C0C]" : "text-white")}>
