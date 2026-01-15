@@ -1,28 +1,28 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Instrument_Sans, Bebas_Neue } from "next/font/google";
+import { DM_Serif_Display, Plus_Jakarta_Sans, Crimson_Pro } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_CONFIG, COMPANY } from "@/lib/constants";
 import "./globals.css";
 
-// Elegant serif for display - refined, editorial
-const cormorant = Cormorant_Garamond({
+// Dramatic serif for display - striking, editorial with high contrast
+const dmSerif = DM_Serif_Display({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400"],
 });
 
-// Clean, modern sans for body
-const instrument = Instrument_Sans({
+// Clean geometric sans with personality
+const jakarta = Plus_Jakarta_Sans({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-// Bold display for hero headlines
-const bebas = Bebas_Neue({
-  variable: "--font-heading",
+// Warm, elegant reading serif
+const crimson = Crimson_Pro({
+  variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -65,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl-BE">
-      <body className={`${instrument.variable} ${cormorant.variable} ${bebas.variable} font-body antialiased`}>
+      <body className={`${jakarta.variable} ${dmSerif.variable} ${crimson.variable} font-body antialiased`}>
         {children}
         <Toaster position="top-right" />
       </body>

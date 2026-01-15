@@ -147,9 +147,8 @@ export const SERVICES = [
 export const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/over-ons", label: "Over Ons" },
+  { href: "/diensten", label: "Diensten" },
   { href: "/projecten", label: "Projecten" },
-  { href: "/duurzaamheid", label: "Duurzaamheid" },
-  { href: "/werken-bij", label: "Werken Bij" },
   { href: "/contact", label: "Contact" },
 ] as const;
 

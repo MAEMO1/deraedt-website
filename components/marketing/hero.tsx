@@ -3,72 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowDown } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { STATS } from "@/lib/constants";
 
-// Staggered text reveal animation
-function RevealText({ children, delay = 0 }: { children: string; delay?: number }) {
-  return (
-    <span className="relative inline-block overflow-hidden">
-      <motion.span
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        transition={{
-          duration: 1,
-          delay,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="inline-block"
-      >
-        {children}
-      </motion.span>
-    </span>
-  );
-}
-
-// Animated word that cycles with elegant transitions
-function AnimatedWord() {
-  const words = ["ERFGOED", "INNOVATIE", "VAKMANSCHAP", "TOEKOMST"];
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % words.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={currentIndex}
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -40, opacity: 0 }}
-        transition={{
-          duration: 0.5,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="text-[#C9A227]"
-      >
-        {words[currentIndex]}
-      </motion.span>
-    </AnimatePresence>
-  );
-}
-
-// Statistics counter with elegant animation
-function StatCounter({
-  end,
+// Counter animation component
+function AnimatedCounter({
+  value,
   suffix = "",
   label,
-  delay = 0,
 }: {
-  end: number;
+  value: number;
   suffix?: string;
   label: string;
-  delay?: number;
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -87,38 +34,29 @@ function StatCounter({
 
   useEffect(() => {
     if (!isVisible) return;
-    const timer = setTimeout(() => {
-      const duration = 2000;
-      const startTime = performance.now();
+    const duration = 2000;
+    const startTime = performance.now();
 
-      const animate = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 4);
-        setCount(Math.floor(eased * end));
-        if (progress < 1) requestAnimationFrame(animate);
-      };
-      requestAnimationFrame(animate);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [isVisible, end, delay]);
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(eased * value));
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }, [isVisible, value]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isVisible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: delay / 1000, ease: [0.22, 1, 0.36, 1] }}
-      className="text-center"
-    >
-      <div className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-tight">
+    <div ref={ref} className="text-center">
+      <div className="font-display text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight">
         {count}
-        <span className="text-[#C9A227]">{suffix}</span>
+        <span className="text-[#9A6B4C]">{suffix}</span>
       </div>
-      <div className="mt-2 text-[11px] sm:text-xs text-white/40 uppercase tracking-[0.25em] font-medium">
+      <div className="mt-2 text-[10px] sm:text-[11px] text-white/40 uppercase tracking-[0.25em] font-medium">
         {label}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -129,186 +67,163 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-screen min-h-[900px] overflow-hidden bg-[#08111C]"
+      className="relative h-screen min-h-[800px] overflow-hidden bg-[#0C0C0C]"
     >
-      {/* Background Image with Parallax - FULL COVERAGE */}
+      {/* Background Image - Heritage Focus */}
       <motion.div
-        style={{ scale: imageScale }}
-        className="absolute inset-0 z-0"
+        style={{ y: imageY, scale: imageScale }}
+        className="absolute inset-0"
       >
         <Image
-          src="/images/original-site/team-collage.jpg"
-          alt="De Raedt team at work"
+          src="/images/original-site/Justitiepaleis-Dendermonde.jpg"
+          alt="Justitiepaleis Dendermonde - Erfgoedrenovatie"
           fill
-          className="object-cover"
+          className="object-cover image-cinematic"
           priority
           quality={90}
         />
-        {/* Lighter gradient overlay - image more visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#08111C]/60 via-[#08111C]/40 to-[#08111C]/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#08111C]/70 via-transparent to-[#08111C]/50" />
+
+        {/* Cinematic gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0C]/90 via-[#0C0C0C]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C] via-transparent to-[#0C0C0C]/30" />
+
+        {/* Subtle texture */}
+        <div className="absolute inset-0 texture-stone" />
       </motion.div>
-
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 z-[1] grid-pattern opacity-20 pointer-events-none" />
-
-      {/* Vertical Lines - Architectural Element */}
-      <div className="absolute inset-0 z-[1] flex justify-between px-[10%] pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 1.5, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="w-px bg-white/[0.05] origin-top"
-          />
-        ))}
-      </div>
 
       {/* Main Content */}
       <motion.div
-        style={{ y: contentY }}
-        className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 lg:px-20"
+        style={{ opacity: contentOpacity }}
+        className="relative z-10 h-full flex flex-col"
       >
-        <div className="max-w-7xl mx-auto w-full">
-          {/* Overline with animated line */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="flex items-center gap-6 mb-10"
-          >
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="h-px w-20 bg-[#C9A227] origin-left"
-            />
-            <span className="text-[#C9A227] text-xs sm:text-sm font-medium tracking-[0.4em] uppercase">
-              Sinds 1930 · België
-            </span>
-          </motion.div>
+        {/* Top spacer for header */}
+        <div className="h-32" />
 
-          {/* Main Headline - Dramatic Typography */}
-          <div>
-            <h1 className="font-heading text-[clamp(3rem,10vw,9rem)] leading-[0.95] tracking-[0.02em] text-white">
-              <RevealText delay={0.3}>BOUWEN AAN</RevealText>
-            </h1>
-            <h1 className="font-heading text-[clamp(3rem,10vw,9rem)] leading-[0.95] tracking-[0.02em]">
-              <AnimatedWord />
-            </h1>
-          </div>
+        {/* Main content area */}
+        <div className="flex-1 flex items-center">
+          <div className="container-wide w-full">
+            <div className="max-w-3xl">
+              {/* Overline */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="flex items-center gap-4 mb-8"
+              >
+                <span className="h-px w-12 bg-[#9A6B4C]" />
+                <span className="label-overline">Sinds 1930</span>
+              </motion.div>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 max-w-xl text-base sm:text-lg text-white/60 leading-relaxed font-body"
-          >
-            Bouwwerken De Raedt Ivan NV — Uw betrouwbare partner voor
-            erfgoedrenovatie, nieuwbouw en facility management.
-            Generaties van vakmanschap in dienst van België.
-          </motion.p>
+              {/* Main Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="font-display text-[clamp(3rem,8vw,7rem)] leading-[0.95] tracking-[-0.02em] text-white"
+              >
+                Wij bouwen
+                <br />
+                aan <span className="text-heritage-gradient">erfgoed</span>
+              </motion.h1>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-12 flex flex-wrap items-center gap-6"
-          >
-            <Link
-              href="/projecten"
-              className="group relative inline-flex items-center gap-3 bg-[#C9A227] text-[#08111C] px-10 py-5 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-500 hover:bg-white overflow-hidden"
-            >
-              <span className="relative z-10">Ontdek Projecten</span>
-              <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-3 border border-white/30 text-white px-10 py-5 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-500 hover:bg-white/10 hover:border-white/50"
-            >
-              <span>Contact</span>
-            </Link>
-          </motion.div>
-        </div>
-      </motion.div>
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="mt-8 max-w-xl text-lg sm:text-xl text-white/50 leading-relaxed font-serif font-light"
+              >
+                Generaties vakmanschap in dienst van monumentale renovatie,
+                nieuwbouw en facility management.
+              </motion.p>
 
-      {/* Statistics Bar - Bottom */}
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10"
-      >
-        <div className="relative bg-[#08111C]/95 backdrop-blur-xl">
-          <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-10 sm:py-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/10">
-              <div className="md:pr-8">
-                <StatCounter end={STATS.yearsExperience} label="Jaar Ervaring" delay={1800} />
-              </div>
-              <div className="md:px-8">
-                <StatCounter end={500} suffix="+" label="Projecten" delay={2000} />
-              </div>
-              <div className="md:px-8">
-                <StatCounter end={40} suffix="+" label="Vakmannen" delay={2200} />
-              </div>
-              <div className="md:pl-8">
-                <StatCounter end={6} label="Klasse Erkenning" delay={2400} />
-              </div>
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1 }}
+                className="mt-12 flex flex-wrap items-center gap-6"
+              >
+                <Link
+                  href="/projecten"
+                  className="group inline-flex items-center gap-4 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-500 hover:bg-[#BA8B6C]"
+                >
+                  <span>Ontdek ons werk</span>
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-3 text-white/60 text-sm font-medium uppercase tracking-[0.15em] transition-colors duration-500 hover:text-white border-b border-white/20 pb-1 hover:border-white/50"
+                >
+                  Contact opnemen
+                </Link>
+              </motion.div>
             </div>
           </div>
         </div>
+
+        {/* Bottom Stats Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="border-t border-white/10"
+        >
+          <div className="container-wide py-10 sm:py-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/10">
+              <div className="md:pr-8">
+                <AnimatedCounter value={STATS.yearsExperience} label="Jaar ervaring" />
+              </div>
+              <div className="md:px-8">
+                <AnimatedCounter value={500} suffix="+" label="Projecten" />
+              </div>
+              <div className="md:px-8">
+                <AnimatedCounter value={40} suffix="+" label="Vakmannen" />
+              </div>
+              <div className="md:pl-8">
+                <AnimatedCounter value={6} label="Klasse erkenning" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
+      <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
-        className="absolute bottom-44 sm:bottom-48 right-6 sm:right-12 lg:right-20 z-20"
+        transition={{ delay: 1.5 }}
+        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+        className="absolute bottom-32 right-8 sm:right-16 z-20 flex flex-col items-center gap-3 text-white/30 hover:text-white/60 transition-colors duration-500"
+        aria-label="Scroll naar beneden"
       >
-        <button
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
-          className="flex flex-col items-center gap-3 text-white/40 hover:text-white/70 transition-colors duration-500"
-          aria-label="Scroll naar beneden"
+        <span className="text-[10px] uppercase tracking-[0.3em] font-medium [writing-mode:vertical-lr]">
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] font-medium [writing-mode:vertical-lr]">
-            Scroll
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ArrowDown className="w-4 h-4" />
-          </motion.div>
-        </button>
-      </motion.div>
+          <ArrowDown className="w-4 h-4" />
+        </motion.div>
+      </motion.button>
 
-      {/* Corner Decorations */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-        className="absolute top-8 right-8 w-32 h-32 pointer-events-none z-10"
-      >
-        <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#C9A227]/40" />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-48 left-8 w-24 h-24 pointer-events-none z-10 hidden lg:block"
-      >
-        <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-white/20" />
-      </motion.div>
+      {/* Corner accent */}
+      <div className="absolute top-32 right-8 sm:right-16 w-20 h-20 pointer-events-none z-10 hidden lg:block">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3 }}
+          className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#9A6B4C]/30"
+        />
+      </div>
     </section>
   );
 }

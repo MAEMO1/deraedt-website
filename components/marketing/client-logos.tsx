@@ -21,13 +21,13 @@ const CLIENTS = [
 
 function ClientLogo({ client }: { client: (typeof CLIENTS)[number] }) {
   return (
-    <div className="flex items-center justify-center h-24 px-12 min-w-[200px]">
+    <div className="flex items-center justify-center h-20 px-10 min-w-[180px]">
       <Image
         src={client.logo}
         alt={`${client.name} logo`}
         width={client.width}
         height={client.height}
-        className="object-contain max-h-10 w-auto grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+        className="object-contain max-h-9 w-auto grayscale opacity-25 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
       />
     </div>
   );
@@ -44,9 +44,9 @@ function MarqueeRow({
 }) {
   return (
     <div className="relative overflow-hidden">
-      {/* Elegant gradient masks */}
-      <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-[#FAF8F5] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-[#FAF8F5] to-transparent z-10 pointer-events-none" />
+      {/* Gradient masks */}
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#FAF7F2] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#FAF7F2] to-transparent z-10 pointer-events-none" />
 
       <motion.div
         className="flex"
@@ -78,19 +78,19 @@ export function ClientLogos() {
   const secondHalf = CLIENTS.slice(6);
 
   return (
-    <section ref={ref} className="py-24 sm:py-32 bg-[#FAF8F5] relative overflow-hidden">
-      {/* Subtle architectural grid */}
-      <div className="absolute inset-0 grid-pattern opacity-50" />
+    <section ref={ref} className="py-20 sm:py-24 bg-[#FAF7F2] relative overflow-hidden">
+      {/* Subtle pattern */}
+      <div className="absolute inset-0 grid-blueprint opacity-40" />
 
-      <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-20 relative">
+      <div className="container-wide relative">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-12"
         >
-          <span className="text-[#08111C]/30 text-[11px] font-medium tracking-[0.3em] uppercase">
+          <span className="text-[11px] font-medium tracking-[0.25em] uppercase text-[#6B6560]">
             Vertrouwd door toonaangevende organisaties
           </span>
         </motion.div>
@@ -99,11 +99,11 @@ export function ClientLogos() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="space-y-4"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="space-y-2"
         >
-          <MarqueeRow clients={firstHalf} direction="left" speed={45} />
-          <MarqueeRow clients={secondHalf} direction="right" speed={50} />
+          <MarqueeRow clients={firstHalf} direction="left" speed={40} />
+          <MarqueeRow clients={secondHalf} direction="right" speed={45} />
         </motion.div>
       </div>
     </section>
