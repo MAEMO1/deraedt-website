@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Plus_Jakarta_Sans, Crimson_Pro } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { StructuredData } from "@/components/structured-data";
 import { SITE_CONFIG, COMPANY } from "@/lib/constants";
 import "./globals.css";
 
@@ -65,6 +66,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl-BE">
+      <head>
+        <StructuredData />
+      </head>
       <body className={`${jakarta.variable} ${dmSerif.variable} ${crimson.variable} font-body antialiased`}>
         {children}
         <Toaster position="top-right" />
