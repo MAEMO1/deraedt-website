@@ -1,12 +1,35 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Building2, Tag, ArrowRight } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Building2,
+  Tag,
+  ArrowRight,
+  CheckCircle,
+  Shield,
+  Clock,
+  Target,
+  Award,
+} from "lucide-react";
 import { FEATURED_PROJECTS, PROJECT_CATEGORIES } from "@/lib/constants";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
+
+// Project KPIs - these would typically come from a CMS or database
+const projectKPIs = {
+  planning: "100%",
+  planningLabel: "Planning gehaald",
+  safety: "0",
+  safetyLabel: "Veiligheidsincidenten",
+  quality: "100%",
+  qualityLabel: "Eerste-keer-goed",
+  satisfaction: "9.2",
+  satisfactionLabel: "Klanttevredenheid",
+};
 
 export async function generateStaticParams() {
   return FEATURED_PROJECTS.map((project) => ({
@@ -68,6 +91,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             Terug naar projecten
           </Link>
 
+          {/* Scope badge */}
+          {project.scope && (
+            <div className="inline-flex items-center gap-2 bg-[#9A6B4C] text-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] mb-6">
+              <Shield className="w-3.5 h-3.5" />
+              {project.scope}
+            </div>
+          )}
+
           {/* Category */}
           <div className="flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-[#9A6B4C]" />
@@ -97,6 +128,50 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </section>
 
+      {/* KPI Bar - Procurement Scorable */}
+      <section className="bg-[#0C0C0C] border-t border-white/10">
+        <div className="container-wide py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
+                <Clock className="w-4 h-4" />
+              </div>
+              <div className="font-display text-3xl text-white">{projectKPIs.planning}</div>
+              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+                {projectKPIs.planningLabel}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
+                <Shield className="w-4 h-4" />
+              </div>
+              <div className="font-display text-3xl text-white">{projectKPIs.safety}</div>
+              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+                {projectKPIs.safetyLabel}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
+                <Target className="w-4 h-4" />
+              </div>
+              <div className="font-display text-3xl text-white">{projectKPIs.quality}</div>
+              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+                {projectKPIs.qualityLabel}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
+                <Award className="w-4 h-4" />
+              </div>
+              <div className="font-display text-3xl text-white">{projectKPIs.satisfaction}</div>
+              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+                {projectKPIs.satisfactionLabel}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Content Section */}
       <section className="section-spacing bg-[#FAF7F2] relative">
         <div className="absolute inset-0 grid-blueprint opacity-40" />
@@ -115,10 +190,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 />
               </div>
 
+              {/* Challenge Section */}
               <div className="mt-12">
                 <div className="flex items-center gap-4 mb-6">
                   <span className="h-px w-12 bg-[#9A6B4C]" />
-                  <span className="label-overline">Over dit project</span>
+                  <span className="label-overline">De Uitdaging</span>
                 </div>
 
                 <h2 className="font-display text-3xl sm:text-4xl text-[#0C0C0C]">
@@ -128,80 +204,205 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <div className="mt-8 space-y-6 text-[#6B6560] leading-relaxed">
                   <p className="text-lg">{project.description}</p>
                   <p>
-                    Dit project werd uitgevoerd met de hoogste kwaliteitsstandaarden
-                    en binnen de afgesproken termijn. Ons team van ervaren
-                    vakmensen heeft elke fase van het project met zorg en precisie
-                    uitgevoerd.
+                    Dit project vereiste een grondige aanpak met aandacht voor de specifieke
+                    eisen van de opdrachtgever. De uitdaging lag in het combineren van
+                    kwaliteit, veiligheid en efficiëntie binnen de gestelde termijn.
                   </p>
-                  <p>
-                    Bij De Raedt hechten wij groot belang aan transparante communicatie
-                    met onze opdrachtgevers. Gedurende het volledige project blijven
-                    wij in nauw contact om de voortgang te bespreken en eventuele
-                    wijzigingen tijdig door te voeren.
-                  </p>
+                </div>
+              </div>
+
+              {/* Approach Section */}
+              <div className="mt-16">
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="h-px w-12 bg-[#9A6B4C]" />
+                  <span className="label-overline">Onze Aanpak</span>
+                </div>
+
+                <h2 className="font-display text-3xl sm:text-4xl text-[#0C0C0C]">
+                  Hoe wij dit project aanpakten
+                </h2>
+
+                <div className="mt-8 space-y-4">
+                  {[
+                    "Grondige voorbereiding en planning in overleg met de opdrachtgever",
+                    "Inzet van ervaren vakmensen met relevante expertise",
+                    "Strikte naleving van veiligheidsprotocollen (VCA**)",
+                    "Wekelijkse voortgangsrapportage en transparante communicatie",
+                    "Kwaliteitscontroles conform ISO 9001 standaarden",
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-[#9A6B4C] flex-shrink-0 mt-0.5" />
+                      <span className="text-[#6B6560]">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Results Section */}
+              <div className="mt-16">
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="h-px w-12 bg-[#9A6B4C]" />
+                  <span className="label-overline">Resultaat</span>
+                </div>
+
+                <h2 className="font-display text-3xl sm:text-4xl text-[#0C0C0C]">
+                  Wat wij bereikten
+                </h2>
+
+                <div className="mt-8 grid sm:grid-cols-2 gap-6">
+                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
+                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                      Planning
+                    </div>
+                    <div className="font-display text-2xl text-[#0C0C0C]">
+                      Binnen termijn
+                    </div>
+                    <p className="mt-2 text-sm text-[#6B6560]">
+                      Project opgeleverd volgens afgesproken planning
+                    </p>
+                  </div>
+                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
+                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                      Veiligheid
+                    </div>
+                    <div className="font-display text-2xl text-[#0C0C0C]">
+                      0 incidenten
+                    </div>
+                    <p className="mt-2 text-sm text-[#6B6560]">
+                      Volledige naleving VCA** veiligheidsprotocollen
+                    </p>
+                  </div>
+                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
+                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                      Kwaliteit
+                    </div>
+                    <div className="font-display text-2xl text-[#0C0C0C]">
+                      ISO 9001
+                    </div>
+                    <p className="mt-2 text-sm text-[#6B6560]">
+                      Alle werken conform kwaliteitsstandaarden
+                    </p>
+                  </div>
+                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
+                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                      Hinderbeperking
+                    </div>
+                    <div className="font-display text-2xl text-[#0C0C0C]">
+                      Minimaal
+                    </div>
+                    <p className="mt-2 text-sm text-[#6B6560]">
+                      Efficiënte fasering voor minimale overlast
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
-              <div className="sticky top-32 bg-white p-8 border border-[#0C0C0C]/5">
-                <h3 className="font-display text-xl text-[#0C0C0C] mb-6">
-                  Projectgegevens
-                </h3>
+              <div className="sticky top-32 space-y-6">
+                {/* Project Details Card */}
+                <div className="bg-white p-8 border border-[#0C0C0C]/5">
+                  <h3 className="font-display text-xl text-[#0C0C0C] mb-6">
+                    Projectgegevens
+                  </h3>
 
-                <div className="space-y-6">
-                  <div className="pb-4 border-b border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
-                      Opdrachtgever
+                  <div className="space-y-6">
+                    <div className="pb-4 border-b border-[#0C0C0C]/5">
+                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                        Opdrachtgever
+                      </div>
+                      <div className="font-semibold text-[#0C0C0C]">
+                        {project.client}
+                      </div>
                     </div>
-                    <div className="font-semibold text-[#0C0C0C]">
-                      {project.client}
+
+                    <div className="pb-4 border-b border-[#0C0C0C]/5">
+                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                        Jaar
+                      </div>
+                      <div className="font-semibold text-[#0C0C0C]">
+                        {project.year}
+                      </div>
+                    </div>
+
+                    <div className="pb-4 border-b border-[#0C0C0C]/5">
+                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                        Categorie
+                      </div>
+                      <div className="font-semibold text-[#0C0C0C]">
+                        {categoryLabel}
+                      </div>
+                    </div>
+
+                    {project.scope && (
+                      <div className="pb-4 border-b border-[#0C0C0C]/5">
+                        <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                          Projecttype
+                        </div>
+                        <div className="font-semibold text-[#0C0C0C]">
+                          {project.scope}
+                        </div>
+                      </div>
+                    )}
+
+                    <div>
+                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                        Status
+                      </div>
+                      <div className="inline-flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full" />
+                        <span className="font-semibold text-[#0C0C0C]">Afgerond</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="pb-4 border-b border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
-                      Jaar
-                    </div>
-                    <div className="font-semibold text-[#0C0C0C]">
-                      {project.year}
-                    </div>
-                  </div>
-
-                  <div className="pb-4 border-b border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
-                      Categorie
-                    </div>
-                    <div className="font-semibold text-[#0C0C0C]">
-                      {categoryLabel}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
-                      Status
-                    </div>
-                    <div className="inline-flex items-center gap-2">
-                      <span className="w-2 h-2 bg-green-500 rounded-full" />
-                      <span className="font-semibold text-[#0C0C0C]">Afgerond</span>
-                    </div>
+                  <div className="mt-10 pt-6 border-t border-[#0C0C0C]/5">
+                    <Link
+                      href="/projectplanner"
+                      className="group flex items-center justify-center gap-3 w-full bg-[#9A6B4C] text-white px-6 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#7A5339]"
+                    >
+                      Start uw project
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="flex items-center justify-center gap-3 w-full mt-3 border border-[#0C0C0C]/20 text-[#0C0C0C] px-6 py-4 text-sm font-medium transition-all duration-300 hover:bg-[#0C0C0C] hover:text-white hover:border-[#0C0C0C]"
+                    >
+                      Contact opnemen
+                    </Link>
                   </div>
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-[#0C0C0C]/5">
+                {/* Certifications Card */}
+                <div className="bg-[#0C0C0C] p-8 text-white">
+                  <h3 className="font-display text-lg mb-4">
+                    Kwaliteitsgarantie
+                  </h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-center gap-2 text-white/70">
+                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      Klasse 6 erkend
+                    </div>
+                    <div className="flex items-center gap-2 text-white/70">
+                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      ISO 9001 gecertificeerd
+                    </div>
+                    <div className="flex items-center gap-2 text-white/70">
+                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      VCA** veiligheid
+                    </div>
+                    <div className="flex items-center gap-2 text-white/70">
+                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      CO₂-Prestatieladder niveau 3
+                    </div>
+                  </div>
                   <Link
-                    href="/projectplanner"
-                    className="group flex items-center justify-center gap-3 w-full bg-[#9A6B4C] text-white px-6 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#7A5339]"
+                    href="/procurement"
+                    className="inline-flex items-center gap-2 text-[#9A6B4C] text-sm font-semibold mt-6 hover:text-[#BA8B6C] transition-colors"
                   >
-                    Start uw project
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="flex items-center justify-center gap-3 w-full mt-3 border border-[#0C0C0C]/20 text-[#0C0C0C] px-6 py-4 text-sm font-medium transition-all duration-300 hover:bg-[#0C0C0C] hover:text-white hover:border-[#0C0C0C]"
-                  >
-                    Contact opnemen
+                    Alle certificaten
+                    <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
               </div>
