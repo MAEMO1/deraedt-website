@@ -97,10 +97,10 @@
         "robots.txt allows crawling",
         "Canonical URLs set correctly"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(marketing)/*/page.tsx", "app/sitemap.ts", "app/robots.ts"],
-      "commands": ["pnpm build"],
-      "notes": ""
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/*/layout.tsx", "app/sitemap.ts", "app/robots.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Created sitemap.ts and robots.ts. Added route-specific layouts with metadata for all marketing pages."
     },
     {
       "id": "PUB-020",
