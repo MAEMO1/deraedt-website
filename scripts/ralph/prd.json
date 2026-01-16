@@ -254,10 +254,10 @@
         "Decision logged with user and timestamp",
         "Status updates to reflect decision"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/tenders/[id]/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created tender detail page with full go/no-go checklist (capacity, risk, margin, planning, references). Decision logging with user/timestamp. Status updates on decision."
     },
     {
       "id": "ADM-050",

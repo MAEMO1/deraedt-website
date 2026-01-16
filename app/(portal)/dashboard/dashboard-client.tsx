@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   FileText,
   Clock,
@@ -427,12 +428,12 @@ export function DashboardClient({ user }: DashboardClientProps) {
             >
               <div className="p-6 border-b border-[#0C0C0C]/5 flex items-center justify-between">
                 <h3 className="font-semibold text-[#0C0C0C]">Tender Pipeline</h3>
-                <a
+                <Link
                   href="/dashboard/tenders"
                   className="text-sm text-[#9A6B4C] hover:underline"
                 >
                   Alle tenders →
-                </a>
+                </Link>
               </div>
               <div className="p-6">
                 <div className="space-y-4">
