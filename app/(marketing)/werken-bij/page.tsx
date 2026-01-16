@@ -39,29 +39,32 @@ const benefits = [
   },
 ];
 
-const openPositions = [
-  {
-    title: "Werfleider",
-    department: "Bouw",
-    type: "Voltijds",
-    location: "Oost-Vlaanderen",
-    description: "Leiding geven aan bouwprojecten van A tot Z.",
-  },
-  {
-    title: "Metselaar",
-    department: "Uitvoering",
-    type: "Voltijds",
-    location: "Oost-Vlaanderen",
-    description: "Vakkundig metselwerk voor diverse projecten.",
-  },
-  {
-    title: "Projectleider",
-    department: "Projectmanagement",
-    type: "Voltijds",
-    location: "Zele",
-    description: "Coördinatie en planning van bouwprojecten.",
-  },
-];
+// Import jobs from seed data
+import jobsData from "@/scripts/seed/jobs.json";
+
+interface Job {
+  id: string;
+  title: string;
+  slug: string;
+  department: string;
+  employment_type: string;
+  location: string;
+  description: string;
+  status: string;
+}
+
+const allJobs: Job[] = jobsData as Job[];
+const openPositions = allJobs.filter((job) => job.status === "published");
+
+function getEmploymentTypeLabel(type: string): string {
+  const types: Record<string, string> = {
+    full_time: "Voltijds",
+    part_time: "Deeltijds",
+    contract: "Contract",
+    internship: "Stage",
+  };
+  return types[type] || type;
+}
 
 export default function WerkenBijPage() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -273,7 +276,7 @@ export default function WerkenBijPage() {
           <div className="space-y-4 max-w-4xl mx-auto">
             {openPositions.map((position, index) => (
               <motion.article
-                key={position.title}
+                key={position.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVacaturesInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -292,7 +295,7 @@ export default function WerkenBijPage() {
                       </span>
                       <span className="flex items-center gap-2">
                         <Clock className="w-4 h-4" />
-                        {position.type}
+                        {getEmploymentTypeLabel(position.employment_type)}
                       </span>
                       <span className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
@@ -301,10 +304,10 @@ export default function WerkenBijPage() {
                     </div>
                   </div>
                   <Link
-                    href={`/contact?subject=sollicitatie&job=${encodeURIComponent(position.title)}`}
+                    href={`/werken-bij/${position.slug}`}
                     className="group/btn inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#BA8B6C] whitespace-nowrap"
                   >
-                    Solliciteer
+                    Bekijk vacature
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </Link>
                 </div>

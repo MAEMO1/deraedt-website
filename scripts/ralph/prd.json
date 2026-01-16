@@ -165,10 +165,10 @@
         "Application creates record in database",
         "Confirmation email mention (stub if no SMTP)"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(marketing)/werken-bij/"],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/werken-bij/[slug]/", "app/api/applications/route.ts"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created job detail pages with JobPosting JSON-LD schema. Apply form with CV upload (10MB limit) and GDPR consent. Confirmation message shown after submit, email noted as stub."
     },
     {
       "id": "PUB-060",
