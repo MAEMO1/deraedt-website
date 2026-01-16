@@ -200,10 +200,10 @@
         "Alerts list (upcoming deadlines, overdue items)",
         "Export button for board pack (CSV/PDF stub)"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(portal)/dashboard/"],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/dashboard-client.tsx"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created directie cockpit with KPI tiles, tender/lead pipeline bars, expiry radar (30/60/90), alerts for new leads/analyzing tenders/expiring docs, and board pack export stub."
     },
     {
       "id": "ADM-020",
