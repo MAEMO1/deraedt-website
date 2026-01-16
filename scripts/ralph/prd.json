@@ -236,10 +236,10 @@
         "List shows: title, buyer, deadline, status, match score",
         "Filter by CPV code and status"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/tenders/", "lib/tender/"],
       "commands": ["pnpm verify"],
-      "notes": "TED RSS is public, no credentials needed. Use CPV codes relevant to construction."
+      "notes": "Created tender hub with full list view, status filters, deadline indicators, match scores. TED RSS parser in lib/tender/ted-rss.ts with CPV matching for construction trades."
     },
     {
       "id": "ADM-040",
