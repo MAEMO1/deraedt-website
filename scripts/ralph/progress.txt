@@ -1,0 +1,45 @@
+# Ralph Progress Log
+
+This file tracks completed stories. Append-only.
+
+---
+[INIT] - Ralph loop initialized
+Status: DONE
+Notes: Setup complete. Ready for first story.
+---
+[FND-001] - Verification harness setup
+Status: DONE
+Notes: Added pnpm verify/typecheck scripts. Fixed 7 lint errors (unused imports, unescaped apostrophes). Lint + typecheck pass. Build requires network for Google Fonts.
+---
+[FND-002] - Data layer + migrations + seed demo data
+Status: DONE
+Notes: Created 6 SQL migrations (profiles, leads, tenders, jobs, cases, compliance_docs). Updated lib/supabase/types.ts with all types. Created JSON seed data: 6 tenders, 10 leads, 4 jobs, 8 cases, 8 compliance docs.
+---
+[FND-003] - Auth + RBAC skeleton + /admin protect
+Status: DONE
+Notes: Implemented Supabase Auth with magic link. Created middleware.ts to protect /dashboard routes. Created lib/supabase/auth.ts with RBAC utilities (hasRole, canAccessRoute, canPerformAction). Updated login page to use real Supabase Auth. Created auth callback route. Updated dashboard header with logout. Security review completed with GDPR DELETE policies added.
+---
+[FND-004] - Uploads & media asset handling
+Status: DONE
+Notes: Created media_assets table migration. Implemented lib/supabase/storage.ts with upload utilities (validateFile, uploadFile, createMediaAsset, deleteFile). Created /api/upload route with file type/size validation. Supports images (jpg, png, gif, webp, svg) and documents (pdf, doc, docx, xls, xlsx, csv). 10MB default limit.
+---
+[FND-005] - Audit log basis
+Status: DONE
+Notes: Created audit_logs table with database triggers for automatic logging. Actions: LOGIN, LOGOUT, LOGIN_FAILED, CREATE, UPDATE, DELETE, VIEW, DOWNLOAD, EXPORT, STATUS_CHANGE, ASSIGNMENT. Created lib/audit.ts with helper functions (logLogin, logLogout, logView, logDownload, getAuditLogs, getEntityAuditHistory). Triggers auto-log leads, tenders, jobs, job_applications, cases, compliance_docs.
+---
+[PUB-010] - SEO baseline
+Status: DONE
+Notes: Created sitemap.ts with static pages + project detail pages. Created robots.ts with disallow for api/dashboard/auth routes. Added route-specific layouts with metadata for: over-ons, diensten, projecten, procurement, werken-bij, contact, duurzaamheid. Each page now has unique title, description, OpenGraph tags, and canonical URLs.
+---
+[PUB-020] - Diensten structure alignment
+Status: DONE
+Notes: Created /diensten/bouw-renovatie page (nieuwbouw, renovatie, erfgoed) with service cards and scope boundaries (wat wel/niet). Created /diensten/facility page with raamcontracten, preventief onderhoud, interventies, technisch beheer. Both pages have CTAs to projectplanner and clear scope sections.
+---
+[PUB-030] - Cases CMS model + listing + detail + filters
+Status: DONE
+Notes: Already implemented. /projecten has filterable listing by sector (erfgoed, onderwijs, zorg, residentieel, infrastructuur, overheid). /projecten/[slug] has detail with KPIs, challenge, approach, results sections. Data from FEATURED_PROJECTS with all required fields.
+---
+[PUB-040] - Procurement hub: Tender Pack request flow
+Status: DONE
+Notes: Created /procurement/documentatie with tender pack request form. Form captures: name, org, email, phone, purpose (aanbesteding/preselectie/raamcontract/other). Form submits to /api/leads creating lead record. Confirmation shown after submit. Documents list section shows available certificates.
+---

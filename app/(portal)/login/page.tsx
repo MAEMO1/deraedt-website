@@ -2,15 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Mail, Loader2, ArrowLeft, CheckCircle } from "lucide-react";
+import { Mail, Loader2, ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/shared/logo";
 import { toast } from "sonner";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+  const authError = searchParams.get("error");
+
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
@@ -20,17 +26,24 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // In production, this would call Supabase auth
-      // const { error } = await supabase.auth.signInWithOtp({ email });
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
+        },
+      });
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (error) {
+        throw error;
+      }
 
       setIsSent(true);
       toast.success("Link verzonden!", {
         description: "Controleer uw inbox voor de login link.",
       });
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err);
       toast.error("Er is iets misgegaan", {
         description: "Probeer het later opnieuw.",
       });
@@ -66,6 +79,15 @@ export default function LoginPage() {
             <p className="mt-2 text-gray-600">
               Log in om uw projecten en documenten te bekijken.
             </p>
+
+            {authError && (
+              <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>Er is een fout opgetreden. Probeer opnieuw in te loggen.</span>
+                </div>
+              </div>
+            )}
 
             {isSent ? (
               <div className="mt-8 rounded-xl border border-green-200 bg-green-50 p-6 text-center">

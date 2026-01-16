@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, ArrowRight, Shield, Award, Leaf } from "lucide-react";
-import { STATS, CERTIFICATIONS } from "@/lib/constants";
+import { STATS } from "@/lib/constants";
 
 // Counter animation component
 function AnimatedCounter({

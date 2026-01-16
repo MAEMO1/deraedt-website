@@ -10,8 +10,6 @@ import {
   Leaf,
   FileCheck,
   Building2,
-  Users,
-  Clock,
   CheckCircle,
   ArrowRight,
   Download,

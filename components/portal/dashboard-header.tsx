@@ -1,24 +1,28 @@
 "use client";
 
-import { Bell, Menu } from "lucide-react";
+import { Bell, Menu, LogOut, User, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOutAction } from "@/app/(portal)/actions/auth";
 
 interface DashboardHeaderProps {
   title: string;
   userName?: string;
+  userRole?: string;
   onMenuClick?: () => void;
 }
 
 export function DashboardHeader({
   title,
   userName = "Klant",
+  userRole,
   onMenuClick,
 }: DashboardHeaderProps) {
   return (
@@ -50,14 +54,31 @@ export function DashboardHeader({
                     {userName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <span className="hidden md:inline">{userName}</span>
+                <div className="hidden text-left md:block">
+                  <span className="block text-sm font-medium">{userName}</span>
+                  {userRole && (
+                    <span className="block text-xs text-gray-500">{userRole}</span>
+                  )}
+                </div>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Profiel</DropdownMenuItem>
-              <DropdownMenuItem>Instellingen</DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600">
-                Uitloggen
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                Profiel
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                Instellingen
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <form action={signOutAction} className="w-full">
+                  <button type="submit" className="flex w-full items-center text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Uitloggen
+                  </button>
+                </form>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

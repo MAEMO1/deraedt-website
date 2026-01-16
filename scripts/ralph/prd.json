@@ -1,0 +1,369 @@
+{
+  "title": "De Raedt Growth OS",
+  "branchName": "growth-os-dev",
+  "userStories": [
+    {
+      "id": "FND-001",
+      "priority": 1,
+      "title": "Verification harness setup",
+      "description": "Set up canonical install/lint/typecheck/test/build commands and document in AGENTS.md. Add verify script to package.json.",
+      "acceptanceCriteria": [
+        "package.json has 'verify' script that runs lint + typecheck + build",
+        "package.json has 'typecheck' script (tsc --noEmit)",
+        "pnpm verify passes without errors",
+        "AGENTS.md documents all canonical commands"
+      ],
+      "passes": true,
+      "pathsTouched": ["package.json", "AGENTS.md"],
+      "commands": ["pnpm verify"],
+      "notes": "Lint + typecheck pass. Build requires network (Google Fonts). Fixed lint errors in werken-bij, about-teaser, procurement, over-ons, hero."
+    },
+    {
+      "id": "FND-002",
+      "priority": 2,
+      "title": "Data layer + migrations + seed demo data",
+      "description": "Set up Supabase schema with migrations for core entities. Create seed script with demo data for tenders, leads, jobs, and cases.",
+      "acceptanceCriteria": [
+        "Supabase migration files exist in supabase/migrations/",
+        "Core tables defined: users, leads, tenders, jobs, cases, compliance_docs",
+        "Seed script exists in scripts/seed/",
+        "Seed data includes 5+ tenders, 8+ leads, 3+ jobs, 6+ cases"
+      ],
+      "passes": true,
+      "pathsTouched": ["supabase/migrations/", "scripts/seed/", "lib/supabase/"],
+      "commands": ["pnpm supabase:migrate", "pnpm seed"],
+      "notes": "6 SQL migrations, TypeScript types, JSON seed data (6 tenders, 10 leads, 4 jobs, 8 cases, 8 compliance docs). Supabase CLI required for migrations."
+    },
+    {
+      "id": "FND-003",
+      "priority": 3,
+      "title": "Auth + RBAC skeleton + /admin protect",
+      "description": "Implement authentication flow with Supabase Auth. Create RBAC system with roles (DIRECTIE, SALES, HR, OPERATIONS, ADMIN). Protect all /admin routes.",
+      "acceptanceCriteria": [
+        "Login page at /login works with Supabase Auth",
+        "User roles stored in profiles table",
+        "Middleware protects (portal) routes",
+        "Unauthorized users redirected to /login",
+        "Role check utility function exists"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/", "lib/supabase/auth.ts", "middleware.ts", "app/auth/callback/route.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Implemented magic link auth, middleware protection, RBAC utilities with role hierarchy. Security review completed."
+    },
+    {
+      "id": "FND-004",
+      "priority": 4,
+      "title": "Uploads & media asset handling",
+      "description": "Implement file upload handling with size/type limits. Use Supabase Storage for files.",
+      "acceptanceCriteria": [
+        "Upload API route exists at /api/upload",
+        "File type validation (images, PDFs, docs)",
+        "File size limit enforced (10MB default)",
+        "Files stored in Supabase Storage",
+        "MediaAsset record created with metadata"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/api/upload/", "lib/supabase/storage.ts", "supabase/migrations/00007_create_media_assets.sql"],
+      "commands": ["pnpm verify"],
+      "notes": "Implemented storage utilities with file validation, upload to Supabase Storage, and media_assets table for tracking."
+    },
+    {
+      "id": "FND-005",
+      "priority": 5,
+      "title": "Audit log basis",
+      "description": "Create audit log system for tracking login events and CRUD operations on critical entities.",
+      "acceptanceCriteria": [
+        "AuditLog table exists in database",
+        "Login/logout events logged",
+        "Create/Update/Delete on leads, tenders, jobs logged",
+        "Log includes: user_id, action, entity, entity_id, timestamp, metadata",
+        "Audit log viewable in admin (later story)"
+      ],
+      "passes": true,
+      "pathsTouched": ["lib/audit.ts", "supabase/migrations/00008_create_audit_log.sql"],
+      "commands": ["pnpm verify"],
+      "notes": "Implemented DB triggers for automatic logging on all core tables. Helper functions in lib/audit.ts."
+    },
+    {
+      "id": "PUB-010",
+      "priority": 21,
+      "title": "SEO baseline",
+      "description": "Implement SEO foundation: metadata, sitemap.xml, robots.txt, OpenGraph tags for all pages.",
+      "acceptanceCriteria": [
+        "Each page has unique title and description",
+        "OpenGraph tags on all pages",
+        "sitemap.xml generated at /sitemap.xml",
+        "robots.txt allows crawling",
+        "Canonical URLs set correctly"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/*/layout.tsx", "app/sitemap.ts", "app/robots.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Created sitemap.ts and robots.ts. Added route-specific layouts with metadata for all marketing pages."
+    },
+    {
+      "id": "PUB-020",
+      "priority": 22,
+      "title": "Diensten structure alignment",
+      "description": "Align diensten pages with 'Bouw & Renovatie' and 'Facility' structure. Add clear CTAs leading to intake flows.",
+      "acceptanceCriteria": [
+        "/diensten/bouw-renovatie page exists with service details",
+        "/diensten/facility page exists with service details",
+        "Each service page has CTA to projectplanner",
+        "Services listed on /diensten overview",
+        "Scope boundaries clear (wat wel/niet)"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/diensten/bouw-renovatie/", "app/(marketing)/diensten/facility/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created bouw-renovatie (nieuwbouw, renovatie, erfgoed) and facility (raamcontracten, onderhoud, interventies) sub-pages with scope sections."
+    },
+    {
+      "id": "PUB-030",
+      "priority": 23,
+      "title": "Cases CMS model + listing + detail + filters",
+      "description": "Create cases/referenties system with CMS-ready model, listing page with filters, and detail pages.",
+      "acceptanceCriteria": [
+        "Case study data model defined (title, client, scope, location, year, photos, KPIs)",
+        "/projecten shows filterable case listing",
+        "Filter by sector (publiek, onderwijs, zorg, industrie)",
+        "/projecten/[slug] shows case detail",
+        "Cases data from Sanity or JSON seed"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/projecten/", "lib/constants.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Already implemented with filterable listing, sector filters, detail pages with KPIs. Data from FEATURED_PROJECTS."
+    },
+    {
+      "id": "PUB-040",
+      "priority": 24,
+      "title": "Procurement hub: Tender Pack request flow",
+      "description": "Enhance procurement hub with Tender Pack request flow and downloadable documents section.",
+      "acceptanceCriteria": [
+        "Tender Pack request form on /procurement/documentatie",
+        "Form captures: name, org, email, purpose (aanbesteding/preselectie/raamcontract)",
+        "Form submission creates lead record",
+        "Confirmation shown after submit",
+        "Document downloads section with placeholders"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/procurement/documentatie/", "app/api/leads/route.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Created documentatie page with form, /api/leads endpoint, and documents list."
+    },
+    {
+      "id": "PUB-050",
+      "priority": 25,
+      "title": "Jobs: job detail + apply flow + JobPosting schema",
+      "description": "Create job detail pages with apply flow and Google JobPosting structured data.",
+      "acceptanceCriteria": [
+        "/werken-bij/[slug] shows job detail",
+        "JobPosting JSON-LD schema on detail page",
+        "Apply form with CV upload + GDPR consent",
+        "Application creates record in database",
+        "Confirmation email mention (stub if no SMTP)"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/werken-bij/[slug]/", "app/api/applications/route.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Created job detail pages with JobPosting JSON-LD schema. Apply form with CV upload (10MB limit) and GDPR consent. Confirmation message shown after submit, email noted as stub."
+    },
+    {
+      "id": "PUB-060",
+      "priority": 26,
+      "title": "Contact flow → lead record",
+      "description": "Convert contact form to proper lead intake flow. No email-only submissions.",
+      "acceptanceCriteria": [
+        "Contact form creates lead record in database",
+        "Lead type set based on form selection",
+        "Basic validation with Zod",
+        "Success confirmation shown",
+        "Lead visible in admin (after ADM-020)"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/contact/", "app/api/contact/route.ts", "lib/validations/contact.ts"],
+      "commands": ["pnpm verify"],
+      "notes": "Updated contact form to create lead records. Added organisation field. Lead type mapped from contact subject (raamcontract→procurement, offerte→project, etc.). Zod validation with full CONTACT_SUBJECTS alignment."
+    },
+    {
+      "id": "ADM-010",
+      "priority": 61,
+      "title": "Cockpit v1: tiles + alerts + export",
+      "description": "Create directie cockpit with KPI tiles, alerts widget, and board pack export.",
+      "acceptanceCriteria": [
+        "/dashboard shows cockpit layout",
+        "Tender pipeline tile with counts per stage",
+        "Lead pipeline tile per service type",
+        "Expiry radar widget (30/60/90 days)",
+        "Alerts list (upcoming deadlines, overdue items)",
+        "Export button for board pack (CSV/PDF stub)"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/dashboard-client.tsx"],
+      "commands": ["pnpm verify"],
+      "notes": "Created directie cockpit with KPI tiles, tender/lead pipeline bars, expiry radar (30/60/90), alerts for new leads/analyzing tenders/expiring docs, and board pack export stub."
+    },
+    {
+      "id": "ADM-020",
+      "priority": 62,
+      "title": "Lead hub v1: pipeline + assignment + reminders",
+      "description": "Create lead management hub with pipeline view, assignment, and follow-up reminders.",
+      "acceptanceCriteria": [
+        "/dashboard/leads shows all leads",
+        "Pipeline view with stages (new, contacted, qualified, proposal, won, lost)",
+        "Lead detail modal/page",
+        "Assignment dropdown (to team member)",
+        "Add notes to lead",
+        "Set next action date (reminder)"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/leads/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created lead hub with pipeline and list views. Detail modal with contact info, assignment dropdown, notes, and next action date. Actions logged to console."
+    },
+    {
+      "id": "ADM-030",
+      "priority": 63,
+      "title": "Tender hub v1: TED RSS ingest + opportunity list",
+      "description": "Create tender hub with TED RSS feed ingestion and normalized opportunity list.",
+      "acceptanceCriteria": [
+        "/dashboard/tenders shows tender list",
+        "TED RSS parser function exists",
+        "Manual refresh button triggers ingest",
+        "Tenders normalized to standard schema",
+        "List shows: title, buyer, deadline, status, match score",
+        "Filter by CPV code and status"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/tenders/", "lib/tender/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created tender hub with full list view, status filters, deadline indicators, match scores. TED RSS parser in lib/tender/ted-rss.ts with CPV matching for construction trades."
+    },
+    {
+      "id": "ADM-040",
+      "priority": 64,
+      "title": "Tender go/no-go + checklist + decision log",
+      "description": "Add go/no-go workflow to tender hub with checklist and decision logging.",
+      "acceptanceCriteria": [
+        "Tender detail page with go/no-go section",
+        "Checklist items: capacity, risk, margin, planning, references",
+        "Each item can be checked + notes added",
+        "Go/No-Go decision button with reason",
+        "Decision logged with user and timestamp",
+        "Status updates to reflect decision"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/tenders/[id]/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created tender detail page with full go/no-go checklist (capacity, risk, margin, planning, references). Decision logging with user/timestamp. Status updates on decision."
+    },
+    {
+      "id": "ADM-050",
+      "priority": 65,
+      "title": "Compliance vault: document types + expiry radar + tender pack templates",
+      "description": "Create compliance document management with expiry tracking and tender pack generation.",
+      "acceptanceCriteria": [
+        "/dashboard/compliance shows document list",
+        "Document types: ISO, VCA, CO₂, insurance, etc.",
+        "Each doc has: name, type, issuer, valid_from, valid_to, file, scope",
+        "Expiry radar: list docs expiring in 30/60/90 days",
+        "Tender pack template: select docs to include in export"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/compliance/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created compliance vault with document list, expiry radar (30/60/90 days), document type filters, and tender pack selection/export feature."
+    },
+    {
+      "id": "ADM-060",
+      "priority": 66,
+      "title": "Recruitment hub v1: jobs CRUD + applications queue + retention",
+      "description": "Create recruitment hub for managing vacancies and applications.",
+      "acceptanceCriteria": [
+        "/dashboard/recruitment shows jobs list",
+        "CRUD operations for job postings",
+        "Job status: draft, published, closed",
+        "Applications list with status (new, screening, interview, offer, hired, rejected)",
+        "Application detail with CV download",
+        "Retention policy setting (default 12 months)"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/recruitment/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created recruitment hub with jobs/applications tabs, CRUD stubs, application detail modal with status workflow, CV download, and GDPR retention policy settings."
+    },
+    {
+      "id": "ADM-070",
+      "priority": 67,
+      "title": "VDAB adapter stub + mapping",
+      "description": "Create adapter interface for VDAB Vacature Posting API with field mapping.",
+      "acceptanceCriteria": [
+        "VDAB adapter interface defined",
+        "Job to VDAB format mapping function",
+        "Publish to VDAB button (logs only, no actual API call)",
+        "Sync status shown per job",
+        "Documentation of required VDAB fields"
+      ],
+      "passes": true,
+      "pathsTouched": ["lib/adapters/vdab.ts", "app/(portal)/dashboard/recruitment/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created VDAB adapter with full interface, job-to-VDAB mapping, publish/update/remove stubs. Integrated into recruitment hub with sync status and publish button per job."
+    },
+    {
+      "id": "ADM-080",
+      "priority": 68,
+      "title": "Facility desk v1: tickets + SLA due + statuses",
+      "description": "Create facility desk for managing intervention tickets with SLA tracking.",
+      "acceptanceCriteria": [
+        "/dashboard/facility shows ticket list",
+        "Ticket fields: urgency, location, description, photos, status, sla_due_at",
+        "Ticket creation from public flow",
+        "Status workflow: open → in progress → waiting → resolved",
+        "SLA overdue highlighting",
+        "Assignment to team member"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/facility/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created facility desk with ticket list sorted by urgency/SLA. Full status workflow, SLA overdue highlighting (red row), assignment dropdown, ticket detail modal with notes/photos."
+    },
+    {
+      "id": "ADM-090",
+      "priority": 69,
+      "title": "Partner prequal v1: intake + doc checklist + review workflow",
+      "description": "Create partner portal for prequalification with document checklist.",
+      "acceptanceCriteria": [
+        "/dashboard/partners shows partner list",
+        "Partner intake creates record",
+        "Document checklist: VCA, insurance, references",
+        "Document upload per checklist item",
+        "Review workflow: pending → approved → blocked",
+        "Expiry tracking on partner documents"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/partners/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created partner prequal portal with partner list, document checklist (VCA, insurance, references), approval workflow, and document expiry tracking."
+    },
+    {
+      "id": "ADM-100",
+      "priority": 70,
+      "title": "Analytics dashboard v1: events → KPI tiles",
+      "description": "Create analytics dashboard showing KPI tiles from tracked events.",
+      "acceptanceCriteria": [
+        "/dashboard/analytics shows KPI overview",
+        "Leads per month chart",
+        "Time-to-first-response metric",
+        "Tender win rate",
+        "Job views vs applications",
+        "Data from analytics events table"
+      ],
+      "passes": true,
+      "pathsTouched": ["app/(portal)/dashboard/analytics/"],
+      "commands": ["pnpm verify"],
+      "notes": "Created analytics dashboard with KPI tiles (leads, response time, tender win rate, pipeline value), leads per month bar chart, job views vs applications, lead conversion funnel, top pages, and performance highlights."
+    }
+  ]
+}

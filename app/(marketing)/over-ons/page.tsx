@@ -108,7 +108,7 @@ export default function OverOnsPage() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/10"
           >
-            {teamStats.map((stat, index) => (
+            {teamStats.map((stat) => (
               <div key={stat.label} className="md:px-8 first:md:pl-0 last:md:pr-0">
                 <div className="font-display text-4xl lg:text-5xl text-white">
                   {stat.value}<span className="text-[#9A6B4C]">{stat.suffix}</span>

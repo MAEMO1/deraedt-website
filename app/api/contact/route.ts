@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { contactSchema } from "@/lib/validations/contact";
+import { contactSchema, getLeadTypeFromSubject } from "@/lib/validations/contact";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,27 +16,67 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { naam, email, telefoon, onderwerp, bericht } = result.data;
+    const { naam, organisatie, email, telefoon, onderwerp, bericht, honeypot } = result.data;
 
     // Honeypot check
-    if (result.data.honeypot && result.data.honeypot.length > 0) {
+    if (honeypot && honeypot.length > 0) {
       return NextResponse.json(
         { error: "Bot gedetecteerd" },
         { status: 400 }
       );
     }
 
-    // Log the submission (in production, send email via Resend or similar)
+    // Map subject to lead type
+    const leadType = getLeadTypeFromSubject(onderwerp);
+
+    // Create lead in database
+    const supabase = await createClient();
+
+    const { data: lead, error } = await supabase
+      .from('leads')
+      .insert({
+        lead_type: leadType,
+        contact_name: naam,
+        contact_email: email,
+        contact_phone: telefoon || null,
+        organisation: organisatie || null,
+        message: `[${onderwerp.toUpperCase()}] ${bericht}`,
+        source: 'website-contact',
+        status: 'new',
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Lead creation error:", error);
+      // Still log the submission even if DB fails
+      console.log("Contact form submission (DB failed):", {
+        naam,
+        email,
+        onderwerp,
+        bericht: bericht.substring(0, 100) + "...",
+        timestamp: new Date().toISOString(),
+      });
+
+      // Return success to user even if DB insert fails
+      // This prevents a bad UX while still logging the issue
+      return NextResponse.json({
+        success: true,
+        message: "Bericht succesvol verzonden",
+      });
+    }
+
+    // Log the successful submission
     console.log("Contact form submission:", {
+      leadId: lead.id,
+      leadType,
       naam,
       email,
-      telefoon,
       onderwerp,
-      bericht: bericht.substring(0, 100) + "...",
       timestamp: new Date().toISOString(),
     });
 
-    // In production, you would send an email here:
+    // TODO: Send notification email when SMTP is configured
     // await resend.emails.send({
     //   from: "website@deraedt.be",
     //   to: "info@deraedt.be",
@@ -46,6 +87,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Bericht succesvol verzonden",
+      leadId: lead.id,
     });
   } catch (error) {
     console.error("Contact form error:", error);

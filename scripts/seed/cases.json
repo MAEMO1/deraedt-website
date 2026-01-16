@@ -1,0 +1,163 @@
+[
+  {
+    "id": "case-001",
+    "title": "Restauratie Gemeentehuis Zele",
+    "slug": "restauratie-gemeentehuis-zele",
+    "client_name": "Gemeente Zele",
+    "client_type": "public",
+    "location": "Zele, Oost-Vlaanderen",
+    "year": 2024,
+    "scope": "Volledige restauratie van het historische gemeentehuis uit 1890. Herstel van oorspronkelijke gevelornamenten, vernieuwing dakstructuur met respect voor erfgoedwaarden.",
+    "services": ["Restauratie", "Gevelwerken", "Dakwerken"],
+    "summary": "Succesvolle restauratie van een beschermd monument met behoud van authentieke elementen.",
+    "kpis": {
+      "budget_adherence": 98,
+      "timeline_adherence": 100,
+      "safety_incidents": 0,
+      "client_satisfaction": 9.5
+    },
+    "is_published": true,
+    "is_featured": true
+  },
+  {
+    "id": "case-002",
+    "title": "Nieuwbouw Productiehal Brouwerij Roman",
+    "slug": "nieuwbouw-productiehal-roman",
+    "client_name": "Brouwerij Roman",
+    "client_type": "industrial",
+    "location": "Mater, Oost-Vlaanderen",
+    "year": 2023,
+    "scope": "Bouw van een nieuwe productiehal van 2.500m² met geïntegreerde kantoorruimte. Focus op duurzaamheid en energiezuinigheid.",
+    "services": ["Nieuwbouw", "Industriebouw"],
+    "summary": "Moderne productiehal die voldoet aan de hoogste duurzaamheidsnormen.",
+    "kpis": {
+      "budget_adherence": 96,
+      "timeline_adherence": 92,
+      "safety_incidents": 0,
+      "client_satisfaction": 9.2
+    },
+    "is_published": true,
+    "is_featured": true
+  },
+  {
+    "id": "case-003",
+    "title": "Renovatie Sint-Martinuskerk",
+    "slug": "renovatie-sint-martinuskerk",
+    "client_name": "Kerkfabriek Sint-Martinus",
+    "client_type": "public",
+    "location": "Hamme, Oost-Vlaanderen",
+    "year": 2024,
+    "scope": "Dringende restauratie van het kerkdak en gevelreiniging. Herstel van loodwerken en glas-in-loodramen.",
+    "services": ["Restauratie", "Dakwerken", "Erfgoed"],
+    "summary": "Delicate restauratie van religieus erfgoed met ambachtelijke technieken.",
+    "kpis": {
+      "budget_adherence": 100,
+      "timeline_adherence": 95,
+      "safety_incidents": 0,
+      "client_satisfaction": 9.8
+    },
+    "is_published": true,
+    "is_featured": false
+  },
+  {
+    "id": "case-004",
+    "title": "Uitbreiding Basisschool De Boomhut",
+    "slug": "uitbreiding-basisschool-boomhut",
+    "client_name": "GO! Onderwijs",
+    "client_type": "education",
+    "location": "Lokeren, Oost-Vlaanderen",
+    "year": 2023,
+    "scope": "Bouw van 6 extra klaslokalen en een polyvalente zaal. Werken uitgevoerd tijdens schoolvakanties om verstoring te minimaliseren.",
+    "services": ["Nieuwbouw", "Scholenbouw"],
+    "summary": "Uitbreiding die perfect aansluit bij het bestaande gebouw, gerealiseerd binnen strakke deadlines.",
+    "kpis": {
+      "budget_adherence": 97,
+      "timeline_adherence": 100,
+      "safety_incidents": 0,
+      "client_satisfaction": 9.0
+    },
+    "is_published": true,
+    "is_featured": false
+  },
+  {
+    "id": "case-005",
+    "title": "Facility Management Ziekenhuis AZ Nikolaas",
+    "slug": "facility-management-az-nikolaas",
+    "client_name": "AZ Nikolaas",
+    "client_type": "healthcare",
+    "location": "Sint-Niklaas, Oost-Vlaanderen",
+    "year": 2024,
+    "scope": "Raamcontract voor onderhouds- en herstellingswerken aan alle gebouwen van het ziekenhuis. 24/7 interventieservice voor kritieke infrastructuur.",
+    "services": ["Facility Management", "Onderhoud", "Interventies"],
+    "summary": "Betrouwbare partner voor alle bouwkundige interventies in een kritieke zorgomgeving.",
+    "kpis": {
+      "response_time_hours": 2,
+      "first_time_fix_rate": 94,
+      "safety_incidents": 0,
+      "client_satisfaction": 9.3
+    },
+    "is_published": true,
+    "is_featured": true
+  },
+  {
+    "id": "case-006",
+    "title": "Energetische Renovatie Sociale Woningen",
+    "slug": "energetische-renovatie-sociale-woningen",
+    "client_name": "Sociale Huisvestingsmaatschappij Waas en Dender",
+    "client_type": "public",
+    "location": "Dendermonde, Oost-Vlaanderen",
+    "year": 2023,
+    "scope": "Energetische renovatie van 48 sociale woningen. Gevelisolatie, nieuwe ramen en dakisolatie. Focus op betaalbaarheid en minimale hinder voor bewoners.",
+    "services": ["Renovatie", "Isolatie", "Gevelwerken"],
+    "summary": "Grootschalige renovatie die de energiefactuur van bewoners halveert.",
+    "kpis": {
+      "budget_adherence": 99,
+      "timeline_adherence": 94,
+      "energy_improvement_percent": 55,
+      "client_satisfaction": 8.9
+    },
+    "is_published": true,
+    "is_featured": false
+  },
+  {
+    "id": "case-007",
+    "title": "Dakvernieuwing Textielfabriek Alsico",
+    "slug": "dakvernieuwing-textielfabriek-alsico",
+    "client_name": "Alsico NV",
+    "client_type": "industrial",
+    "location": "Ronse, Oost-Vlaanderen",
+    "year": 2024,
+    "scope": "Vervanging van 4.000m² industrieel dak met EPDM. Werken uitgevoerd in fases om productie niet te verstoren.",
+    "services": ["Dakwerken", "Industriebouw"],
+    "summary": "Complexe dakvernieuwing boven actieve productielijn, zonder één dag productiestilstand.",
+    "kpis": {
+      "budget_adherence": 100,
+      "timeline_adherence": 100,
+      "production_downtime_hours": 0,
+      "client_satisfaction": 9.7
+    },
+    "is_published": true,
+    "is_featured": false
+  },
+  {
+    "id": "case-008",
+    "title": "Totaalrenovatie Woonzorgcentrum Heilig Hart",
+    "slug": "totaalrenovatie-wzc-heilig-hart",
+    "client_name": "VZW Heilig Hart",
+    "client_type": "healthcare",
+    "location": "Wetteren, Oost-Vlaanderen",
+    "year": 2022,
+    "scope": "Volledige renovatie van woonzorgcentrum met 80 kamers. Werken in bewoonde staat, met maximale aandacht voor veiligheid en comfort van bewoners.",
+    "services": ["Renovatie", "Zorgbouw"],
+    "summary": "Renovatie in bewoonde staat met nul veiligheidsincidenten en minimale hinder.",
+    "kpis": {
+      "budget_adherence": 95,
+      "timeline_adherence": 90,
+      "safety_incidents": 0,
+      "resident_complaints": 2,
+      "client_satisfaction": 9.1
+    },
+    "is_published": true,
+    "is_featured": false
+  }
+]
