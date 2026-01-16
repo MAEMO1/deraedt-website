@@ -114,10 +114,10 @@
         "Services listed on /diensten overview",
         "Scope boundaries clear (wat wel/niet)"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(marketing)/diensten/"],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/diensten/bouw-renovatie/", "app/(marketing)/diensten/facility/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created bouw-renovatie (nieuwbouw, renovatie, erfgoed) and facility (raamcontracten, onderhoud, interventies) sub-pages with scope sections."
     },
     {
       "id": "PUB-030",

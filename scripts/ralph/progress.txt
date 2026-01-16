@@ -31,3 +31,7 @@ Notes: Created audit_logs table with database triggers for automatic logging. Ac
 Status: DONE
 Notes: Created sitemap.ts with static pages + project detail pages. Created robots.ts with disallow for api/dashboard/auth routes. Added route-specific layouts with metadata for: over-ons, diensten, projecten, procurement, werken-bij, contact, duurzaamheid. Each page now has unique title, description, OpenGraph tags, and canonical URLs.
 ---
+[PUB-020] - Diensten structure alignment
+Status: DONE
+Notes: Created /diensten/bouw-renovatie page (nieuwbouw, renovatie, erfgoed) with service cards and scope boundaries (wat wel/niet). Created /diensten/facility page with raamcontracten, preventief onderhoud, interventies, technisch beheer. Both pages have CTAs to projectplanner and clear scope sections.
+---
