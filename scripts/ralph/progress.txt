@@ -1,0 +1,9 @@
+# Ralph Progress Log
+
+This file tracks completed stories. Append-only.
+
+---
+[INIT] - Ralph loop initialized
+Status: DONE
+Notes: Setup complete. Ready for first story.
+---

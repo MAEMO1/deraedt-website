@@ -1,0 +1,31 @@
+{
+  "$schema": "https://code.claude.com/schemas/settings.json",
+  "permissions": {
+    "deny": [
+      "Read .env*",
+      "Read **/.env*",
+      "Edit .env*",
+      "Edit **/.env*",
+      "Write .env*",
+      "Write **/.env*",
+      "Read **/*secret*",
+      "Read **/*token*",
+      "Read **/*credential*",
+      "Read **/*.pem",
+      "Read **/*.key"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "(Edit|Write)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '\\.env|\\.pem|\\.key|secret|token|credential'; then echo 'BLOCK: Cannot modify sensitive files'; exit 1; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
