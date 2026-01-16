@@ -15,3 +15,7 @@ Notes: Added pnpm verify/typecheck scripts. Fixed 7 lint errors (unused imports,
 Status: DONE
 Notes: Created 6 SQL migrations (profiles, leads, tenders, jobs, cases, compliance_docs). Updated lib/supabase/types.ts with all types. Created JSON seed data: 6 tenders, 10 leads, 4 jobs, 8 cases, 8 compliance docs.
 ---
+[FND-003] - Auth + RBAC skeleton + /admin protect
+Status: DONE
+Notes: Implemented Supabase Auth with magic link. Created middleware.ts to protect /dashboard routes. Created lib/supabase/auth.ts with RBAC utilities (hasRole, canAccessRoute, canPerformAction). Updated login page to use real Supabase Auth. Created auth callback route. Updated dashboard header with logout. Security review completed with GDPR DELETE policies added.
+---

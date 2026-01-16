@@ -152,5 +152,19 @@ JSON seed files in `scripts/seed/`:
 - Created `compliance_expiry_radar` view for certificate monitoring
 - **Note:** Migrations require Supabase CLI. Seed data is JSON fallback for demos.
 
+### 2026-01-16: Auth + RBAC setup (FND-003)
+- Implemented Supabase Auth with magic link (OTP)
+- Created `middleware.ts` at root to protect `/dashboard/*` routes
+- Created `lib/supabase/auth.ts` with RBAC utilities:
+  - `getCurrentUser()` - get authenticated user with profile
+  - `hasRole(userRole, requiredRole)` - role hierarchy check
+  - `canAccessRoute(role, route)` - route-based access control
+  - `canPerformAction(role, action)` - action-based permissions
+  - `requireAuth()` / `requireRole()` - server component guards
+- Auth callback route at `/auth/callback` for magic link handling
+- Dashboard header updated with real user data and logout
+- **Security:** Added DELETE policies for GDPR compliance (leads, job_applications)
+- **Note:** Roles hierarchy: VIEWER < OPERATIONS/HR/SALES < ADMIN < DIRECTIE
+
 ---
 _Last updated: 2026-01-16_
