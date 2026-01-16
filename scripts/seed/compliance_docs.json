@@ -1,0 +1,100 @@
+[
+  {
+    "id": "doc-001",
+    "doc_type": "iso",
+    "name": "ISO 9001:2015 Kwaliteitsmanagement",
+    "issuer": "Bureau Veritas",
+    "reference_number": "BE-QMS-2024-0892",
+    "scope": "Bouw, renovatie en facility management van residentiële, commerciële en publieke gebouwen",
+    "valid_from": "2024-03-15",
+    "valid_to": "2027-03-14",
+    "is_public": true,
+    "include_in_tender_pack": true
+  },
+  {
+    "id": "doc-002",
+    "doc_type": "vca",
+    "name": "VCA** Veiligheid Checklist Aannemers",
+    "issuer": "Vinçotte",
+    "reference_number": "VCA-2024-DE-RAEDT-001",
+    "scope": "Alle bouw- en renovatieactiviteiten",
+    "valid_from": "2024-06-01",
+    "valid_to": "2027-05-31",
+    "is_public": true,
+    "include_in_tender_pack": true
+  },
+  {
+    "id": "doc-003",
+    "doc_type": "co2",
+    "name": "CO₂-Prestatieladder Niveau 3",
+    "issuer": "SKAO (Stichting Klimaatvriendelijk Aanbesteden & Ondernemen)",
+    "reference_number": "CPL-3.1-2025-DERAEDT",
+    "scope": "Bouw/dak/infrastructuur + onderhoud/interventies/energetische renovaties",
+    "valid_from": "2025-08-04",
+    "valid_to": "2028-01-14",
+    "is_public": true,
+    "include_in_tender_pack": true,
+    "notes": "Niveau 3 bereikt. Actief CO2-reductieplan met jaarlijkse doelstellingen."
+  },
+  {
+    "id": "doc-004",
+    "doc_type": "erkenning",
+    "name": "Erkenning Klasse 6 - Categorie D",
+    "issuer": "FOD Economie",
+    "reference_number": "D-6-2024-DERAEDT",
+    "scope": "Algemene aanneming van bouwwerken",
+    "valid_from": "2024-01-01",
+    "valid_to": "2029-12-31",
+    "is_public": true,
+    "include_in_tender_pack": true
+  },
+  {
+    "id": "doc-005",
+    "doc_type": "erkenning",
+    "name": "Erkenning Klasse 4 - Subcategorie D8",
+    "issuer": "FOD Economie",
+    "reference_number": "D8-4-2024-DERAEDT",
+    "scope": "Dakbedekkingen en waterdichtingswerken",
+    "valid_from": "2024-01-01",
+    "valid_to": "2029-12-31",
+    "is_public": true,
+    "include_in_tender_pack": true
+  },
+  {
+    "id": "doc-006",
+    "doc_type": "insurance",
+    "name": "Burgerlijke Aansprakelijkheid Bouw",
+    "issuer": "AG Insurance",
+    "reference_number": "POL-BA-2024-892345",
+    "scope": "Alle bouw- en renovatieactiviteiten tot €5.000.000 per schadegeval",
+    "valid_from": "2025-01-01",
+    "valid_to": "2025-12-31",
+    "is_public": false,
+    "include_in_tender_pack": true,
+    "notes": "Jaarlijks te vernieuwen"
+  },
+  {
+    "id": "doc-007",
+    "doc_type": "insurance",
+    "name": "Tienjarige Aansprakelijkheid",
+    "issuer": "Protect NV",
+    "reference_number": "POL-10Y-2024-DERAEDT",
+    "scope": "Decennale verzekering conform wet Peeters-Borsus",
+    "valid_from": "2024-07-01",
+    "valid_to": "2025-06-30",
+    "is_public": false,
+    "include_in_tender_pack": true
+  },
+  {
+    "id": "doc-008",
+    "doc_type": "policy",
+    "name": "Veiligheidsbeleid en HSE-handboek",
+    "issuer": "De Raedt Ivan NV",
+    "reference_number": "HSE-2024-V3",
+    "scope": "Intern veiligheidsbeleid voor alle medewerkers en onderaannemers",
+    "valid_from": "2024-01-01",
+    "valid_to": "2026-12-31",
+    "is_public": false,
+    "include_in_tender_pack": false
+  }
+]

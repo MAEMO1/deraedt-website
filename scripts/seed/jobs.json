@@ -1,0 +1,97 @@
+[
+  {
+    "id": "job-001",
+    "title": "Werfleider",
+    "slug": "werfleider",
+    "department": "Bouw",
+    "employment_type": "full_time",
+    "location": "Oost-Vlaanderen",
+    "description": "Als werfleider bij De Raedt geef je leiding aan bouwprojecten van A tot Z. Je coördineert teams, bewaakt planning en budget, en bent het aanspreekpunt voor opdrachtgevers.",
+    "requirements": [
+      "Minimum 5 jaar ervaring als werfleider",
+      "Bachelor bouw of gelijkwaardig door ervaring",
+      "Rijbewijs B",
+      "Vlotte communicatie in het Nederlands",
+      "Ervaring met MS Project of gelijkaardige planning software"
+    ],
+    "benefits": [
+      "Competitief salaris met bedrijfswagen",
+      "Maaltijdcheques en groepsverzekering",
+      "Opleidingsbudget",
+      "Familiale werksfeer"
+    ],
+    "status": "published",
+    "published_at": "2025-12-01T09:00:00Z"
+  },
+  {
+    "id": "job-002",
+    "title": "Ervaren Metselaar",
+    "slug": "ervaren-metselaar",
+    "department": "Uitvoering",
+    "employment_type": "full_time",
+    "location": "Oost-Vlaanderen",
+    "description": "Wij zoeken een ervaren metselaar die passie heeft voor kwaliteitswerk. Je werkt aan diverse projecten: van nieuwbouw tot erfgoedrenovatie.",
+    "requirements": [
+      "Minimum 3 jaar ervaring als metselaar",
+      "Ervaring met traditioneel en decoratief metselwerk",
+      "Oog voor detail en afwerking",
+      "Teamspeler"
+    ],
+    "benefits": [
+      "Vast contract",
+      "Modern en veilig materiaal",
+      "Dagelijks vers fruit op de werf",
+      "Doorgroeimogelijkheden"
+    ],
+    "status": "published",
+    "published_at": "2025-11-15T09:00:00Z"
+  },
+  {
+    "id": "job-003",
+    "title": "Projectleider",
+    "slug": "projectleider",
+    "department": "Projectmanagement",
+    "employment_type": "full_time",
+    "location": "Zele (hoofdkantoor)",
+    "description": "Als projectleider coördineer je meerdere bouwprojecten simultaan. Je bent verantwoordelijk voor planning, budgetbewaking en klantrelaties.",
+    "requirements": [
+      "Master bouwkunde of burgerlijk ingenieur",
+      "Minimum 7 jaar ervaring in de bouwsector",
+      "Ervaring met aanbestedingen en publieke projecten is een plus",
+      "Sterke organisatorische skills",
+      "Uitstekende communicatieve vaardigheden"
+    ],
+    "benefits": [
+      "Competitief salarispakket",
+      "Bedrijfswagen en tankkaart",
+      "Smartphone en laptop",
+      "Flexibele werkuren",
+      "Bonus bij projectsucces"
+    ],
+    "status": "published",
+    "published_at": "2025-12-10T09:00:00Z"
+  },
+  {
+    "id": "job-004",
+    "title": "Dakwerker",
+    "slug": "dakwerker",
+    "department": "Dakwerken",
+    "employment_type": "full_time",
+    "location": "Oost-Vlaanderen",
+    "description": "Voor onze afdeling dakwerken zoeken we een ervaren dakwerker. Je voert dakbedekkingen uit met diverse materialen: leien, pannen, EPDM, etc.",
+    "requirements": [
+      "Minimum 2 jaar ervaring als dakwerker",
+      "Geen hoogtevrees",
+      "VCA-attest is een plus",
+      "Rijbewijs B"
+    ],
+    "benefits": [
+      "Vast contract na proefperiode",
+      "VCA-opleiding indien nodig",
+      "Hoogwaardige veiligheidsuitrusting",
+      "Teamactiviteiten"
+    ],
+    "status": "published",
+    "published_at": "2025-12-05T09:00:00Z"
+  }
+]

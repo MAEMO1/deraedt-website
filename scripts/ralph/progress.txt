@@ -11,3 +11,7 @@ Notes: Setup complete. Ready for first story.
 Status: DONE
 Notes: Added pnpm verify/typecheck scripts. Fixed 7 lint errors (unused imports, unescaped apostrophes). Lint + typecheck pass. Build requires network for Google Fonts.
 ---
+[FND-002] - Data layer + migrations + seed demo data
+Status: DONE
+Notes: Created 6 SQL migrations (profiles, leads, tenders, jobs, cases, compliance_docs). Updated lib/supabase/types.ts with all types. Created JSON seed data: 6 tenders, 10 leads, 4 jobs, 8 cases, 8 compliance docs.
+---

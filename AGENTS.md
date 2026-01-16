@@ -103,20 +103,29 @@ lib/
 - Use `cn()` from `@/lib/utils` for conditional classes
 - Design tokens in Tailwind config
 
-## Data Model (Planned)
+## Data Model (Implemented)
 
-### Core Entities
-- User, Role, Session
-- AuditLog
-- MediaAsset
-- Service, CaseStudy
-- ComplianceDoc
-- Lead, LeadNote
-- FacilityTicket, TicketUpdate
-- JobPosting, JobApplication
-- PartnerCompany, PartnerDocument
-- TenderNotice, TenderOpportunity, TenderDecision
-- Notification
+### Core Tables (see supabase/migrations/)
+- `profiles` — User roles (RBAC)
+- `leads` + `lead_notes` — Intake submissions
+- `tenders` — Tender opportunities with go/no-go workflow
+- `jobs` + `job_applications` — Vacancies and applications
+- `cases` — Case studies / referenties
+- `compliance_docs` — Certificates with expiry tracking
+
+### Views
+- `compliance_expiry_radar` — Documents expiring in 30/60/90 days
+
+### Types
+All types in `lib/supabase/types.ts` with helper exports.
+
+### Seed Data
+JSON seed files in `scripts/seed/`:
+- tenders.json (6 records)
+- leads.json (10 records)
+- jobs.json (4 records)
+- cases.json (8 records)
+- compliance_docs.json (8 records)
 
 ## Sales Narrative Hooks (UI → Value)
 
@@ -135,6 +144,13 @@ lib/
 - Added `pnpm typecheck` script
 - Fixed lint errors: unused imports, unescaped apostrophes
 - **Note:** Build requires network access to Google Fonts. In offline/sandbox environments, build may fail with TLS errors. Lint + typecheck still work offline.
+
+### 2026-01-16: Data layer setup (FND-002)
+- Created 6 SQL migration files in `supabase/migrations/`
+- Comprehensive TypeScript types in `lib/supabase/types.ts`
+- JSON seed data in `scripts/seed/` (6 tenders, 10 leads, 4 jobs, 8 cases, 8 compliance docs)
+- Created `compliance_expiry_radar` view for certificate monitoring
+- **Note:** Migrations require Supabase CLI. Seed data is JSON fallback for demos.
 
 ---
 _Last updated: 2026-01-16_

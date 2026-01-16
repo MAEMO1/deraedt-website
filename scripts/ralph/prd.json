@@ -29,10 +29,10 @@
         "Seed script exists in scripts/seed/",
         "Seed data includes 5+ tenders, 8+ leads, 3+ jobs, 6+ cases"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["supabase/migrations/", "scripts/seed/", "lib/supabase/"],
       "commands": ["pnpm supabase:migrate", "pnpm seed"],
-      "notes": "May need BLOCK if Supabase credentials not available - create JSON seed files as fallback"
+      "notes": "6 SQL migrations, TypeScript types, JSON seed data (6 tenders, 10 leads, 4 jobs, 8 cases, 8 compliance docs). Supabase CLI required for migrations."
     },
     {
       "id": "FND-003",
