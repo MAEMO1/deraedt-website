@@ -415,6 +415,64 @@ export interface Database {
         };
       };
 
+      // Media assets for uploaded files
+      media_assets: {
+        Row: {
+          id: string;
+          filename: string;
+          original_filename: string;
+          mime_type: string;
+          size_bytes: number;
+          storage_bucket: string;
+          storage_path: string;
+          public_url: string | null;
+          width: number | null;
+          height: number | null;
+          alt_text: string | null;
+          caption: string | null;
+          metadata: Json;
+          uploaded_by: string | null;
+          entity_type: string | null;
+          entity_id: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          filename: string;
+          original_filename: string;
+          mime_type: string;
+          size_bytes: number;
+          storage_path: string;
+          storage_bucket?: string;
+          public_url?: string | null;
+          width?: number | null;
+          height?: number | null;
+          alt_text?: string | null;
+          caption?: string | null;
+          metadata?: Json;
+          uploaded_by?: string | null;
+          entity_type?: string | null;
+          entity_id?: string | null;
+        };
+        Update: {
+          filename?: string;
+          original_filename?: string;
+          mime_type?: string;
+          size_bytes?: number;
+          storage_bucket?: string;
+          storage_path?: string;
+          public_url?: string | null;
+          width?: number | null;
+          height?: number | null;
+          alt_text?: string | null;
+          caption?: string | null;
+          metadata?: Json;
+          uploaded_by?: string | null;
+          entity_type?: string | null;
+          entity_id?: string | null;
+        };
+      };
+
       // Legacy tables (from original schema)
       clients: {
         Row: {
@@ -513,3 +571,4 @@ export type Job = Database['public']['Tables']['jobs']['Row'];
 export type JobApplication = Database['public']['Tables']['job_applications']['Row'];
 export type Case = Database['public']['Tables']['cases']['Row'];
 export type ComplianceDoc = Database['public']['Tables']['compliance_docs']['Row'];
+export type MediaAsset = Database['public']['Tables']['media_assets']['Row'];

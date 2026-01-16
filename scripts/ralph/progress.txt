@@ -19,3 +19,7 @@ Notes: Created 6 SQL migrations (profiles, leads, tenders, jobs, cases, complian
 Status: DONE
 Notes: Implemented Supabase Auth with magic link. Created middleware.ts to protect /dashboard routes. Created lib/supabase/auth.ts with RBAC utilities (hasRole, canAccessRoute, canPerformAction). Updated login page to use real Supabase Auth. Created auth callback route. Updated dashboard header with logout. Security review completed with GDPR DELETE policies added.
 ---
+[FND-004] - Uploads & media asset handling
+Status: DONE
+Notes: Created media_assets table migration. Implemented lib/supabase/storage.ts with upload utilities (validateFile, uploadFile, createMediaAsset, deleteFile). Created /api/upload route with file type/size validation. Supports images (jpg, png, gif, webp, svg) and documents (pdf, doc, docx, xls, xlsx, csv). 10MB default limit.
+---

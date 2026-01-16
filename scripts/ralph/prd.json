@@ -63,10 +63,10 @@
         "Files stored in Supabase Storage",
         "MediaAsset record created with metadata"
       ],
-      "passes": false,
-      "pathsTouched": ["app/api/upload/", "lib/supabase/storage.ts"],
+      "passes": true,
+      "pathsTouched": ["app/api/upload/", "lib/supabase/storage.ts", "supabase/migrations/00007_create_media_assets.sql"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Implemented storage utilities with file validation, upload to Supabase Storage, and media_assets table for tracking."
     },
     {
       "id": "FND-005",
