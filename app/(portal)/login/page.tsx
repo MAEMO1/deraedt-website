@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ import { Logo } from "@/components/shared/logo";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/dashboard";
   const authError = searchParams.get("error");
@@ -184,6 +184,33 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginPageSkeleton />}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginPageSkeleton() {
+  return (
+    <div className="flex min-h-screen">
+      <div className="flex w-full flex-col justify-center px-4 py-12 sm:px-6 lg:w-1/2 lg:px-20 xl:px-24">
+        <div className="mx-auto w-full max-w-sm">
+          <div className="h-8 w-32 animate-pulse rounded bg-gray-200" />
+          <div className="mt-8 space-y-4">
+            <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
+            <div className="h-4 w-64 animate-pulse rounded bg-gray-200" />
+            <div className="mt-8 h-12 w-full animate-pulse rounded bg-gray-200" />
+            <div className="h-12 w-full animate-pulse rounded bg-gray-200" />
+          </div>
+        </div>
+      </div>
+      <div className="hidden bg-[#1E3A5F] lg:block lg:w-1/2" />
     </div>
   );
 }
