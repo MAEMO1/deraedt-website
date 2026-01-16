@@ -271,10 +271,10 @@
         "Expiry radar: list docs expiring in 30/60/90 days",
         "Tender pack template: select docs to include in export"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/compliance/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created compliance vault with document list, expiry radar (30/60/90 days), document type filters, and tender pack selection/export feature."
     },
     {
       "id": "ADM-060",
