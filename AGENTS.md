@@ -31,8 +31,8 @@ pnpm dev
 # Lint (ESLint)
 pnpm lint
 
-# TypeCheck (momenteel niet als script, use directly)
-pnpm tsc --noEmit
+# TypeCheck
+pnpm typecheck
 
 # Build
 pnpm build
@@ -40,8 +40,8 @@ pnpm build
 # Tests (niet geconfigureerd - TODO: add vitest)
 # pnpm test
 
-# Verify (all checks)
-pnpm lint && pnpm tsc --noEmit && pnpm build
+# Verify (all checks: lint + typecheck + build)
+pnpm verify
 ```
 
 ## Tech Stack
@@ -130,7 +130,11 @@ lib/
 
 ## Discoveries Log
 
-_Append new discoveries here as you work._
+### 2026-01-16: Verification harness (FND-001)
+- Added `pnpm verify` script (lint + typecheck + build)
+- Added `pnpm typecheck` script
+- Fixed lint errors: unused imports, unescaped apostrophes
+- **Note:** Build requires network access to Google Fonts. In offline/sandbox environments, build may fail with TLS errors. Lint + typecheck still work offline.
 
 ---
 _Last updated: 2026-01-16_

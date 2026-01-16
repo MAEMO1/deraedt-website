@@ -7,3 +7,7 @@ This file tracks completed stories. Append-only.
 Status: DONE
 Notes: Setup complete. Ready for first story.
 ---
+[FND-001] - Verification harness setup
+Status: DONE
+Notes: Added pnpm verify/typecheck scripts. Fixed 7 lint errors (unused imports, unescaped apostrophes). Lint + typecheck pass. Build requires network for Google Fonts.
+---

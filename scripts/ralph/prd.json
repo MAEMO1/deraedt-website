@@ -13,10 +13,10 @@
         "pnpm verify passes without errors",
         "AGENTS.md documents all canonical commands"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["package.json", "AGENTS.md"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Lint + typecheck pass. Build requires network (Google Fonts). Fixed lint errors in werken-bij, about-teaser, procurement, over-ons, hero."
     },
     {
       "id": "FND-002",

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import {
-  Users,
   GraduationCap,
   Heart,
   TrendingUp,
@@ -196,7 +195,7 @@ export default function WerkenBijPage() {
               </div>
 
               <h2 className="heading-section text-[#0C0C0C]">
-                {STATS.employees} collega's,
+                {STATS.employees} collega&apos;s,
                 <br />één familie
               </h2>
 

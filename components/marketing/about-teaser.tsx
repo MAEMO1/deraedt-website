@@ -116,7 +116,7 @@ export function AboutTeaser() {
             {/* The 5 V's */}
             <div className="mt-14">
               <div className="text-[11px] text-white/30 uppercase tracking-[0.2em] mb-6 font-medium">
-                Onze Kernwaarden — De 5 V's
+                Onze Kernwaarden — De 5 V&apos;s
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {VALUES.map((value, index) => (
