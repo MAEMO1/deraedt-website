@@ -131,10 +131,10 @@
         "/projecten/[slug] shows case detail",
         "Cases data from Sanity or JSON seed"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(marketing)/projecten/", "lib/sanity/"],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/projecten/", "lib/constants.ts"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Already implemented with filterable listing, sector filters, detail pages with KPIs. Data from FEATURED_PROJECTS."
     },
     {
       "id": "PUB-040",
@@ -148,10 +148,10 @@
         "Confirmation shown after submit",
         "Document downloads section with placeholders"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(marketing)/procurement/"],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/procurement/documentatie/", "app/api/leads/route.ts"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created documentatie page with form, /api/leads endpoint, and documents list."
     },
     {
       "id": "PUB-050",

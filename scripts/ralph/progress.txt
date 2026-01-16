@@ -35,3 +35,11 @@ Notes: Created sitemap.ts with static pages + project detail pages. Created robo
 Status: DONE
 Notes: Created /diensten/bouw-renovatie page (nieuwbouw, renovatie, erfgoed) with service cards and scope boundaries (wat wel/niet). Created /diensten/facility page with raamcontracten, preventief onderhoud, interventies, technisch beheer. Both pages have CTAs to projectplanner and clear scope sections.
 ---
+[PUB-030] - Cases CMS model + listing + detail + filters
+Status: DONE
+Notes: Already implemented. /projecten has filterable listing by sector (erfgoed, onderwijs, zorg, residentieel, infrastructuur, overheid). /projecten/[slug] has detail with KPIs, challenge, approach, results sections. Data from FEATURED_PROJECTS with all required fields.
+---
+[PUB-040] - Procurement hub: Tender Pack request flow
+Status: DONE
+Notes: Created /procurement/documentatie with tender pack request form. Form captures: name, org, email, phone, purpose (aanbesteding/preselectie/raamcontract/other). Form submits to /api/leads creating lead record. Confirmation shown after submit. Documents list section shows available certificates.
+---
