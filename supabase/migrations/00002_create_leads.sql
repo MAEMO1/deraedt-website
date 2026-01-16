@@ -63,6 +63,23 @@ CREATE POLICY "Authenticated users can view lead notes" ON public.lead_notes
 CREATE POLICY "Authenticated users can insert lead notes" ON public.lead_notes
   FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 
+-- Delete policies (for data cleanup and GDPR compliance)
+CREATE POLICY "Staff can delete leads" ON public.leads
+  FOR DELETE USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role IN ('DIRECTIE', 'ADMIN')
+    )
+  );
+
+CREATE POLICY "Staff can delete lead notes" ON public.lead_notes
+  FOR DELETE USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role IN ('DIRECTIE', 'SALES', 'ADMIN')
+    )
+  );
+
 -- Indexes
 CREATE INDEX leads_status_idx ON public.leads(status);
 CREATE INDEX leads_type_idx ON public.leads(lead_type);

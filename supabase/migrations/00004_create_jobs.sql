@@ -101,6 +101,15 @@ CREATE POLICY "Staff can update applications" ON public.job_applications
     )
   );
 
+-- Delete policy for GDPR compliance (right to erasure)
+CREATE POLICY "Staff can delete applications" ON public.job_applications
+  FOR DELETE USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role IN ('DIRECTIE', 'HR', 'ADMIN')
+    )
+  );
+
 -- Indexes
 CREATE INDEX jobs_status_idx ON public.jobs(status);
 CREATE INDEX jobs_slug_idx ON public.jobs(slug);
