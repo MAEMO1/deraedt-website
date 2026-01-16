@@ -324,10 +324,10 @@
         "SLA overdue highlighting",
         "Assignment to team member"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/facility/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created facility desk with ticket list sorted by urgency/SLA. Full status workflow, SLA overdue highlighting (red row), assignment dropdown, ticket detail modal with notes/photos."
     },
     {
       "id": "ADM-090",
