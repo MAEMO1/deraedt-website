@@ -289,10 +289,10 @@
         "Application detail with CV download",
         "Retention policy setting (default 12 months)"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/recruitment/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created recruitment hub with jobs/applications tabs, CRUD stubs, application detail modal with status workflow, CV download, and GDPR retention policy settings."
     },
     {
       "id": "ADM-070",
