@@ -415,6 +415,51 @@ export interface Database {
         };
       };
 
+      // Audit logs for tracking events
+      audit_logs: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          user_email: string | null;
+          user_role: string | null;
+          action: 'LOGIN' | 'LOGOUT' | 'LOGIN_FAILED' | 'CREATE' | 'UPDATE' | 'DELETE' | 'VIEW' | 'DOWNLOAD' | 'EXPORT' | 'STATUS_CHANGE' | 'ASSIGNMENT';
+          entity_type: string | null;
+          entity_id: string | null;
+          entity_name: string | null;
+          metadata: Json;
+          changes: Json | null;
+          ip_address: string | null;
+          user_agent: string | null;
+          created_at: string;
+        };
+        Insert: {
+          user_id?: string | null;
+          user_email?: string | null;
+          user_role?: string | null;
+          action: 'LOGIN' | 'LOGOUT' | 'LOGIN_FAILED' | 'CREATE' | 'UPDATE' | 'DELETE' | 'VIEW' | 'DOWNLOAD' | 'EXPORT' | 'STATUS_CHANGE' | 'ASSIGNMENT';
+          entity_type?: string | null;
+          entity_id?: string | null;
+          entity_name?: string | null;
+          metadata?: Json;
+          changes?: Json | null;
+          ip_address?: string | null;
+          user_agent?: string | null;
+        };
+        Update: {
+          user_id?: string | null;
+          user_email?: string | null;
+          user_role?: string | null;
+          action?: 'LOGIN' | 'LOGOUT' | 'LOGIN_FAILED' | 'CREATE' | 'UPDATE' | 'DELETE' | 'VIEW' | 'DOWNLOAD' | 'EXPORT' | 'STATUS_CHANGE' | 'ASSIGNMENT';
+          entity_type?: string | null;
+          entity_id?: string | null;
+          entity_name?: string | null;
+          metadata?: Json;
+          changes?: Json | null;
+          ip_address?: string | null;
+          user_agent?: string | null;
+        };
+      };
+
       // Media assets for uploaded files
       media_assets: {
         Row: {

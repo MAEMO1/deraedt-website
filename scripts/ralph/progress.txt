@@ -23,3 +23,7 @@ Notes: Implemented Supabase Auth with magic link. Created middleware.ts to prote
 Status: DONE
 Notes: Created media_assets table migration. Implemented lib/supabase/storage.ts with upload utilities (validateFile, uploadFile, createMediaAsset, deleteFile). Created /api/upload route with file type/size validation. Supports images (jpg, png, gif, webp, svg) and documents (pdf, doc, docx, xls, xlsx, csv). 10MB default limit.
 ---
+[FND-005] - Audit log basis
+Status: DONE
+Notes: Created audit_logs table with database triggers for automatic logging. Actions: LOGIN, LOGOUT, LOGIN_FAILED, CREATE, UPDATE, DELETE, VIEW, DOWNLOAD, EXPORT, STATUS_CHANGE, ASSIGNMENT. Created lib/audit.ts with helper functions (logLogin, logLogout, logView, logDownload, getAuditLogs, getEntityAuditHistory). Triggers auto-log leads, tenders, jobs, job_applications, cases, compliance_docs.
+---

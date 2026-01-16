@@ -80,10 +80,10 @@
         "Log includes: user_id, action, entity, entity_id, timestamp, metadata",
         "Audit log viewable in admin (later story)"
       ],
-      "passes": false,
-      "pathsTouched": ["lib/audit.ts", "supabase/migrations/"],
+      "passes": true,
+      "pathsTouched": ["lib/audit.ts", "supabase/migrations/00008_create_audit_log.sql"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Implemented DB triggers for automatic logging on all core tables. Helper functions in lib/audit.ts."
     },
     {
       "id": "PUB-010",
