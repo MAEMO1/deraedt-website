@@ -182,10 +182,10 @@
         "Success confirmation shown",
         "Lead visible in admin (after ADM-020)"
       ],
-      "passes": false,
-      "pathsTouched": ["app/(marketing)/contact/", "app/api/leads/"],
+      "passes": true,
+      "pathsTouched": ["app/(marketing)/contact/", "app/api/contact/route.ts", "lib/validations/contact.ts"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Updated contact form to create lead records. Added organisation field. Lead type mapped from contact subject (raamcontract→procurement, offerte→project, etc.). Zod validation with full CONTACT_SUBJECTS alignment."
     },
     {
       "id": "ADM-010",

@@ -34,6 +34,7 @@ export default function ContactPage() {
     resolver: zodResolver(contactSchema),
     defaultValues: {
       naam: "",
+      organisatie: "",
       email: "",
       telefoon: "",
       onderwerp: undefined,
@@ -238,6 +239,21 @@ export default function ContactPage() {
                     </div>
 
                     <div>
+                      <Label htmlFor="organisatie">Organisatie</Label>
+                      <Input
+                        id="organisatie"
+                        {...register("organisatie")}
+                        className="mt-2"
+                        placeholder="Bedrijf of instelling"
+                      />
+                      {errors.organisatie && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {errors.organisatie.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
                       <Label htmlFor="email">
                         Email <span className="text-red-500">*</span>
                       </Label>
@@ -271,7 +287,7 @@ export default function ContactPage() {
                       )}
                     </div>
 
-                    <div>
+                    <div className="md:col-span-2">
                       <Label htmlFor="onderwerp">
                         Onderwerp <span className="text-red-500">*</span>
                       </Label>
