@@ -21,9 +21,21 @@ import {
   Check,
   AlertTriangle,
   FileText,
+  Send,
+  RefreshCw,
+  CheckCircle,
+  XCircle,
+  Loader2,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile } from '@/lib/supabase/types';
+import {
+  publishToVDAB,
+  getVDABSyncStatus,
+  validateForVDAB,
+  type VDABSyncStatus,
+  type InternalJob,
+} from '@/lib/adapters/vdab';
 
 // Import seed data for demo
 import jobsData from '@/scripts/seed/jobs.json';
@@ -162,6 +174,8 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [applications, setApplications] = useState<Application[]>(mockApplications);
   const [retentionMonths, setRetentionMonths] = useState(12);
+  const [vdabSyncStatuses, setVdabSyncStatuses] = useState<Map<string, VDABSyncStatus>>(new Map());
+  const [publishingJobId, setPublishingJobId] = useState<string | null>(null);
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -256,6 +270,43 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
       user: user.email,
       timestamp: new Date().toISOString(),
     });
+  };
+
+  const handlePublishToVDAB = async (job: Job) => {
+    // Validate job
+    const validation = validateForVDAB(job as InternalJob);
+    if (!validation.valid) {
+      alert(`Kan niet publiceren naar VDAB:\n\n${validation.errors.join('\n')}`);
+      return;
+    }
+
+    setPublishingJobId(job.id);
+
+    try {
+      const result = await publishToVDAB(job as InternalJob);
+
+      if (result.success) {
+        // Update sync status
+        setVdabSyncStatuses((prev) => {
+          const next = new Map(prev);
+          next.set(job.id, getVDABSyncStatus(job.id));
+          return next;
+        });
+
+        alert(`Vacature gepubliceerd naar VDAB!\n\nVDAB ID: ${result.vdabId}\n\n(Dit is een stub - in productie wordt de vacature daadwerkelijk gepubliceerd)`);
+      } else {
+        alert(`Fout bij publiceren naar VDAB:\n\n${result.message}`);
+      }
+    } catch (error) {
+      console.error('[VDAB PUBLISH ERROR]', error);
+      alert('Er is een fout opgetreden bij het publiceren naar VDAB.');
+    } finally {
+      setPublishingJobId(null);
+    }
+  };
+
+  const getVdabStatusForJob = (jobId: string): VDABSyncStatus => {
+    return vdabSyncStatuses.get(jobId) || { jobId, status: 'not_synced' };
   };
 
   // Stats
@@ -401,6 +452,7 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
                       <th className="p-4 text-xs font-semibold text-[#6B6560] uppercase">Locatie</th>
                       <th className="p-4 text-xs font-semibold text-[#6B6560] uppercase">Type</th>
                       <th className="p-4 text-xs font-semibold text-[#6B6560] uppercase">Status</th>
+                      <th className="p-4 text-xs font-semibold text-[#6B6560] uppercase">VDAB</th>
                       <th className="p-4 text-xs font-semibold text-[#6B6560] uppercase">Sollicitaties</th>
                       <th className="p-4 text-xs font-semibold text-[#6B6560] uppercase"></th>
                     </tr>
@@ -438,6 +490,67 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
                             <span className={`text-xs px-2 py-1 rounded border ${jobStatusColors[job.status]}`}>
                               {jobStatusLabels[job.status]}
                             </span>
+                          </td>
+                          <td className="p-4">
+                            {(() => {
+                              const vdabStatus = getVdabStatusForJob(job.id);
+                              const isPublishing = publishingJobId === job.id;
+
+                              if (isPublishing) {
+                                return (
+                                  <span className="flex items-center gap-1 text-xs text-amber-600">
+                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                    Publiceren...
+                                  </span>
+                                );
+                              }
+
+                              if (vdabStatus.status === 'synced') {
+                                return (
+                                  <div className="flex items-center gap-2">
+                                    <span className="flex items-center gap-1 text-xs text-green-600">
+                                      <CheckCircle className="w-3 h-3" />
+                                      Gesynchroniseerd
+                                    </span>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handlePublishToVDAB(job);
+                                      }}
+                                      className="p-1 hover:bg-[#0C0C0C]/5 rounded"
+                                      title="Opnieuw synchroniseren"
+                                    >
+                                      <RefreshCw className="w-3 h-3 text-[#6B6560]" />
+                                    </button>
+                                  </div>
+                                );
+                              }
+
+                              if (vdabStatus.status === 'error') {
+                                return (
+                                  <span className="flex items-center gap-1 text-xs text-red-600">
+                                    <XCircle className="w-3 h-3" />
+                                    Fout
+                                  </span>
+                                );
+                              }
+
+                              // not_synced
+                              return (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePublishToVDAB(job);
+                                  }}
+                                  disabled={job.status !== 'published'}
+                                  className="flex items-center gap-1 text-xs text-[#9A6B4C] hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline"
+                                  title={job.status !== 'published' ? 'Vacature moet gepubliceerd zijn' : 'Publiceer naar VDAB'}
+                                >
+                                  <Send className="w-3 h-3" />
+                                  Naar VDAB
+                                </button>
+                              );
+                            })()}
                           </td>
                           <td className="p-4">
                             <span className="text-sm text-[#0C0C0C]">{jobApplications.length}</span>

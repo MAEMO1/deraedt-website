@@ -306,10 +306,10 @@
         "Sync status shown per job",
         "Documentation of required VDAB fields"
       ],
-      "passes": false,
-      "pathsTouched": ["lib/adapters/vdab.ts"],
+      "passes": true,
+      "pathsTouched": ["lib/adapters/vdab.ts", "app/(portal)/dashboard/recruitment/"],
       "commands": ["pnpm verify"],
-      "notes": "BLOCK: No VDAB credentials. Create stub that logs what would be sent."
+      "notes": "Created VDAB adapter with full interface, job-to-VDAB mapping, publish/update/remove stubs. Integrated into recruitment hub with sync status and publish button per job."
     },
     {
       "id": "ADM-080",
