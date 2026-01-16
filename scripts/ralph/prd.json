@@ -360,10 +360,10 @@
         "Job views vs applications",
         "Data from analytics events table"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/analytics/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created analytics dashboard with KPI tiles (leads, response time, tender win rate, pipeline value), leads per month bar chart, job views vs applications, lead conversion funnel, top pages, and performance highlights."
     }
   ]
 }
