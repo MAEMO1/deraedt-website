@@ -218,10 +218,10 @@
         "Add notes to lead",
         "Set next action date (reminder)"
       ],
-      "passes": false,
+      "passes": true,
       "pathsTouched": ["app/(portal)/dashboard/leads/"],
       "commands": ["pnpm verify"],
-      "notes": ""
+      "notes": "Created lead hub with pipeline and list views. Detail modal with contact info, assignment dropdown, notes, and next action date. Actions logged to console."
     },
     {
       "id": "ADM-030",
