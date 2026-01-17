@@ -1,172 +1,146 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { Building2, Hammer, Landmark, Wrench, ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import Link from "next/link";
-import { useRef } from "react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import { SERVICES, COMPANY } from "@/lib/constants";
 
-const iconMap = {
-  Building2,
-  Hammer,
-  Landmark,
-  Wrench,
+// Service images mapping
+const serviceImages: Record<string, string> = {
+  nieuwbouw: "/images/original-site/heroimage-scaled-1.jpg",
+  renovatie: "/images/original-site/IMG_20230615_0957592-ps-scaled.jpg",
+  erfgoed: "/images/original-site/refcase-02-scaled.jpg",
+  facility: "/images/original-site/team-collage.jpg",
 };
 
-function ServiceCard({
-  service,
-  index,
-}: {
-  service: (typeof SERVICES)[number];
-  index: number;
-}) {
-  const Icon = iconMap[service.icon as keyof typeof iconMap];
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const number = String(index + 1).padStart(2, "0");
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <Link
-        href={`/diensten/${service.id}`}
-        className="group block h-full"
-      >
-        <article className="relative h-full bg-white p-8 sm:p-10 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(12,12,12,0.08)] border border-transparent hover:border-[#9A6B4C]/10">
-          {/* Top row - number and icon */}
-          <div className="flex items-start justify-between mb-10">
-            <span className="font-display text-6xl text-[#0C0C0C]/[0.06] group-hover:text-[#9A6B4C]/20 transition-colors duration-500">
-              {number}
-            </span>
-            <div className="w-14 h-14 flex items-center justify-center border border-[#0C0C0C]/10 text-[#6B6560] transition-all duration-500 group-hover:border-[#9A6B4C] group-hover:bg-[#9A6B4C] group-hover:text-white">
-              <Icon className="w-5 h-5" />
-            </div>
-          </div>
-
-          {/* Content */}
-          <h3 className="font-display text-2xl sm:text-3xl text-[#0C0C0C] group-hover:text-[#1A2F42] transition-colors duration-300">
-            {service.title}
-          </h3>
-          <p className="mt-4 text-[#6B6560] leading-relaxed">
-            {service.description}
-          </p>
-
-          {/* Link */}
-          <div className="mt-8 flex items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#6B6560] group-hover:text-[#9A6B4C] transition-colors duration-300">
-              Meer info
-            </span>
-            <ArrowRight className="w-4 h-4 text-[#6B6560] group-hover:text-[#9A6B4C] transition-all duration-300 group-hover:translate-x-1" />
-          </div>
-
-          {/* Bottom accent line */}
-          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#9A6B4C] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-        </article>
-      </Link>
-    </motion.div>
-  );
-}
-
 export function Services() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const ctaRef = useRef<HTMLDivElement>(null);
-  const isCtaInView = useInView(ctaRef, { once: true, margin: "-100px" });
+  const isCtaInView = useInView(ctaRef, { once: true, margin: "-50px" });
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
 
   return (
-    <section className="section-spacing bg-[#FAF7F2] relative">
-      {/* Subtle pattern */}
-      <div className="absolute inset-0 grid-blueprint opacity-50" />
-
-      <div className="container-wide relative">
-        {/* Section Header */}
-        <motion.header
-          ref={headerRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-20"
-        >
-          {/* Overline */}
-          <div className="flex items-center gap-4 mb-6">
-            <motion.span
-              initial={{ scaleX: 0 }}
-              animate={isHeaderInView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="h-px w-12 bg-[#9A6B4C] origin-left"
-            />
-            <span className="label-overline">Expertise</span>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-            <h2 className="heading-section text-[#0C0C0C]">
-              Onze diensten
-            </h2>
-            <p className="max-w-md text-[#6B6560] leading-relaxed lg:text-right">
-              Van monumentale erfgoedrenovatie tot innovatieve nieuwbouw —
-              generaties vakmanschap met hedendaagse technieken.
-            </p>
-          </div>
-        </motion.header>
-
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {SERVICES.map((service, index) => (
-            <ServiceCard key={service.id} service={service} index={index} />
+    <section ref={sectionRef} className="bg-white">
+      {/* Main Services Section */}
+      <div className="grid lg:grid-cols-2">
+        {/* Left side - Image */}
+        <div className="relative h-[400px] lg:h-auto lg:min-h-[600px] overflow-hidden">
+          {/* Background images that fade in/out */}
+          {SERVICES.map((service) => (
+            <div
+              key={service.id}
+              className={`absolute inset-0 transition-opacity duration-700 ${
+                hoveredService === service.id || (!hoveredService && service.id === "nieuwbouw")
+                  ? "opacity-100"
+                  : "opacity-0"
+              }`}
+            >
+              <Image
+                src={serviceImages[service.id]}
+                alt={service.title}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-[#112337]/30" />
+            </div>
           ))}
+
+          {/* Overlay content */}
+          <div className="absolute inset-0 flex items-end p-8 lg:p-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">
+                Expertise
+              </span>
+              <h2 className="mt-3 text-4xl lg:text-5xl font-bold text-white leading-tight">
+                Onze
+                <br />
+                diensten
+              </h2>
+            </motion.div>
+          </div>
         </div>
 
-        {/* CTA Banner */}
-        <motion.div
-          ref={ctaRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-24 sm:mt-32"
-        >
-          <div className="relative overflow-hidden bg-[#0C0C0C] p-12 sm:p-16 lg:p-20">
-            {/* Background texture */}
-            <div className="absolute inset-0 texture-stone opacity-50" />
-
-            {/* Corner accents */}
-            <div className="absolute top-6 right-6 w-12 h-12 border-t border-r border-[#9A6B4C]/20" />
-            <div className="absolute bottom-6 left-6 w-12 h-12 border-b border-l border-[#9A6B4C]/20" />
-
-            <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-              <div className="max-w-xl">
-                <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-[-0.01em]">
-                  Klaar om te bouwen?
-                </h3>
-                <p className="mt-4 text-white/40 leading-relaxed">
-                  Neem contact op voor een vrijblijvend gesprek over uw bouwplannen.
-                  Wij denken graag met u mee — van concept tot oplevering.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
+        {/* Right side - Service list */}
+        <div className="bg-[#F5F5F5]">
+          <div className="h-full flex flex-col">
+            {SERVICES.map((service, index) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <Link
-                  href="/contact"
-                  className="group inline-flex items-center justify-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#BA8B6C]"
+                  href={`/diensten/${service.id}`}
+                  className="group block border-b border-[#112337]/10 last:border-b-0"
+                  onMouseEnter={() => setHoveredService(service.id)}
+                  onMouseLeave={() => setHoveredService(null)}
                 >
-                  <span>Contact</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  <div className="flex items-center justify-between p-8 lg:p-10 transition-all duration-300 group-hover:bg-white group-hover:pl-12">
+                    <div className="flex-1">
+                      <h3 className="text-2xl lg:text-3xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
+                        {service.title}
+                      </h3>
+                      <p className="mt-2 text-[#686E77] text-sm lg:text-base max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {service.description}
+                      </p>
+                    </div>
+                    <div className="ml-6 w-12 h-12 rounded-full bg-transparent group-hover:bg-[#204CE5] flex items-center justify-center transition-all duration-300">
+                      <ArrowRight className="w-5 h-5 text-[#112337]/30 group-hover:text-white transition-colors duration-300" />
+                    </div>
+                  </div>
                 </Link>
-                <a
-                  href={`tel:${COMPANY.contact.phone}`}
-                  className="group inline-flex items-center justify-center gap-3 border border-white/20 text-white px-8 py-4 text-sm font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/30"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>{COMPANY.contact.phone}</span>
-                </a>
-              </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Banner */}
+      <motion.div
+        ref={ctaRef}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="bg-[#112337]"
+      >
+        <div className="container-wide py-16 lg:py-20">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <div className="max-w-xl">
+              <h3 className="text-3xl sm:text-4xl font-bold text-white">
+                Klaar om te bouwen?
+              </h3>
+              <p className="mt-4 text-white/60 text-lg">
+                Neem contact op voor een vrijblijvend gesprek over uw bouwplannen.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-[#204CE5] text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-lg"
+              >
+                <span>Contact</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href={`tel:${COMPANY.contact.phone}`}
+                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-white/20"
+              >
+                <Phone className="w-4 h-4" />
+                <span>{COMPANY.contact.phone}</span>
+              </a>
             </div>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

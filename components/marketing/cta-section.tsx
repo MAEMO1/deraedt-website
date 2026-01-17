@@ -7,13 +7,13 @@ import { COMPANY } from "@/lib/constants";
 
 export function CTASection() {
   return (
-    <section className="relative overflow-hidden bg-white py-24 md:py-32">
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 grid-blueprint opacity-20" />
-
-      {/* Decorative elements */}
-      <div className="absolute top-12 left-12 w-24 h-24 border-t border-l border-[#9A6B4C]/10 hidden lg:block" />
-      <div className="absolute bottom-12 right-12 w-24 h-24 border-b border-r border-[#9A6B4C]/10 hidden lg:block" />
+    <section className="relative overflow-hidden bg-[#112337] py-24 md:py-32">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+      </div>
 
       <div className="container-wide relative">
         <motion.div
@@ -23,15 +23,16 @@ export function CTASection() {
           transition={{ duration: 0.5 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#9A6B4C]">
+          <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
             Start vandaag
           </span>
 
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl text-[#0C0C0C] leading-[0.95] tracking-[-0.02em]">
-            Klaar om te bouwen?
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+            Klaar om te <span className="text-[#204CE5]">bouwen</span>?
           </h2>
 
-          <p className="mx-auto mt-6 max-w-xl text-lg text-[#6B6560] font-serif font-light">
+          <p className="mx-auto mt-6 max-w-xl text-lg text-white/60 leading-relaxed">
             Neem vandaag nog contact met ons op voor een vrijblijvend gesprek
             over uw project. Wij denken graag met u mee.
           </p>
@@ -39,14 +40,14 @@ export function CTASection() {
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-[#7A5339] shadow-lg shadow-[#9A6B4C]/15"
+              className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30"
             >
-              <span>Neem Contact Op</span>
+              <span>Neem contact op</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
             <a
               href={`tel:${COMPANY.contact.phone}`}
-              className="group inline-flex items-center gap-3 border-2 border-[#0C0C0C]/10 text-[#0C0C0C] px-8 py-4 font-medium text-sm tracking-wide transition-all duration-300 hover:border-[#9A6B4C] hover:text-[#9A6B4C]"
+              className="group inline-flex items-center gap-3 bg-white/10 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-white/20"
             >
               <Phone className="w-4 h-4" />
               {COMPANY.contact.phone}

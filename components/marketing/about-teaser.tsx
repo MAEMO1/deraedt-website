@@ -20,16 +20,9 @@ export function AboutTeaser() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-32 sm:py-40 bg-white overflow-hidden">
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 grid-blueprint opacity-30" />
-
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-20 w-32 h-32 border-t border-r border-[#9A6B4C]/10 hidden lg:block" />
-      <div className="absolute bottom-20 left-20 w-24 h-24 border-b border-l border-[#9A6B4C]/10 hidden lg:block" />
-
-      <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-20 relative">
-        <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-center">
+    <section ref={ref} className="section-spacing bg-white overflow-hidden">
+      <div className="container-wide">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Image Side */}
           <motion.div
             initial={{ opacity: 0, x: -80 }}
@@ -37,15 +30,13 @@ export function AboutTeaser() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
               <Image
                 src="/images/original-site/team-photo-max.jpg"
                 alt="De Raedt team"
                 fill
                 className="object-cover"
               />
-              {/* Subtle warm overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2]/30 to-transparent" />
             </div>
 
             {/* Floating experience card */}
@@ -53,32 +44,22 @@ export function AboutTeaser() {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute -bottom-10 -right-6 lg:-right-16 bg-white p-10 shadow-2xl border border-[#0C0C0C]/5"
+              className="absolute -bottom-8 -right-4 lg:-right-12 bg-[#112337] text-white p-8 rounded-2xl shadow-2xl"
             >
-              <div className="text-7xl lg:text-8xl font-display text-[#0C0C0C] leading-none">
-                {STATS.yearsExperience}
+              <div className="text-6xl lg:text-7xl font-bold leading-none">
+                {STATS.yearsExperience}<span className="text-[#204CE5]">+</span>
               </div>
-              <div className="mt-3 text-xs text-[#6B6560] uppercase tracking-[0.2em] font-medium">
-                Jaar Erfgoed
+              <div className="mt-2 text-xs text-white/60 uppercase tracking-wider">
+                Jaar Ervaring
               </div>
-              <div className="mt-6 pt-6 border-t border-[#0C0C0C]/10">
-                <div className="text-3xl font-display text-[#9A6B4C]">
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <div className="text-2xl font-bold text-[#204CE5]">
                   {COMPANY.founded}
                 </div>
-                <div className="text-[10px] text-[#6B6560] uppercase tracking-[0.15em]">
+                <div className="text-xs text-white/60 uppercase tracking-wider">
                   Opgericht
                 </div>
               </div>
-            </motion.div>
-
-            {/* Corner accent */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="absolute top-8 left-8 w-20 h-20"
-            >
-              <div className="w-12 h-12 border-t border-l border-[#9A6B4C]/40" />
             </motion.div>
           </motion.div>
 
@@ -88,53 +69,42 @@ export function AboutTeaser() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Overline */}
-            <div className="flex items-center gap-4 mb-8">
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="h-px w-16 bg-[#9A6B4C] origin-left"
-              />
-              <span className="text-[#9A6B4C] text-xs font-semibold tracking-[0.3em] uppercase">
-                Over Ons
-              </span>
-            </div>
+            <span className="label-overline">Over Ons</span>
 
-            <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl text-[#0C0C0C] leading-[0.95] tracking-[-0.02em]">
+            <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] leading-tight">
               Vakmanschap
               <br />
-              <span className="text-[#9A6B4C]">sinds 1930</span>
+              <span className="text-[#204CE5]">sinds 1930</span>
             </h2>
 
-            <p className="mt-10 text-lg text-[#6B6560] leading-relaxed max-w-xl font-serif font-light">
+            <p className="mt-8 text-lg text-[#686E77] leading-relaxed max-w-xl">
               Al {STATS.yearsExperience} jaar bouwt De Raedt mee aan de toekomst van België.
               Als warm familiebedrijf combineren wij traditioneel vakmanschap met
               innovatieve technieken — van erfgoedrenovatie tot moderne nieuwbouw.
             </p>
 
             {/* The 5 V's */}
-            <div className="mt-14">
-              <div className="text-[11px] text-[#6B6560] uppercase tracking-[0.2em] mb-6 font-medium">
+            <div className="mt-12">
+              <div className="text-sm text-[#686E77] font-semibold mb-6">
                 Onze Kernwaarden — De 5 V&apos;s
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {VALUES.map((value, index) => (
                   <motion.div
                     key={value.word}
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6, delay: 0.6 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                    className="group flex items-start gap-4 py-4 border-b border-[#0C0C0C]/5 hover:border-[#9A6B4C]/30 transition-colors duration-500"
+                    className="group flex items-start gap-4 p-4 rounded-xl bg-[#F5F5F5] hover:bg-[#204CE5]/5 transition-colors duration-300"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C] text-sm font-semibold transition-all duration-500 group-hover:bg-[#9A6B4C] group-hover:text-white">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#204CE5]/10 text-[#204CE5] text-sm font-bold transition-all duration-300 group-hover:bg-[#204CE5] group-hover:text-white">
                       {value.letter}
                     </span>
                     <div>
-                      <span className="block text-sm font-medium text-[#0C0C0C] group-hover:text-[#9A6B4C] transition-colors">
+                      <span className="block text-sm font-semibold text-[#112337] group-hover:text-[#204CE5] transition-colors">
                         {value.word}
                       </span>
-                      <span className="text-xs text-[#6B6560] mt-0.5 block">
+                      <span className="text-xs text-[#686E77] mt-0.5 block">
                         {value.description}
                       </span>
                     </div>
@@ -148,18 +118,14 @@ export function AboutTeaser() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-14"
+              className="mt-12"
             >
               <Link
                 href="/over-ons"
-                className="group inline-flex items-center gap-4"
+                className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30"
               >
-                <span className="text-sm font-semibold uppercase tracking-[0.15em] text-[#6B6560] group-hover:text-[#9A6B4C] transition-colors duration-500">
-                  Ontdek Ons Verhaal
-                </span>
-                <div className="flex items-center justify-center w-12 h-12 border border-[#0C0C0C]/10 text-[#6B6560] transition-all duration-500 group-hover:bg-[#9A6B4C] group-hover:border-[#9A6B4C] group-hover:text-white">
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
-                </div>
+                <span>Ontdek ons verhaal</span>
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </motion.div>
           </motion.div>

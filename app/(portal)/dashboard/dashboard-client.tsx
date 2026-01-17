@@ -5,15 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import {
   FileText,
-  Clock,
   TrendingUp,
   AlertTriangle,
   Download,
   ChevronRight,
   Target,
   Users,
-  Shield,
-  Calendar,
   Building2,
   Wrench,
   Handshake,
@@ -21,7 +18,6 @@ import {
   ArrowUpRight,
   Bell,
   Check,
-  Zap,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile } from '@/lib/supabase/types';

@@ -125,39 +125,36 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isReversed ? "lg:flex-row-reverse" : ""}`}
     >
       {/* Image */}
-      <div className={`relative aspect-[4/3] image-reveal ${isReversed ? "lg:order-2" : ""}`}>
+      <div className={`relative aspect-[4/3] rounded-2xl overflow-hidden ${isReversed ? "lg:order-2" : ""}`}>
         <Image
           src={service.image}
           alt={service.title}
           fill
           className="object-cover"
         />
-        {/* Corner accents */}
-        <div className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-[#9A6B4C]/30" />
-        <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-2 border-r-2 border-[#9A6B4C]/30" />
       </div>
 
       {/* Content */}
       <div className={isReversed ? "lg:order-1" : ""}>
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-12 h-12 flex items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#204CE5]/10 text-[#204CE5]">
             <Icon className="w-5 h-5" />
           </div>
-          <span className="label-overline">{service.subtitle}</span>
+          <span className="text-sm font-semibold text-[#204CE5] uppercase tracking-wider">{service.subtitle}</span>
         </div>
 
-        <h3 className="font-display text-4xl sm:text-5xl text-[#0C0C0C]">
+        <h3 className="text-4xl sm:text-5xl font-bold text-[#112337]">
           {service.title}
         </h3>
 
-        <p className="mt-6 text-[#6B6560] leading-relaxed">
+        <p className="mt-6 text-[#686E77] leading-relaxed">
           {service.description}
         </p>
 
         <ul className="mt-8 space-y-3">
           {service.features.map((feature) => (
-            <li key={feature} className="flex items-center gap-3 text-[#0C0C0C]">
-              <CheckCircle className="w-5 h-5 text-[#9A6B4C] flex-shrink-0" />
+            <li key={feature} className="flex items-center gap-3 text-[#112337]">
+              <CheckCircle className="w-5 h-5 text-[#204CE5] flex-shrink-0" />
               <span className="text-sm">{feature}</span>
             </li>
           ))}
@@ -166,7 +163,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         <div className="mt-10">
           <Link
             href="/projectplanner"
-            className="group inline-flex items-center gap-3 bg-[#0C0C0C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#9A6B4C]"
+            className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
           >
             Offerte aanvragen
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -185,16 +182,16 @@ export default function DienstenPage() {
   return (
     <>
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-[60vh] bg-[#0C0C0C] flex items-end">
+      <section ref={heroRef} className="relative min-h-[60vh] bg-[#112337] flex items-end">
         <div className="absolute inset-0">
           <Image
             src="/images/original-site/Foto-Stadhuis-Brussel.png"
             alt="Stadhuis Brussel"
             fill
-            className="object-cover image-cinematic opacity-40"
+            className="object-cover opacity-40"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C] via-[#0C0C0C]/70 to-[#0C0C0C]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#112337] via-[#112337]/70 to-[#112337]/40" />
         </div>
 
         <div className="container-wide relative pb-20 pt-48">
@@ -204,16 +201,16 @@ export default function DienstenPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-3xl"
           >
-            <div className="flex items-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Onze Expertise</span>
-            </div>
+            <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              Onze Expertise
+            </span>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-white leading-[0.95] tracking-[-0.02em]">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
               Diensten
             </h1>
 
-            <p className="mt-8 text-lg sm:text-xl text-white/50 leading-relaxed max-w-xl font-serif font-light">
+            <p className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-xl">
               Van monumentale erfgoedrenovatie tot innovatieve nieuwbouw —
               generaties vakmanschap met hedendaagse technieken.
             </p>
@@ -222,10 +219,8 @@ export default function DienstenPage() {
       </section>
 
       {/* Services List */}
-      <section className="section-spacing bg-[#FAF7F2] relative">
-        <div className="absolute inset-0 grid-blueprint opacity-40" />
-
-        <div className="container-wide relative space-y-32">
+      <section className="section-spacing bg-[#F5F5F5]">
+        <div className="container-wide space-y-32">
           {services.map((service, index) => (
             <ServiceCard key={service.id} service={service} index={index} />
           ))}
@@ -233,7 +228,7 @@ export default function DienstenPage() {
       </section>
 
       {/* Work Process */}
-      <section ref={processRef} className="section-spacing bg-white relative">
+      <section ref={processRef} className="section-spacing bg-white">
         <div className="container-wide">
           <motion.header
             initial={{ opacity: 0, y: 40 }}
@@ -241,15 +236,11 @@ export default function DienstenPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Onze Werkwijze</span>
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-            </div>
-            <h2 className="heading-section text-[#0C0C0C]">
-              Van plan tot oplevering
+            <span className="label-overline">Onze Werkwijze</span>
+            <h2 className="mt-4 heading-lg">
+              Van plan tot <span className="text-[#204CE5]">oplevering</span>
             </h2>
-            <p className="mt-6 text-[#6B6560] max-w-2xl mx-auto">
+            <p className="mt-4 text-[#686E77] max-w-2xl mx-auto">
               Een transparant proces met duidelijke communicatie. U weet altijd waar u aan toe bent.
             </p>
           </motion.header>
@@ -265,13 +256,13 @@ export default function DienstenPage() {
               >
                 {/* Connector line */}
                 {index < workProcess.length - 1 && (
-                  <div className="hidden md:block absolute top-8 left-full w-full h-px bg-[#0C0C0C]/10 -translate-x-4" />
+                  <div className="hidden md:block absolute top-8 left-full w-full h-px bg-[#204CE5]/20 -translate-x-4" />
                 )}
 
                 <div className="text-center">
-                  <div className="font-display text-5xl text-[#0C0C0C]/10 mb-4">{step.step}</div>
-                  <h3 className="font-display text-xl text-[#0C0C0C] mb-3">{step.title}</h3>
-                  <p className="text-sm text-[#6B6560] leading-relaxed">{step.description}</p>
+                  <div className="w-16 h-16 rounded-full bg-[#204CE5]/10 text-[#204CE5] flex items-center justify-center mx-auto mb-4 text-2xl font-bold">{step.step}</div>
+                  <h3 className="text-xl font-bold text-[#112337] mb-3">{step.title}</h3>
+                  <p className="text-sm text-[#686E77] leading-relaxed">{step.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -280,22 +271,19 @@ export default function DienstenPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-[#0C0C0C] relative">
-        <div className="absolute inset-0 texture-stone opacity-30" />
-
-        <div className="container-wide relative">
+      <section className="py-24 bg-[#112337]">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="flex items-center gap-4 mb-6">
-                <span className="h-px w-12 bg-[#9A6B4C]" />
-                <span className="label-overline">Start Uw Project</span>
-              </div>
+              <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+                Start Uw Project
+              </span>
 
-              <h2 className="font-display text-4xl sm:text-5xl text-white leading-[0.95]">
-                Klaar om te beginnen?
+              <h2 className="text-4xl sm:text-5xl font-bold text-white leading-tight">
+                Klaar om te <span className="text-[#204CE5]">beginnen</span>?
               </h2>
 
-              <p className="mt-6 text-white/50 leading-relaxed max-w-lg">
+              <p className="mt-6 text-white/60 leading-relaxed max-w-lg">
                 Plan uw project met onze gratis projectplanner. Binnen 48 uur ontvangt u
                 een vrijblijvende offerte van ons team.
               </p>
@@ -303,14 +291,14 @@ export default function DienstenPage() {
               <div className="mt-10 flex flex-wrap gap-4">
                 <Link
                   href="/projectplanner"
-                  className="group inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#BA8B6C]"
+                  className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
                 >
                   Start projectplanner
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <a
                   href={`tel:${COMPANY.contact.phone}`}
-                  className="group inline-flex items-center gap-3 border border-white/20 text-white px-8 py-4 text-sm font-medium transition-all duration-300 hover:bg-white/5"
+                  className="group inline-flex items-center gap-3 bg-white/10 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-white/20"
                 >
                   <Phone className="w-4 h-4" />
                   {COMPANY.contact.phone}
@@ -319,8 +307,8 @@ export default function DienstenPage() {
             </div>
 
             <div className="relative">
-              <div className="bg-white/5 p-10 border border-white/10">
-                <h3 className="font-display text-2xl text-white mb-6">Waarom De Raedt?</h3>
+              <div className="bg-white/5 backdrop-blur-sm p-10 rounded-2xl border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-6">Waarom De Raedt?</h3>
                 <ul className="space-y-4">
                   {[
                     "96 jaar ervaring in de bouwsector",
@@ -330,15 +318,12 @@ export default function DienstenPage() {
                     "Transparante prijzen, geen verrassingen",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-white/70">
-                      <CheckCircle className="w-5 h-5 text-[#9A6B4C] flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-[#204CE5] flex-shrink-0" />
                       <span className="text-sm">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              {/* Corner accents */}
-              <div className="absolute -top-3 -right-3 w-12 h-12 border-t border-r border-[#9A6B4C]/30" />
-              <div className="absolute -bottom-3 -left-3 w-12 h-12 border-b border-l border-[#9A6B4C]/30" />
             </div>
           </div>
         </div>

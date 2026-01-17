@@ -61,18 +61,18 @@ export default function OverOnsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-[70vh] bg-[#0C0C0C] flex items-end">
+      <section ref={heroRef} className="relative min-h-[70vh] bg-[#112337] flex items-end">
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
             src="/images/original-site/team-collage.jpg"
             alt="Team De Raedt aan het werk"
             fill
-            className="object-cover image-cinematic"
+            className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C] via-[#0C0C0C]/60 to-[#0C0C0C]/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0C]/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#112337] via-[#112337]/60 to-[#112337]/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#112337]/80 to-transparent" />
         </div>
 
         {/* Content */}
@@ -83,19 +83,18 @@ export default function OverOnsPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-3xl"
           >
-            {/* Overline */}
-            <div className="flex items-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Over Ons</span>
-            </div>
+            <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              Over Ons
+            </span>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-white leading-[0.95] tracking-[-0.02em]">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
               {STATS.yearsExperience} jaar
               <br />
-              <span className="text-heritage-gradient">vakmanschap</span>
+              <span className="text-[#204CE5]">vakmanschap</span>
             </h1>
 
-            <p className="mt-8 text-lg sm:text-xl text-white/50 leading-relaxed max-w-xl font-serif font-light">
+            <p className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-xl">
               Sinds {COMPANY.founded} bouwt De Raedt mee aan de toekomst van België.
               Drie generaties vakmanschap, innovatie en toewijding.
             </p>
@@ -110,10 +109,10 @@ export default function OverOnsPage() {
           >
             {teamStats.map((stat) => (
               <div key={stat.label} className="md:px-8 first:md:pl-0 last:md:pr-0">
-                <div className="font-display text-4xl lg:text-5xl text-white">
-                  {stat.value}<span className="text-[#9A6B4C]">{stat.suffix}</span>
+                <div className="text-4xl lg:text-5xl font-bold text-white">
+                  {stat.value}<span className="text-[#204CE5]">{stat.suffix}</span>
                 </div>
-                <div className="mt-1 text-[11px] text-white/40 uppercase tracking-[0.2em]">
+                <div className="mt-1 text-xs text-white/40 uppercase tracking-wider">
                   {stat.label}
                 </div>
               </div>
@@ -123,17 +122,15 @@ export default function OverOnsPage() {
       </section>
 
       {/* Story Section */}
-      <section ref={storyRef} className="section-spacing bg-[#FAF7F2] relative">
-        <div className="absolute inset-0 grid-blueprint opacity-40" />
-
-        <div className="container-wide relative">
+      <section ref={storyRef} className="section-spacing bg-[#F5F5F5]">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Image */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={isStoryInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative aspect-[4/5] image-reveal"
+              className="relative aspect-[4/5] rounded-2xl overflow-hidden"
             >
               <Image
                 src="/images/original-site/Justitiepaleis-Dendermonde.jpg"
@@ -142,9 +139,9 @@ export default function OverOnsPage() {
                 className="object-cover"
               />
               {/* Floating stat card */}
-              <div className="absolute -bottom-8 -right-8 bg-white p-8 shadow-xl">
-                <div className="font-display text-5xl text-[#0C0C0C]">1930</div>
-                <div className="text-[11px] text-[#9A6B4C] uppercase tracking-[0.2em] mt-1">Opgericht</div>
+              <div className="absolute -bottom-6 -right-6 bg-[#112337] text-white p-8 rounded-2xl shadow-2xl">
+                <div className="text-5xl font-bold">1930</div>
+                <div className="text-xs text-[#204CE5] uppercase tracking-wider mt-1">Opgericht</div>
               </div>
             </motion.div>
 
@@ -154,17 +151,14 @@ export default function OverOnsPage() {
               animate={isStoryInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <span className="h-px w-12 bg-[#9A6B4C]" />
-                <span className="label-overline">Ons Verhaal</span>
-              </div>
+              <span className="label-overline">Ons Verhaal</span>
 
-              <h2 className="heading-section text-[#0C0C0C]">
+              <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-[#112337] leading-tight">
                 Drie generaties
-                <br />bouwen aan België
+                <br />bouwen aan <span className="text-[#204CE5]">België</span>
               </h2>
 
-              <div className="mt-8 space-y-6 text-[#6B6560] leading-relaxed">
+              <div className="mt-8 space-y-6 text-[#686E77] leading-relaxed">
                 <p>
                   Wat begon als een klein familiebedrijf in Zele, is uitgegroeid tot een
                   gerenommeerd bouwbedrijf met meer dan {STATS.employees} medewerkers.
@@ -183,11 +177,11 @@ export default function OverOnsPage() {
               </div>
 
               {/* Certifications */}
-              <div className="mt-10 flex items-center gap-6 pt-8 border-t border-[#0C0C0C]/10">
+              <div className="mt-10 flex items-center gap-6 pt-8 border-t border-[#112337]/10">
                 {CERTIFICATIONS.map((cert) => (
                   <div key={cert.id} className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-[#9A6B4C]" />
-                    <span className="text-sm font-semibold text-[#0C0C0C]">{cert.name}</span>
+                    <Award className="w-5 h-5 text-[#204CE5]" />
+                    <span className="text-sm font-semibold text-[#112337]">{cert.name}</span>
                   </div>
                 ))}
               </div>
@@ -197,7 +191,7 @@ export default function OverOnsPage() {
       </section>
 
       {/* Timeline Section */}
-      <section ref={timelineRef} className="section-spacing bg-white relative">
+      <section ref={timelineRef} className="section-spacing bg-white">
         <div className="container-wide">
           <motion.header
             initial={{ opacity: 0, y: 40 }}
@@ -205,20 +199,16 @@ export default function OverOnsPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Onze Geschiedenis</span>
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-            </div>
-            <h2 className="heading-section text-[#0C0C0C]">
-              Mijlpalen door de jaren
+            <span className="label-overline">Onze Geschiedenis</span>
+            <h2 className="mt-4 heading-lg">
+              Mijlpalen door de <span className="text-[#204CE5]">jaren</span>
             </h2>
           </motion.header>
 
           {/* Timeline */}
           <div className="relative max-w-4xl mx-auto">
             {/* Center line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-[#0C0C0C]/10 md:-translate-x-px" />
+            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-[#204CE5]/20 md:-translate-x-px" />
 
             {timeline.map((item, index) => (
               <motion.div
@@ -232,15 +222,15 @@ export default function OverOnsPage() {
               >
                 {/* Content */}
                 <div className={`ml-20 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"}`}>
-                  <div className="bg-[#FAF7F2] p-8 hover:shadow-lg transition-shadow duration-300">
-                    <div className="font-display text-3xl text-[#9A6B4C]">{item.year}</div>
-                    <h3 className="mt-2 font-display text-xl text-[#0C0C0C]">{item.title}</h3>
-                    <p className="mt-3 text-[#6B6560] text-sm leading-relaxed">{item.description}</p>
+                  <div className="bg-[#F5F5F5] p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div className="text-3xl font-bold text-[#204CE5]">{item.year}</div>
+                    <h3 className="mt-2 text-xl font-bold text-[#112337]">{item.title}</h3>
+                    <p className="mt-3 text-[#686E77] text-sm leading-relaxed">{item.description}</p>
                   </div>
                 </div>
 
                 {/* Dot */}
-                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-[#9A6B4C] -translate-x-1/2 mt-8" />
+                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-[#204CE5] rounded-full -translate-x-1/2 mt-8" />
               </motion.div>
             ))}
           </div>
@@ -248,23 +238,19 @@ export default function OverOnsPage() {
       </section>
 
       {/* Values Section */}
-      <section ref={valuesRef} className="section-spacing bg-[#0C0C0C] relative">
-        <div className="absolute inset-0 texture-stone opacity-30" />
-
-        <div className="container-wide relative">
+      <section ref={valuesRef} className="section-spacing bg-[#112337]">
+        <div className="container-wide">
           <motion.header
             initial={{ opacity: 0, y: 40 }}
             animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Onze Waarden</span>
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-            </div>
-            <h2 className="heading-section text-white">
-              Waar wij voor staan
+            <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              Onze Waarden
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              Waar wij voor <span className="text-[#204CE5]">staan</span>
             </h2>
           </motion.header>
 
@@ -277,12 +263,12 @@ export default function OverOnsPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group p-8 bg-white/5 hover:bg-white/10 transition-colors duration-300"
+                  className="group p-8 bg-white/5 rounded-xl hover:bg-white/10 transition-colors duration-300"
                 >
-                  <div className="w-14 h-14 flex items-center justify-center bg-[#9A6B4C]/20 text-[#9A6B4C] mb-6 transition-colors duration-300 group-hover:bg-[#9A6B4C] group-hover:text-white">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-[#204CE5]/20 text-[#204CE5] mb-6 transition-all duration-300 group-hover:bg-[#204CE5] group-hover:text-white">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="font-display text-2xl text-white">{value.title}</h3>
+                  <h3 className="text-2xl font-bold text-white">{value.title}</h3>
                   <p className="mt-4 text-white/50 text-sm leading-relaxed">
                     {value.description.replace("{years}", String(STATS.yearsExperience))}
                   </p>
@@ -294,27 +280,22 @@ export default function OverOnsPage() {
       </section>
 
       {/* Team Section */}
-      <section ref={teamRef} className="section-spacing bg-[#FAF7F2] relative">
-        <div className="absolute inset-0 pattern-diagonal" />
-
-        <div className="container-wide relative">
+      <section ref={teamRef} className="section-spacing bg-[#F5F5F5]">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={isTeamInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <span className="h-px w-12 bg-[#9A6B4C]" />
-                <span className="label-overline">Ons Team</span>
-              </div>
+              <span className="label-overline">Ons Team</span>
 
-              <h2 className="heading-section text-[#0C0C0C]">
+              <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-[#112337] leading-tight">
                 Vakmannen met
-                <br />passie voor bouwen
+                <br />passie voor <span className="text-[#204CE5]">bouwen</span>
               </h2>
 
-              <p className="mt-8 text-[#6B6560] leading-relaxed max-w-lg">
+              <p className="mt-8 text-[#686E77] leading-relaxed max-w-lg">
                 Ons team van meer dan 40 vakmannen brengt decennia aan ervaring samen.
                 Van metselaars tot projectmanagers, iedereen deelt dezelfde passie voor
                 kwaliteit en vakmanschap.
@@ -323,14 +304,14 @@ export default function OverOnsPage() {
               <div className="mt-10 flex flex-wrap gap-4">
                 <Link
                   href="/werken-bij"
-                  className="group inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#7A5339]"
+                  className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
                 >
                   Bekijk vacatures
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-3 border border-[#0C0C0C]/20 text-[#0C0C0C] px-8 py-4 text-sm font-medium transition-all duration-300 hover:bg-[#0C0C0C] hover:text-white hover:border-[#0C0C0C]"
+                  className="inline-flex items-center gap-3 bg-white text-[#112337] px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#112337] hover:text-white"
                 >
                   Neem contact op
                 </Link>
@@ -343,7 +324,7 @@ export default function OverOnsPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="aspect-square relative image-reveal">
+              <div className="aspect-square relative rounded-2xl overflow-hidden">
                 <Image
                   src="/images/original-site/IMG_20230615_0957592-ps-scaled.jpg"
                   alt="Team De Raedt"
@@ -351,9 +332,6 @@ export default function OverOnsPage() {
                   className="object-cover"
                 />
               </div>
-              {/* Corner accent */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-[#9A6B4C]/30" />
-              <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-[#9A6B4C]/30" />
             </motion.div>
           </div>
         </div>
@@ -362,33 +340,27 @@ export default function OverOnsPage() {
       {/* CTA Section */}
       <section className="py-24 bg-white">
         <div className="container-wide">
-          <div className="relative bg-[#0C0C0C] p-12 sm:p-16 lg:p-20 overflow-hidden">
-            <div className="absolute inset-0 texture-stone opacity-30" />
-            <div className="absolute top-6 right-6 w-16 h-16 border-t border-r border-[#9A6B4C]/20" />
-            <div className="absolute bottom-6 left-6 w-16 h-16 border-b border-l border-[#9A6B4C]/20" />
-
-            <div className="relative text-center max-w-2xl mx-auto">
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white">
-                Klaar om te bouwen?
-              </h2>
-              <p className="mt-6 text-white/40 leading-relaxed">
-                Neem contact op voor een vrijblijvend gesprek over uw bouwplannen.
-              </p>
-              <div className="mt-10 flex flex-wrap justify-center gap-4">
-                <Link
-                  href="/projectplanner"
-                  className="group inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#BA8B6C]"
-                >
-                  Start uw project
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-3 border border-white/20 text-white px-8 py-4 text-sm font-medium transition-all duration-300 hover:bg-white/5"
-                >
-                  Contact opnemen
-                </Link>
-              </div>
+          <div className="relative bg-[#112337] p-12 sm:p-16 lg:p-20 rounded-2xl overflow-hidden text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              Klaar om te <span className="text-[#204CE5]">bouwen</span>?
+            </h2>
+            <p className="mt-6 text-white/60 leading-relaxed max-w-xl mx-auto">
+              Neem contact op voor een vrijblijvend gesprek over uw bouwplannen.
+            </p>
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <Link
+                href="/projectplanner"
+                className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
+              >
+                Start uw project
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-3 bg-white/10 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-white/20"
+              >
+                Contact opnemen
+              </Link>
             </div>
           </div>
         </div>

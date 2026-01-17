@@ -34,17 +34,17 @@ function ProjectCard({
       className={`group relative ${aspectClasses[layout]}`}
     >
       <Link href={`/projecten/${project.slug}`} className="block h-full">
-        <div className="relative h-full overflow-hidden bg-[#0C0C0C]">
+        <div className="relative h-full overflow-hidden rounded-xl bg-[#112337]">
           {/* Image */}
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover image-cinematic transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+            className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
           />
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C]/95 via-[#0C0C0C]/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#112337]/95 via-[#112337]/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
 
           {/* Content */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
@@ -55,15 +55,14 @@ function ProjectCard({
               transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
               className="mb-3"
             >
-              <span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9A6B4C]">
-                <span className="w-3 h-px bg-[#9A6B4C]" />
+              <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white text-xs font-medium px-3 py-1 rounded-full">
                 {project.category}
               </span>
             </motion.div>
 
             {/* Title */}
             <h3
-              className={`font-display text-white leading-[1.1] tracking-[-0.01em] transition-colors duration-300 ${
+              className={`font-bold text-white leading-[1.1] transition-colors duration-300 ${
                 layout === "featured"
                   ? "text-2xl sm:text-3xl md:text-4xl"
                   : layout === "wide"
@@ -75,27 +74,22 @@ function ProjectCard({
             </h3>
 
             {/* Client */}
-            <p className="mt-2 text-sm text-white/50">{project.client}</p>
+            <p className="mt-2 text-sm text-white/60">{project.client}</p>
 
             {/* Description - only on featured/wide */}
             {(layout === "featured" || layout === "wide") && (
-              <p className="mt-3 max-w-md text-sm text-white/40 leading-relaxed hidden sm:block">
+              <p className="mt-3 max-w-md text-sm text-white/50 leading-relaxed hidden sm:block">
                 {project.description}
               </p>
             )}
 
             {/* View link */}
             <div className="mt-5 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/60">
+              <span className="text-xs font-semibold text-[#204CE5]">
                 Bekijk project
               </span>
-              <ArrowUpRight className="w-3 h-3 text-white/60" />
+              <ArrowUpRight className="w-4 h-4 text-[#204CE5]" />
             </div>
-          </div>
-
-          {/* Corner accent on hover */}
-          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="w-8 h-8 border-t border-r border-[#9A6B4C]/40" />
           </div>
         </div>
       </Link>
@@ -108,11 +102,8 @@ export function FeaturedProjects() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
   return (
-    <section className="section-spacing bg-white relative">
-      {/* Subtle diagonal pattern */}
-      <div className="absolute inset-0 pattern-diagonal" />
-
-      <div className="container-wide relative">
+    <section className="section-spacing bg-white">
+      <div className="container-wide">
         {/* Section Header */}
         <motion.header
           ref={headerRef}
@@ -122,33 +113,18 @@ export function FeaturedProjects() {
           className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16"
         >
           <div>
-            {/* Overline */}
-            <div className="flex items-center gap-4 mb-6">
-              <motion.span
-                initial={{ scaleX: 0 }}
-                animate={isHeaderInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="h-px w-12 bg-[#9A6B4C] origin-left"
-              />
-              <span className="label-overline">Portfolio</span>
-            </div>
-
-            {/* Title */}
-            <h2 className="heading-section text-[#0C0C0C]">
-              Recente realisaties
+            <span className="label-overline">Portfolio</span>
+            <h2 className="mt-4 heading-lg">
+              Recente <span className="text-[#204CE5]">realisaties</span>
             </h2>
           </div>
 
           <Link
             href="/projecten"
-            className="group inline-flex items-center gap-4 text-[#0C0C0C] hover:text-[#9A6B4C] transition-colors duration-300"
+            className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-lg"
           >
-            <span className="text-sm font-semibold uppercase tracking-[0.12em]">
-              Alle projecten
-            </span>
-            <div className="flex items-center justify-center w-10 h-10 border border-current transition-all duration-300 group-hover:bg-[#9A6B4C] group-hover:border-[#9A6B4C] group-hover:text-white">
-              <ArrowRight className="w-4 h-4" />
-            </div>
+            <span>Alle projecten</span>
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.header>
 

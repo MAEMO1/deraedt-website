@@ -149,16 +149,16 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] bg-[#0C0C0C] flex items-end">
+      <section className="relative min-h-[50vh] bg-[#112337] flex items-end">
         <div className="absolute inset-0">
           <Image
             src="/images/original-site/team-collage.jpg"
             alt="Team De Raedt"
             fill
-            className="object-cover image-cinematic opacity-30"
+            className="object-cover opacity-30"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C] via-[#0C0C0C]/70 to-[#0C0C0C]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#112337] via-[#112337]/70 to-[#112337]/40" />
         </div>
 
         <div className="container-wide relative pb-16 pt-40">
@@ -175,12 +175,11 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
               <span className="text-sm">Alle vacatures</span>
             </Link>
 
-            <div className="flex items-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">{job.department}</span>
+            <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              {job.department}
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-[0.95] tracking-[-0.02em]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
               {job.title}
             </h1>
 
@@ -203,10 +202,8 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
       </section>
 
       {/* Content */}
-      <section className="section-spacing bg-[#FAF7F2] relative">
-        <div className="absolute inset-0 grid-blueprint opacity-40" />
-
-        <div className="container-wide relative">
+      <section className="section-spacing bg-[#F5F5F5]">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-12">
@@ -216,10 +213,10 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="font-display text-2xl text-[#0C0C0C] mb-6">
+                <h2 className="text-2xl font-bold text-[#112337] mb-6">
                   Over deze functie
                 </h2>
-                <p className="text-[#6B6560] leading-relaxed text-lg">
+                <p className="text-[#686E77] leading-relaxed text-lg">
                   {job.description}
                 </p>
               </motion.div>
@@ -231,15 +228,15 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <Target className="w-5 h-5 text-[#9A6B4C]" />
-                  <h2 className="font-display text-2xl text-[#0C0C0C]">
+                  <Target className="w-5 h-5 text-[#204CE5]" />
+                  <h2 className="text-2xl font-bold text-[#112337]">
                     Wat wij verwachten
                   </h2>
                 </div>
                 <ul className="space-y-3">
                   {job.requirements.map((req) => (
-                    <li key={req} className="flex items-start gap-3 text-[#6B6560]">
-                      <CheckCircle className="w-5 h-5 text-[#9A6B4C] flex-shrink-0 mt-0.5" />
+                    <li key={req} className="flex items-start gap-3 text-[#686E77]">
+                      <CheckCircle className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
                       <span>{req}</span>
                     </li>
                   ))}
@@ -253,15 +250,15 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <Gift className="w-5 h-5 text-[#9A6B4C]" />
-                  <h2 className="font-display text-2xl text-[#0C0C0C]">
+                  <Gift className="w-5 h-5 text-[#204CE5]" />
+                  <h2 className="text-2xl font-bold text-[#112337]">
                     Wat wij bieden
                   </h2>
                 </div>
                 <ul className="space-y-3">
                   {job.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-3 text-[#6B6560]">
-                      <CheckCircle className="w-5 h-5 text-[#9A6B4C] flex-shrink-0 mt-0.5" />
+                    <li key={benefit} className="flex items-start gap-3 text-[#686E77]">
+                      <CheckCircle className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
                       <span>{benefit}</span>
                     </li>
                   ))}
@@ -276,8 +273,8 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
               transition={{ duration: 0.6, delay: 0.3 }}
               className="lg:sticky lg:top-8 h-fit"
             >
-              <div className="bg-white p-8 shadow-lg">
-                <h3 className="font-display text-2xl text-[#0C0C0C] mb-6">
+              <div className="bg-white rounded-xl p-8 shadow-lg">
+                <h3 className="text-2xl font-bold text-[#112337] mb-6">
                   Solliciteer nu
                 </h3>
 
@@ -286,15 +283,15 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="w-8 h-8 text-green-600" />
                     </div>
-                    <h4 className="font-display text-xl text-[#0C0C0C] mb-2">
+                    <h4 className="text-xl font-bold text-[#112337] mb-2">
                       Bedankt voor uw sollicitatie!
                     </h4>
-                    <p className="text-[#6B6560] text-sm">
+                    <p className="text-[#686E77] text-sm">
                       U ontvangt binnenkort een bevestiging per email. Wij nemen zo snel mogelijk contact met u op.
                     </p>
                     <Link
                       href="/werken-bij"
-                      className="inline-flex items-center gap-2 text-[#9A6B4C] hover:underline mt-6"
+                      className="inline-flex items-center gap-2 text-[#204CE5] hover:underline mt-6"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       Terug naar vacatures
@@ -304,14 +301,14 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     {/* Name */}
                     <div>
-                      <label htmlFor="full_name" className="block text-sm font-medium text-[#0C0C0C] mb-2">
+                      <label htmlFor="full_name" className="block text-sm font-medium text-[#112337] mb-2">
                         Naam *
                       </label>
                       <input
                         id="full_name"
                         type="text"
                         {...register('full_name')}
-                        className="w-full px-4 py-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors"
                         placeholder="Uw volledige naam"
                       />
                       {errors.full_name && (
@@ -321,14 +318,14 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
 
                     {/* Email */}
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-[#0C0C0C] mb-2">
+                      <label htmlFor="email" className="block text-sm font-medium text-[#112337] mb-2">
                         Email *
                       </label>
                       <input
                         id="email"
                         type="email"
                         {...register('email')}
-                        className="w-full px-4 py-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors"
                         placeholder="uw.email@voorbeeld.be"
                       />
                       {errors.email && (
@@ -338,26 +335,26 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
 
                     {/* Phone */}
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-[#0C0C0C] mb-2">
+                      <label htmlFor="phone" className="block text-sm font-medium text-[#112337] mb-2">
                         Telefoon
                       </label>
                       <input
                         id="phone"
                         type="tel"
                         {...register('phone')}
-                        className="w-full px-4 py-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors"
                         placeholder="+32 xxx xx xx xx"
                       />
                     </div>
 
                     {/* CV Upload */}
                     <div>
-                      <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
+                      <label className="block text-sm font-medium text-[#112337] mb-2">
                         CV (PDF of Word)
                       </label>
-                      <label className="flex items-center justify-center gap-3 px-4 py-6 border-2 border-dashed border-[#0C0C0C]/10 hover:border-[#9A6B4C] cursor-pointer transition-colors">
-                        <Upload className="w-5 h-5 text-[#6B6560]" />
-                        <span className="text-sm text-[#6B6560]">
+                      <label className="flex items-center justify-center gap-3 px-4 py-6 border-2 border-dashed border-[#112337]/10 rounded-xl hover:border-[#204CE5] cursor-pointer transition-colors">
+                        <Upload className="w-5 h-5 text-[#686E77]" />
+                        <span className="text-sm text-[#686E77]">
                           {cvFile ? cvFile.name : 'Klik om te uploaden'}
                         </span>
                         <input
@@ -367,19 +364,19 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                           className="hidden"
                         />
                       </label>
-                      <p className="mt-1 text-xs text-[#6B6560]">Max 10MB</p>
+                      <p className="mt-1 text-xs text-[#686E77]">Max 10MB</p>
                     </div>
 
                     {/* Motivation */}
                     <div>
-                      <label htmlFor="cover_letter" className="block text-sm font-medium text-[#0C0C0C] mb-2">
+                      <label htmlFor="cover_letter" className="block text-sm font-medium text-[#112337] mb-2">
                         Motivatie
                       </label>
                       <textarea
                         id="cover_letter"
                         {...register('cover_letter')}
                         rows={4}
-                        className="w-full px-4 py-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none transition-colors resize-none"
+                        className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors resize-none"
                         placeholder="Vertel ons waarom u geïnteresseerd bent..."
                       />
                     </div>
@@ -390,11 +387,11 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                         <input
                           type="checkbox"
                           {...register('gdpr_consent')}
-                          className="mt-1 w-4 h-4 border-[#0C0C0C]/20 text-[#9A6B4C] focus:ring-[#9A6B4C]"
+                          className="mt-1 w-4 h-4 rounded border-[#112337]/20 text-[#204CE5] focus:ring-[#204CE5]"
                         />
-                        <span className="text-xs text-[#6B6560]">
+                        <span className="text-xs text-[#686E77]">
                           Ik ga akkoord met de{' '}
-                          <Link href="/privacy" className="text-[#9A6B4C] hover:underline">
+                          <Link href="/privacy" className="text-[#204CE5] hover:underline">
                             privacyverklaring
                           </Link>
                           . Mijn gegevens worden 12 maanden bewaard conform GDPR. *
@@ -407,7 +404,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
 
                     {/* Error message */}
                     {submitError && (
-                      <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-600 text-sm">
+                      <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
                         <AlertCircle className="w-4 h-4 flex-shrink-0" />
                         {submitError}
                       </div>
@@ -417,7 +414,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#BA8B6C] disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full flex items-center justify-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>
@@ -433,11 +430,11 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                     </button>
 
                     {/* Alternative contact */}
-                    <p className="text-center text-xs text-[#6B6560]">
+                    <p className="text-center text-xs text-[#686E77]">
                       Of mail uw sollicitatie naar{' '}
                       <a
                         href={`mailto:${COMPANY.contact.jobs}`}
-                        className="text-[#9A6B4C] hover:underline"
+                        className="text-[#204CE5] hover:underline"
                       >
                         {COMPANY.contact.jobs}
                       </a>

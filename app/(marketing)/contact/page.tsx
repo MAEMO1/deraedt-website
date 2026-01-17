@@ -80,9 +80,7 @@ export default function ContactPage() {
   // Success screen
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center px-6 pt-32">
-        <div className="absolute inset-0 grid-blueprint opacity-30" />
-
+      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-6 pt-32">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -93,29 +91,27 @@ export default function ContactPage() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 150, damping: 15 }}
-            className="w-20 h-20 mx-auto mb-10 rounded-full bg-[#9A6B4C]/10 flex items-center justify-center"
+            className="w-20 h-20 mx-auto mb-10 rounded-full bg-[#204CE5]/10 flex items-center justify-center"
           >
-            <Check className="w-8 h-8 text-[#9A6B4C]" strokeWidth={1.5} />
+            <Check className="w-8 h-8 text-[#204CE5]" strokeWidth={1.5} />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex items-center justify-center gap-4 mb-6"
           >
-            <span className="h-px w-12 bg-[#9A6B4C]/30" />
-            <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#9A6B4C]">
+            <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <span className="w-2 h-2 bg-white rounded-full" />
               Bericht verzonden
             </span>
-            <span className="h-px w-12 bg-[#9A6B4C]/30" />
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="font-display text-5xl sm:text-6xl text-[#0C0C0C] tracking-[-0.02em]"
+            className="text-5xl sm:text-6xl font-bold text-[#112337]"
           >
             Bedankt
           </motion.h1>
@@ -124,9 +120,9 @@ export default function ContactPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mt-6 text-lg text-[#6B6560]"
+            className="mt-6 text-lg text-[#686E77]"
           >
-            Wij nemen binnen <span className="text-[#9A6B4C] font-medium">24 uur</span> contact met u op.
+            Wij nemen binnen <span className="text-[#204CE5] font-semibold">24 uur</span> contact met u op.
           </motion.p>
 
           <motion.div
@@ -137,14 +133,14 @@ export default function ContactPage() {
           >
             <Link
               href="/"
-              className="group inline-flex items-center justify-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-[#7A5339] shadow-lg shadow-[#9A6B4C]/15"
+              className="group inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
             >
               <span>Naar home</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <button
               onClick={() => setIsSuccess(false)}
-              className="inline-flex items-center justify-center gap-3 border-2 border-[#0C0C0C]/10 text-[#0C0C0C] px-8 py-4 font-medium text-sm tracking-wide transition-all duration-300 hover:border-[#9A6B4C] hover:text-[#9A6B4C]"
+              className="inline-flex items-center justify-center gap-3 bg-white text-[#112337] px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#F5F5F5]"
             >
               Nieuw bericht
             </button>
@@ -155,13 +151,10 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2]">
-      {/* Grid pattern */}
-      <div className="fixed inset-0 grid-blueprint opacity-30 pointer-events-none" />
-
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pb-24">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+      <section className="relative pt-32 pb-20 lg:pb-24 bg-[#F5F5F5]">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
             {/* Left - Headline */}
             <motion.div
@@ -169,26 +162,15 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Overline */}
-              <div className="flex items-center gap-4 mb-8">
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-px w-12 bg-[#9A6B4C] origin-left"
-                />
-                <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#9A6B4C]">
-                  Contact
-                </span>
-              </div>
+              <span className="label-overline">Contact</span>
 
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-[#0C0C0C] tracking-[-0.02em] leading-[0.95]">
+              <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-bold text-[#112337] leading-tight">
                 Laten we
                 <br />
-                <span className="text-[#9A6B4C]">praten</span>
+                <span className="text-[#204CE5]">praten</span>
               </h1>
 
-              <p className="mt-8 text-lg text-[#6B6560] leading-relaxed max-w-md">
+              <p className="mt-8 text-lg text-[#686E77] leading-relaxed max-w-md">
                 Heeft u een vraag of wilt u een vrijblijvende offerte?
                 Wij reageren binnen 24 uur.
               </p>
@@ -200,16 +182,16 @@ export default function ContactPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="group flex items-center gap-5 p-5 bg-white border border-[#0C0C0C]/5 shadow-sm hover:shadow-md hover:border-[#9A6B4C]/20 transition-all duration-300"
+                  className="group flex items-center gap-5 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[#9A6B4C]/5 flex items-center justify-center group-hover:bg-[#9A6B4C]/10 transition-colors">
-                    <Phone className="w-6 h-6 text-[#9A6B4C]" strokeWidth={1.5} />
+                  <div className="w-14 h-14 rounded-xl bg-[#204CE5]/10 flex items-center justify-center group-hover:bg-[#204CE5] transition-colors">
+                    <Phone className="w-6 h-6 text-[#204CE5] group-hover:text-white transition-colors" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.2em] mb-1">
+                    <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
                       Telefoon
                     </div>
-                    <div className="text-lg text-[#0C0C0C] font-medium">
+                    <div className="text-lg text-[#112337] font-semibold">
                       {COMPANY.contact.phone}
                     </div>
                   </div>
@@ -220,16 +202,16 @@ export default function ContactPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="group flex items-center gap-5 p-5 bg-white border border-[#0C0C0C]/5 shadow-sm hover:shadow-md hover:border-[#9A6B4C]/20 transition-all duration-300"
+                  className="group flex items-center gap-5 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[#9A6B4C]/5 flex items-center justify-center group-hover:bg-[#9A6B4C]/10 transition-colors">
-                    <Mail className="w-6 h-6 text-[#9A6B4C]" strokeWidth={1.5} />
+                  <div className="w-14 h-14 rounded-xl bg-[#204CE5]/10 flex items-center justify-center group-hover:bg-[#204CE5] transition-colors">
+                    <Mail className="w-6 h-6 text-[#204CE5] group-hover:text-white transition-colors" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.2em] mb-1">
+                    <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
                       Email
                     </div>
-                    <div className="text-lg text-[#0C0C0C] font-medium">
+                    <div className="text-lg text-[#112337] font-semibold">
                       {COMPANY.contact.email}
                     </div>
                   </div>
@@ -239,16 +221,16 @@ export default function ContactPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="flex items-center gap-5 p-5 bg-white border border-[#0C0C0C]/5 shadow-sm"
+                  className="flex items-center gap-5 p-5 bg-white rounded-xl shadow-sm"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[#9A6B4C]/5 flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-[#9A6B4C]" strokeWidth={1.5} />
+                  <div className="w-14 h-14 rounded-xl bg-[#204CE5]/10 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-[#204CE5]" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.2em] mb-1">
+                    <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
                       Adres
                     </div>
-                    <div className="text-[#0C0C0C] font-medium">
+                    <div className="text-[#112337] font-semibold">
                       {COMPANY.address.street}, {COMPANY.address.postal} {COMPANY.address.city}
                     </div>
                   </div>
@@ -260,11 +242,11 @@ export default function ContactPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="mt-8 inline-flex items-center gap-3 px-5 py-3 bg-[#9A6B4C]/5 border border-[#9A6B4C]/10"
+                className="mt-8 inline-flex items-center gap-3 px-5 py-3 bg-[#204CE5]/5 rounded-full"
               >
-                <Clock className="w-4 h-4 text-[#9A6B4C]" />
-                <span className="text-sm text-[#6B6560]">
-                  Gemiddelde responstijd: <span className="text-[#9A6B4C] font-medium">4 uur</span>
+                <Clock className="w-4 h-4 text-[#204CE5]" />
+                <span className="text-sm text-[#686E77]">
+                  Gemiddelde responstijd: <span className="text-[#204CE5] font-semibold">4 uur</span>
                 </span>
               </motion.div>
             </motion.div>
@@ -278,14 +260,14 @@ export default function ContactPage() {
             >
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="relative bg-white border border-[#0C0C0C]/5 p-8 lg:p-10 shadow-sm"
+                className="relative bg-white rounded-2xl p-8 lg:p-10 shadow-xl"
               >
                 {/* Form header */}
                 <div className="mb-10">
-                  <h2 className="font-display text-2xl text-[#0C0C0C]">
+                  <h2 className="text-2xl font-bold text-[#112337]">
                     Stuur een bericht
                   </h2>
-                  <p className="mt-2 text-sm text-[#6B6560]">
+                  <p className="mt-2 text-sm text-[#686E77]">
                     Velden met * zijn verplicht
                   </p>
                 </div>
@@ -303,20 +285,20 @@ export default function ContactPage() {
                   {/* Name & Organisation */}
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-[11px] text-[#6B6560]/80 uppercase tracking-[0.15em] mb-3">
-                        Naam <span className="text-[#9A6B4C]">*</span>
+                      <label className="block text-sm text-[#112337] font-medium mb-2">
+                        Naam <span className="text-[#204CE5]">*</span>
                       </label>
                       <input
                         {...register("naam")}
                         onFocus={() => setFocusedField("naam")}
                         onBlur={() => setFocusedField(null)}
                         placeholder="Uw naam"
-                        className={`w-full bg-[#FAF7F2] border px-5 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/40 focus:outline-none transition-all duration-300 ${
+                        className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "naam"
-                            ? "border-[#9A6B4C] bg-white"
+                            ? "border-[#204CE5] bg-white"
                             : errors.naam
                             ? "border-red-400"
-                            : "border-[#0C0C0C]/10 hover:border-[#0C0C0C]/20"
+                            : "border-transparent hover:border-[#204CE5]/20"
                         }`}
                       />
                       {errors.naam && (
@@ -325,7 +307,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] text-[#6B6560]/80 uppercase tracking-[0.15em] mb-3">
+                      <label className="block text-sm text-[#112337] font-medium mb-2">
                         Organisatie
                       </label>
                       <input
@@ -333,10 +315,10 @@ export default function ContactPage() {
                         onFocus={() => setFocusedField("organisatie")}
                         onBlur={() => setFocusedField(null)}
                         placeholder="Bedrijf of instelling"
-                        className={`w-full bg-[#FAF7F2] border px-5 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/40 focus:outline-none transition-all duration-300 ${
+                        className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "organisatie"
-                            ? "border-[#9A6B4C] bg-white"
-                            : "border-[#0C0C0C]/10 hover:border-[#0C0C0C]/20"
+                            ? "border-[#204CE5] bg-white"
+                            : "border-transparent hover:border-[#204CE5]/20"
                         }`}
                       />
                     </div>
@@ -345,8 +327,8 @@ export default function ContactPage() {
                   {/* Email & Phone */}
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-[11px] text-[#6B6560]/80 uppercase tracking-[0.15em] mb-3">
-                        Email <span className="text-[#9A6B4C]">*</span>
+                      <label className="block text-sm text-[#112337] font-medium mb-2">
+                        Email <span className="text-[#204CE5]">*</span>
                       </label>
                       <input
                         type="email"
@@ -354,12 +336,12 @@ export default function ContactPage() {
                         onFocus={() => setFocusedField("email")}
                         onBlur={() => setFocusedField(null)}
                         placeholder="uw@email.be"
-                        className={`w-full bg-[#FAF7F2] border px-5 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/40 focus:outline-none transition-all duration-300 ${
+                        className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "email"
-                            ? "border-[#9A6B4C] bg-white"
+                            ? "border-[#204CE5] bg-white"
                             : errors.email
                             ? "border-red-400"
-                            : "border-[#0C0C0C]/10 hover:border-[#0C0C0C]/20"
+                            : "border-transparent hover:border-[#204CE5]/20"
                         }`}
                       />
                       {errors.email && (
@@ -368,7 +350,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] text-[#6B6560]/80 uppercase tracking-[0.15em] mb-3">
+                      <label className="block text-sm text-[#112337] font-medium mb-2">
                         Telefoon
                       </label>
                       <input
@@ -377,10 +359,10 @@ export default function ContactPage() {
                         onFocus={() => setFocusedField("telefoon")}
                         onBlur={() => setFocusedField(null)}
                         placeholder="+32 ..."
-                        className={`w-full bg-[#FAF7F2] border px-5 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/40 focus:outline-none transition-all duration-300 ${
+                        className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "telefoon"
-                            ? "border-[#9A6B4C] bg-white"
-                            : "border-[#0C0C0C]/10 hover:border-[#0C0C0C]/20"
+                            ? "border-[#204CE5] bg-white"
+                            : "border-transparent hover:border-[#204CE5]/20"
                         }`}
                       />
                     </div>
@@ -388,8 +370,8 @@ export default function ContactPage() {
 
                   {/* Subject */}
                   <div>
-                    <label className="block text-[11px] text-[#6B6560]/80 uppercase tracking-[0.15em] mb-3">
-                      Onderwerp <span className="text-[#9A6B4C]">*</span>
+                    <label className="block text-sm text-[#112337] font-medium mb-3">
+                      Onderwerp <span className="text-[#204CE5]">*</span>
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {CONTACT_SUBJECTS.map((subject) => (
@@ -397,10 +379,10 @@ export default function ContactPage() {
                           key={subject.value}
                           type="button"
                           onClick={() => setValue("onderwerp", subject.value as ContactFormData["onderwerp"])}
-                          className={`px-4 py-2.5 text-sm border transition-all duration-300 ${
+                          className={`px-4 py-2.5 text-sm rounded-full transition-all duration-300 ${
                             selectedSubject === subject.value
-                              ? "bg-[#9A6B4C] border-[#9A6B4C] text-white"
-                              : "bg-white border-[#0C0C0C]/10 text-[#6B6560] hover:border-[#9A6B4C]/30 hover:text-[#0C0C0C]"
+                              ? "bg-[#204CE5] text-white"
+                              : "bg-[#F5F5F5] text-[#686E77] hover:bg-[#204CE5]/10 hover:text-[#204CE5]"
                           }`}
                         >
                           {subject.label}
@@ -414,8 +396,8 @@ export default function ContactPage() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-[11px] text-[#6B6560]/80 uppercase tracking-[0.15em] mb-3">
-                      Bericht <span className="text-[#9A6B4C]">*</span>
+                    <label className="block text-sm text-[#112337] font-medium mb-2">
+                      Bericht <span className="text-[#204CE5]">*</span>
                     </label>
                     <textarea
                       {...register("bericht")}
@@ -423,12 +405,12 @@ export default function ContactPage() {
                       onBlur={() => setFocusedField(null)}
                       placeholder="Vertel ons meer over uw project of vraag..."
                       rows={5}
-                      className={`w-full bg-[#FAF7F2] border px-5 py-4 text-[#0C0C0C] placeholder:text-[#6B6560]/40 focus:outline-none transition-all duration-300 resize-none ${
+                      className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 resize-none ${
                         focusedField === "bericht"
-                          ? "border-[#9A6B4C] bg-white"
+                          ? "border-[#204CE5] bg-white"
                           : errors.bericht
                           ? "border-red-400"
-                          : "border-[#0C0C0C]/10 hover:border-[#0C0C0C]/20"
+                          : "border-transparent hover:border-[#204CE5]/20"
                       }`}
                     />
                     {errors.bericht && (
@@ -440,10 +422,10 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`group w-full mt-4 py-5 text-base font-semibold tracking-wide transition-all duration-300 flex items-center justify-center gap-3 ${
+                    className={`group w-full mt-4 py-5 rounded-full text-base font-semibold transition-all duration-300 flex items-center justify-center gap-3 ${
                       isSubmitting
-                        ? "bg-[#6B6560]/20 text-[#6B6560]/50 cursor-not-allowed"
-                        : "bg-[#9A6B4C] text-white hover:bg-[#7A5339] shadow-lg shadow-[#9A6B4C]/15"
+                        ? "bg-[#686E77]/20 text-[#686E77]/50 cursor-not-allowed"
+                        : "bg-[#204CE5] text-white hover:bg-[#1A3BB8] shadow-lg hover:shadow-xl"
                     }`}
                   >
                     {isSubmitting ? (
@@ -466,57 +448,57 @@ export default function ContactPage() {
       </section>
 
       {/* Company info strip */}
-      <section className="relative border-t border-[#0C0C0C]/5 bg-white/50">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16 py-16">
+      <section className="relative bg-white py-16">
+        <div className="container-wide">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#9A6B4C]/5 flex items-center justify-center shrink-0">
-                <Building2 className="w-5 h-5 text-[#9A6B4C]" strokeWidth={1.5} />
+              <div className="w-12 h-12 rounded-xl bg-[#204CE5]/10 flex items-center justify-center shrink-0">
+                <Building2 className="w-5 h-5 text-[#204CE5]" strokeWidth={1.5} />
               </div>
               <div>
-                <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.2em] mb-1">
+                <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
                   Bedrijf
                 </div>
-                <div className="text-[#0C0C0C] font-medium">{COMPANY.name}</div>
+                <div className="text-[#112337] font-semibold">{COMPANY.name}</div>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#9A6B4C]/5 flex items-center justify-center shrink-0">
-                <span className="text-[#9A6B4C] text-sm font-medium">KBO</span>
+              <div className="w-12 h-12 rounded-xl bg-[#204CE5]/10 flex items-center justify-center shrink-0">
+                <span className="text-[#204CE5] text-sm font-bold">KBO</span>
               </div>
               <div>
-                <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.2em] mb-1">
+                <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
                   Ondernemingsnummer
                 </div>
-                <div className="text-[#0C0C0C] font-medium">{COMPANY.kbo}</div>
+                <div className="text-[#112337] font-semibold">{COMPANY.kbo}</div>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#9A6B4C]/5 flex items-center justify-center shrink-0">
-                <span className="text-[#9A6B4C] text-sm font-medium">BTW</span>
+              <div className="w-12 h-12 rounded-xl bg-[#204CE5]/10 flex items-center justify-center shrink-0">
+                <span className="text-[#204CE5] text-sm font-bold">BTW</span>
               </div>
               <div>
-                <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.2em] mb-1">
+                <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
                   BTW-nummer
                 </div>
-                <div className="text-[#0C0C0C] font-medium">{COMPANY.btw}</div>
+                <div className="text-[#112337] font-semibold">{COMPANY.btw}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
-                <div className="font-display text-3xl text-[#0C0C0C]">{STATS.yearsExperience}</div>
-                <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.15em]">Jaar</div>
+                <div className="text-3xl font-bold text-[#112337]">{STATS.yearsExperience}</div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">Jaar</div>
               </div>
               <div className="text-center">
-                <div className="font-display text-3xl text-[#0C0C0C]">500<span className="text-[#9A6B4C]">+</span></div>
-                <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.15em]">Projecten</div>
+                <div className="text-3xl font-bold text-[#112337]">500<span className="text-[#204CE5]">+</span></div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">Projecten</div>
               </div>
               <div className="text-center">
-                <div className="font-display text-3xl text-[#0C0C0C]">6</div>
-                <div className="text-[10px] text-[#6B6560]/60 uppercase tracking-[0.15em]">Klasse</div>
+                <div className="text-3xl font-bold text-[#112337]">6</div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">Klasse</div>
               </div>
             </div>
           </div>
@@ -524,11 +506,13 @@ export default function ContactPage() {
       </section>
 
       {/* Map placeholder */}
-      <section className="relative h-[350px] border-t border-[#0C0C0C]/5 bg-[#F5F3EF]">
+      <section className="relative h-[350px] bg-[#F5F5F5]">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <MapPin className="w-8 h-8 text-[#9A6B4C]/30 mx-auto mb-4" />
-            <p className="text-[#6B6560] text-sm">
+            <div className="w-16 h-16 rounded-full bg-[#204CE5]/10 flex items-center justify-center mx-auto mb-4">
+              <MapPin className="w-6 h-6 text-[#204CE5]" />
+            </div>
+            <p className="text-[#686E77] text-sm">
               {COMPANY.address.street}, {COMPANY.address.postal} {COMPANY.address.city}
             </p>
             <a
@@ -537,7 +521,7 @@ export default function ContactPage() {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-[#9A6B4C] text-sm hover:text-[#7A5339] transition-colors"
+              className="inline-flex items-center gap-2 mt-4 bg-[#204CE5] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#1A3BB8] transition-colors"
             >
               Open in Google Maps
               <ArrowRight className="w-4 h-4" />

@@ -68,17 +68,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] bg-[#0C0C0C] flex items-end">
+      <section className="relative min-h-[70vh] bg-[#112337] flex items-end">
         <div className="absolute inset-0">
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover image-cinematic"
+            className="object-cover opacity-40"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C] via-[#0C0C0C]/50 to-[#0C0C0C]/20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0C]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#112337] via-[#112337]/50 to-[#112337]/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#112337]/70 to-transparent" />
         </div>
 
         <div className="container-wide relative pb-20 pt-48">
@@ -93,35 +93,34 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
           {/* Scope badge */}
           {project.scope && (
-            <div className="inline-flex items-center gap-2 bg-[#9A6B4C] text-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] mb-6">
-              <Shield className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
+              <Shield className="w-4 h-4" />
               {project.scope}
             </div>
           )}
 
           {/* Category */}
-          <div className="flex items-center gap-3 mb-6">
-            <span className="h-px w-8 bg-[#9A6B4C]" />
-            <span className="label-overline">{categoryLabel}</span>
+          <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6 ml-3">
+            {categoryLabel}
           </div>
 
           {/* Title */}
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-[0.95] tracking-[-0.02em] max-w-3xl">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
             {project.title}
           </h1>
 
           {/* Meta info */}
           <div className="mt-8 flex flex-wrap items-center gap-8 text-white/50">
             <div className="flex items-center gap-3">
-              <Building2 className="w-5 h-5 text-[#9A6B4C]" />
+              <Building2 className="w-5 h-5 text-[#204CE5]" />
               <span>{project.client}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-[#9A6B4C]" />
+              <Calendar className="w-5 h-5 text-[#204CE5]" />
               <span>{project.year}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Tag className="w-5 h-5 text-[#9A6B4C]" />
+              <Tag className="w-5 h-5 text-[#204CE5]" />
               <span>{categoryLabel}</span>
             </div>
           </div>
@@ -129,15 +128,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       {/* KPI Bar - Procurement Scorable */}
-      <section className="bg-[#0C0C0C] border-t border-white/10">
+      <section className="bg-[#112337] border-t border-white/10">
         <div className="container-wide py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
                 <Clock className="w-4 h-4" />
               </div>
-              <div className="font-display text-3xl text-white">{projectKPIs.planning}</div>
-              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+              <div className="text-3xl font-bold text-white">{projectKPIs.planning}</div>
+              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
                 {projectKPIs.planningLabel}
               </div>
             </div>
@@ -145,8 +144,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
                 <Shield className="w-4 h-4" />
               </div>
-              <div className="font-display text-3xl text-white">{projectKPIs.safety}</div>
-              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+              <div className="text-3xl font-bold text-white">{projectKPIs.safety}</div>
+              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
                 {projectKPIs.safetyLabel}
               </div>
             </div>
@@ -154,8 +153,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
                 <Target className="w-4 h-4" />
               </div>
-              <div className="font-display text-3xl text-white">{projectKPIs.quality}</div>
-              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+              <div className="text-3xl font-bold text-white">{projectKPIs.quality}</div>
+              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
                 {projectKPIs.qualityLabel}
               </div>
             </div>
@@ -163,8 +162,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
                 <Award className="w-4 h-4" />
               </div>
-              <div className="font-display text-3xl text-white">{projectKPIs.satisfaction}</div>
-              <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
+              <div className="text-3xl font-bold text-white">{projectKPIs.satisfaction}</div>
+              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
                 {projectKPIs.satisfactionLabel}
               </div>
             </div>
@@ -173,15 +172,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       {/* Content Section */}
-      <section className="section-spacing bg-[#FAF7F2] relative">
-        <div className="absolute inset-0 grid-blueprint opacity-40" />
-
-        <div className="container-wide relative">
+      <section className="section-spacing bg-[#F5F5F5]">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-3 gap-16">
             {/* Main Content */}
             <div className="lg:col-span-2">
               {/* Project Image */}
-              <div className="relative aspect-video overflow-hidden bg-[#0C0C0C]">
+              <div className="relative aspect-video overflow-hidden rounded-xl bg-[#112337]">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -192,16 +189,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               {/* Challenge Section */}
               <div className="mt-12">
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="h-px w-12 bg-[#9A6B4C]" />
-                  <span className="label-overline">De Uitdaging</span>
-                </div>
+                <span className="label-overline">De Uitdaging</span>
 
-                <h2 className="font-display text-3xl sm:text-4xl text-[#0C0C0C]">
+                <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
                   Projectomschrijving
                 </h2>
 
-                <div className="mt-8 space-y-6 text-[#6B6560] leading-relaxed">
+                <div className="mt-8 space-y-6 text-[#686E77] leading-relaxed">
                   <p className="text-lg">{project.description}</p>
                   <p>
                     Dit project vereiste een grondige aanpak met aandacht voor de specifieke
@@ -213,12 +207,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               {/* Approach Section */}
               <div className="mt-16">
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="h-px w-12 bg-[#9A6B4C]" />
-                  <span className="label-overline">Onze Aanpak</span>
-                </div>
+                <span className="label-overline">Onze Aanpak</span>
 
-                <h2 className="font-display text-3xl sm:text-4xl text-[#0C0C0C]">
+                <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
                   Hoe wij dit project aanpakten
                 </h2>
 
@@ -231,8 +222,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     "Kwaliteitscontroles conform ISO 9001 standaarden",
                   ].map((item, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-[#9A6B4C] flex-shrink-0 mt-0.5" />
-                      <span className="text-[#6B6560]">{item}</span>
+                      <CheckCircle className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
+                      <span className="text-[#686E77]">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -240,57 +231,54 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               {/* Results Section */}
               <div className="mt-16">
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="h-px w-12 bg-[#9A6B4C]" />
-                  <span className="label-overline">Resultaat</span>
-                </div>
+                <span className="label-overline">Resultaat</span>
 
-                <h2 className="font-display text-3xl sm:text-4xl text-[#0C0C0C]">
+                <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
                   Wat wij bereikten
                 </h2>
 
                 <div className="mt-8 grid sm:grid-cols-2 gap-6">
-                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                  <div className="bg-white rounded-xl p-6">
+                    <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
                       Planning
                     </div>
-                    <div className="font-display text-2xl text-[#0C0C0C]">
+                    <div className="text-2xl font-bold text-[#112337]">
                       Binnen termijn
                     </div>
-                    <p className="mt-2 text-sm text-[#6B6560]">
+                    <p className="mt-2 text-sm text-[#686E77]">
                       Project opgeleverd volgens afgesproken planning
                     </p>
                   </div>
-                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                  <div className="bg-white rounded-xl p-6">
+                    <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
                       Veiligheid
                     </div>
-                    <div className="font-display text-2xl text-[#0C0C0C]">
+                    <div className="text-2xl font-bold text-[#112337]">
                       0 incidenten
                     </div>
-                    <p className="mt-2 text-sm text-[#6B6560]">
+                    <p className="mt-2 text-sm text-[#686E77]">
                       Volledige naleving VCA** veiligheidsprotocollen
                     </p>
                   </div>
-                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                  <div className="bg-white rounded-xl p-6">
+                    <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
                       Kwaliteit
                     </div>
-                    <div className="font-display text-2xl text-[#0C0C0C]">
+                    <div className="text-2xl font-bold text-[#112337]">
                       ISO 9001
                     </div>
-                    <p className="mt-2 text-sm text-[#6B6560]">
+                    <p className="mt-2 text-sm text-[#686E77]">
                       Alle werken conform kwaliteitsstandaarden
                     </p>
                   </div>
-                  <div className="bg-white p-6 border border-[#0C0C0C]/5">
-                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-2">
+                  <div className="bg-white rounded-xl p-6">
+                    <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
                       Hinderbeperking
                     </div>
-                    <div className="font-display text-2xl text-[#0C0C0C]">
+                    <div className="text-2xl font-bold text-[#112337]">
                       Minimaal
                     </div>
-                    <p className="mt-2 text-sm text-[#6B6560]">
+                    <p className="mt-2 text-sm text-[#686E77]">
                       Efficiënte fasering voor minimale overlast
                     </p>
                   </div>
@@ -302,72 +290,72 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="lg:col-span-1">
               <div className="sticky top-32 space-y-6">
                 {/* Project Details Card */}
-                <div className="bg-white p-8 border border-[#0C0C0C]/5">
-                  <h3 className="font-display text-xl text-[#0C0C0C] mb-6">
+                <div className="bg-white rounded-xl p-8">
+                  <h3 className="text-xl font-bold text-[#112337] mb-6">
                     Projectgegevens
                   </h3>
 
                   <div className="space-y-6">
-                    <div className="pb-4 border-b border-[#0C0C0C]/5">
-                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                    <div className="pb-4 border-b border-[#112337]/5">
+                      <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
                         Opdrachtgever
                       </div>
-                      <div className="font-semibold text-[#0C0C0C]">
+                      <div className="font-semibold text-[#112337]">
                         {project.client}
                       </div>
                     </div>
 
-                    <div className="pb-4 border-b border-[#0C0C0C]/5">
-                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                    <div className="pb-4 border-b border-[#112337]/5">
+                      <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
                         Jaar
                       </div>
-                      <div className="font-semibold text-[#0C0C0C]">
+                      <div className="font-semibold text-[#112337]">
                         {project.year}
                       </div>
                     </div>
 
-                    <div className="pb-4 border-b border-[#0C0C0C]/5">
-                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                    <div className="pb-4 border-b border-[#112337]/5">
+                      <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
                         Categorie
                       </div>
-                      <div className="font-semibold text-[#0C0C0C]">
+                      <div className="font-semibold text-[#112337]">
                         {categoryLabel}
                       </div>
                     </div>
 
                     {project.scope && (
-                      <div className="pb-4 border-b border-[#0C0C0C]/5">
-                        <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                      <div className="pb-4 border-b border-[#112337]/5">
+                        <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
                           Projecttype
                         </div>
-                        <div className="font-semibold text-[#0C0C0C]">
+                        <div className="font-semibold text-[#112337]">
                           {project.scope}
                         </div>
                       </div>
                     )}
 
                     <div>
-                      <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.2em] mb-1">
+                      <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
                         Status
                       </div>
                       <div className="inline-flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-500 rounded-full" />
-                        <span className="font-semibold text-[#0C0C0C]">Afgerond</span>
+                        <span className="font-semibold text-[#112337]">Afgerond</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-10 pt-6 border-t border-[#0C0C0C]/5">
+                  <div className="mt-10 pt-6 border-t border-[#112337]/5">
                     <Link
                       href="/projectplanner"
-                      className="group flex items-center justify-center gap-3 w-full bg-[#9A6B4C] text-white px-6 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#7A5339]"
+                      className="group flex items-center justify-center gap-3 w-full bg-[#204CE5] text-white px-6 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8]"
                     >
                       Start uw project
                       <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                     <Link
                       href="/contact"
-                      className="flex items-center justify-center gap-3 w-full mt-3 border border-[#0C0C0C]/20 text-[#0C0C0C] px-6 py-4 text-sm font-medium transition-all duration-300 hover:bg-[#0C0C0C] hover:text-white hover:border-[#0C0C0C]"
+                      className="flex items-center justify-center gap-3 w-full mt-3 border border-[#112337]/20 text-[#112337] px-6 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#112337] hover:text-white hover:border-[#112337]"
                     >
                       Contact opnemen
                     </Link>
@@ -375,31 +363,31 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
 
                 {/* Certifications Card */}
-                <div className="bg-[#0C0C0C] p-8 text-white">
-                  <h3 className="font-display text-lg mb-4">
+                <div className="bg-[#112337] rounded-xl p-8 text-white">
+                  <h3 className="text-lg font-bold mb-4">
                     Kwaliteitsgarantie
                   </h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center gap-2 text-white/70">
-                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      <CheckCircle className="w-4 h-4 text-[#204CE5]" />
                       Klasse 6 erkend
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
-                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      <CheckCircle className="w-4 h-4 text-[#204CE5]" />
                       ISO 9001 gecertificeerd
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
-                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      <CheckCircle className="w-4 h-4 text-[#204CE5]" />
                       VCA** veiligheid
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
-                      <CheckCircle className="w-4 h-4 text-[#9A6B4C]" />
+                      <CheckCircle className="w-4 h-4 text-[#204CE5]" />
                       CO₂-Prestatieladder niveau 3
                     </div>
                   </div>
                   <Link
                     href="/procurement"
-                    className="inline-flex items-center gap-2 text-[#9A6B4C] text-sm font-semibold mt-6 hover:text-[#BA8B6C] transition-colors"
+                    className="inline-flex items-center gap-2 text-[#204CE5] text-sm font-semibold mt-6 hover:text-white transition-colors"
                   >
                     Alle certificaten
                     <ArrowRight className="w-3 h-3" />
@@ -412,32 +400,32 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       {/* Next Project */}
-      <section className="py-24 bg-[#0C0C0C] relative">
-        <div className="absolute inset-0 texture-stone opacity-30" />
-
-        <div className="container-wide relative">
+      <section className="py-24 bg-[#112337]">
+        <div className="container-wide">
           <div className="text-center mb-12">
-            <span className="label-overline">Volgend Project</span>
+            <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium">
+              Volgend Project
+            </span>
           </div>
 
           <Link href={`/projecten/${nextProject.slug}`} className="group block">
-            <div className="relative aspect-[21/9] overflow-hidden">
+            <div className="relative aspect-[21/9] overflow-hidden rounded-xl">
               <Image
                 src={nextProject.image}
                 alt={nextProject.title}
                 fill
-                className="object-cover image-cinematic transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-[#0C0C0C]/60 group-hover:bg-[#0C0C0C]/40 transition-colors duration-500" />
+              <div className="absolute inset-0 bg-[#112337]/60 group-hover:bg-[#112337]/40 transition-colors duration-500" />
 
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white">
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
                     {nextProject.title}
                   </h3>
                   <p className="mt-4 text-white/50">{nextProject.client}</p>
-                  <div className="mt-6 inline-flex items-center gap-2 text-[#9A6B4C]">
-                    <span className="text-sm font-semibold uppercase tracking-[0.15em]">
+                  <div className="mt-6 inline-flex items-center gap-2 text-[#204CE5]">
+                    <span className="text-sm font-semibold uppercase tracking-wider">
                       Bekijk project
                     </span>
                     <ArrowRight className="w-4 h-4" />
