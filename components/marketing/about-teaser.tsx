@@ -57,7 +57,7 @@ export function AboutTeaser() {
                   {COMPANY.founded}
                 </div>
                 <div className="text-xs text-white/60 uppercase tracking-wider">
-                  Opgericht
+                  Actief Sinds
                 </div>
               </div>
             </motion.div>

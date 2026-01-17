@@ -352,9 +352,8 @@ export default function ProcurementPage() {
               </h2>
 
               <p className="mt-6 text-[#686E77] leading-relaxed">
-                Wij zijn geselecteerde partner voor langdurige raamcontracten met
-                toonaangevende overheden en publieke instellingen. Deze samenwerkingen
-                getuigen van consistent kwaliteitswerk.
+                Wij hebben ervaring met raamcontracten voor publieke opdrachtgevers.
+                Deze samenwerkingen getuigen van consistent kwaliteitswerk.
               </p>
 
               <div className="mt-10 space-y-4">
@@ -401,7 +400,7 @@ export default function ProcurementPage() {
                 <div className="mt-10 pt-8 border-t border-white/10 grid grid-cols-3 gap-6 text-center">
                   {[
                     { value: STATS.yearsExperience, label: "Jaar" },
-                    { value: STATS.raamcontracten, label: "Contracten" },
+                    { value: "3x", label: "Gecertificeerd" },
                     { value: STATS.employees, label: "FTE" },
                   ].map((stat) => (
                     <div key={stat.label}>

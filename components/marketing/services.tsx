@@ -9,16 +9,16 @@ import { SERVICES, COMPANY } from "@/lib/constants";
 
 // Service images mapping
 const serviceImages: Record<string, string> = {
-  nieuwbouw: "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
-  renovatie: "/images/original-site/IMG_20230615_0957592-ps-scaled.jpg",
+  bouwwerken: "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
+  dakwerken: "/images/original-site/IMG_20230615_0957592-ps-scaled.jpg",
   erfgoed: "/images/original-site/Justitiepaleis-Dendermonde.jpg",
   facility: "/images/original-site/team-collage.jpg",
 };
 
 // Map service IDs to actual routes
 const serviceRoutes: Record<string, string> = {
-  nieuwbouw: "/diensten/bouw-renovatie",
-  renovatie: "/diensten/bouw-renovatie",
+  bouwwerken: "/diensten/bouw-renovatie",
+  dakwerken: "/diensten/bouw-renovatie",
   erfgoed: "/diensten/bouw-renovatie",
   facility: "/diensten/facility",
 };
@@ -41,7 +41,7 @@ export function Services() {
             <div
               key={service.id}
               className={`absolute inset-0 transition-opacity duration-700 ${
-                hoveredService === service.id || (!hoveredService && service.id === "nieuwbouw")
+                hoveredService === service.id || (!hoveredService && service.id === "bouwwerken")
                   ? "opacity-100"
                   : "opacity-0"
               }`}

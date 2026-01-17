@@ -103,7 +103,7 @@ function getFAQSchema() {
     },
     {
       question: "Werkt De Raedt voor overheden en publieke instellingen?",
-      answer: `Ja, overheids- en publieke opdrachten vormen onze kernactiviteit. Wij hebben actieve raamcontracten met onder andere Stad Gent, Stad Antwerpen, VEB en Regie der Gebouwen. Referenties zijn beschikbaar op aanvraag.`,
+      answer: `Ja, overheids- en publieke opdrachten vormen onze kernactiviteit. Wij hebben ervaring met raamcontracten voor publieke opdrachtgevers, waaronder VEB. Referenties zijn beschikbaar op aanvraag.`,
     },
     {
       question: "Heeft De Raedt ervaring met erfgoed en monumenten?",
@@ -115,7 +115,7 @@ function getFAQSchema() {
     },
     {
       question: "Hoe lang bestaat De Raedt?",
-      answer: `Bouwwerken De Raedt Ivan NV is opgericht in 1930 en heeft dus meer dan ${STATS.yearsExperience} jaar ervaring. Het is een familiaal bedrijf met intergenerationele kennisoverdracht.`,
+      answer: `Bouwwerken De Raedt Ivan is een familiebedrijf actief sinds 1930, met meer dan ${STATS.yearsExperience} jaar ervaring in de bouwsector.`,
     },
     {
       question: "Waar is De Raedt gevestigd?",

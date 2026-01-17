@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { SITE_CONFIG, COMPANY, STATS } from '@/lib/constants';
+import { SITE_CONFIG, COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Projecten',
-  description: `Bekijk ${STATS.projectsCompleted} gerealiseerde projecten van ${COMPANY.name}. Van erfgoedrenovatie tot nieuwbouw, van Koning Boudewijnstadion tot historische stadhuizen.`,
+  description: `Bekijk onze gerealiseerde projecten van ${COMPANY.name}. Van erfgoedrenovatie tot nieuwbouw, van Koning Boudewijnstadion tot historische stadhuizen.`,
   openGraph: {
     title: `Onze Projecten | ${SITE_CONFIG.name}`,
     description: 'Ontdek onze referentieprojecten: erfgoedrenovatie, nieuwbouw en infrastructuurwerken voor overheid en particulieren.',

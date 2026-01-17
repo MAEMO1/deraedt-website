@@ -29,8 +29,8 @@ export function Footer() {
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
-                <div className="text-3xl font-bold">500<span className="text-[#204CE5]">+</span></div>
-                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Projecten</div>
+                <div className="text-3xl font-bold">6</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Klasse</div>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>

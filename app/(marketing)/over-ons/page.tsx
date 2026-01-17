@@ -8,12 +8,9 @@ import { Award, ArrowRight } from "lucide-react";
 import { COMPANY, STATS, CERTIFICATIONS } from "@/lib/constants";
 
 const timeline = [
-  { year: 1930, title: "De Stichting", description: "Oprichting van het familiebedrijf in Zele door de familie De Raedt" },
-  { year: 1960, title: "Groei & Expansie", description: "Uitbreiding naar grotere bouwprojecten en eerste overheidscontracten" },
-  { year: 1990, title: "Erfgoed Specialisatie", description: "Focus op erfgoedrenovatie en monumentenzorg" },
-  { year: 2010, title: "Kwaliteitserkenning", description: "ISO 9001 certificering en VCA** veiligheidscertificaat" },
-  { year: 2020, title: "90 Jaar Vakmanschap", description: "Viering van negen decennia bouwen aan België" },
-  { year: 2024, title: "Verdere Groei", description: "Uitbreiding team naar 40+ medewerkers en Klasse 6 erkenning" },
+  { year: 1930, title: "Roots", description: "Familiebedrijf actief sinds 1930 in de bouwsector in Zele" },
+  { year: 2024, title: "Certificering", description: "ISO 9001 behaald en VCA** certificaat hernieuwd na succesvolle audit" },
+  { year: 2025, title: "Duurzaamheid", description: "CO₂-Prestatieladder niveau 3 gecertificeerd door Vinçotte" },
 ];
 
 const values = [
@@ -40,10 +37,10 @@ const values = [
 ];
 
 const teamStats = [
-  { value: "3", label: "Generaties", suffix: "" },
+  { value: "1930", label: "Actief sinds", suffix: "" },
   { value: "40", label: "Vakmannen", suffix: "+" },
-  { value: "500", label: "Projecten", suffix: "+" },
   { value: "6", label: "Klasse Erkenning", suffix: "" },
+  { value: "3", label: "Certificeringen", suffix: "x" },
 ];
 
 export default function OverOnsPage() {
@@ -96,7 +93,7 @@ export default function OverOnsPage() {
 
             <p className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-xl">
               Sinds {COMPANY.founded} bouwt De Raedt mee aan de toekomst van België.
-              Drie generaties vakmanschap, innovatie en toewijding.
+              Vakmanschap, innovatie en toewijding.
             </p>
           </motion.div>
 
@@ -141,7 +138,7 @@ export default function OverOnsPage() {
               {/* Floating stat card */}
               <div className="absolute -bottom-6 -right-6 bg-[#112337] text-white p-8 rounded-2xl shadow-2xl">
                 <div className="text-5xl font-bold">1930</div>
-                <div className="text-xs text-[#204CE5] uppercase tracking-wider mt-1">Opgericht</div>
+                <div className="text-xs text-[#204CE5] uppercase tracking-wider mt-1">Actief sinds</div>
               </div>
             </motion.div>
 
@@ -154,7 +151,7 @@ export default function OverOnsPage() {
               <span className="label-overline">Ons Verhaal</span>
 
               <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-[#112337] leading-tight">
-                Drie generaties
+                Al {STATS.yearsExperience} jaar
                 <br />bouwen aan <span className="text-[#204CE5]">België</span>
               </h2>
 
@@ -164,7 +161,7 @@ export default function OverOnsPage() {
                   gerenommeerd bouwbedrijf met meer dan {STATS.employees} medewerkers.
                 </p>
                 <p>
-                  Al drie generaties lang combineren wij traditioneel vakmanschap met
+                  Sinds 1930 combineren wij traditioneel vakmanschap met
                   moderne bouwtechnieken. Onze specialisatie in erfgoedrenovatie maakt
                   ons de partner bij uitstek voor de restauratie van historische
                   gebouwen en monumenten.

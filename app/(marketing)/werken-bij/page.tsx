@@ -197,7 +197,7 @@ export default function WerkenBijPage() {
               <p className="mt-6 text-[#686E77] leading-relaxed">
                 Van ervaren vakmensen tot jonge talenten, iedereen draagt bij
                 aan ons succes. Bij De Raedt word je niet zomaar een nummer —
-                je wordt deel van een hecht team dat al generaties lang samen bouwt.
+                je wordt deel van een hecht team dat al sinds 1930 samen bouwt.
               </p>
 
               <ul className="mt-8 space-y-4">

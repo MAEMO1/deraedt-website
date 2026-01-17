@@ -2,9 +2,9 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Mail, Loader2, ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Loader2, ArrowLeft, CheckCircle, AlertCircle, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,14 +12,19 @@ import { Logo } from "@/components/shared/logo";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 
+const isDev = process.env.NODE_ENV === "development";
+
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const redirectTo = searchParams.get("redirectTo") || "/dashboard";
   const authError = searchParams.get("error");
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [useDevLogin, setUseDevLogin] = useState(isDev);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,25 +32,44 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
-        },
-      });
 
-      if (error) {
-        throw error;
+      if (useDevLogin && password) {
+        // Dev mode: password login
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        toast.success("Ingelogd!", {
+          description: "Je wordt doorgestuurd...",
+        });
+        router.push(redirectTo);
+      } else {
+        // Production: magic link
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
+          },
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        setIsSent(true);
+        toast.success("Link verzonden!", {
+          description: "Controleer uw inbox voor de login link.",
+        });
       }
-
-      setIsSent(true);
-      toast.success("Link verzonden!", {
-        description: "Controleer uw inbox voor de login link.",
-      });
     } catch (err) {
       console.error("Login error:", err);
       toast.error("Er is iets misgegaan", {
-        description: "Probeer het later opnieuw.",
+        description: err instanceof Error ? err.message : "Probeer het later opnieuw.",
       });
     } finally {
       setIsLoading(false);
@@ -89,6 +113,30 @@ function LoginForm() {
               </div>
             )}
 
+            {/* Dev Mode Banner */}
+            {isDev && (
+              <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-sm text-amber-800">
+                    <KeyRound className="h-4 w-4" />
+                    <span className="font-medium">Development Mode</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setUseDevLogin(!useDevLogin)}
+                    className="text-xs text-amber-700 underline hover:text-amber-900"
+                  >
+                    {useDevLogin ? "Gebruik magic link" : "Gebruik wachtwoord"}
+                  </button>
+                </div>
+                {useDevLogin && (
+                  <p className="mt-1 text-xs text-amber-700">
+                    Test accounts: admin@deraedt.be / Admin123! of klant@deraedt.be / Klant123!
+                  </p>
+                )}
+              </div>
+            )}
+
             {isSent ? (
               <div className="mt-8 rounded-xl border border-green-200 bg-green-50 p-6 text-center">
                 <CheckCircle className="mx-auto h-10 w-10 text-green-500" />
@@ -129,26 +177,48 @@ function LoginForm() {
                   </div>
                 </div>
 
+                {useDevLogin && (
+                  <div>
+                    <Label htmlFor="password">Wachtwoord</Label>
+                    <div className="relative mt-2">
+                      <KeyRound className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                      <Input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="pl-10"
+                        placeholder="••••••••"
+                        required={useDevLogin}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <Button
                   type="submit"
-                  disabled={isLoading || !email}
+                  disabled={isLoading || !email || (useDevLogin && !password)}
                   className="w-full"
                   size="lg"
                 >
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Verzenden...
+                      {useDevLogin ? "Inloggen..." : "Verzenden..."}
                     </>
+                  ) : useDevLogin ? (
+                    "Inloggen"
                   ) : (
                     "Login Link Versturen"
                   )}
                 </Button>
 
-                <p className="text-center text-sm text-gray-500">
-                  U ontvangt een email met een veilige login link. Geen
-                  wachtwoord nodig.
-                </p>
+                {!useDevLogin && (
+                  <p className="text-center text-sm text-gray-500">
+                    U ontvangt een email met een veilige login link. Geen
+                    wachtwoord nodig.
+                  </p>
+                )}
               </form>
             )}
           </motion.div>

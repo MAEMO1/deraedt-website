@@ -493,8 +493,8 @@ export default function ContactPage() {
                 <div className="text-xs text-[#686E77] uppercase tracking-wider">Jaar</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-[#112337]">500<span className="text-[#204CE5]">+</span></div>
-                <div className="text-xs text-[#686E77] uppercase tracking-wider">Projecten</div>
+                <div className="text-3xl font-bold text-[#112337]">40<span className="text-[#204CE5]">+</span></div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">Vakmannen</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-[#112337]">6</div>

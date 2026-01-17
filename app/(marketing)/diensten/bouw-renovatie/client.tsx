@@ -18,51 +18,51 @@ import { COMPANY } from "@/lib/constants";
 const services = [
   {
     icon: Building2,
-    title: "Nieuwbouw",
-    description: "Complete nieuwbouwprojecten van fundament tot oplevering.",
+    title: "Algemene Bouwwerken",
+    description: "Bouwprojecten van A tot Z voor overheden en bedrijven.",
     features: [
-      "Turnkey projecten voor particulieren en overheden",
-      "Kantoorgebouwen & bedrijfspanden",
-      "Residentiële woningbouw",
       "Publieke gebouwen (scholen, sportinfrastructuur)",
-      "Industriële constructies",
+      "Verbouwingen en uitbreidingen",
+      "Structurele werken en funderingen",
+      "Afwerking: vloeren, plafonds, pleisterwerk",
+      "Klasse 6 erkend voor grote projecten",
     ],
   },
   {
     icon: Hammer,
-    title: "Renovatie",
-    description: "Grondige renovatie met behoud van karakter.",
+    title: "Dakwerken & Renovatie",
+    description: "Specialisten in dak- en gevelwerken.",
     features: [
-      "Volledige binnenrenovatie",
-      "Gevelrenovatie & isolatie",
-      "Dakwerken & waterdichting",
-      "Structurele versterkingen",
-      "Energetische verbeteringen (EPC-label verbetering)",
+      "Hellende en platte daken",
+      "Sarking isolatie methode",
+      "Koperbekleding en zinkwerk",
+      "Dakgoten en regenwaterafvoer",
+      "Valbeveiliging op daken",
     ],
   },
   {
     icon: Landmark,
     title: "Erfgoedrenovatie",
-    description: "Gespecialiseerde restauratie van monumenten.",
+    description: "Restauratie van beschermd bouwkundig erfgoed.",
     features: [
-      "Monumentenrestauratie",
-      "Historische gevelreiniging",
-      "Authentieke materialen & technieken",
-      "Samenwerking met Onroerend Erfgoed",
-      "Subsidie-advies voor beschermde monumenten",
+      "Monumentenrestauratie (o.a. Stadhuis Gent)",
+      "Authentieke materialen en soldeerwerk",
+      "Natuurleien vervangen en herstellen",
+      "Werken voor KU Leuven campussen",
+      "Beschermde stads- en dorpsgezichten",
     ],
   },
 ];
 
 const scopeIncludes = [
-  "Nieuwbouw van kantoren, woningen, scholen en publieke gebouwen",
-  "Volledige renovatie van bestaande structuren",
-  "Erfgoedrenovatie en monumentenrestauratie",
-  "Dakwerken, gevelwerken en isolatie",
+  "Algemene bouwwerken voor overheden en bedrijven",
+  "Dakwerken: hellend, plat, koper, zink, leien",
+  "Sarking isolatie en energetische renovatie",
+  "Gevelwerken, voegwerk en buitenschrijnwerk",
+  "Monumentenrestauratie en erfgoedrenovatie",
   "Structurele versterkingen en stabilisatie",
-  "Energetische renovatie en EPB-optimalisatie",
-  "Ondergrondse constructies en funderingen",
-  "Afwerking: vloeren, plafonds, schilderwerk",
+  "Valbeveiliging en toegankelijkheidswerken",
+  "Afwerking: pleisterwerk, vloeren, plafonds",
 ];
 
 const scopeExcludes = [
@@ -114,12 +114,12 @@ export function BouwRenovatieClient() {
             </span>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
-              Nieuwbouw, Renovatie<br />& Erfgoed
+              Bouw, Dakwerken<br />& Erfgoed
             </h1>
 
             <p className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-xl">
-              Van fundament tot afwerking. Wij realiseren uw bouwproject met vakmanschap,
-              respect voor het bestaande, en oog voor de toekomst.
+              Van dakwerken tot monumentenrestauratie. Klasse 6 erkend voor
+              publieke gebouwen met specialisatie in erfgoedrenovatie.
             </p>
 
             <div className="mt-10">

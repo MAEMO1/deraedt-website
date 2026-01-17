@@ -21,17 +21,16 @@ export const COMPANY = {
   founded: 1930,
 } as const;
 
-// Geverifieerde statistieken
+// Geverifieerde statistieken (bronnen: Companyweb, bedrijfssite, certificaten)
 export const STATS = {
   yearsExperience: new Date().getFullYear() - COMPANY.founded,
   employees: "42",
-  employeesExact: 42,
+  employeesExact: 42, // VTE volgens jaarrekening 2024
   revenue: 22716681,
   revenueDisplay: "€22,7M",
   revenueYear: 2024,
   erkenningsklasse: 6,
-  projectsCompleted: "500+",
-  raamcontracten: "15+",
+  // Verwijderd: projectsCompleted en raamcontracten - niet publiek verifieerbaar
 } as const;
 
 // Certificeringen - GEVERIFIEERD
@@ -67,7 +66,10 @@ export const CERTIFICATIONS = [
     fullName: "CO₂-Prestatieladder 3.1 – Niveau 3",
     description: "CO₂-bewust certificaat voor duurzaam bouwen",
     scope: "Algemene bouw-, dak- en infrastructuurwerken; Onderhoud, interventies en energetische renovaties",
+    certificateNumber: "25 CO2 25", // Vinçotte certificaat
+    validFrom: "4 augustus 2025",
     validUntil: "14 januari 2028",
+    issuer: "Vinçotte",
     verified: true,
     prominent: true,
   },
@@ -88,27 +90,31 @@ export const KEY_CLIENTS = [
   { name: "KBVB", type: "sport" },
 ] as const;
 
-// Raamcontracten (bewijs van vertrouwen)
+// Raamcontracten - geverifieerd via bedrijfssite/nieuws/LinkedIn
 export const RAAMCONTRACTEN = [
   {
     client: "Stad Gent",
-    scope: "Herstellen van daken",
+    scope: "Herstellen van daken en dakgoten",
+    type: "Onderhoud",
+    verified: true, // Bron: LinkedIn posts, nvderaedtivan.be
+  },
+  {
+    client: "Stad Brussel",
+    scope: "Onderhoud en renovatiewerken",
     type: "Onderhoud & Renovatie",
+    verified: true, // Bron: nvderaedtivan.be
   },
   {
     client: "VEB",
     scope: "Thermische verbetering buitenschil scholen",
     type: "Energetische Renovatie",
+    verified: true, // Bron: nvderaedtivan.be/nieuws
   },
   {
-    client: "Stad Antwerpen",
-    scope: "Herstellingen hellende en platte daken",
-    type: "Onderhoud & Renovatie",
-  },
-  {
-    client: "Regie der Gebouwen",
-    scope: "Onderhoud federale gebouwen",
-    type: "Facility Management",
+    client: "KU Leuven",
+    scope: "Bouwpartner 10 campussen",
+    type: "Bouw & Renovatie",
+    verified: true, // Bron: LinkedIn
   },
 ] as const;
 
@@ -182,30 +188,30 @@ export const PROJECT_CATEGORIES = [
   { value: "overheid", label: "Overheid" },
 ] as const;
 
-// Diensten
+// Diensten - gebaseerd op geverifieerde activiteiten
 export const SERVICES = [
   {
-    id: "nieuwbouw",
-    title: "Nieuwbouw",
-    description: "Van fundament tot sleutel-op-de-deur projecten voor particulieren en overheden.",
+    id: "bouwwerken",
+    title: "Algemene Bouwwerken",
+    description: "Bouwprojecten van A tot Z voor overheden en bedrijven. Klasse 6 erkend.",
     icon: "Building2",
   },
   {
-    id: "renovatie",
-    title: "Renovatie",
-    description: "Grondige renovatie met respect voor de bestaande structuur en moderne technieken.",
+    id: "dakwerken",
+    title: "Dakwerken",
+    description: "Specialisten in hellende en platte daken, isolatie en waterdichting.",
     icon: "Hammer",
   },
   {
     id: "erfgoed",
     title: "Erfgoedrenovatie",
-    description: "Gespecialiseerde restauratie van historische gebouwen en monumenten.",
+    description: "Restauratie van beschermd bouwkundig erfgoed met authentieke technieken.",
     icon: "Landmark",
   },
   {
     id: "facility",
-    title: "Facility Management",
-    description: "Raamcontracten, preventief onderhoud en interventies voor gebouwbeheer.",
+    title: "Onderhoud & Interventies",
+    description: "Raamcontracten voor dakonderhoud, herstellingen en renovatiewerken.",
     icon: "Wrench",
   },
 ] as const;
@@ -246,7 +252,7 @@ export const SITE_CONFIG = {
   locale: "nl_BE",
 } as const;
 
-// USP's voor procurement
+// USP's voor procurement - alleen verifieerbare claims
 export const PROCUREMENT_USPS = [
   {
     title: "Klasse 6 Erkend",
@@ -257,11 +263,11 @@ export const PROCUREMENT_USPS = [
     description: "ISO 9001 + VCA** + CO₂-Prestatieladder niveau 3",
   },
   {
-    title: "96 Jaar Ervaring",
-    description: "Familiale continuïteit sinds 1930 met bewezen trackrecord",
+    title: "Actief Sinds 1930",
+    description: "Familiale continuïteit met bewezen trackrecord in de bouwsector",
   },
   {
-    title: "Raamcontract Specialist",
-    description: "Actieve raamcontracten met Gent, Antwerpen, VEB en Regie der Gebouwen",
+    title: "Raamcontract Ervaring",
+    description: "Ervaring met raamcontracten voor publieke opdrachtgevers (o.a. VEB)",
   },
 ] as const;

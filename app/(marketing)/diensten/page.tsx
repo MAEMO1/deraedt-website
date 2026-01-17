@@ -13,46 +13,46 @@ import {
   CheckCircle,
   Phone,
 } from "lucide-react";
-import { COMPANY } from "@/lib/constants";
+import { COMPANY, STATS } from "@/lib/constants";
 
 // Map service IDs to detail pages
 const serviceRoutes: Record<string, string> = {
-  nieuwbouw: "/diensten/bouw-renovatie",
-  renovatie: "/diensten/bouw-renovatie",
+  bouwwerken: "/diensten/bouw-renovatie",
+  dakwerken: "/diensten/bouw-renovatie",
   erfgoed: "/diensten/bouw-renovatie",
   facility: "/diensten/facility",
 };
 
 const services = [
   {
-    id: "nieuwbouw",
+    id: "bouwwerken",
     icon: Building2,
-    title: "Nieuwbouw",
-    subtitle: "Van fundament tot sleutel-op-de-deur",
+    title: "Algemene Bouwwerken",
+    subtitle: "Klasse 6 erkend aannemer",
     description:
-      "Wij realiseren complete nieuwbouwprojecten voor particulieren, bedrijven en overheden. Van de eerste tekening tot de oplevering begeleiden wij u door het volledige bouwproces.",
+      "Bouwprojecten van A tot Z voor overheden en bedrijven. Van verbouwingen tot complete nieuwbouw van publieke gebouwen, scholen en sportinfrastructuur.",
     features: [
-      "Turnkey projecten",
-      "Kantoorgebouwen & bedrijfspanden",
-      "Residentiële projecten",
-      "Publieke gebouwen",
-      "Industriële constructies",
+      "Publieke gebouwen & scholen",
+      "Verbouwingen en uitbreidingen",
+      "Structurele werken",
+      "Afwerking en pleisterwerk",
+      "Klasse 6 erkenning",
     ],
     image: "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
   },
   {
-    id: "renovatie",
+    id: "dakwerken",
     icon: Hammer,
-    title: "Renovatie",
-    subtitle: "Nieuw leven voor bestaande structuren",
+    title: "Dakwerken",
+    subtitle: "Specialisten in dak- en gevelwerken",
     description:
-      "Grondige renovatie met respect voor de bestaande structuur en moderne technieken. Wij transformeren verouderde gebouwen naar hedendaagse normen met behoud van karakter.",
+      "Van hellende daken tot platte daken, met expertise in koperbekleding, zinkwerk en natuurleien. Inclusief Sarking isolatie voor optimale energieprestaties.",
     features: [
-      "Volledige binnenrenovatie",
-      "Gevelrenovatie & isolatie",
-      "Dakwerken & waterdichting",
-      "Structurele versterkingen",
-      "Energetische verbeteringen",
+      "Hellende en platte daken",
+      "Sarking isolatie methode",
+      "Koper- en zinkbekleding",
+      "Valbeveiliging op daken",
+      "Dakgoten en waterdichting",
     ],
     image: "/images/original-site/Foto-Stadhuis-Gent.jpeg",
   },
@@ -60,31 +60,31 @@ const services = [
     id: "erfgoed",
     icon: Landmark,
     title: "Erfgoedrenovatie",
-    subtitle: "Specialisten in monumentenzorg",
+    subtitle: "Monumentenrestauratie",
     description:
-      "Gespecialiseerde restauratie van historische gebouwen en monumenten. Met respect voor het verleden en oog voor de toekomst geven wij erfgoed zijn glorie terug.",
+      "Gespecialiseerde restauratie van beschermd bouwkundig erfgoed. Met authentieke materialen en technieken, in samenwerking met Onroerend Erfgoed.",
     features: [
       "Monumentenrestauratie",
-      "Historische gevelreiniging",
-      "Authentieke materialen & technieken",
-      "Samenwerking met Onroerend Erfgoed",
-      "Subsidie-advies monumenten",
+      "Authentieke soldeerwerk",
+      "Natuurleien vervangen",
+      "KU Leuven campussen",
+      "Stadhuis Gent & Brussel",
     ],
     image: "/images/original-site/Justitiepaleis-Dendermonde.jpg",
   },
   {
     id: "facility",
     icon: Wrench,
-    title: "Facility Management",
-    subtitle: "Onderhoud & beheer op maat",
+    title: "Onderhoud & Interventies",
+    subtitle: "Raamcontracten voor overheden",
     description:
-      "Raamcontracten voor het onderhoud en beheer van gebouwen. Preventief onderhoud, snelle interventies en structurele aanpassingen onder één dak.",
+      "Langlopende raamcontracten voor dakonderhoud, herstellingen en renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel, VEB en KU Leuven.",
     features: [
-      "Raamcontracten overheid",
-      "Preventief onderhoud",
-      "24/7 interventie service",
+      "Raamcontract Stad Gent",
+      "Raamcontract Stad Brussel",
+      "VEB scholen onderhoud",
       "Dakonderhoud & inspectie",
-      "Periodieke inspecties",
+      "Interventies bij schade",
     ],
     image: "/images/original-site/Koning-Boudewijn-Stadion.webp",
   },
@@ -226,7 +226,7 @@ export default function DienstenPage() {
 
             <p className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-xl">
               Van monumentale erfgoedrenovatie tot innovatieve nieuwbouw —
-              generaties vakmanschap met hedendaagse technieken.
+              {STATS.yearsExperience} jaar vakmanschap met hedendaagse technieken.
             </p>
           </motion.div>
         </div>

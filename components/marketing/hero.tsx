@@ -114,7 +114,7 @@ export function Hero() {
                 ))}
               </div>
               <div className="text-white/60 text-sm">
-                <span className="text-white font-semibold">500+</span> projecten afgeleverd
+                <span className="text-white font-semibold">Actief sinds 1930</span>
               </div>
             </motion.div>
           </div>
@@ -132,7 +132,7 @@ export function Hero() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { value: STATS.yearsExperience, suffix: "+", label: "Jaar ervaring" },
-              { value: "500", suffix: "+", label: "Projecten" },
+              { value: "3", suffix: "x", label: "Gecertificeerd" },
               { value: "40", suffix: "+", label: "Medewerkers" },
               { value: "6", suffix: "", label: "Klasse erkenning" },
             ].map((stat, i) => (
