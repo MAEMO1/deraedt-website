@@ -84,13 +84,14 @@ export function Header() {
       {/* Full screen menu overlay */}
       <div
         className={cn(
-          "fixed inset-0 top-20 bg-white z-40 transition-all duration-500 ease-out",
+          "fixed inset-0 top-20 z-[100] transition-all duration-500 ease-out overflow-auto",
           menuOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-4 pointer-events-none"
         )}
+        style={{ backgroundColor: '#FFFFFF' }}
       >
-        <div className="container-wide py-12">
+        <div className="container-wide py-12 bg-white min-h-full">
           <nav className="grid md:grid-cols-2 gap-8">
             {/* Main navigation */}
             <div>
