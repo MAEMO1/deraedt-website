@@ -229,5 +229,32 @@ JSON seed files in `scripts/seed/`:
   - Optional chaining voor nullable velden
 - **PATTERN:** Server component fetcht data, client component rendert (props-driven)
 
+### 2026-01-17: Tender Agent implementation
+
+- **DOEL:** Automatische tender ingestion van TED en e-Procurement bronnen
+- **AANGEMAAKT:** `lib/tender-agent/` module met:
+  - `types.ts` — Type definities voor connectors, raw/normalized tenders, ingest runs
+  - `match-calculator.ts` — Bereken match score op basis van CPV codes, locatie, waarde, deadline
+  - `rate-limiter.ts` — Rate limiting per bron (60/uur TED, 100/dag e-Procurement)
+  - `ted-connector.ts` — TED API connector voor Europese tenders
+  - `e-procurement-connector.ts` — Belgian e-Procurement connector + email parser
+  - `index.ts` — Orchestrator die alle connectors coördineert
+- **DATABASE:**
+  - `00011_tender_ingest.sql` — Migration voor `tender_ingest_runs` en `cpv_relevance` tables
+  - CPV relevance seed data voor bouwsector codes (core/adjacent/opportunistic/excluded)
+  - `calculate_tender_match_score()` PostgreSQL functie
+- **CRON JOB:**
+  - `app/api/cron/tender-ingest/route.ts` — API route voor cron
+  - `vercel.json` — Cron schedule: weekdagen 7:00, 12:00, 17:00 CET
+  - Beveiligd met CRON_SECRET environment variable
+- **MATCH SCORE ALGORITME:**
+  - CPV codes: 60% gewicht (core=100, adjacent=70, opportunistic=50)
+  - Locatie: 25% gewicht (Oost-Vlaanderen=100, Vlaanderen=70, België=50)
+  - Waarde: 10% gewicht (sweet spot €200K-€2M)
+  - Deadline: 5% gewicht (ideaal 2-8 weken)
+  - Skip tenders met score < 30%
+- **ENVIRONMENT VARIABLES NODIG:**
+  - `CRON_SECRET` — Beveiliging van cron endpoint (optioneel in dev)
+
 ---
 _Last updated: 2026-01-17_
