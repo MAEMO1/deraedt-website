@@ -16,8 +16,6 @@ import {
   Phone,
   Mail,
   Calendar,
-  ExternalLink,
-  ChevronRight,
   Zap,
 } from "lucide-react";
 import {
@@ -47,7 +45,7 @@ function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: s
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="font-display text-6xl sm:text-7xl lg:text-8xl text-white tracking-tight"
+        className="font-display text-5xl sm:text-6xl lg:text-7xl text-[#0C0C0C] tracking-tight"
       >
         {isInView ? value : 0}{suffix}
       </motion.div>
@@ -55,7 +53,7 @@ function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: s
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-3 text-[11px] text-white/40 uppercase tracking-[0.2em]"
+        className="mt-3 text-[10px] text-[#6B6560] uppercase tracking-[0.2em]"
       >
         {label}
       </motion.div>
@@ -83,8 +81,8 @@ export default function ProcurementPage() {
 
   return (
     <>
-      {/* Hero Section - Editorial Style */}
-      <section ref={heroRef} className="relative min-h-screen bg-[#0A0A09] overflow-hidden">
+      {/* Hero Section - Light Editorial Style */}
+      <section ref={heroRef} className="relative min-h-screen bg-[#FAF7F2] overflow-hidden">
         {/* Background with parallax */}
         <motion.div style={{ y: heroImageY }} className="absolute inset-0">
           <Image
@@ -94,11 +92,14 @@ export default function ProcurementPage() {
             className="object-cover"
             priority
             quality={90}
-            style={{ filter: "contrast(1.1) saturate(0.8)" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A09] via-[#0A0A09]/80 to-[#0A0A09]/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A09] via-transparent to-[#0A0A09]/60" />
+          {/* Light warm overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F2] via-[#FAF7F2]/85 to-[#FAF7F2]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2] via-transparent to-[#FAF7F2]/50" />
         </motion.div>
+
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 grid-blueprint opacity-30" />
 
         {/* Geometric accents */}
         <div className="absolute inset-0 pointer-events-none">
@@ -106,13 +107,13 @@ export default function ProcurementPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="absolute top-32 right-16 w-40 h-40 border-t border-r border-[#C9A87C]/20 hidden lg:block"
+            className="absolute top-32 right-16 w-40 h-40 border-t border-r border-[#9A6B4C]/20 hidden lg:block"
           />
           <motion.div
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
             transition={{ delay: 1.2, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-1/2 top-0 w-px h-32 bg-gradient-to-b from-transparent via-[#C9A87C]/30 to-transparent origin-top hidden lg:block"
+            className="absolute left-1/2 top-0 w-px h-32 bg-gradient-to-b from-transparent via-[#9A6B4C]/30 to-transparent origin-top hidden lg:block"
           />
         </div>
 
@@ -128,13 +129,13 @@ export default function ProcurementPage() {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="flex flex-wrap gap-3 mb-10"
                 >
-                  <div className="flex items-center gap-2 bg-[#C9A87C] text-[#0A0A09] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em]">
+                  <div className="flex items-center gap-2 bg-[#9A6B4C] text-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] shadow-lg shadow-[#9A6B4C]/15">
                     <Shield className="w-4 h-4" strokeWidth={2} />
                     Klasse 6
                   </div>
-                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em]">
-                    <Leaf className="w-4 h-4" strokeWidth={1.5} />
-                    CO₂-Niveau 3
+                  <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-[#0C0C0C]/5 text-[#0C0C0C] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] shadow-sm">
+                    <Leaf className="w-4 h-4 text-[#9A6B4C]" strokeWidth={1.5} />
+                    CO2-Niveau 3
                   </div>
                 </motion.div>
 
@@ -149,9 +150,9 @@ export default function ProcurementPage() {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="h-px w-16 bg-[#C9A87C] origin-left"
+                    className="h-px w-16 bg-[#9A6B4C] origin-left"
                   />
-                  <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#C9A87C]">
+                  <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#9A6B4C]">
                     Voor Overheden & Facility Managers
                   </span>
                 </motion.div>
@@ -162,7 +163,7 @@ export default function ProcurementPage() {
                     initial={{ y: 100 }}
                     animate={{ y: 0 }}
                     transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-white leading-[0.9] tracking-[-0.03em]"
+                    className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-[#0C0C0C] leading-[0.9] tracking-[-0.03em]"
                   >
                     Procurement
                   </motion.h1>
@@ -172,11 +173,9 @@ export default function ProcurementPage() {
                     initial={{ y: 100 }}
                     animate={{ y: 0 }}
                     transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.9] tracking-[-0.03em]"
+                    className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.9] tracking-[-0.03em] text-[#9A6B4C]"
                   >
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C9A87C] via-[#E5D4B8] to-[#C9A87C]">
-                      Hub
-                    </span>
+                    Hub
                   </motion.h1>
                 </div>
 
@@ -184,10 +183,10 @@ export default function ProcurementPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.8 }}
-                  className="mt-10 max-w-lg text-lg sm:text-xl text-white/45 leading-relaxed font-serif font-light"
+                  className="mt-10 max-w-lg text-lg sm:text-xl text-[#6B6560] leading-relaxed font-serif font-light"
                 >
                   Alle documentatie voor aanbestedingen, preselecties en
-                  raamcontracten — georganiseerd, actueel en in één klik beschikbaar.
+                  raamcontracten — georganiseerd, actueel en in een klik beschikbaar.
                 </motion.p>
 
                 {/* CTAs */}
@@ -199,14 +198,14 @@ export default function ProcurementPage() {
                 >
                   <a
                     href="#certificaten"
-                    className="group inline-flex items-center gap-4 bg-[#C9A87C] text-[#0A0A09] px-8 py-5 font-semibold text-sm tracking-wide transition-all duration-500 hover:bg-[#E5D4B8]"
+                    className="group inline-flex items-center gap-4 bg-[#9A6B4C] text-white px-8 py-5 font-semibold text-sm tracking-wide transition-all duration-500 hover:bg-[#7A5339] shadow-lg shadow-[#9A6B4C]/15"
                   >
                     <span>Bekijk certificaten</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                   <Link
                     href="/procurement/documentatie"
-                    className="group inline-flex items-center gap-4 border border-white/20 text-white px-8 py-5 font-medium text-sm tracking-wide transition-all duration-500 hover:bg-white/[0.05] hover:border-white/30"
+                    className="group inline-flex items-center gap-4 border-2 border-[#0C0C0C]/10 text-[#0C0C0C] px-8 py-5 font-medium text-sm tracking-wide transition-all duration-500 hover:border-[#9A6B4C] hover:text-[#9A6B4C]"
                   >
                     <Download className="w-4 h-4" />
                     <span>Tender Pack</span>
@@ -221,7 +220,7 @@ export default function ProcurementPage() {
                 transition={{ duration: 1, delay: 0.8 }}
                 className="hidden lg:block"
               >
-                <div className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] p-10">
+                <div className="bg-white border border-[#0C0C0C]/5 p-10 shadow-sm">
                   <div className="grid grid-cols-2 gap-10">
                     <AnimatedStat value={STATS.yearsExperience} label="Jaar ervaring" />
                     <AnimatedStat value={15} suffix="+" label="Raamcontracten" />
@@ -244,19 +243,19 @@ export default function ProcurementPage() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-6 h-10 border border-white/20 rounded-full flex items-start justify-center pt-2"
+            className="w-6 h-10 border border-[#0C0C0C]/20 rounded-full flex items-start justify-center pt-2"
           >
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1 h-2 bg-[#C9A87C] rounded-full"
+              className="w-1 h-2 bg-[#9A6B4C] rounded-full"
             />
           </motion.div>
         </motion.div>
       </section>
 
       {/* USP Strip */}
-      <section className="bg-[#0A0A09] border-t border-white/[0.06]">
+      <section className="bg-white border-y border-[#0C0C0C]/5">
         <div className="max-w-[1800px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 py-12">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {PROCUREMENT_USPS.map((usp, index) => (
@@ -268,12 +267,12 @@ export default function ProcurementPage() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="flex items-start gap-4"
               >
-                <div className="w-10 h-10 flex items-center justify-center bg-[#C9A87C]/10 text-[#C9A87C]">
+                <div className="w-10 h-10 flex items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
                   <Zap className="w-5 h-5" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <div className="font-semibold text-white">{usp.title}</div>
-                  <div className="mt-1 text-sm text-white/40">{usp.description}</div>
+                  <div className="font-semibold text-[#0C0C0C]">{usp.title}</div>
+                  <div className="mt-1 text-sm text-[#6B6560]">{usp.description}</div>
                 </div>
               </motion.div>
             ))}
@@ -283,13 +282,8 @@ export default function ProcurementPage() {
 
       {/* Certifications Section - Editorial Grid */}
       <section id="certificaten" ref={certsRef} className="py-32 bg-[#FAF7F2] relative overflow-hidden">
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(90deg, #0A0A09 1px, transparent 1px), linear-gradient(#0A0A09 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
-          }}
-        />
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 grid-blueprint opacity-30" />
 
         <div className="max-w-[1800px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 relative">
           {/* Section header */}
@@ -300,15 +294,15 @@ export default function ProcurementPage() {
             className="max-w-3xl mb-20"
           >
             <div className="flex items-center gap-4 mb-6">
-              <span className="h-px w-16 bg-[#C9A87C]" />
-              <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#C9A87C]">
+              <span className="h-px w-16 bg-[#9A6B4C]" />
+              <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#9A6B4C]">
                 Certificeringen & Erkenningen
               </span>
             </div>
-            <h2 className="font-display text-5xl sm:text-6xl text-[#0A0A09] leading-[0.95] tracking-[-0.02em]">
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0C0C0C] leading-[0.95] tracking-[-0.02em]">
               Volledig gecertificeerd voor uw aanbestedingen
             </h2>
-            <p className="mt-6 text-lg text-[#0A0A09]/50 font-serif font-light leading-relaxed">
+            <p className="mt-6 text-lg text-[#6B6560] font-serif font-light leading-relaxed">
               Al onze certificaten en erkenningen zijn actueel en direct beschikbaar
               voor opname in uw aanbestedingsdossier.
             </p>
@@ -324,37 +318,37 @@ export default function ProcurementPage() {
                   initial={{ opacity: 0, y: 40 }}
                   animate={isCertsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className={`group relative bg-white border border-[#0A0A09]/[0.06] p-8 transition-all duration-500 hover:border-[#C9A87C]/30 hover:shadow-xl ${
+                  className={`group relative bg-white border border-[#0C0C0C]/5 p-8 transition-all duration-500 hover:border-[#9A6B4C]/30 hover:shadow-xl ${
                     index === 0 ? "lg:col-span-2 lg:row-span-2" : ""
                   }`}
                 >
                   {/* Top bar */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C9A87C] to-[#C9A87C]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#9A6B4C] to-[#9A6B4C]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   <div className="flex items-start justify-between mb-6">
-                    <div className={`flex items-center justify-center text-[#C9A87C] ${index === 0 ? "w-16 h-16" : "w-12 h-12"} bg-[#C9A87C]/10`}>
+                    <div className={`flex items-center justify-center text-[#9A6B4C] ${index === 0 ? "w-16 h-16" : "w-12 h-12"} bg-[#9A6B4C]/10`}>
                       <Icon className={index === 0 ? "w-8 h-8" : "w-6 h-6"} strokeWidth={1.5} />
                     </div>
                     <CheckCircle className="w-5 h-5 text-emerald-500" />
                   </div>
 
-                  <h3 className={`font-display text-[#0A0A09] ${index === 0 ? "text-3xl" : "text-xl"}`}>
+                  <h3 className={`font-display text-[#0C0C0C] ${index === 0 ? "text-3xl" : "text-xl"}`}>
                     {cert.name}
                   </h3>
-                  <p className="mt-1 text-sm font-medium text-[#C9A87C]">{cert.fullName}</p>
-                  <p className={`mt-4 text-[#0A0A09]/50 ${index === 0 ? "text-base" : "text-sm"}`}>
+                  <p className="mt-1 text-sm font-medium text-[#9A6B4C]">{cert.fullName}</p>
+                  <p className={`mt-4 text-[#6B6560] ${index === 0 ? "text-base" : "text-sm"}`}>
                     {cert.description}
                   </p>
 
                   {"scope" in cert && cert.scope && (
-                    <div className="mt-6 pt-6 border-t border-[#0A0A09]/[0.06]">
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#0A0A09]/30 mb-2">Scope</div>
-                      <p className="text-sm text-[#0A0A09]/70">{cert.scope}</p>
+                    <div className="mt-6 pt-6 border-t border-[#0C0C0C]/5">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#6B6560]/60 mb-2">Scope</div>
+                      <p className="text-sm text-[#0C0C0C]/70">{cert.scope}</p>
                     </div>
                   )}
 
                   {"validUntil" in cert && cert.validUntil && (
-                    <div className="mt-4 flex items-center gap-2 text-xs text-[#0A0A09]/40">
+                    <div className="mt-4 flex items-center gap-2 text-xs text-[#6B6560]">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Geldig tot: {cert.validUntil}</span>
                     </div>
@@ -371,12 +365,12 @@ export default function ProcurementPage() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <p className="text-sm text-[#0A0A09]/40">
+            <p className="text-sm text-[#6B6560]">
               Alle certificaten nodig voor uw aanbesteding?
             </p>
             <Link
               href="/procurement/documentatie"
-              className="group inline-flex items-center gap-3 bg-[#0A0A09] text-white px-8 py-4 font-semibold text-sm tracking-wide transition-all duration-500 hover:bg-[#C9A87C]"
+              className="group inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 font-semibold text-sm tracking-wide transition-all duration-500 hover:bg-[#7A5339] shadow-lg shadow-[#9A6B4C]/15"
             >
               <Download className="w-4 h-4" />
               <span>Download Tender Pack</span>
@@ -397,17 +391,17 @@ export default function ProcurementPage() {
               transition={{ duration: 0.8 }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <span className="h-px w-16 bg-[#C9A87C]" />
-                <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#C9A87C]">
+                <span className="h-px w-16 bg-[#9A6B4C]" />
+                <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#9A6B4C]">
                   Bewezen Trackrecord
                 </span>
               </div>
 
-              <h2 className="font-display text-4xl sm:text-5xl text-[#0A0A09] leading-[0.95] tracking-[-0.02em]">
+              <h2 className="font-display text-4xl sm:text-5xl text-[#0C0C0C] leading-[0.95] tracking-[-0.02em]">
                 Actieve raamcontracten
               </h2>
 
-              <p className="mt-8 text-[#0A0A09]/50 leading-relaxed font-serif font-light">
+              <p className="mt-8 text-[#6B6560] leading-relaxed font-serif font-light">
                 Wij zijn geselecteerde partner voor langdurige raamcontracten met
                 toonaangevende overheden en publieke instellingen. Deze samenwerkingen
                 getuigen van consistent kwaliteitswerk.
@@ -420,13 +414,13 @@ export default function ProcurementPage() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={isRaamcontractenInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                    className="group flex items-center gap-6 p-5 bg-[#FAF7F2] border-l-2 border-[#C9A87C] hover:bg-[#C9A87C]/5 transition-colors duration-300"
+                    className="group flex items-center gap-6 p-5 bg-[#FAF7F2] border-l-2 border-[#9A6B4C] hover:bg-[#9A6B4C]/5 transition-colors duration-300"
                   >
                     <div className="flex-1">
-                      <div className="font-semibold text-[#0A0A09]">{contract.client}</div>
-                      <div className="text-sm text-[#0A0A09]/50 mt-0.5">{contract.scope}</div>
+                      <div className="font-semibold text-[#0C0C0C]">{contract.client}</div>
+                      <div className="text-sm text-[#6B6560] mt-0.5">{contract.scope}</div>
                     </div>
-                    <div className="text-[10px] text-[#C9A87C] uppercase tracking-[0.15em] font-semibold">
+                    <div className="text-[10px] text-[#9A6B4C] uppercase tracking-[0.15em] font-semibold">
                       {contract.type}
                     </div>
                   </motion.div>
@@ -441,7 +435,7 @@ export default function ProcurementPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="bg-[#0A0A09] p-12 text-white">
+              <div className="bg-[#0C0C0C] p-12 text-white">
                 <h3 className="font-display text-2xl mb-8">Vertrouwd door</h3>
                 <div className="grid grid-cols-2 gap-4">
                   {KEY_CLIENTS.slice(0, 8).map((client) => (
@@ -449,7 +443,7 @@ export default function ProcurementPage() {
                       key={client.name}
                       className="text-sm text-white/60 flex items-center gap-3 py-2"
                     >
-                      <CheckCircle className="w-4 h-4 text-[#C9A87C] flex-shrink-0" />
+                      <CheckCircle className="w-4 h-4 text-[#9A6B4C] flex-shrink-0" />
                       {client.name}
                     </div>
                   ))}
@@ -472,8 +466,8 @@ export default function ProcurementPage() {
               </div>
 
               {/* Corner accents */}
-              <div className="absolute -top-4 -right-4 w-16 h-16 border-t border-r border-[#C9A87C]/30" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 border-b border-l border-[#C9A87C]/30" />
+              <div className="absolute -top-4 -right-4 w-16 h-16 border-t border-r border-[#9A6B4C]/30" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 border-b border-l border-[#9A6B4C]/30" />
             </motion.div>
           </div>
         </div>
@@ -481,12 +475,8 @@ export default function ProcurementPage() {
 
       {/* Process Section */}
       <section ref={processRef} className="py-32 bg-[#FAF7F2] relative">
-        <div className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(90deg, #0A0A09 1px, transparent 1px), linear-gradient(#0A0A09 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
-          }}
-        />
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 grid-blueprint opacity-30" />
 
         <div className="max-w-[1800px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 relative">
           <motion.header
@@ -496,13 +486,13 @@ export default function ProcurementPage() {
             className="text-center mb-20 max-w-2xl mx-auto"
           >
             <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="h-px w-12 bg-[#C9A87C]" />
-              <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#C9A87C]">
+              <span className="h-px w-12 bg-[#9A6B4C]" />
+              <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#9A6B4C]">
                 Onze Aanpak
               </span>
-              <span className="h-px w-12 bg-[#C9A87C]" />
+              <span className="h-px w-12 bg-[#9A6B4C]" />
             </div>
-            <h2 className="font-display text-4xl sm:text-5xl text-[#0A0A09] leading-[0.95] tracking-[-0.02em]">
+            <h2 className="font-display text-4xl sm:text-5xl text-[#0C0C0C] leading-[0.95] tracking-[-0.02em]">
               Hoe wij samenwerken
             </h2>
           </motion.header>
@@ -523,12 +513,12 @@ export default function ProcurementPage() {
                   transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                   className="text-center group"
                 >
-                  <div className="w-20 h-20 mx-auto flex items-center justify-center bg-white border border-[#0A0A09]/[0.06] text-[#C9A87C] mb-6 group-hover:border-[#C9A87C]/30 transition-colors duration-500">
+                  <div className="w-20 h-20 mx-auto flex items-center justify-center bg-white border border-[#0C0C0C]/5 text-[#9A6B4C] mb-6 group-hover:border-[#9A6B4C]/30 group-hover:shadow-lg transition-all duration-500">
                     <Icon className="w-8 h-8" strokeWidth={1.5} />
                   </div>
-                  <div className="font-display text-5xl text-[#0A0A09]/10 mb-3">{phase.step}</div>
-                  <h3 className="font-display text-xl text-[#0A0A09]">{phase.title}</h3>
-                  <p className="mt-3 text-sm text-[#0A0A09]/50">{phase.description}</p>
+                  <div className="font-display text-5xl text-[#0C0C0C]/10 mb-3">{phase.step}</div>
+                  <h3 className="font-display text-xl text-[#0C0C0C]">{phase.title}</h3>
+                  <p className="mt-3 text-sm text-[#6B6560]">{phase.description}</p>
                 </motion.div>
               );
             })}
@@ -536,33 +526,44 @@ export default function ProcurementPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 bg-[#0A0A09] relative overflow-hidden">
-        {/* Background texture */}
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          }}
-        />
+      {/* CTA Section - Light with accent */}
+      <section className="py-32 bg-white relative overflow-hidden">
+        {/* Subtle pattern */}
+        <div className="absolute inset-0 grid-blueprint opacity-20" />
+
+        {/* Decorative elements */}
+        <div className="absolute top-12 left-12 w-24 h-24 border-t border-l border-[#9A6B4C]/10 hidden lg:block" />
+        <div className="absolute bottom-12 right-12 w-24 h-24 border-b border-r border-[#9A6B4C]/10 hidden lg:block" />
 
         <div className="max-w-[1800px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 relative">
           <div className="max-w-3xl mx-auto text-center">
-            <motion.h2
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-[0.95] tracking-[-0.02em]"
             >
-              Klaar voor een <span className="text-[#C9A87C]">kennismaking</span>?
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#9A6B4C]">
+                Neem contact op
+              </span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl text-[#0C0C0C] leading-[0.95] tracking-[-0.02em]"
+            >
+              Klaar voor een <span className="text-[#9A6B4C]">kennismaking</span>?
             </motion.h2>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="mt-6 text-lg text-white/40 leading-relaxed font-serif font-light"
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mt-6 text-lg text-[#6B6560] leading-relaxed font-serif font-light"
             >
               Neem contact op voor een vrijblijvend gesprek over uw aanbestedingen,
               raamcontracten of facility management behoeften.
@@ -572,19 +573,19 @@ export default function ProcurementPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
               className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Link
                 href="/contact?subject=raamcontract"
-                className="group inline-flex items-center gap-4 bg-[#C9A87C] text-[#0A0A09] px-8 py-5 font-semibold text-sm tracking-wide transition-all duration-500 hover:bg-[#E5D4B8]"
+                className="group inline-flex items-center gap-4 bg-[#9A6B4C] text-white px-8 py-5 font-semibold text-sm tracking-wide transition-all duration-500 hover:bg-[#7A5339] shadow-lg shadow-[#9A6B4C]/15"
               >
                 <span>Plan een gesprek</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <a
                 href={`tel:${COMPANY.contact.phone}`}
-                className="group inline-flex items-center gap-3 border border-white/20 text-white px-8 py-5 font-medium text-sm tracking-wide transition-all duration-500 hover:bg-white/[0.05] hover:border-white/30"
+                className="group inline-flex items-center gap-3 border-2 border-[#0C0C0C]/10 text-[#0C0C0C] px-8 py-5 font-medium text-sm tracking-wide transition-all duration-500 hover:border-[#9A6B4C] hover:text-[#9A6B4C]"
               >
                 <Phone className="w-4 h-4" />
                 {COMPANY.contact.phone}
@@ -595,12 +596,12 @@ export default function ProcurementPage() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-12 flex items-center justify-center gap-8 text-sm text-white/30"
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-12 flex items-center justify-center gap-8 text-sm text-[#6B6560]"
             >
               <a
                 href={`mailto:${COMPANY.contact.email}`}
-                className="flex items-center gap-2 hover:text-white/60 transition-colors"
+                className="flex items-center gap-2 hover:text-[#9A6B4C] transition-colors"
               >
                 <Mail className="w-4 h-4" />
                 {COMPANY.contact.email}

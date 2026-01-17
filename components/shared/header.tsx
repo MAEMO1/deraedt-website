@@ -12,7 +12,6 @@ import { MobileNav } from "./mobile-nav";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const isHomepage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,14 +26,14 @@ export function Header() {
     <header
       className={cn(
         "fixed left-0 right-0 top-0 z-50 transition-all duration-500",
-        scrolled || !isHomepage
-          ? "bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#0C0C0C]/5"
+        scrolled
+          ? "bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#0C0C0C]/5 shadow-sm"
           : "bg-transparent"
       )}
     >
       <div className="container-wide">
         <div className="flex h-24 items-center justify-between">
-          <Logo variant={scrolled || !isHomepage ? "default" : "white"} />
+          <Logo variant="default" />
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:block">
@@ -47,23 +46,14 @@ export function Header() {
                       href={item.href}
                       className={cn(
                         "relative px-5 py-2 text-[13px] font-medium tracking-[0.08em] transition-all duration-300",
-                        scrolled || !isHomepage
-                          ? isActive
-                            ? "text-[#0C0C0C]"
-                            : "text-[#6B6560] hover:text-[#0C0C0C]"
-                          : isActive
-                            ? "text-white"
-                            : "text-white/60 hover:text-white"
+                        isActive
+                          ? "text-[#0C0C0C]"
+                          : "text-[#6B6560] hover:text-[#0C0C0C]"
                       )}
                     >
                       {item.label}
                       {isActive && (
-                        <span
-                          className={cn(
-                            "absolute bottom-0 left-5 right-5 h-[2px]",
-                            scrolled || !isHomepage ? "bg-[#9A6B4C]" : "bg-white"
-                          )}
-                        />
+                        <span className="absolute bottom-0 left-5 right-5 h-[2px] bg-[#9A6B4C]" />
                       )}
                     </Link>
                   </li>
@@ -75,18 +65,13 @@ export function Header() {
           <div className="flex items-center gap-4">
             <Link
               href={NAV_CTA.href}
-              className={cn(
-                "group hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] transition-all duration-300",
-                scrolled || !isHomepage
-                  ? "bg-[#9A6B4C] text-white hover:bg-[#7A5339]"
-                  : "bg-white text-[#0C0C0C] hover:bg-[#9A6B4C] hover:text-white"
-              )}
+              className="group hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] bg-[#9A6B4C] text-white hover:bg-[#7A5339] transition-all duration-300 shadow-lg shadow-[#9A6B4C]/15"
             >
               {NAV_CTA.label}
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
 
-            <div className={cn(scrolled || !isHomepage ? "text-[#0C0C0C]" : "text-white")}>
+            <div className="text-[#0C0C0C]">
               <MobileNav />
             </div>
           </div>
