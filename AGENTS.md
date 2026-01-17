@@ -87,6 +87,7 @@ lib/
 ### Routing
 - Route groups: `(marketing)`, `(portal)`, `(wizard)` — parentheses = no URL segment
 - Dynamic routes: `[slug]` for project detail pages
+- **KRITIEK:** Dashboard routes zijn `/dashboard/*`, NIET `/portal/*`
 
 ### Components
 - Use `@/components/ui/*` for base components
@@ -102,6 +103,37 @@ lib/
 - Tailwind v4 (CSS-first config in globals.css)
 - Use `cn()` from `@/lib/utils` for conditional classes
 - Design tokens in Tailwind config
+
+### Auth Pattern (BELANGRIJK)
+- **Middleware** handelt route protection af → redirect naar `/login` als niet ingelogd
+- **Pages** gebruiken NOOIT `redirect('/login')` → veroorzaakt redirect loops
+- **Fallback user:** Gebruik `FALLBACK_USER` uit `lib/supabase/fallback-user.ts` als profile fetch faalt
+- Pattern voor dashboard pages:
+  ```tsx
+  import { getCurrentUser } from '@/lib/supabase/auth';
+  import { FALLBACK_USER } from '@/lib/supabase/fallback-user';
+
+  export default async function SomePage() {
+    const user = await getCurrentUser();
+    return <SomeClient user={user || FALLBACK_USER} />;
+  }
+  ```
+
+## Verificatie Checklist (VERPLICHT)
+
+### Na elke dashboard/portal wijziging:
+1. **Routes matchen:** Controleer dat sidebar links (`components/portal/sidebar.tsx`) overeenkomen met bestaande routes in `app/(portal)/dashboard/`
+2. **Navigatie test:** Klik door ALLE sidebar items en verifieer dat geen 404's optreden
+3. **Auth flow test:**
+   - Uitloggen → probeer `/dashboard` → moet redirect naar `/login`
+   - Inloggen → navigeer naar sub-pages → moet NIET opnieuw naar login redirecten
+4. **Seed data:** Verifieer dat pagina's demo data tonen uit `scripts/seed/`
+
+### Bij nieuwe dashboard module:
+1. Maak page in `app/(portal)/dashboard/[module]/page.tsx`
+2. Voeg route toe aan sidebar in `components/portal/sidebar.tsx`
+3. Gebruik FALLBACK_USER pattern (geen redirect in page)
+4. Test navigatie vanuit andere dashboard pages
 
 ## Data Model (Implemented)
 
@@ -166,5 +198,15 @@ JSON seed files in `scripts/seed/`:
 - **Security:** Added DELETE policies for GDPR compliance (leads, job_applications)
 - **Note:** Roles hierarchy: VIEWER < OPERATIONS/HR/SALES < ADMIN < DIRECTIE
 
+### 2026-01-17: Sidebar navigatie + auth fixes (POST-RALPH)
+- **BUG GEVONDEN:** Sidebar linkte naar `/portal/*` terwijl routes op `/dashboard/*` staan
+- **OORZAAK:** Sidebar component was niet geüpdatet toen dashboard modules werden toegevoegd
+- **FIX:** Sidebar routes gecorrigeerd in `components/portal/sidebar.tsx`
+- **BUG GEVONDEN:** Dashboard pages hadden `redirect('/login')` die conflicteerde met middleware
+- **OORZAAK:** Dubbele auth checks (middleware + page) veroorzaken redirect loops
+- **FIX:** Alle pages gebruiken nu `FALLBACK_USER` pattern, geen redirects in pages
+- **LESSON LEARNED:** Na implementatie van nieuwe routes ALTIJD navigatie testen door te klikken
+- **TOEGEVOEGD:** Verificatie Checklist sectie in AGENTS.md
+
 ---
-_Last updated: 2026-01-16_
+_Last updated: 2026-01-17_
