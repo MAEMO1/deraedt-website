@@ -1,29 +1,8 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/supabase/auth';
+import { FALLBACK_USER } from '@/lib/supabase/fallback-user';
 import { FacilityClient } from './facility-client';
 
 export default async function FacilityPage() {
-  const supabase = await createClient();
-
-  // Check authentication
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
-  // Get user profile
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile) {
-    redirect('/login');
-  }
-
-  return <FacilityClient user={profile} />;
+  const user = await getCurrentUser();
+  return <FacilityClient user={user || FALLBACK_USER} />;
 }

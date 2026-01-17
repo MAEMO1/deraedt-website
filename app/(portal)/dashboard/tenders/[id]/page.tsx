@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/supabase/auth';
+import { FALLBACK_USER } from '@/lib/supabase/fallback-user';
 import { TenderDetailClient } from './client';
 
 // Import seed data for demo
@@ -31,27 +32,7 @@ export default async function TenderDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createClient();
-
-  // Check authentication
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
-  // Get user profile
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile) {
-    redirect('/login');
-  }
+  const user = await getCurrentUser();
 
   // Find tender by id
   const tender = tenders.find((t) => t.id === id);
@@ -60,5 +41,5 @@ export default async function TenderDetailPage({
     redirect('/dashboard/tenders');
   }
 
-  return <TenderDetailClient user={profile} tender={tender} />;
+  return <TenderDetailClient user={user || FALLBACK_USER} tender={tender} />;
 }
