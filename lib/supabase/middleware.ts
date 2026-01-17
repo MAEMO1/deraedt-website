@@ -59,12 +59,9 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect to dashboard if already logged in and accessing login page
-  if (request.nextUrl.pathname === '/login' && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/dashboard';
-    return NextResponse.redirect(url);
-  }
+  // Note: We don't redirect authenticated users from /login to /dashboard
+  // because this can cause redirect loops when middleware and page auth checks
+  // disagree. Users can manually navigate to dashboard after login.
 
   return supabaseResponse;
 }
