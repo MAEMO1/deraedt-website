@@ -9,10 +9,18 @@ import { SERVICES, COMPANY } from "@/lib/constants";
 
 // Service images mapping
 const serviceImages: Record<string, string> = {
-  nieuwbouw: "/images/original-site/heroimage-scaled-1.jpg",
+  nieuwbouw: "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
   renovatie: "/images/original-site/IMG_20230615_0957592-ps-scaled.jpg",
-  erfgoed: "/images/original-site/refcase-02-scaled.jpg",
+  erfgoed: "/images/original-site/Justitiepaleis-Dendermonde.jpg",
   facility: "/images/original-site/team-collage.jpg",
+};
+
+// Map service IDs to actual routes
+const serviceRoutes: Record<string, string> = {
+  nieuwbouw: "/diensten/bouw-renovatie",
+  renovatie: "/diensten/bouw-renovatie",
+  erfgoed: "/diensten/bouw-renovatie",
+  facility: "/diensten/facility",
 };
 
 export function Services() {
@@ -78,7 +86,7 @@ export function Services() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link
-                  href={`/diensten/${service.id}`}
+                  href={serviceRoutes[service.id]}
                   className="group block border-b border-[#112337]/10 last:border-b-0"
                   onMouseEnter={() => setHoveredService(service.id)}
                   onMouseLeave={() => setHoveredService(null)}

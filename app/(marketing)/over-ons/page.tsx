@@ -197,63 +197,42 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-20"
+            className="mb-16 sm:mb-24"
           >
             <span className="label-overline">Onze Geschiedenis</span>
-            <h2 className="mt-4 heading-lg">
-              Mijlpalen door de <span className="text-[#204CE5]">jaren</span>
+            <h2 className="mt-4 heading-lg max-w-xl">
+              Een familieverhaal van <span className="text-[#204CE5]">vakmanschap</span>
             </h2>
           </motion.header>
 
-          {/* Timeline - Elegant horizontal flowing design */}
-          <div className="relative">
-            {/* Horizontal line - visible on desktop */}
-            <div className="hidden lg:block absolute top-[140px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#204CE5]/30 to-transparent" />
+          {/* Timeline - Editorial style with large years */}
+          <div className="space-y-0">
+            {timeline.map((item, index) => (
+              <motion.article
+                key={item.year}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 py-10 border-t border-[#112337]/10 first:border-t-0 first:pt-0"
+              >
+                {/* Year */}
+                <div className="md:col-span-3">
+                  <span className="text-6xl sm:text-7xl md:text-8xl font-bold text-[#112337]/10 group-hover:text-[#204CE5]/20 transition-colors duration-500">
+                    {item.year}
+                  </span>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-              {timeline.map((item, index) => (
-                <motion.article
-                  key={item.year}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.08 }}
-                  className="group relative"
-                >
-                  {/* Large year - the focal point */}
-                  <div className="relative mb-8">
-                    <span
-                      className="block text-[120px] sm:text-[140px] lg:text-[160px] font-bold leading-none tracking-tighter text-transparent"
-                      style={{
-                        WebkitTextStroke: '1.5px rgba(32, 76, 229, 0.15)',
-                      }}
-                    >
-                      {item.year}
-                    </span>
-                    {/* Solid year overlay on hover */}
-                    <span
-                      className="absolute inset-0 block text-[120px] sm:text-[140px] lg:text-[160px] font-bold leading-none tracking-tighter text-[#204CE5]/10 transition-all duration-500 group-hover:text-[#204CE5]/20"
-                    >
-                      {item.year}
-                    </span>
-
-                    {/* Timeline dot - visible on desktop */}
-                    <div className="hidden lg:flex absolute -bottom-4 left-1/2 -translate-x-1/2 items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-[#204CE5] ring-4 ring-white shadow-sm" />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative pl-6 border-l-2 border-[#204CE5]/20 group-hover:border-[#204CE5] transition-colors duration-300">
-                    <h3 className="text-xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-[#686E77] text-sm leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
+                {/* Content */}
+                <div className="md:col-span-9 md:pt-4">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="mt-4 text-[#686E77] text-lg leading-relaxed max-w-2xl">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
