@@ -2,7 +2,7 @@
 
 import { useState, Suspense, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Mail, Loader2, ArrowLeft, CheckCircle, AlertCircle, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,6 @@ import { createClient } from "@/lib/supabase/client";
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const redirectTo = searchParams.get("redirectTo") || "/dashboard";
   const authError = searchParams.get("error");
 
@@ -43,20 +42,25 @@ function LoginForm() {
       const supabase = createClient();
 
       if (useDevLogin && password) {
-        // Dev mode: password login
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
+        // Dev mode: password login via API route (sets server-side cookies)
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
         });
 
-        if (error) {
-          throw error;
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Login mislukt');
         }
 
         toast.success("Ingelogd!", {
           description: "Je wordt doorgestuurd...",
         });
-        router.push(redirectTo);
+
+        // Hard redirect to dashboard
+        window.location.href = redirectTo;
       } else {
         // Production: magic link
         const { error } = await supabase.auth.signInWithOtp({
