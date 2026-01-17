@@ -103,3 +103,7 @@ Notes: Created facility_tickets table with reference auto-generation, RLS polici
 Status: DONE
 Notes: Created partners + partner_documents tables with RLS, audit triggers, compliance status view. TypeScript types added. Query functions including getPartnersWithDocuments for nested data. Server page fetches data, client receives via props.
 ---
+[DATA-003] - Leads write operations (notes, status, assignment)
+Status: DONE
+Notes: Created PATCH /api/leads/[id] for updating status, owner_id, next_action_date. Created POST/GET /api/leads/[id]/notes for lead notes. Added getLeadNotes query function. Updated leads-client.tsx to persist changes to Supabase instead of console.log. Added loading states and error handling.
+---

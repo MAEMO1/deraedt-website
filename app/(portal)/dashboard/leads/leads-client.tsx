@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   Search,
@@ -17,9 +17,10 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
+  Loader2,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile, Lead } from '@/lib/supabase/types';
+import type { Profile, Lead, LeadNote } from '@/lib/supabase/types';
 
 interface LeadsClientProps {
   user: Profile;
@@ -71,18 +72,20 @@ const teamMembers = [
 const stages = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
 
 export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
+  const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'pipeline' | 'list'>('pipeline');
-  const [notes, setNotes] = useState<Record<string, string>>({});
-  const [nextActionDates, setNextActionDates] = useState<Record<string, string>>({});
-  const [assignments, setAssignments] = useState<Record<string, string>>({});
+  const [noteInput, setNoteInput] = useState<Record<string, string>>({});
+  const [leadNotes, setLeadNotes] = useState<Record<string, LeadNote[]>>({});
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const displayName = user.full_name || user.email.split('@')[0];
 
   // Filter leads
-  const filteredLeads = initialLeads.filter((lead) => {
+  const filteredLeads = leads.filter((lead) => {
     const matchesSearch =
       searchQuery === '' ||
       lead.contact_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -98,30 +101,106 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
     return acc;
   }, {} as Record<string, Lead[]>);
 
-  const handleAddNote = (leadId: string, note: string) => {
-    setNotes((prev) => ({
-      ...prev,
-      [leadId]: note,
-    }));
-    console.log('[LEAD NOTE] Added note to lead', { leadId, note, user: user.email });
-  };
+  // Fetch notes for a lead
+  const fetchLeadNotes = useCallback(async (leadId: string) => {
+    try {
+      const res = await fetch(`/api/leads/${leadId}/notes`);
+      const data = await res.json();
+      if (data.success) {
+        setLeadNotes((prev) => ({ ...prev, [leadId]: data.notes }));
+      }
+    } catch (err) {
+      console.error('[fetchLeadNotes] Error:', err);
+    }
+  }, []);
 
-  const handleSetNextAction = (leadId: string, date: string) => {
-    setNextActionDates((prev) => ({
-      ...prev,
-      [leadId]: date,
-    }));
-    console.log('[LEAD REMINDER] Set next action date', { leadId, date, user: user.email });
-  };
+  // Update lead in Supabase
+  const updateLead = useCallback(async (leadId: string, updates: Partial<Lead>) => {
+    setIsSaving(true);
+    setSaveError(null);
+    try {
+      const res = await fetch(`/api/leads/${leadId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Update local state
+        setLeads((prev) =>
+          prev.map((l) => (l.id === leadId ? { ...l, ...data.lead } : l))
+        );
+        // Update selected lead if open
+        if (selectedLead?.id === leadId) {
+          setSelectedLead((prev) => (prev ? { ...prev, ...data.lead } : null));
+        }
+        return true;
+      } else {
+        setSaveError(data.error || 'Opslaan mislukt');
+        return false;
+      }
+    } catch (err) {
+      console.error('[updateLead] Error:', err);
+      setSaveError('Netwerkfout bij opslaan');
+      return false;
+    } finally {
+      setIsSaving(false);
+    }
+  }, [selectedLead?.id]);
 
-  const handleAssign = (leadId: string, userId: string) => {
-    setAssignments((prev) => ({
-      ...prev,
-      [leadId]: userId,
-    }));
-    const assignee = teamMembers.find((m) => m.id === userId);
-    console.log('[LEAD ASSIGNMENT] Assigned lead', { leadId, userId, assigneeName: assignee?.name, user: user.email });
-  };
+  // Add note to lead
+  const handleAddNote = useCallback(async (leadId: string) => {
+    const content = noteInput[leadId]?.trim();
+    if (!content) return;
+
+    setIsSaving(true);
+    setSaveError(null);
+    try {
+      const res = await fetch(`/api/leads/${leadId}/notes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Add note to local state
+        setLeadNotes((prev) => ({
+          ...prev,
+          [leadId]: [data.note, ...(prev[leadId] || [])],
+        }));
+        // Clear input
+        setNoteInput((prev) => ({ ...prev, [leadId]: '' }));
+      } else {
+        setSaveError(data.error || 'Notitie opslaan mislukt');
+      }
+    } catch (err) {
+      console.error('[handleAddNote] Error:', err);
+      setSaveError('Netwerkfout bij opslaan notitie');
+    } finally {
+      setIsSaving(false);
+    }
+  }, [noteInput]);
+
+  // Set next action date
+  const handleSetNextAction = useCallback(async (leadId: string, date: string) => {
+    await updateLead(leadId, { next_action_date: date || null });
+  }, [updateLead]);
+
+  // Assign lead to team member
+  const handleAssign = useCallback(async (leadId: string, userId: string) => {
+    await updateLead(leadId, { owner_id: userId || null });
+  }, [updateLead]);
+
+  // Change lead status
+  const handleStatusChange = useCallback(async (leadId: string, status: Lead['status']) => {
+    await updateLead(leadId, { status });
+  }, [updateLead]);
+
+  // When selecting a lead, fetch its notes
+  const handleSelectLead = useCallback((lead: Lead) => {
+    setSelectedLead(lead);
+    fetchLeadNotes(lead.id);
+  }, [fetchLeadNotes]);
 
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
@@ -219,14 +298,14 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                       {leadsByStage[stage].map((lead) => (
                         <div
                           key={lead.id}
-                          onClick={() => setSelectedLead(lead)}
+                          onClick={() => handleSelectLead(lead)}
                           className="p-3 bg-[#FAF7F2] hover:bg-[#F0EAE0] cursor-pointer transition-colors"
                         >
                           <div className="flex items-start justify-between mb-2">
                             <span className="text-xs px-2 py-0.5 bg-[#0C0C0C]/5 rounded">
                               {typeLabels[lead.lead_type]}
                             </span>
-                            {nextActionDates[lead.id] && (
+                            {lead.next_action_date && (
                               <Clock className="w-3 h-3 text-[#9A6B4C]" />
                             )}
                           </div>
@@ -266,7 +345,7 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                     {filteredLeads.map((lead) => (
                       <tr
                         key={lead.id}
-                        onClick={() => setSelectedLead(lead)}
+                        onClick={() => handleSelectLead(lead)}
                         className="border-b border-[#0C0C0C]/5 hover:bg-[#FAF7F2] cursor-pointer"
                       >
                         <td className="p-4">
@@ -289,9 +368,9 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                         </td>
                         <td className="p-4 text-sm text-[#0C0C0C]">{lead.budget_band || '-'}</td>
                         <td className="p-4">
-                          {assignments[lead.id] ? (
+                          {lead.owner_id ? (
                             <span className="text-xs text-[#6B6560]">
-                              {teamMembers.find((m) => m.id === assignments[lead.id])?.name}
+                              {teamMembers.find((m) => m.id === lead.owner_id)?.name || 'Toegewezen'}
                             </span>
                           ) : (
                             <span className="text-xs text-[#6B6560]/50">Niet toegewezen</span>
@@ -404,15 +483,23 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                 </div>
               )}
 
+              {/* Error Message */}
+              {saveError && (
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm">
+                  {saveError}
+                </div>
+              )}
+
               {/* Assignment */}
               <div>
                 <label className="block text-sm font-medium text-[#0C0C0C] mb-2">
                   Toewijzen aan
                 </label>
                 <select
-                  value={assignments[selectedLead.id] || ''}
+                  value={selectedLead.owner_id || ''}
                   onChange={(e) => handleAssign(selectedLead.id, e.target.value)}
-                  className="w-full p-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  disabled={isSaving}
+                  className="w-full p-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none disabled:opacity-50"
                 >
                   <option value="">-- Selecteer teamlid --</option>
                   {teamMembers.map((member) => (
@@ -433,9 +520,10 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                 </label>
                 <input
                   type="date"
-                  value={nextActionDates[selectedLead.id] || ''}
+                  value={selectedLead.next_action_date || ''}
                   onChange={(e) => handleSetNextAction(selectedLead.id, e.target.value)}
-                  className="w-full p-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  disabled={isSaving}
+                  className="w-full p-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none disabled:opacity-50"
                 />
               </div>
 
@@ -448,28 +536,54 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                   </div>
                 </label>
                 <textarea
-                  value={notes[selectedLead.id] || ''}
-                  onChange={(e) => setNotes((prev) => ({ ...prev, [selectedLead.id]: e.target.value }))}
+                  value={noteInput[selectedLead.id] || ''}
+                  onChange={(e) => setNoteInput((prev) => ({ ...prev, [selectedLead.id]: e.target.value }))}
                   placeholder="Voeg notities toe..."
                   rows={3}
-                  className="w-full p-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none"
+                  disabled={isSaving}
+                  className="w-full p-3 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none disabled:opacity-50"
                 />
                 <button
-                  onClick={() => handleAddNote(selectedLead.id, notes[selectedLead.id] || '')}
-                  className="mt-2 px-4 py-2 bg-[#0C0C0C] text-white text-sm hover:bg-[#9A6B4C]"
+                  onClick={() => handleAddNote(selectedLead.id)}
+                  disabled={isSaving || !noteInput[selectedLead.id]?.trim()}
+                  className="mt-2 px-4 py-2 bg-[#0C0C0C] text-white text-sm hover:bg-[#9A6B4C] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Opslaan
+                  {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
+                  Notitie opslaan
                 </button>
+
+                {/* Display existing notes */}
+                {leadNotes[selectedLead.id] && leadNotes[selectedLead.id].length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="text-xs font-medium text-[#6B6560] uppercase">Eerdere notities</p>
+                    {leadNotes[selectedLead.id].map((note) => (
+                      <div key={note.id} className="p-3 bg-[#FAF7F2] border-l-2 border-[#9A6B4C]">
+                        <p className="text-sm text-[#0C0C0C]">{note.content}</p>
+                        <p className="text-xs text-[#6B6560] mt-1">
+                          {new Date(note.created_at).toLocaleString('nl-BE')}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}
               <div className="flex gap-4 pt-4 border-t border-[#0C0C0C]/5">
-                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-[#0C0C0C]/10 text-[#0C0C0C] hover:bg-[#FAF7F2]">
-                  <AlertCircle className="w-4 h-4" />
+                <button
+                  onClick={() => handleStatusChange(selectedLead.id, 'lost')}
+                  disabled={isSaving || selectedLead.status === 'lost'}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-[#0C0C0C]/10 text-[#0C0C0C] hover:bg-[#FAF7F2] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <AlertCircle className="w-4 h-4" />}
                   Markeer als Verloren
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#9A6B4C] text-white hover:bg-[#BA8B6C]">
-                  <CheckCircle className="w-4 h-4" />
+                <button
+                  onClick={() => handleStatusChange(selectedLead.id, 'won')}
+                  disabled={isSaving || selectedLead.status === 'won'}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#9A6B4C] text-white hover:bg-[#BA8B6C] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
                   Markeer als Gewonnen
                 </button>
               </div>

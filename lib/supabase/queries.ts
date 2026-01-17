@@ -9,6 +9,7 @@ import { createClient } from './server';
 import type {
   Tender,
   Lead,
+  LeadNote,
   Job,
   JobApplication,
   ComplianceDoc,
@@ -127,6 +128,31 @@ export async function getLeadById(id: string): Promise<Lead | null> {
     console.error('[getLeadById] Error:', err);
     const seedLead = (leadsData as unknown as Lead[]).find(l => l.id === id);
     return seedLead || null;
+  }
+}
+
+// ============================================================================
+// LEAD NOTES
+// ============================================================================
+
+export async function getLeadNotes(leadId: string): Promise<LeadNote[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('lead_notes')
+      .select('*')
+      .eq('lead_id', leadId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('[getLeadNotes] Supabase error:', error);
+      return [];
+    }
+
+    return data || [];
+  } catch (err) {
+    console.error('[getLeadNotes] Error:', err);
+    return [];
   }
 }
 
