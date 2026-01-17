@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const CLIENTS = [
   { name: "Infrabel", logo: "/images/original-site/Infrabel-logo.png", width: 130, height: 50 },
@@ -21,13 +21,13 @@ const CLIENTS = [
 
 function ClientLogo({ client }: { client: (typeof CLIENTS)[number] }) {
   return (
-    <div className="flex items-center justify-center h-24 px-12 min-w-[200px]">
+    <div className="flex items-center justify-center h-16 sm:h-24 px-6 sm:px-12 min-w-[140px] sm:min-w-[200px]">
       <Image
         src={client.logo}
         alt={`${client.name} logo`}
         width={client.width}
         height={client.height}
-        className="object-contain max-h-12 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+        className="object-contain max-h-8 sm:max-h-12 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
       />
     </div>
   );
@@ -42,11 +42,23 @@ function MarqueeRow({
   direction?: "left" | "right";
   speed?: number;
 }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Faster animation on mobile (smaller logos = less distance to cover)
+  const animationSpeed = isMobile ? speed * 0.4 : speed;
+
   return (
     <div className="relative overflow-hidden">
-      {/* Gradient masks */}
-      <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+      {/* Gradient masks - smaller on mobile */}
+      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
       <motion.div
         className="flex"
@@ -57,7 +69,7 @@ function MarqueeRow({
           x: {
             repeat: Infinity,
             repeatType: "loop",
-            duration: speed,
+            duration: animationSpeed,
             ease: "linear",
           },
         }}

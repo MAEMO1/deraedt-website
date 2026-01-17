@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -12,8 +12,6 @@ import { Logo } from "@/components/shared/logo";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 
-const isDev = process.env.NODE_ENV === "development";
-
 function LoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -24,7 +22,18 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const [useDevLogin, setUseDevLogin] = useState(isDev);
+  const [showDevLogin, setShowDevLogin] = useState(false);
+  const [useDevLogin, setUseDevLogin] = useState(false);
+
+  // Check for dev mode on client side - check URL for staging/preview
+  useEffect(() => {
+    const hostname = window.location.hostname;
+    const isDev = process.env.NODE_ENV === "development" ||
+                  hostname.includes("vercel.app") ||
+                  hostname.includes("localhost");
+    setShowDevLogin(isDev);
+    setUseDevLogin(isDev);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,7 +123,7 @@ function LoginForm() {
             )}
 
             {/* Dev Mode Banner */}
-            {isDev && (
+            {showDevLogin && (
               <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-sm text-amber-800">
