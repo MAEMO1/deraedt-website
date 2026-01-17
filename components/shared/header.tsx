@@ -82,16 +82,29 @@ export function Header() {
       </div>
 
       {/* Full screen menu overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 top-20 z-[100] transition-all duration-500 ease-out overflow-auto",
-          menuOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-4 pointer-events-none"
-        )}
-        style={{ backgroundColor: '#FFFFFF' }}
-      >
-        <div className="container-wide py-12 bg-white min-h-full">
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-[9999] bg-white overflow-auto"
+          style={{ backgroundColor: '#FFFFFF' }}
+        >
+          {/* Menu header with close button */}
+          <div className="sticky top-0 bg-white border-b border-[#112337]/5 z-10">
+            <div className="container-wide">
+              <div className="flex h-20 items-center justify-between">
+                <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center">
+                  <Logo variant="default" />
+                </Link>
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2 text-sm font-semibold text-[#112337] hover:text-[#204CE5] transition-colors"
+                >
+                  <span className="hidden sm:inline uppercase tracking-wider text-xs">Sluiten</span>
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="container-wide py-12">
           <nav className="grid md:grid-cols-2 gap-8">
             {/* Main navigation */}
             <div>
@@ -177,7 +190,8 @@ export function Header() {
             </div>
           </nav>
         </div>
-      </div>
+        </div>
+      )}
     </header>
   );
 }
