@@ -144,7 +144,7 @@ export default function ProjectplannerPage() {
   const handleSubmit = async () => {
     if (!canProceed()) return;
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setIsComplete(true);
   };
@@ -165,66 +165,41 @@ export default function ProjectplannerPage() {
     setIsComplete(false);
   };
 
-  // Success screen
+  // Success screen - minimal animation
   if (isComplete) {
     return (
       <div className="fixed inset-0 bg-[#F5F5F5] overflow-hidden">
         <div className="relative h-full flex items-center justify-center px-6">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
             className="text-center max-w-md"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 150, damping: 15 }}
-              className="w-20 h-20 mx-auto mb-10 rounded-full bg-[#204CE5]/10 flex items-center justify-center"
-            >
+            <div className="w-20 h-20 mx-auto mb-10 rounded-full bg-[#204CE5]/10 flex items-center justify-center">
               <Check className="w-8 h-8 text-[#204CE5]" strokeWidth={1.5} />
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
-            >
+            <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
               Aanvraag verzonden
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-5xl sm:text-6xl font-bold text-[#112337]"
-            >
+            <h1 className="text-5xl sm:text-6xl font-bold text-[#112337]">
               Bedankt
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-6 text-lg text-[#686E77]"
-            >
+            <p className="mt-6 text-lg text-[#686E77]">
               We analyseren uw project en nemen binnen{" "}
               <span className="text-[#204CE5] font-medium">48 uur</span> contact op.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
-            >
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/"
-                className="group inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
+                className="group inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8]"
               >
                 <span>Naar home</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/projecten"
@@ -232,7 +207,7 @@ export default function ProjectplannerPage() {
               >
                 Bekijk projecten
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -241,14 +216,14 @@ export default function ProjectplannerPage() {
 
   return (
     <div className="fixed inset-0 bg-white overflow-hidden">
-      {/* Progress bar - McCownGordon style */}
+      {/* Progress bar - subtle like McCownGordon */}
       <div className="absolute top-0 left-0 right-0 z-50">
-        <div className="h-1.5 bg-[#112337]/5">
+        <div className="h-1 bg-[#112337]/5">
           <motion.div
             className="h-full bg-[#204CE5]"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           />
         </div>
       </div>
@@ -256,10 +231,8 @@ export default function ProjectplannerPage() {
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-40 p-6 sm:p-8">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <Link href="/" className="group flex items-center gap-4">
-            <span className="text-xl font-bold text-[#112337] tracking-tight">
-              DE RAEDT
-            </span>
+          <Link href="/" className="text-xl font-bold text-[#112337] tracking-tight">
+            DE RAEDT
           </Link>
 
           <div className="flex items-center gap-6">
@@ -272,7 +245,7 @@ export default function ProjectplannerPage() {
             </a>
             <Link
               href="/"
-              className="text-sm font-medium text-[#686E77] hover:text-[#112337] transition-colors"
+              className="text-[#686E77] hover:text-[#112337] transition-colors"
             >
               <X className="w-5 h-5" strokeWidth={1.5} />
             </Link>
@@ -280,167 +253,134 @@ export default function ProjectplannerPage() {
         </div>
       </header>
 
-      {/* Main content - McCownGordon style centered layout */}
+      {/* Main content */}
       <main className="absolute inset-0 flex flex-col items-center justify-center px-6">
         <div className="w-full max-w-3xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
               className="text-center"
             >
-              {/* Title - McCownGordon style large italic serif */}
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.6 }}
+              {/* Title */}
+              <h1
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] mb-4"
                 style={{ fontFamily: "Georgia, serif", fontStyle: "italic" }}
               >
                 Laten we bouwen
-              </motion.h1>
+              </h1>
 
               {/* Question */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-xl sm:text-2xl text-[#112337] mb-16"
-              >
+              <p className="text-xl sm:text-2xl text-[#112337] mb-16">
                 {currentQuestion.headline}
-              </motion.p>
+              </p>
 
-              {/* Options - McCownGordon circular icon style */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                {/* Icon buttons - like McCownGordon Yes/No */}
-                {currentQuestion.type === "icons" && (
-                  <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
-                    {currentQuestion.options.map((option, index) => {
-                      const Icon = option.icon!;
-                      const isSelected =
-                        formData[currentQuestion.id as keyof FormData] === option.id;
-                      return (
-                        <motion.button
-                          key={option.id}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.35 + index * 0.05 }}
-                          onClick={() => selectOption(option.id)}
-                          className="flex flex-col items-center gap-4 group"
-                        >
-                          <div
-                            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                              isSelected
-                                ? "border-[#204CE5] bg-[#204CE5]/5"
-                                : "border-[#112337]/20 hover:border-[#204CE5]/50 bg-transparent"
-                            }`}
-                          >
-                            <Icon
-                              className={`w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-300 ${
-                                isSelected ? "text-[#204CE5]" : "text-[#112337]/40 group-hover:text-[#204CE5]/60"
-                              }`}
-                              strokeWidth={1.5}
-                            />
-                          </div>
-                          <span
-                            className={`text-sm sm:text-base font-medium transition-colors duration-300 ${
-                              isSelected ? "text-[#112337]" : "text-[#686E77]"
-                            }`}
-                          >
-                            {option.label}
-                          </span>
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Text options - clean list style */}
-                {currentQuestion.type === "options" && (
-                  <div className="flex flex-wrap justify-center gap-4 max-w-xl mx-auto">
-                    {currentQuestion.options.map((option, index) => {
-                      const isSelected =
-                        formData[currentQuestion.id as keyof FormData] === option.id;
-                      return (
-                        <motion.button
-                          key={option.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.35 + index * 0.03 }}
-                          onClick={() => selectOption(option.id)}
-                          className={`px-6 py-3 text-base rounded-full border-2 transition-all duration-300 ${
+              {/* Icon buttons */}
+              {currentQuestion.type === "icons" && (
+                <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
+                  {currentQuestion.options.map((option) => {
+                    const Icon = option.icon!;
+                    const isSelected =
+                      formData[currentQuestion.id as keyof FormData] === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        onClick={() => selectOption(option.id)}
+                        className="flex flex-col items-center gap-4 group"
+                      >
+                        <div
+                          className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                             isSelected
-                              ? "border-[#204CE5] bg-[#204CE5]/5 text-[#204CE5] font-medium"
-                              : "border-[#112337]/10 text-[#686E77] hover:border-[#204CE5]/30 hover:text-[#112337]"
+                              ? "border-[#204CE5] bg-[#204CE5]/5"
+                              : "border-[#112337]/20 hover:border-[#204CE5]/50"
+                          }`}
+                        >
+                          <Icon
+                            className={`w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-200 ${
+                              isSelected ? "text-[#204CE5]" : "text-[#112337]/40 group-hover:text-[#204CE5]/60"
+                            }`}
+                            strokeWidth={1.5}
+                          />
+                        </div>
+                        <span
+                          className={`text-sm sm:text-base font-medium transition-colors duration-200 ${
+                            isSelected ? "text-[#112337]" : "text-[#686E77]"
                           }`}
                         >
                           {option.label}
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                )}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
 
-                {/* Form */}
-                {currentQuestion.type === "form" && (
-                  <div className="max-w-md mx-auto space-y-4">
-                    {[
-                      { key: "name", placeholder: "Naam *", type: "text" },
-                      { key: "email", placeholder: "E-mailadres *", type: "email" },
-                      { key: "phone", placeholder: "Telefoonnummer *", type: "tel" },
-                      { key: "company", placeholder: "Bedrijf (optioneel)", type: "text" },
-                    ].map((field, index) => (
-                      <motion.input
-                        key={field.key}
-                        type={field.type}
-                        value={formData[field.key as keyof FormData]}
-                        onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
-                        placeholder={field.placeholder}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.35 + index * 0.05 }}
-                        className="w-full bg-white border-2 border-[#112337]/10 rounded-lg px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none focus:border-[#204CE5] transition-colors"
-                      />
-                    ))}
+              {/* Text options */}
+              {currentQuestion.type === "options" && (
+                <div className="flex flex-wrap justify-center gap-3 max-w-xl mx-auto">
+                  {currentQuestion.options.map((option) => {
+                    const isSelected =
+                      formData[currentQuestion.id as keyof FormData] === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        onClick={() => selectOption(option.id)}
+                        className={`px-6 py-3 text-base rounded-full border-2 transition-all duration-200 ${
+                          isSelected
+                            ? "border-[#204CE5] bg-[#204CE5]/5 text-[#204CE5] font-medium"
+                            : "border-[#112337]/10 text-[#686E77] hover:border-[#204CE5]/30 hover:text-[#112337]"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
 
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.6 }}
-                      className="text-xs text-[#686E77]/60 text-center pt-4"
-                    >
-                      Door te versturen gaat u akkoord met ons{" "}
-                      <Link href="/privacy" className="text-[#204CE5] hover:underline">
-                        privacybeleid
-                      </Link>
-                    </motion.p>
-                  </div>
-                )}
-              </motion.div>
+              {/* Form */}
+              {currentQuestion.type === "form" && (
+                <div className="max-w-md mx-auto space-y-4">
+                  {[
+                    { key: "name", placeholder: "Naam *", type: "text" },
+                    { key: "email", placeholder: "E-mailadres *", type: "email" },
+                    { key: "phone", placeholder: "Telefoonnummer *", type: "tel" },
+                    { key: "company", placeholder: "Bedrijf (optioneel)", type: "text" },
+                  ].map((field) => (
+                    <input
+                      key={field.key}
+                      type={field.type}
+                      value={formData[field.key as keyof FormData]}
+                      onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
+                      placeholder={field.placeholder}
+                      className="w-full bg-white border-2 border-[#112337]/10 rounded-lg px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none focus:border-[#204CE5] transition-colors"
+                    />
+                  ))}
+
+                  <p className="text-xs text-[#686E77]/60 text-center pt-4">
+                    Door te versturen gaat u akkoord met ons{" "}
+                    <Link href="/privacy" className="text-[#204CE5] hover:underline">
+                      privacybeleid
+                    </Link>
+                  </p>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
       </main>
 
-      {/* Footer - McCownGordon style with centered Next button */}
+      {/* Footer */}
       <footer className="absolute bottom-0 left-0 right-0 z-40 p-6 sm:p-8">
-        <div className="flex items-center justify-center gap-8 max-w-4xl mx-auto">
-          {/* Next / Submit button - McCownGordon red style */}
+        <div className="flex items-center justify-center max-w-4xl mx-auto">
           {currentQuestion.type === "form" ? (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+            <button
               onClick={handleSubmit}
               disabled={!canProceed() || isSubmitting}
-              className={`px-12 py-4 text-base font-semibold rounded transition-all duration-300 ${
+              className={`px-12 py-4 text-base font-semibold rounded transition-all duration-200 ${
                 canProceed() && !isSubmitting
                   ? "bg-[#204CE5] text-white hover:bg-[#1A3BB8]"
                   : "bg-[#112337]/10 text-[#686E77]/50 cursor-not-allowed"
@@ -454,26 +394,23 @@ export default function ProjectplannerPage() {
               ) : (
                 "Versturen"
               )}
-            </motion.button>
+            </button>
           ) : (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+            <button
               onClick={nextStep}
               disabled={!canProceed()}
-              className={`px-12 py-4 text-base font-semibold rounded transition-all duration-300 ${
+              className={`px-12 py-4 text-base font-semibold rounded transition-all duration-200 ${
                 canProceed()
                   ? "bg-[#204CE5] text-white hover:bg-[#1A3BB8]"
                   : "bg-[#112337]/10 text-[#686E77]/50 cursor-not-allowed"
               }`}
             >
               Volgende
-            </motion.button>
+            </button>
           )}
         </div>
 
-        {/* Start over link - right aligned like McCownGordon */}
+        {/* Start over */}
         <div className="absolute right-6 sm:right-8 bottom-6 sm:bottom-8">
           <button
             onClick={restart}
