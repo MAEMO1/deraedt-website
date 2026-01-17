@@ -244,7 +244,7 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="mb-16"
           >
             <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
               De 5 V&apos;s
@@ -254,38 +254,32 @@ export default function OverOnsPage() {
             </h2>
           </motion.header>
 
-          {/* Values grid - editorial style */}
-          <div className="grid md:grid-cols-5 gap-px bg-white/10">
+          {/* Values list - clean numbered list */}
+          <div className="space-y-0 border-t border-white/10">
             {values.map((value, index) => (
               <motion.article
                 key={value.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group relative bg-[#112337] p-8 hover:bg-[#1a3048] transition-colors duration-300"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group border-b border-white/10"
               >
-                {/* Large V as visual anchor */}
-                <span
-                  className="block text-[120px] font-bold leading-none text-white/[0.03] group-hover:text-[#204CE5]/10 transition-colors duration-500 -mb-8"
-                  aria-hidden="true"
-                >
-                  V
-                </span>
+                <div className="py-8 sm:py-10 flex items-start gap-6 sm:gap-10">
+                  {/* Number */}
+                  <span className="text-5xl sm:text-6xl font-bold text-[#204CE5] leading-none min-w-[60px] sm:min-w-[80px]">
+                    {index + 1}
+                  </span>
 
-                {/* Content */}
-                <div className="relative">
-                  <h3 className="text-xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
-                    {value.title}
-                  </h3>
-                  <p className="mt-4 text-white/50 text-sm leading-relaxed">
-                    {value.description.replace("{years}", String(STATS.yearsExperience))}
-                  </p>
+                  {/* Content */}
+                  <div className="flex-1 pt-1">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
+                      {value.title}
+                    </h3>
+                    <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl">
+                      {value.description.replace("{years}", String(STATS.yearsExperience))}
+                    </p>
+                  </div>
                 </div>
-
-                {/* Index number */}
-                <span className="absolute top-6 right-6 text-xs font-mono text-white/20">
-                  0{index + 1}
-                </span>
               </motion.article>
             ))}
           </div>
