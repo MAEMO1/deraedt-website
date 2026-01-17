@@ -364,6 +364,58 @@
       "pathsTouched": ["app/(portal)/dashboard/analytics/"],
       "commands": ["pnpm verify"],
       "notes": "Created analytics dashboard with KPI tiles (leads, response time, tender win rate, pipeline value), leads per month bar chart, job views vs applications, lead conversion funnel, top pages, and performance highlights."
+    },
+    {
+      "id": "DATA-001",
+      "priority": 71,
+      "title": "Facility tickets Supabase data layer",
+      "description": "Replace mock data in Facility desk with real Supabase implementation. Create facility_tickets table, queries, seed data, and update client to use props.",
+      "acceptanceCriteria": [
+        "SQL migration for facility_tickets table exists",
+        "TypeScript types added to lib/supabase/types.ts",
+        "Query functions in lib/supabase/queries.ts (getFacilityTickets, getFacilityTicketById, etc.)",
+        "JSON seed data in scripts/seed/facility_tickets.json",
+        "Server page fetches data and passes to client",
+        "Client component receives data via props (no inline mockTickets)",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "supabase/migrations/00009_create_facility_tickets.sql",
+        "lib/supabase/types.ts",
+        "lib/supabase/queries.ts",
+        "scripts/seed/facility_tickets.json",
+        "app/(portal)/dashboard/facility/page.tsx",
+        "app/(portal)/dashboard/facility/facility-client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created facility_tickets table with reference auto-generation, SLA tracking, RLS policies. TypeScript types added. Query functions with seed fallback. Server page fetches data, client receives via props."
+    },
+    {
+      "id": "DATA-002",
+      "priority": 72,
+      "title": "Partners Supabase data layer",
+      "description": "Replace mock data in Partners prequal with real Supabase implementation. Create partners and partner_documents tables, queries, seed data, and update client to use props.",
+      "acceptanceCriteria": [
+        "SQL migration for partners and partner_documents tables exists",
+        "TypeScript types added to lib/supabase/types.ts",
+        "Query functions in lib/supabase/queries.ts (getPartners, getPartnerById, etc.)",
+        "JSON seed data in scripts/seed/partners.json",
+        "Server page fetches data and passes to client",
+        "Client component receives data via props (no inline mockPartners)",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "supabase/migrations/00010_create_partners.sql",
+        "lib/supabase/types.ts",
+        "lib/supabase/queries.ts",
+        "scripts/seed/partners.json",
+        "app/(portal)/dashboard/partners/page.tsx",
+        "app/(portal)/dashboard/partners/partners-client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created partners + partner_documents tables with RLS, audit triggers, compliance status view. TypeScript types added. Query functions including getPartnersWithDocuments for nested data. Server page fetches data, client receives via props."
     }
   ]
 }

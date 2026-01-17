@@ -19,120 +19,17 @@ import {
   Image as ImageIcon,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
+import type { Profile, FacilityTicket } from '@/lib/supabase/types';
 
 interface FacilityClientProps {
   user: Profile;
+  initialTickets: FacilityTicket[];
 }
 
-interface Ticket {
-  id: string;
-  reference: string;
-  title: string;
-  description: string;
-  location: string;
-  urgency: 'low' | 'medium' | 'high' | 'critical';
-  status: 'open' | 'in_progress' | 'waiting' | 'resolved';
-  sla_due_at: string;
-  assigned_to?: string;
+// Extended ticket interface for local state (includes assigned_name for display)
+interface Ticket extends FacilityTicket {
   assigned_name?: string;
-  reporter_name: string;
-  reporter_email: string;
-  reporter_phone?: string;
-  photos?: string[];
-  notes?: string[];
-  created_at: string;
-  updated_at: string;
 }
-
-// Mock tickets data
-const mockTickets: Ticket[] = [
-  {
-    id: 'tkt-001',
-    reference: 'FAC-2026-001',
-    title: 'Lekkage plafond hal B',
-    description: 'Waterlekkage aan het plafond bij de ingang van hal B. Druppels vallen op de vloer, potentieel gevaarlijk.',
-    location: 'Kantoor Evergem - Hal B',
-    urgency: 'high',
-    status: 'in_progress',
-    sla_due_at: '2026-01-17T14:00:00Z',
-    assigned_to: 'user-002',
-    assigned_name: 'Jan Vermeersch',
-    reporter_name: 'Marie Peeters',
-    reporter_email: 'marie.peeters@bedrijf.be',
-    reporter_phone: '+32 478 12 34 56',
-    photos: ['/uploads/ticket-001-1.jpg', '/uploads/ticket-001-2.jpg'],
-    notes: ['Eerste inspectie gedaan - leidingwerk boven plafond'],
-    created_at: '2026-01-15T09:30:00Z',
-    updated_at: '2026-01-15T14:20:00Z',
-  },
-  {
-    id: 'tkt-002',
-    reference: 'FAC-2026-002',
-    title: 'Verwarming defect vergaderzaal',
-    description: 'Verwarming in vergaderzaal 2 werkt niet meer. Temperatuur daalt onder de 15 graden.',
-    location: 'Kantoor Evergem - Vergaderzaal 2',
-    urgency: 'medium',
-    status: 'open',
-    sla_due_at: '2026-01-18T17:00:00Z',
-    reporter_name: 'Thomas De Smet',
-    reporter_email: 'thomas.desmet@bedrijf.be',
-    created_at: '2026-01-16T08:15:00Z',
-    updated_at: '2026-01-16T08:15:00Z',
-  },
-  {
-    id: 'tkt-003',
-    reference: 'FAC-2026-003',
-    title: 'Stroomuitval serverruimte',
-    description: 'Gedeeltelijke stroomuitval in serverruimte. Noodstroom werkt maar moet dringend bekeken worden.',
-    location: 'Kantoor Evergem - Serverruimte',
-    urgency: 'critical',
-    status: 'in_progress',
-    sla_due_at: '2026-01-16T12:00:00Z',
-    assigned_to: 'user-003',
-    assigned_name: 'Pieter Claes',
-    reporter_name: 'IT Dienst',
-    reporter_email: 'it@bedrijf.be',
-    reporter_phone: '+32 9 348 48 41',
-    notes: ['Elektricien onderweg', 'Noodstroom houdt het nog 4 uur'],
-    created_at: '2026-01-16T07:00:00Z',
-    updated_at: '2026-01-16T09:30:00Z',
-  },
-  {
-    id: 'tkt-004',
-    reference: 'FAC-2026-004',
-    title: 'Deur sluit niet goed',
-    description: 'Achterdeur van magazijn sluit niet goed meer, wind komt binnen.',
-    location: 'Magazijn Evergem - Achterdeur',
-    urgency: 'low',
-    status: 'waiting',
-    sla_due_at: '2026-01-20T17:00:00Z',
-    assigned_to: 'user-002',
-    assigned_name: 'Jan Vermeersch',
-    reporter_name: 'Koen Janssens',
-    reporter_email: 'koen.janssens@bedrijf.be',
-    notes: ['Wachten op vervangstuk deurpomp'],
-    created_at: '2026-01-14T11:00:00Z',
-    updated_at: '2026-01-15T10:00:00Z',
-  },
-  {
-    id: 'tkt-005',
-    reference: 'FAC-2026-005',
-    title: 'Parkeerplaats verlichting',
-    description: 'Verlichting op parkeerplaats deels uitgevallen. Veiligheidsprobleem in donkere uren.',
-    location: 'Parking Evergem',
-    urgency: 'medium',
-    status: 'resolved',
-    sla_due_at: '2026-01-15T17:00:00Z',
-    assigned_to: 'user-003',
-    assigned_name: 'Pieter Claes',
-    reporter_name: 'Receptie',
-    reporter_email: 'receptie@bedrijf.be',
-    notes: ['Lampen vervangen', 'Probleem opgelost'],
-    created_at: '2026-01-12T16:00:00Z',
-    updated_at: '2026-01-14T15:30:00Z',
-  },
-];
 
 // Mock team members for assignment
 const teamMembers = [
@@ -179,8 +76,8 @@ const statusColors: Record<string, string> = {
   resolved: 'bg-green-100 text-green-700 border-green-200',
 };
 
-export function FacilityClient({ user }: FacilityClientProps) {
-  const [tickets, setTickets] = useState<Ticket[]>(mockTickets);
+export function FacilityClient({ user, initialTickets }: FacilityClientProps) {
+  const [tickets, setTickets] = useState<Ticket[]>(initialTickets);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterUrgency, setFilterUrgency] = useState<string>('all');
@@ -270,7 +167,7 @@ export function FacilityClient({ user }: FacilityClientProps) {
         t.id === ticketId
           ? {
               ...t,
-              assigned_to: assignedTo || undefined,
+              assigned_to: assignedTo || null,
               assigned_name: member?.name,
               updated_at: new Date().toISOString(),
             }
@@ -284,7 +181,7 @@ export function FacilityClient({ user }: FacilityClientProps) {
         prev
           ? {
               ...prev,
-              assigned_to: assignedTo || undefined,
+              assigned_to: assignedTo || null,
               assigned_name: member?.name,
               updated_at: new Date().toISOString(),
             }

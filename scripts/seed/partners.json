@@ -1,0 +1,182 @@
+[
+  {
+    "id": "partner-001",
+    "company_name": "Elektro Vandenberghe BVBA",
+    "contact_name": "Marc Vandenberghe",
+    "contact_email": "marc@elektrovandenberghe.be",
+    "contact_phone": "+32 477 12 34 56",
+    "address": "Industrielaan 25, 9040 Gent",
+    "specialty": "Elektriciteit",
+    "status": "approved",
+    "notes": "Betrouwbare partner, werkt al 5 jaar samen met ons.",
+    "created_at": "2023-03-15T09:00:00Z",
+    "updated_at": "2026-01-05T14:30:00Z",
+    "documents": [
+      {
+        "id": "doc-001",
+        "doc_type": "vca",
+        "name": "VCA* Certificaat",
+        "file_url": "/uploads/partner-001-vca.pdf",
+        "valid_from": "2025-01-01",
+        "valid_to": "2028-01-01",
+        "status": "approved",
+        "uploaded_at": "2025-01-15T10:00:00Z"
+      },
+      {
+        "id": "doc-002",
+        "doc_type": "insurance",
+        "name": "BA Verzekering",
+        "file_url": "/uploads/partner-001-insurance.pdf",
+        "valid_from": "2026-01-01",
+        "valid_to": "2026-12-31",
+        "status": "approved",
+        "uploaded_at": "2026-01-05T14:30:00Z"
+      },
+      {
+        "id": "doc-003",
+        "doc_type": "reference",
+        "name": "Referenties",
+        "file_url": "/uploads/partner-001-refs.pdf",
+        "valid_from": null,
+        "valid_to": null,
+        "status": "approved",
+        "uploaded_at": "2025-01-15T10:15:00Z"
+      }
+    ]
+  },
+  {
+    "id": "partner-002",
+    "company_name": "Sanitair Solutions NV",
+    "contact_name": "Katrien De Wit",
+    "contact_email": "katrien@sanitairsolutions.be",
+    "contact_phone": "+32 479 23 45 67",
+    "address": "Havenstraat 12, 9000 Gent",
+    "specialty": "Sanitair & HVAC",
+    "status": "pending",
+    "notes": null,
+    "created_at": "2026-01-14T10:00:00Z",
+    "updated_at": "2026-01-14T11:00:00Z",
+    "documents": [
+      {
+        "id": "doc-004",
+        "doc_type": "vca",
+        "name": "VCA* Certificaat",
+        "file_url": "/uploads/partner-002-vca.pdf",
+        "valid_from": "2024-06-01",
+        "valid_to": "2027-06-01",
+        "status": "pending",
+        "uploaded_at": "2026-01-14T11:00:00Z"
+      },
+      {
+        "id": "doc-005",
+        "doc_type": "insurance",
+        "name": "BA Verzekering",
+        "file_url": null,
+        "valid_from": null,
+        "valid_to": null,
+        "status": "missing",
+        "uploaded_at": null
+      },
+      {
+        "id": "doc-006",
+        "doc_type": "reference",
+        "name": "Referenties",
+        "file_url": null,
+        "valid_from": null,
+        "valid_to": null,
+        "status": "missing",
+        "uploaded_at": null
+      }
+    ]
+  },
+  {
+    "id": "partner-003",
+    "company_name": "Dakwerken Janssen",
+    "contact_name": "Peter Janssen",
+    "contact_email": "peter@dakwerkenjanssen.be",
+    "contact_phone": "+32 476 34 56 78",
+    "address": "Kerkstraat 45, 9940 Evergem",
+    "specialty": "Dakwerken",
+    "status": "blocked",
+    "notes": "Geblokkeerd wegens verlopen documenten. Wacht op vernieuwing.",
+    "created_at": "2022-01-10T09:00:00Z",
+    "updated_at": "2025-12-15T10:00:00Z",
+    "documents": [
+      {
+        "id": "doc-007",
+        "doc_type": "vca",
+        "name": "VCA* Certificaat",
+        "file_url": "/uploads/partner-003-vca.pdf",
+        "valid_from": "2022-01-01",
+        "valid_to": "2025-01-01",
+        "status": "expired",
+        "uploaded_at": "2022-01-15T09:00:00Z"
+      },
+      {
+        "id": "doc-008",
+        "doc_type": "insurance",
+        "name": "BA Verzekering",
+        "file_url": "/uploads/partner-003-insurance.pdf",
+        "valid_from": "2025-01-01",
+        "valid_to": "2025-12-31",
+        "status": "expired",
+        "uploaded_at": "2025-01-10T10:00:00Z"
+      },
+      {
+        "id": "doc-009",
+        "doc_type": "reference",
+        "name": "Referenties",
+        "file_url": "/uploads/partner-003-refs.pdf",
+        "valid_from": null,
+        "valid_to": null,
+        "status": "approved",
+        "uploaded_at": "2022-01-15T09:30:00Z"
+      }
+    ]
+  },
+  {
+    "id": "partner-004",
+    "company_name": "Schilderwerken De Meyer",
+    "contact_name": "Luc De Meyer",
+    "contact_email": "luc@schilderwerkendemeyer.be",
+    "contact_phone": null,
+    "address": "Nieuwstraat 78, 9050 Gentbrugge",
+    "specialty": "Schilderwerken",
+    "status": "approved",
+    "notes": null,
+    "created_at": "2025-03-01T09:00:00Z",
+    "updated_at": "2026-01-08T09:00:00Z",
+    "documents": [
+      {
+        "id": "doc-010",
+        "doc_type": "vca",
+        "name": "VCA* Certificaat",
+        "file_url": "/uploads/partner-004-vca.pdf",
+        "valid_from": "2025-03-01",
+        "valid_to": "2028-03-01",
+        "status": "approved",
+        "uploaded_at": "2025-03-10T14:00:00Z"
+      },
+      {
+        "id": "doc-011",
+        "doc_type": "insurance",
+        "name": "BA Verzekering",
+        "file_url": "/uploads/partner-004-insurance.pdf",
+        "valid_from": "2026-01-01",
+        "valid_to": "2026-12-31",
+        "status": "approved",
+        "uploaded_at": "2026-01-08T09:00:00Z"
+      },
+      {
+        "id": "doc-012",
+        "doc_type": "reference",
+        "name": "Referenties",
+        "file_url": "/uploads/partner-004-refs.pdf",
+        "valid_from": null,
+        "valid_to": null,
+        "status": "approved",
+        "uploaded_at": "2025-03-10T14:15:00Z"
+      }
+    ]
+  }
+]

@@ -95,3 +95,11 @@ Notes: Created analytics dashboard with KPI tiles (leads, response time, tender 
 Status: DONE
 Notes: All 16 user stories implemented and verified. Growth OS v1 ready for sales demo.
 ---
+[DATA-001] - Facility tickets Supabase data layer
+Status: DONE
+Notes: Created facility_tickets table with reference auto-generation, RLS policies, audit triggers. Added TypeScript types, query functions with seed fallback, updated page/client for props-based data flow.
+---
+[DATA-002] - Partners Supabase data layer
+Status: DONE
+Notes: Created partners + partner_documents tables with RLS, audit triggers, compliance status view. TypeScript types added. Query functions including getPartnersWithDocuments for nested data. Server page fetches data, client receives via props.
+---

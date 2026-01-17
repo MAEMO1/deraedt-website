@@ -21,204 +21,17 @@ import {
   Eye,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
+import type { Profile, Partner as BasePartner, PartnerDocument } from '@/lib/supabase/types';
+
+// Extended type for partner with embedded documents
+interface Partner extends BasePartner {
+  documents: PartnerDocument[];
+}
 
 interface PartnersClientProps {
   user: Profile;
+  initialPartners: Partner[];
 }
-
-interface PartnerDocument {
-  id: string;
-  type: 'vca' | 'insurance' | 'reference' | 'kvk' | 'other';
-  name: string;
-  file_url?: string;
-  valid_from?: string;
-  valid_to?: string;
-  status: 'missing' | 'pending' | 'approved' | 'expired';
-  uploaded_at?: string;
-}
-
-interface Partner {
-  id: string;
-  company_name: string;
-  contact_name: string;
-  contact_email: string;
-  contact_phone?: string;
-  address?: string;
-  specialty: string;
-  status: 'pending' | 'approved' | 'blocked';
-  documents: PartnerDocument[];
-  notes?: string;
-  created_at: string;
-  updated_at: string;
-}
-
-// Mock partners data
-const mockPartners: Partner[] = [
-  {
-    id: 'partner-001',
-    company_name: 'Elektro Vandenberghe BVBA',
-    contact_name: 'Marc Vandenberghe',
-    contact_email: 'marc@elektrovandenberghe.be',
-    contact_phone: '+32 477 12 34 56',
-    address: 'Industrielaan 25, 9040 Gent',
-    specialty: 'Elektriciteit',
-    status: 'approved',
-    documents: [
-      {
-        id: 'doc-001',
-        type: 'vca',
-        name: 'VCA* Certificaat',
-        file_url: '/uploads/partner-001-vca.pdf',
-        valid_from: '2025-01-01',
-        valid_to: '2028-01-01',
-        status: 'approved',
-        uploaded_at: '2025-01-15T10:00:00Z',
-      },
-      {
-        id: 'doc-002',
-        type: 'insurance',
-        name: 'BA Verzekering',
-        file_url: '/uploads/partner-001-insurance.pdf',
-        valid_from: '2026-01-01',
-        valid_to: '2026-12-31',
-        status: 'approved',
-        uploaded_at: '2026-01-05T14:30:00Z',
-      },
-      {
-        id: 'doc-003',
-        type: 'reference',
-        name: 'Referenties',
-        file_url: '/uploads/partner-001-refs.pdf',
-        status: 'approved',
-        uploaded_at: '2025-01-15T10:15:00Z',
-      },
-    ],
-    notes: 'Betrouwbare partner, werkt al 5 jaar samen met ons.',
-    created_at: '2023-03-15T09:00:00Z',
-    updated_at: '2026-01-05T14:30:00Z',
-  },
-  {
-    id: 'partner-002',
-    company_name: 'Sanitair Solutions NV',
-    contact_name: 'Katrien De Wit',
-    contact_email: 'katrien@sanitairsolutions.be',
-    contact_phone: '+32 479 23 45 67',
-    address: 'Havenstraat 12, 9000 Gent',
-    specialty: 'Sanitair & HVAC',
-    status: 'pending',
-    documents: [
-      {
-        id: 'doc-004',
-        type: 'vca',
-        name: 'VCA* Certificaat',
-        file_url: '/uploads/partner-002-vca.pdf',
-        valid_from: '2024-06-01',
-        valid_to: '2027-06-01',
-        status: 'pending',
-        uploaded_at: '2026-01-14T11:00:00Z',
-      },
-      {
-        id: 'doc-005',
-        type: 'insurance',
-        name: 'BA Verzekering',
-        status: 'missing',
-      },
-      {
-        id: 'doc-006',
-        type: 'reference',
-        name: 'Referenties',
-        status: 'missing',
-      },
-    ],
-    created_at: '2026-01-14T10:00:00Z',
-    updated_at: '2026-01-14T11:00:00Z',
-  },
-  {
-    id: 'partner-003',
-    company_name: 'Dakwerken Janssen',
-    contact_name: 'Peter Janssen',
-    contact_email: 'peter@dakwerkenjanssen.be',
-    contact_phone: '+32 476 34 56 78',
-    address: 'Kerkstraat 45, 9940 Evergem',
-    specialty: 'Dakwerken',
-    status: 'blocked',
-    documents: [
-      {
-        id: 'doc-007',
-        type: 'vca',
-        name: 'VCA* Certificaat',
-        file_url: '/uploads/partner-003-vca.pdf',
-        valid_from: '2022-01-01',
-        valid_to: '2025-01-01',
-        status: 'expired',
-        uploaded_at: '2022-01-15T09:00:00Z',
-      },
-      {
-        id: 'doc-008',
-        type: 'insurance',
-        name: 'BA Verzekering',
-        file_url: '/uploads/partner-003-insurance.pdf',
-        valid_from: '2025-01-01',
-        valid_to: '2025-12-31',
-        status: 'expired',
-        uploaded_at: '2025-01-10T10:00:00Z',
-      },
-      {
-        id: 'doc-009',
-        type: 'reference',
-        name: 'Referenties',
-        file_url: '/uploads/partner-003-refs.pdf',
-        status: 'approved',
-        uploaded_at: '2022-01-15T09:30:00Z',
-      },
-    ],
-    notes: 'Geblokkeerd wegens verlopen documenten. Wacht op vernieuwing.',
-    created_at: '2022-01-10T09:00:00Z',
-    updated_at: '2025-12-15T10:00:00Z',
-  },
-  {
-    id: 'partner-004',
-    company_name: 'Schilderwerken De Meyer',
-    contact_name: 'Luc De Meyer',
-    contact_email: 'luc@schilderwerkendemeyer.be',
-    address: 'Nieuwstraat 78, 9050 Gentbrugge',
-    specialty: 'Schilderwerken',
-    status: 'approved',
-    documents: [
-      {
-        id: 'doc-010',
-        type: 'vca',
-        name: 'VCA* Certificaat',
-        file_url: '/uploads/partner-004-vca.pdf',
-        valid_from: '2025-03-01',
-        valid_to: '2028-03-01',
-        status: 'approved',
-        uploaded_at: '2025-03-10T14:00:00Z',
-      },
-      {
-        id: 'doc-011',
-        type: 'insurance',
-        name: 'BA Verzekering',
-        file_url: '/uploads/partner-004-insurance.pdf',
-        valid_from: '2026-01-01',
-        valid_to: '2026-12-31',
-        status: 'approved',
-        uploaded_at: '2026-01-08T09:00:00Z',
-      },
-      {
-        id: 'doc-012',
-        type: 'reference',
-        name: 'Referenties',
-        file_url: '/uploads/partner-004-refs.pdf',
-        status: 'approved',
-        uploaded_at: '2025-03-10T14:15:00Z',
-      },
-    ],
-    created_at: '2025-03-01T09:00:00Z',
-    updated_at: '2026-01-08T09:00:00Z',
-  },
-];
 
 const roleLabels: Record<string, string> = {
   DIRECTIE: 'Directie',
@@ -265,8 +78,8 @@ const docTypeLabels: Record<string, string> = {
 
 const requiredDocuments = ['vca', 'insurance', 'reference'];
 
-export function PartnersClient({ user }: PartnersClientProps) {
-  const [partners, setPartners] = useState<Partner[]>(mockPartners);
+export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
+  const [partners, setPartners] = useState<Partner[]>(initialPartners);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
@@ -308,7 +121,7 @@ export function PartnersClient({ user }: PartnersClientProps) {
   const getDocumentCompleteness = (documents: PartnerDocument[]) => {
     const required = requiredDocuments.length;
     const approved = documents.filter(
-      (d) => requiredDocuments.includes(d.type) && d.status === 'approved'
+      (d) => requiredDocuments.includes(d.doc_type) && d.status === 'approved'
     ).length;
     return { approved, required };
   };
@@ -649,7 +462,7 @@ export function PartnersClient({ user }: PartnersClientProps) {
                 <div className="space-y-3">
                   {selectedPartner.documents.map((doc) => {
                     const expiryStatus = getDocExpiryStatus(doc);
-                    const isRequired = requiredDocuments.includes(doc.type);
+                    const isRequired = requiredDocuments.includes(doc.doc_type);
 
                     return (
                       <div
@@ -677,7 +490,7 @@ export function PartnersClient({ user }: PartnersClientProps) {
                             )}
                             <div>
                               <p className="font-medium text-[#0C0C0C]">
-                                {docTypeLabels[doc.type] || doc.name}
+                                {docTypeLabels[doc.doc_type] || doc.name}
                                 {isRequired && <span className="text-red-500 ml-1">*</span>}
                               </p>
                               <p className={`text-xs ${docStatusColors[doc.status]}`}>
@@ -704,7 +517,7 @@ export function PartnersClient({ user }: PartnersClientProps) {
                             {doc.status === 'missing' && (
                               <button
                                 className="flex items-center gap-1 px-2 py-1 text-xs bg-white border border-[#0C0C0C]/10 hover:bg-[#FAF7F2] rounded"
-                                onClick={() => console.log('[UPLOAD DOC]', doc.type)}
+                                onClick={() => console.log('[UPLOAD DOC]', doc.doc_type)}
                               >
                                 <Upload className="w-3 h-3" />
                                 Uploaden

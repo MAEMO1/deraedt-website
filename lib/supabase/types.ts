@@ -17,6 +17,11 @@ export type EmploymentType = 'full_time' | 'part_time' | 'contract' | 'internshi
 export type ApplicationStatus = 'new' | 'screening' | 'interview' | 'offer' | 'hired' | 'rejected';
 export type ClientType = 'public' | 'private' | 'education' | 'healthcare' | 'industrial';
 export type ComplianceDocType = 'iso' | 'vca' | 'co2' | 'insurance' | 'erkenning' | 'policy' | 'other';
+export type TicketUrgency = 'low' | 'medium' | 'high' | 'critical';
+export type TicketStatus = 'open' | 'in_progress' | 'waiting' | 'resolved';
+export type PartnerStatus = 'pending' | 'approved' | 'blocked';
+export type PartnerDocType = 'vca' | 'insurance' | 'reference' | 'kvk' | 'other';
+export type PartnerDocStatus = 'missing' | 'pending' | 'approved' | 'expired';
 
 export interface Database {
   public: {
@@ -415,6 +420,132 @@ export interface Database {
         };
       };
 
+      // Partners for prequalification
+      partners: {
+        Row: {
+          id: string;
+          company_name: string;
+          contact_name: string;
+          contact_email: string;
+          contact_phone: string | null;
+          address: string | null;
+          specialty: string;
+          status: PartnerStatus;
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          company_name: string;
+          contact_name: string;
+          contact_email: string;
+          specialty: string;
+          contact_phone?: string | null;
+          address?: string | null;
+          status?: PartnerStatus;
+          notes?: string | null;
+        };
+        Update: {
+          company_name?: string;
+          contact_name?: string;
+          contact_email?: string;
+          contact_phone?: string | null;
+          address?: string | null;
+          specialty?: string;
+          status?: PartnerStatus;
+          notes?: string | null;
+        };
+      };
+
+      // Partner documents for compliance tracking
+      partner_documents: {
+        Row: {
+          id: string;
+          partner_id: string;
+          doc_type: PartnerDocType;
+          name: string;
+          file_url: string | null;
+          valid_from: string | null;
+          valid_to: string | null;
+          status: PartnerDocStatus;
+          uploaded_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          partner_id: string;
+          doc_type: PartnerDocType;
+          name: string;
+          file_url?: string | null;
+          valid_from?: string | null;
+          valid_to?: string | null;
+          status?: PartnerDocStatus;
+          uploaded_at?: string | null;
+        };
+        Update: {
+          partner_id?: string;
+          doc_type?: PartnerDocType;
+          name?: string;
+          file_url?: string | null;
+          valid_from?: string | null;
+          valid_to?: string | null;
+          status?: PartnerDocStatus;
+          uploaded_at?: string | null;
+        };
+      };
+
+      // Facility tickets for intervention tracking
+      facility_tickets: {
+        Row: {
+          id: string;
+          reference: string;
+          title: string;
+          description: string;
+          location: string;
+          urgency: TicketUrgency;
+          status: TicketStatus;
+          sla_due_at: string;
+          assigned_to: string | null;
+          reporter_name: string;
+          reporter_email: string;
+          reporter_phone: string | null;
+          photos: string[];
+          notes: string[];
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          title: string;
+          description: string;
+          location: string;
+          sla_due_at: string;
+          reporter_name: string;
+          reporter_email: string;
+          reference?: string;
+          urgency?: TicketUrgency;
+          status?: TicketStatus;
+          assigned_to?: string | null;
+          reporter_phone?: string | null;
+          photos?: string[];
+          notes?: string[];
+        };
+        Update: {
+          reference?: string;
+          title?: string;
+          description?: string;
+          location?: string;
+          urgency?: TicketUrgency;
+          status?: TicketStatus;
+          sla_due_at?: string;
+          assigned_to?: string | null;
+          reporter_name?: string;
+          reporter_email?: string;
+          reporter_phone?: string | null;
+          photos?: string[];
+          notes?: string[];
+        };
+      };
+
       // Audit logs for tracking events
       audit_logs: {
         Row: {
@@ -617,3 +748,6 @@ export type JobApplication = Database['public']['Tables']['job_applications']['R
 export type Case = Database['public']['Tables']['cases']['Row'];
 export type ComplianceDoc = Database['public']['Tables']['compliance_docs']['Row'];
 export type MediaAsset = Database['public']['Tables']['media_assets']['Row'];
+export type FacilityTicket = Database['public']['Tables']['facility_tickets']['Row'];
+export type Partner = Database['public']['Tables']['partners']['Row'];
+export type PartnerDocument = Database['public']['Tables']['partner_documents']['Row'];

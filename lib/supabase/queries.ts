@@ -13,6 +13,9 @@ import type {
   JobApplication,
   ComplianceDoc,
   Case,
+  FacilityTicket,
+  Partner,
+  PartnerDocument,
 } from './types';
 
 // Import seed data as fallback
@@ -21,6 +24,8 @@ import leadsData from '@/scripts/seed/leads.json';
 import jobsData from '@/scripts/seed/jobs.json';
 import complianceDocsData from '@/scripts/seed/compliance_docs.json';
 import casesData from '@/scripts/seed/cases.json';
+import facilityTicketsData from '@/scripts/seed/facility_tickets.json';
+import partnersData from '@/scripts/seed/partners.json';
 
 // ============================================================================
 // TENDERS
@@ -308,6 +313,190 @@ export async function getCases(): Promise<Case[]> {
   } catch (err) {
     console.error('[getCases] Error:', err);
     return casesData as unknown as Case[];
+  }
+}
+
+// ============================================================================
+// FACILITY TICKETS
+// ============================================================================
+
+export async function getFacilityTickets(): Promise<FacilityTicket[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('facility_tickets')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('[getFacilityTickets] Supabase error:', error);
+      return facilityTicketsData as unknown as FacilityTicket[];
+    }
+
+    if (!data || data.length === 0) {
+      console.log('[getFacilityTickets] No data in Supabase, using seed data');
+      return facilityTicketsData as unknown as FacilityTicket[];
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[getFacilityTickets] Error:', err);
+    return facilityTicketsData as unknown as FacilityTicket[];
+  }
+}
+
+export async function getFacilityTicketById(id: string): Promise<FacilityTicket | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('facility_tickets')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      const seedTicket = (facilityTicketsData as unknown as FacilityTicket[]).find(t => t.id === id);
+      return seedTicket || null;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[getFacilityTicketById] Error:', err);
+    const seedTicket = (facilityTicketsData as unknown as FacilityTicket[]).find(t => t.id === id);
+    return seedTicket || null;
+  }
+}
+
+// ============================================================================
+// PARTNERS
+// ============================================================================
+
+// Type for partner with nested documents (from seed data)
+interface PartnerWithDocuments extends Partner {
+  documents: PartnerDocument[];
+}
+
+// Seed data has documents nested, so we need to handle that structure
+type SeedPartner = Partner & { documents: PartnerDocument[] };
+
+// Helper to extract partner without documents from seed data
+function extractPartnerFromSeed(seed: SeedPartner): Partner {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { documents, ...partner } = seed;
+  return partner;
+}
+
+export async function getPartners(): Promise<Partner[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('partners')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('[getPartners] Supabase error:', error);
+      return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+    }
+
+    if (!data || data.length === 0) {
+      console.log('[getPartners] No data in Supabase, using seed data');
+      return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[getPartners] Error:', err);
+    return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+  }
+}
+
+export async function getPartnerById(id: string): Promise<Partner | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('partners')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === id);
+      return seedPartner ? extractPartnerFromSeed(seedPartner) : null;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[getPartnerById] Error:', err);
+    const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === id);
+    return seedPartner ? extractPartnerFromSeed(seedPartner) : null;
+  }
+}
+
+export async function getPartnerDocuments(partnerId: string): Promise<PartnerDocument[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('partner_documents')
+      .select('*')
+      .eq('partner_id', partnerId)
+      .order('doc_type', { ascending: true });
+
+    if (error) {
+      console.error('[getPartnerDocuments] Supabase error:', error);
+      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
+      return seedPartner?.documents || [];
+    }
+
+    if (!data || data.length === 0) {
+      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
+      return seedPartner?.documents || [];
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[getPartnerDocuments] Error:', err);
+    const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
+    return seedPartner?.documents || [];
+  }
+}
+
+export async function getPartnersWithDocuments(): Promise<PartnerWithDocuments[]> {
+  try {
+    const supabase = await createClient();
+
+    // First try to get partners from Supabase
+    const { data: partnersDb, error: partnersError } = await supabase
+      .from('partners')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (partnersError || !partnersDb || partnersDb.length === 0) {
+      console.log('[getPartnersWithDocuments] Using seed data');
+      return partnersData as unknown as PartnerWithDocuments[];
+    }
+
+    // Get all documents for these partners
+    const partnerIds = partnersDb.map(p => p.id);
+    const { data: docsDb, error: docsError } = await supabase
+      .from('partner_documents')
+      .select('*')
+      .in('partner_id', partnerIds);
+
+    if (docsError) {
+      console.error('[getPartnersWithDocuments] Docs error:', docsError);
+    }
+
+    // Combine partners with their documents
+    const partnersWithDocs: PartnerWithDocuments[] = partnersDb.map(partner => ({
+      ...partner,
+      documents: (docsDb || []).filter(d => d.partner_id === partner.id),
+    }));
+
+    return partnersWithDocs;
+  } catch (err) {
+    console.error('[getPartnersWithDocuments] Error:', err);
+    return partnersData as unknown as PartnerWithDocuments[];
   }
 }
 
