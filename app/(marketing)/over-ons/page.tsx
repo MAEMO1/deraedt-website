@@ -191,7 +191,7 @@ export default function OverOnsPage() {
       </section>
 
       {/* Timeline Section */}
-      <section ref={timelineRef} className="section-spacing bg-white">
+      <section ref={timelineRef} className="py-24 sm:py-32 bg-white overflow-hidden">
         <div className="container-wide">
           <motion.header
             initial={{ opacity: 0, y: 40 }}
@@ -205,34 +205,55 @@ export default function OverOnsPage() {
             </h2>
           </motion.header>
 
-          {/* Timeline */}
-          <div className="relative max-w-4xl mx-auto">
-            {/* Center line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-[#204CE5]/20 md:-translate-x-px" />
+          {/* Timeline - Elegant horizontal flowing design */}
+          <div className="relative">
+            {/* Horizontal line - visible on desktop */}
+            <div className="hidden lg:block absolute top-[140px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#204CE5]/30 to-transparent" />
 
-            {timeline.map((item, index) => (
-              <motion.div
-                key={item.year}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative flex items-start gap-8 mb-12 ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
-              >
-                {/* Content */}
-                <div className={`ml-20 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"}`}>
-                  <div className="bg-[#F5F5F5] p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
-                    <div className="text-3xl font-bold text-[#204CE5]">{item.year}</div>
-                    <h3 className="mt-2 text-xl font-bold text-[#112337]">{item.title}</h3>
-                    <p className="mt-3 text-[#686E77] text-sm leading-relaxed">{item.description}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+              {timeline.map((item, index) => (
+                <motion.article
+                  key={item.year}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: index * 0.08 }}
+                  className="group relative"
+                >
+                  {/* Large year - the focal point */}
+                  <div className="relative mb-8">
+                    <span
+                      className="block text-[120px] sm:text-[140px] lg:text-[160px] font-bold leading-none tracking-tighter text-transparent"
+                      style={{
+                        WebkitTextStroke: '1.5px rgba(32, 76, 229, 0.15)',
+                      }}
+                    >
+                      {item.year}
+                    </span>
+                    {/* Solid year overlay on hover */}
+                    <span
+                      className="absolute inset-0 block text-[120px] sm:text-[140px] lg:text-[160px] font-bold leading-none tracking-tighter text-[#204CE5]/10 transition-all duration-500 group-hover:text-[#204CE5]/20"
+                    >
+                      {item.year}
+                    </span>
+
+                    {/* Timeline dot - visible on desktop */}
+                    <div className="hidden lg:flex absolute -bottom-4 left-1/2 -translate-x-1/2 items-center justify-center">
+                      <div className="w-3 h-3 rounded-full bg-[#204CE5] ring-4 ring-white shadow-sm" />
+                    </div>
                   </div>
-                </div>
 
-                {/* Dot */}
-                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-[#204CE5] rounded-full -translate-x-1/2 mt-8" />
-              </motion.div>
-            ))}
+                  {/* Content */}
+                  <div className="relative pl-6 border-l-2 border-[#204CE5]/20 group-hover:border-[#204CE5] transition-colors duration-300">
+                    <h3 className="text-xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-[#686E77] text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
           </div>
         </div>
       </section>

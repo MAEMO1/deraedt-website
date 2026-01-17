@@ -3,7 +3,6 @@
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
-import { STATS } from "@/lib/constants";
 
 const CLIENTS = [
   { name: "Infrabel", logo: "/images/original-site/Infrabel-logo.png", width: 130, height: 50 },
@@ -81,36 +80,6 @@ export function ClientLogos() {
   return (
     <section ref={ref} className="py-20 sm:py-28 bg-white relative overflow-hidden">
       <div className="container-wide relative">
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 pb-16 border-b border-[#112337]/10"
-        >
-          {[
-            { value: `${STATS.yearsExperience}+`, label: "Jaar ervaring" },
-            { value: `${STATS.projectsCompleted}+`, label: "Projecten voltooid" },
-            { value: `${STATS.employees}`, label: "Vakspecialisten" },
-            { value: "100%", label: "Tevreden klanten" },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center"
-            >
-              <div className="text-4xl md:text-5xl font-bold text-[#204CE5]">
-                {stat.value}
-              </div>
-              <div className="mt-2 text-sm text-[#686E77] uppercase tracking-wider">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
