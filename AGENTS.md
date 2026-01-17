@@ -208,5 +208,26 @@ JSON seed files in `scripts/seed/`:
 - **LESSON LEARNED:** Na implementatie van nieuwe routes ALTIJD navigatie testen door te klikken
 - **TOEGEVOEGD:** Verificatie Checklist sectie in AGENTS.md
 
+### 2026-01-17: Supabase data layer refactoring
+
+- **DOEL:** Dashboard modules moeten echte Supabase data gebruiken i.p.v. mock/seed JSON
+- **AANGEMAAKT:** `lib/supabase/queries.ts` met alle data access functies:
+  - `getTenders()`, `getTenderById()`
+  - `getLeads()`, `getLeadById()`
+  - `getComplianceDocs()`, `getExpiryRadar()`
+  - `getJobs()`, `getJobBySlug()`
+  - `getJobApplications()`, `getApplicationsByJobId()`
+  - `getCases()`
+  - `getDashboardData()` (aggregeert cockpit data)
+  - `getAnalyticsData()` (aggregeert analytics data)
+- **FALLBACK MECHANISME:** Queries proberen eerst Supabase, vallen terug op seed data bij lege/fout
+- **UPDATED PAGES:** Alle server pages (`page.tsx`) halen nu data op en geven door als props
+- **UPDATED CLIENTS:** Alle client components ontvangen data via props i.p.v. directe JSON imports
+- **TYPE FIXES:** Supabase types gebruiken `| null`, lokale interfaces gebruikten `| undefined`
+  - Alle format functies accepteren nu `string | null`
+  - Type guards toegevoegd voor filtering
+  - Optional chaining voor nullable velden
+- **PATTERN:** Server component fetcht data, client component rendert (props-driven)
+
 ---
 _Last updated: 2026-01-17_

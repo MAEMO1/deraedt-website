@@ -23,25 +23,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
-
-interface Tender {
-  id: string;
-  source: string;
-  external_id?: string;
-  external_url?: string;
-  title: string;
-  buyer: string;
-  buyer_location?: string;
-  cpv_codes?: string[];
-  estimated_value?: number;
-  deadline_at: string;
-  publication_date?: string;
-  status: string;
-  match_score?: number;
-  tags?: string[];
-  description?: string;
-}
+import type { Profile, Tender } from '@/lib/supabase/types';
 
 interface TenderDetailClientProps {
   user: Profile;
@@ -157,14 +139,15 @@ export function TenderDetailClient({ user, tender }: TenderDetailClientProps) {
     return { text: `${daysUntil} dagen`, color: 'text-green-600', days: daysUntil };
   };
 
-  const formatValue = (value?: number) => {
+  const formatValue = (value?: number | null) => {
     if (!value) return '-';
     if (value >= 1000000) return `€${(value / 1000000).toFixed(1)}M`;
     if (value >= 1000) return `€${(value / 1000).toFixed(0)}K`;
     return `€${value}`;
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string | null) => {
+    if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('nl-BE', {
       day: 'numeric',
       month: 'long',
@@ -235,7 +218,7 @@ export function TenderDetailClient({ user, tender }: TenderDetailClientProps) {
     setIsSubmitting(false);
   };
 
-  const deadline = formatDeadline(tender.deadline_at);
+  const deadline = tender.deadline_at ? formatDeadline(tender.deadline_at) : null;
   const checkedCount = checklist.filter((item) => item.checked).length;
   const allChecked = checkedCount === checklist.length;
 
@@ -283,10 +266,17 @@ export function TenderDetailClient({ user, tender }: TenderDetailClientProps) {
                     {tender.buyer}
                     {tender.buyer_location && ` — ${tender.buyer_location}`}
                   </span>
-                  <span className={`flex items-center gap-2 ${deadline.color}`}>
-                    <Clock className="w-4 h-4" />
-                    Deadline: {formatDate(tender.deadline_at)} ({deadline.text})
-                  </span>
+                  {deadline ? (
+                    <span className={`flex items-center gap-2 ${deadline.color}`}>
+                      <Clock className="w-4 h-4" />
+                      Deadline: {formatDate(tender.deadline_at)} ({deadline.text})
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2 text-[#6B6560]">
+                      <Clock className="w-4 h-4" />
+                      Geen deadline
+                    </span>
+                  )}
                 </div>
               </div>
 

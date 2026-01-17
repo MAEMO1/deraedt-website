@@ -14,33 +14,12 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
-
-// Import seed data for demo
-import tendersData from '@/scripts/seed/tenders.json';
+import type { Profile, Tender } from '@/lib/supabase/types';
 
 interface TendersClientProps {
   user: Profile;
+  tenders: Tender[];
 }
-
-interface Tender {
-  id: string;
-  source: string;
-  external_id?: string;
-  external_url?: string;
-  title: string;
-  buyer: string;
-  buyer_location?: string;
-  cpv_codes?: string[];
-  estimated_value?: number;
-  deadline_at: string;
-  publication_date?: string;
-  status: string;
-  match_score?: number;
-  tags?: string[];
-}
-
-const tenders: Tender[] = tendersData as Tender[];
 
 const roleLabels: Record<string, string> = {
   DIRECTIE: 'Directie',
@@ -79,7 +58,7 @@ const sourceLabels: Record<string, string> = {
   manual: 'Handmatig',
 };
 
-export function TendersClient({ user }: TendersClientProps) {
+export function TendersClient({ user, tenders }: TendersClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -98,8 +77,8 @@ export function TendersClient({ user }: TendersClientProps) {
 
   // Sort by deadline (closest first)
   const sortedTenders = [...filteredTenders].sort((a, b) => {
-    const dateA = new Date(a.deadline_at);
-    const dateB = new Date(b.deadline_at);
+    const dateA = a.deadline_at ? new Date(a.deadline_at) : new Date('9999-12-31');
+    const dateB = b.deadline_at ? new Date(b.deadline_at) : new Date('9999-12-31');
     return dateA.getTime() - dateB.getTime();
   });
 
@@ -129,7 +108,7 @@ export function TendersClient({ user }: TendersClientProps) {
     return { text: `${daysUntil}d`, color: 'text-green-600' };
   };
 
-  const formatValue = (value?: number) => {
+  const formatValue = (value?: number | null) => {
     if (!value) return '-';
     if (value >= 1000000) return `€${(value / 1000000).toFixed(1)}M`;
     if (value >= 1000) return `€${(value / 1000).toFixed(0)}K`;
@@ -239,7 +218,7 @@ export function TendersClient({ user }: TendersClientProps) {
                 </thead>
                 <tbody>
                   {sortedTenders.map((tender) => {
-                    const deadline = formatDeadline(tender.deadline_at);
+                    const deadline = tender.deadline_at ? formatDeadline(tender.deadline_at) : null;
                     return (
                       <tr
                         key={tender.id}
@@ -270,12 +249,16 @@ export function TendersClient({ user }: TendersClientProps) {
                           </div>
                         </td>
                         <td className="p-4">
-                          <div className="flex items-center gap-2">
-                            <Clock className={`w-4 h-4 ${deadline.color}`} />
-                            <span className={`text-sm font-medium ${deadline.color}`}>
-                              {deadline.text}
-                            </span>
-                          </div>
+                          {deadline ? (
+                            <div className="flex items-center gap-2">
+                              <Clock className={`w-4 h-4 ${deadline.color}`} />
+                              <span className={`text-sm font-medium ${deadline.color}`}>
+                                {deadline.text}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-sm text-[#6B6560]">-</span>
+                          )}
                         </td>
                         <td className="p-4">
                           <span className={`text-xs px-2 py-1 rounded border ${statusColors[tender.status]}`}>

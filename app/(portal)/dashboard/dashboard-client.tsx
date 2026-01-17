@@ -20,48 +20,17 @@ import {
   Check,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
-
-// Import seed data for demo
-import tendersData from '@/scripts/seed/tenders.json';
-import leadsData from '@/scripts/seed/leads.json';
-import complianceData from '@/scripts/seed/compliance_docs.json';
+import type { Profile, Tender, Lead, ComplianceDoc } from '@/lib/supabase/types';
 
 interface DashboardClientProps {
   user: Profile;
+  tenders: Tender[];
+  leads: Lead[];
+  complianceDocs: ComplianceDoc[];
 }
-
-interface Tender {
-  id: string;
-  title: string;
-  buyer: string;
-  status: string;
-  deadline_at: string;
-  estimated_value: number;
-  match_score: number;
-}
-
-interface Lead {
-  id: string;
-  lead_type: string;
-  status: string;
-  organisation: string;
-  contact_name: string;
-}
-
-interface ComplianceDoc {
-  id: string;
-  name: string;
-  doc_type: string;
-  valid_to: string;
-}
-
-const tenders: Tender[] = tendersData as Tender[];
-const leads: Lead[] = leadsData as Lead[];
-const complianceDocs: ComplianceDoc[] = complianceData as ComplianceDoc[];
 
 // Calculate tender pipeline counts
-function getTenderPipelineCounts() {
+function getTenderPipelineCounts(tenders: Tender[]) {
   const counts: Record<string, number> = {
     new: 0, analyzing: 0, go: 0, no_go: 0,
     in_preparation: 0, submitted: 0, won: 0, lost: 0,
@@ -71,7 +40,7 @@ function getTenderPipelineCounts() {
 }
 
 // Calculate lead pipeline counts by type
-function getLeadPipelineCounts() {
+function getLeadPipelineCounts(leads: Lead[]) {
   const counts: Record<string, { total: number; new: number }> = {
     project: { total: 0, new: 0 },
     facility: { total: 0, new: 0 },
@@ -89,7 +58,7 @@ function getLeadPipelineCounts() {
 }
 
 // Calculate expiry radar
-function getExpiryRadar() {
+function getExpiryRadar(complianceDocs: ComplianceDoc[]) {
   const now = new Date();
   const docs30: ComplianceDoc[] = [];
   const docs60: ComplianceDoc[] = [];
@@ -107,10 +76,11 @@ function getExpiryRadar() {
 }
 
 // Get upcoming deadlines
-function getUpcomingDeadlines() {
+function getUpcomingDeadlines(tenders: Tender[]) {
   const now = new Date();
   return tenders
-    .filter((t) => t.deadline_at && ['new', 'analyzing', 'go', 'in_preparation'].includes(t.status))
+    .filter((t): t is Tender & { deadline_at: string } =>
+      t.deadline_at !== null && ['new', 'analyzing', 'go', 'in_preparation'].includes(t.status))
     .map((t) => ({
       ...t,
       daysUntil: Math.ceil((new Date(t.deadline_at).getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
@@ -120,7 +90,7 @@ function getUpcomingDeadlines() {
 }
 
 // Get alerts
-function getAlerts() {
+function getAlerts(tenders: Tender[], leads: Lead[], complianceDocs: ComplianceDoc[]) {
   const alerts: { type: 'warning' | 'info' | 'success'; message: string; link?: string }[] = [];
   const newLeads = leads.filter((l) => l.status === 'new').length;
   if (newLeads > 0) alerts.push({ type: 'info', message: `${newLeads} nieuwe lead${newLeads > 1 ? 's' : ''} wachtend`, link: '/dashboard/leads' });
@@ -128,7 +98,7 @@ function getAlerts() {
   const analyzing = tenders.filter((t) => t.status === 'analyzing').length;
   if (analyzing > 0) alerts.push({ type: 'warning', message: `${analyzing} tender${analyzing > 1 ? 's' : ''} wachtend op go/no-go`, link: '/dashboard/tenders' });
 
-  const { docs30 } = getExpiryRadar();
+  const { docs30 } = getExpiryRadar(complianceDocs);
   if (docs30.length > 0) alerts.push({ type: 'warning', message: `${docs30.length} document${docs30.length > 1 ? 'en' : ''} verloopt binnen 30d`, link: '/dashboard/compliance' });
 
   const won = tenders.filter((t) => t.status === 'won').length;
@@ -217,17 +187,17 @@ function RadialProgress({ value, max, size = 80, strokeWidth = 6, color = '#C9A8
   );
 }
 
-export function DashboardClient({ user }: DashboardClientProps) {
+export function DashboardClient({ user, tenders, leads, complianceDocs }: DashboardClientProps) {
   const [isExporting, setIsExporting] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const displayName = user.full_name || user.email.split('@')[0];
   const firstName = displayName.split(' ')[0];
 
-  const tenderCounts = getTenderPipelineCounts();
-  const leadCounts = getLeadPipelineCounts();
-  const expiryRadar = getExpiryRadar();
-  const deadlines = getUpcomingDeadlines();
-  const alerts = getAlerts();
+  const tenderCounts = getTenderPipelineCounts(tenders);
+  const leadCounts = getLeadPipelineCounts(leads);
+  const expiryRadar = getExpiryRadar(complianceDocs);
+  const deadlines = getUpcomingDeadlines(tenders);
+  const alerts = getAlerts(tenders, leads, complianceDocs);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);

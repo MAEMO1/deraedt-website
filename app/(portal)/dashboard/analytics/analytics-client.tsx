@@ -16,31 +16,15 @@ import {
   Calendar,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
-
-// Import seed data for demo metrics
-import leadsData from '@/scripts/seed/leads.json';
-import tendersData from '@/scripts/seed/tenders.json';
+import type { Profile, Lead, Tender, Job, JobApplication } from '@/lib/supabase/types';
 
 interface AnalyticsClientProps {
   user: Profile;
+  tenders: Tender[];
+  leads: Lead[];
+  jobs: Job[];
+  applications: JobApplication[];
 }
-
-interface Lead {
-  id: string;
-  lead_type: string;
-  status: string;
-  created_at?: string;
-}
-
-interface Tender {
-  id: string;
-  status: string;
-  estimated_value?: number;
-}
-
-const leads: Lead[] = leadsData as Lead[];
-const tenders: Tender[] = tendersData as Tender[];
 
 // Mock analytics events data
 const mockAnalyticsEvents = {
@@ -84,12 +68,12 @@ const roleLabels: Record<string, string> = {
   VIEWER: 'Viewer',
 };
 
-export function AnalyticsClient({ user }: AnalyticsClientProps) {
+export function AnalyticsClient({ user, tenders, leads, jobs, applications }: AnalyticsClientProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month' | 'quarter'>('month');
 
   const displayName = user.full_name || user.email.split('@')[0];
 
-  // Calculate metrics from seed data
+  // Calculate metrics from real data
   const totalLeads = leads.length;
   const newLeads = leads.filter((l) => l.status === 'new').length;
   const convertedLeads = leads.filter((l) => l.status === 'won').length;
@@ -101,9 +85,11 @@ export function AnalyticsClient({ user }: AnalyticsClientProps) {
     .filter((t) => ['new', 'analyzing', 'go', 'in_preparation'].includes(t.status))
     .reduce((sum, t) => sum + (t.estimated_value || 0), 0);
 
+  // Calculate job metrics from real data
   const totalJobViews = Object.values(mockAnalyticsEvents.jobPageViews).reduce((a, b) => a + b, 0);
-  const totalApplications = Object.values(mockAnalyticsEvents.applications).reduce((a, b) => a + b, 0);
+  const totalApplications = applications.length || Object.values(mockAnalyticsEvents.applications).reduce((a, b) => a + b, 0);
   const applicationRate = totalJobViews > 0 ? (totalApplications / totalJobViews) * 100 : 0;
+  const activeJobs = jobs.filter(j => j.status === 'published').length;
 
   // Chart helper: max value for scaling
   const maxLeadsPerMonth = Math.max(...mockAnalyticsEvents.leadsPerMonth.map((m) => m.count));
@@ -445,7 +431,7 @@ export function AnalyticsClient({ user }: AnalyticsClientProps) {
                   <Briefcase className="w-5 h-5 text-amber-600 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-medium text-amber-700">Hoge interesse vacatures</p>
-                    <p className="text-xs text-amber-600">+{totalApplications} sollicitaties deze maand</p>
+                    <p className="text-xs text-amber-600">{activeJobs} actieve vacatures, +{totalApplications} sollicitaties</p>
                   </div>
                 </div>
               </div>

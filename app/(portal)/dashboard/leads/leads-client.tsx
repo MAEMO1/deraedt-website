@@ -19,31 +19,12 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
-
-// Import seed data for demo
-import leadsData from '@/scripts/seed/leads.json';
+import type { Profile, Lead } from '@/lib/supabase/types';
 
 interface LeadsClientProps {
   user: Profile;
+  leads: Lead[];
 }
-
-interface Lead {
-  id: string;
-  lead_type: string;
-  status: string;
-  organisation: string;
-  contact_name: string;
-  contact_email: string;
-  contact_phone?: string;
-  location?: string;
-  budget_band?: string;
-  timing?: string;
-  message?: string;
-  source: string;
-}
-
-const leads: Lead[] = leadsData as Lead[];
 
 const roleLabels: Record<string, string> = {
   DIRECTIE: 'Directie',
@@ -89,7 +70,7 @@ const teamMembers = [
 
 const stages = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
 
-export function LeadsClient({ user }: LeadsClientProps) {
+export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
@@ -101,11 +82,11 @@ export function LeadsClient({ user }: LeadsClientProps) {
   const displayName = user.full_name || user.email.split('@')[0];
 
   // Filter leads
-  const filteredLeads = leads.filter((lead) => {
+  const filteredLeads = initialLeads.filter((lead) => {
     const matchesSearch =
       searchQuery === '' ||
       lead.contact_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.organisation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (lead.organisation?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
       lead.contact_email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = filterType === 'all' || lead.lead_type === filterType;
     return matchesSearch && matchesType;

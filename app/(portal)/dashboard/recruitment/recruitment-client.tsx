@@ -28,7 +28,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
+import type { Profile, Job, JobApplication, ApplicationStatus } from '@/lib/supabase/types';
 import {
   publishToVDAB,
   getVDABSyncStatus,
@@ -37,89 +37,11 @@ import {
   type InternalJob,
 } from '@/lib/adapters/vdab';
 
-// Import seed data for demo
-import jobsData from '@/scripts/seed/jobs.json';
-
 interface RecruitmentClientProps {
   user: Profile;
+  jobs: Job[];
+  applications: JobApplication[];
 }
-
-interface Job {
-  id: string;
-  title: string;
-  slug: string;
-  department: string;
-  employment_type: string;
-  location: string;
-  description: string;
-  requirements: string[];
-  benefits: string[];
-  status: string;
-  created_at?: string;
-}
-
-interface Application {
-  id: string;
-  job_id: string;
-  full_name: string;
-  email: string;
-  phone?: string;
-  cv_url?: string;
-  cover_letter?: string;
-  status: string;
-  created_at: string;
-  retention_until: string;
-}
-
-const jobs: Job[] = jobsData as Job[];
-
-// Mock applications data
-const mockApplications: Application[] = [
-  {
-    id: 'app-001',
-    job_id: 'job-001',
-    full_name: 'Jan Peeters',
-    email: 'jan.peeters@email.be',
-    phone: '+32 478 12 34 56',
-    cv_url: '/uploads/cv-jan-peeters.pdf',
-    cover_letter: 'Geachte heer/mevrouw, met veel interesse heb ik uw vacature gelezen...',
-    status: 'new',
-    created_at: '2026-01-15T10:30:00Z',
-    retention_until: '2027-01-15T10:30:00Z',
-  },
-  {
-    id: 'app-002',
-    job_id: 'job-001',
-    full_name: 'Marie Janssens',
-    email: 'marie.janssens@email.be',
-    phone: '+32 479 23 45 67',
-    cv_url: '/uploads/cv-marie-janssens.pdf',
-    status: 'screening',
-    created_at: '2026-01-14T14:20:00Z',
-    retention_until: '2027-01-14T14:20:00Z',
-  },
-  {
-    id: 'app-003',
-    job_id: 'job-002',
-    full_name: 'Thomas De Smet',
-    email: 'thomas.desmet@email.be',
-    phone: '+32 477 34 56 78',
-    cv_url: '/uploads/cv-thomas-desmet.pdf',
-    cover_letter: 'Als ervaren dakwerker ben ik zeer geïnteresseerd in deze positie...',
-    status: 'interview',
-    created_at: '2026-01-10T09:15:00Z',
-    retention_until: '2027-01-10T09:15:00Z',
-  },
-  {
-    id: 'app-004',
-    job_id: 'job-003',
-    full_name: 'Sophie Vermeersch',
-    email: 'sophie.vermeersch@email.be',
-    status: 'offer',
-    created_at: '2026-01-05T11:45:00Z',
-    retention_until: '2027-01-05T11:45:00Z',
-  },
-];
 
 const roleLabels: Record<string, string> = {
   DIRECTIE: 'Directie',
@@ -167,12 +89,12 @@ const employmentTypeLabels: Record<string, string> = {
   internship: 'Stage',
 };
 
-export function RecruitmentClient({ user }: RecruitmentClientProps) {
+export function RecruitmentClient({ user, jobs, applications: initialApplications }: RecruitmentClientProps) {
   const [activeTab, setActiveTab] = useState<'jobs' | 'applications'>('jobs');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
-  const [applications, setApplications] = useState<Application[]>(mockApplications);
+  const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
+  const [applications, setApplications] = useState<JobApplication[]>(initialApplications);
   const [retentionMonths, setRetentionMonths] = useState(12);
   const [vdabSyncStatuses, setVdabSyncStatuses] = useState<Map<string, VDABSyncStatus>>(new Map());
   const [publishingJobId, setPublishingJobId] = useState<string | null>(null);
@@ -199,7 +121,8 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
     return matchesSearch && matchesStatus;
   });
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string | null) => {
+    if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('nl-BE', {
       day: 'numeric',
       month: 'short',
@@ -222,7 +145,7 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
     return job?.title || 'Onbekende vacature';
   };
 
-  const handleStatusChange = (applicationId: string, newStatus: string) => {
+  const handleStatusChange = (applicationId: string, newStatus: ApplicationStatus) => {
     setApplications((prev) =>
       prev.map((app) =>
         app.id === applicationId ? { ...app, status: newStatus } : app
@@ -793,7 +716,7 @@ export function RecruitmentClient({ user }: RecruitmentClientProps) {
               <div>
                 <h4 className="text-sm font-semibold text-[#0C0C0C] mb-2">Status</h4>
                 <div className="flex flex-wrap gap-2">
-                  {Object.entries(applicationStatusLabels).map(([value, label]) => (
+                  {(Object.entries(applicationStatusLabels) as [ApplicationStatus, string][]).map(([value, label]) => (
                     <button
                       key={value}
                       onClick={() => handleStatusChange(selectedApplication.id, value)}

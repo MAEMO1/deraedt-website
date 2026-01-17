@@ -17,30 +17,12 @@ import {
   Eye,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile } from '@/lib/supabase/types';
-
-// Import seed data for demo
-import complianceData from '@/scripts/seed/compliance_docs.json';
+import type { Profile, ComplianceDoc } from '@/lib/supabase/types';
 
 interface ComplianceClientProps {
   user: Profile;
+  complianceDocs: ComplianceDoc[];
 }
-
-interface ComplianceDoc {
-  id: string;
-  name: string;
-  doc_type: string;
-  issuer: string;
-  reference_number: string;
-  valid_from: string;
-  valid_to: string;
-  scope?: string;
-  is_public: boolean;
-  include_in_tender_pack: boolean;
-  notes?: string;
-}
-
-const complianceDocs: ComplianceDoc[] = complianceData as ComplianceDoc[];
 
 // Calculate status from expiry date
 function getStatusFromExpiry(validTo: string): string {
@@ -94,7 +76,7 @@ const statusColors: Record<string, string> = {
   pending_renewal: 'bg-blue-100 text-blue-700 border-blue-200',
 };
 
-export function ComplianceClient({ user }: ComplianceClientProps) {
+export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [selectedDocs, setSelectedDocs] = useState<Set<string>>(new Set());
@@ -128,7 +110,7 @@ export function ComplianceClient({ user }: ComplianceClientProps) {
     const matchesSearch =
       searchQuery === '' ||
       doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.issuer.toLowerCase().includes(searchQuery.toLowerCase());
+      (doc.issuer?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
     const matchesType = filterType === 'all' || doc.doc_type === filterType;
     return matchesSearch && matchesType;
   });
