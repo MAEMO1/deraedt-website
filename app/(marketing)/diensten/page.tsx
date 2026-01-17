@@ -15,6 +15,14 @@ import {
 } from "lucide-react";
 import { COMPANY } from "@/lib/constants";
 
+// Map service IDs to detail pages
+const serviceRoutes: Record<string, string> = {
+  nieuwbouw: "/diensten/bouw-renovatie",
+  renovatie: "/diensten/bouw-renovatie",
+  erfgoed: "/diensten/bouw-renovatie",
+  facility: "/diensten/facility",
+};
+
 const services = [
   {
     id: "nieuwbouw",
@@ -160,13 +168,19 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
           ))}
         </ul>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-wrap gap-4">
           <Link
-            href="/projectplanner"
+            href={serviceRoutes[service.id]}
             className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
           >
-            Offerte aanvragen
+            Meer info
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+          <Link
+            href="/projectplanner"
+            className="group inline-flex items-center gap-3 border-2 border-[#204CE5] text-[#204CE5] px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#204CE5]/5"
+          >
+            Offerte aanvragen
           </Link>
         </div>
       </div>

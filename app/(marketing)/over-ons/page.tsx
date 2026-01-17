@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { Target, Heart, Shield, Users, Award, ArrowRight } from "lucide-react";
+import { Award, ArrowRight } from "lucide-react";
 import { COMPANY, STATS, CERTIFICATIONS } from "@/lib/constants";
 
 const timeline = [
@@ -18,24 +18,24 @@ const timeline = [
 
 const values = [
   {
-    icon: Target,
-    title: "Kwaliteit",
-    description: "Wij streven naar de hoogste kwaliteit in elk project. Geen compromissen, alleen vakmanschap.",
+    title: "Verantwoordelijkheid",
+    description: "Wij nemen volledige verantwoordelijkheid voor elk project. Van start tot oplevering staan wij garant voor kwaliteit.",
   },
   {
-    icon: Heart,
-    title: "Passie",
-    description: "Bouwen zit in ons DNA. Elke steen, elke renovatie draagt onze toewijding.",
+    title: "Veiligheid",
+    description: "VCA** gecertificeerd. Veiligheid van onze medewerkers en opdrachtgevers staat altijd voorop.",
   },
   {
-    icon: Shield,
-    title: "Betrouwbaarheid",
-    description: "Al {years} jaar een betrouwbare partner. Onze reputatie is gebouwd op vertrouwen.",
+    title: "Vrijheid",
+    description: "Ruimte voor initiatief en creativiteit. Onze medewerkers krijgen de vrijheid om hun vakmanschap te tonen.",
   },
   {
-    icon: Users,
-    title: "Samenwerking",
-    description: "Wij bouwen niet alleen gebouwen, maar ook relaties. Samen bereiken we meer.",
+    title: "Vertrouwen",
+    description: "Al meer dan 90 jaar een betrouwbare partner. Onze reputatie is gebouwd op wederzijds vertrouwen.",
+  },
+  {
+    title: "Vooruitgang",
+    description: "Continue groei en ontwikkeling. Wij investeren in innovatie, opleiding en duurzaamheid.",
   },
 ];
 
@@ -197,40 +197,40 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-16 sm:mb-24"
+            className="mb-16 sm:mb-20"
           >
             <span className="label-overline">Onze Geschiedenis</span>
-            <h2 className="mt-4 heading-lg max-w-xl">
-              Een familieverhaal van <span className="text-[#204CE5]">vakmanschap</span>
+            <h2 className="mt-4 heading-lg max-w-2xl">
+              Al meer dan <span className="text-[#204CE5]">90 jaar</span> bouwen aan België
             </h2>
           </motion.header>
 
-          {/* Timeline - Editorial style with large years */}
-          <div className="space-y-0">
+          {/* Timeline - Compact numbered list */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#112337]/10">
             {timeline.map((item, index) => (
               <motion.article
                 key={item.year}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 py-10 border-t border-[#112337]/10 first:border-t-0 first:pt-0"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={isTimelineInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                className="group bg-white p-8 hover:bg-[#112337] transition-all duration-500 cursor-default"
               >
                 {/* Year */}
-                <div className="md:col-span-3">
-                  <span className="text-6xl sm:text-7xl md:text-8xl font-bold text-[#112337]/10 group-hover:text-[#204CE5]/20 transition-colors duration-500">
+                <div className="mb-4">
+                  <span className="text-5xl font-bold text-[#204CE5] group-hover:text-white transition-colors tracking-tight">
                     {item.year}
                   </span>
                 </div>
 
-                {/* Content */}
-                <div className="md:col-span-9 md:pt-4">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  <p className="mt-4 text-[#686E77] text-lg leading-relaxed max-w-2xl">
-                    {item.description}
-                  </p>
-                </div>
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#112337] group-hover:text-white transition-colors mb-2">
+                  {item.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-[#686E77] group-hover:text-white/70 transition-colors leading-relaxed">
+                  {item.description}
+                </p>
               </motion.article>
             ))}
           </div>
@@ -244,37 +244,50 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-20"
+            className="text-center mb-16"
           >
             <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-              Onze Waarden
+              De 5 V&apos;s
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
               Waar wij voor <span className="text-[#204CE5]">staan</span>
             </h2>
           </motion.header>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <motion.article
-                  key={value.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group p-8 bg-white/5 rounded-xl hover:bg-white/10 transition-colors duration-300"
+          {/* Values grid - editorial style */}
+          <div className="grid md:grid-cols-5 gap-px bg-white/10">
+            {values.map((value, index) => (
+              <motion.article
+                key={value.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group relative bg-[#112337] p-8 hover:bg-[#1a3048] transition-colors duration-300"
+              >
+                {/* Large V as visual anchor */}
+                <span
+                  className="block text-[120px] font-bold leading-none text-white/[0.03] group-hover:text-[#204CE5]/10 transition-colors duration-500 -mb-8"
+                  aria-hidden="true"
                 >
-                  <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-[#204CE5]/20 text-[#204CE5] mb-6 transition-all duration-300 group-hover:bg-[#204CE5] group-hover:text-white">
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">{value.title}</h3>
+                  V
+                </span>
+
+                {/* Content */}
+                <div className="relative">
+                  <h3 className="text-xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
+                    {value.title}
+                  </h3>
                   <p className="mt-4 text-white/50 text-sm leading-relaxed">
                     {value.description.replace("{years}", String(STATS.yearsExperience))}
                   </p>
-                </motion.article>
-              );
-            })}
+                </div>
+
+                {/* Index number */}
+                <span className="absolute top-6 right-6 text-xs font-mono text-white/20">
+                  0{index + 1}
+                </span>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
