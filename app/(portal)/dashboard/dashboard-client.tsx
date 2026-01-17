@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import {
   FileText,
@@ -18,6 +18,10 @@ import {
   Wrench,
   Handshake,
   Briefcase,
+  ArrowUpRight,
+  Bell,
+  Check,
+  Zap,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile } from '@/lib/supabase/types';
@@ -31,7 +35,6 @@ interface DashboardClientProps {
   user: Profile;
 }
 
-// Type definitions for seed data
 interface Tender {
   id: string;
   title: string;
@@ -64,18 +67,10 @@ const complianceDocs: ComplianceDoc[] = complianceData as ComplianceDoc[];
 // Calculate tender pipeline counts
 function getTenderPipelineCounts() {
   const counts: Record<string, number> = {
-    new: 0,
-    analyzing: 0,
-    go: 0,
-    no_go: 0,
-    in_preparation: 0,
-    submitted: 0,
-    won: 0,
-    lost: 0,
+    new: 0, analyzing: 0, go: 0, no_go: 0,
+    in_preparation: 0, submitted: 0, won: 0, lost: 0,
   };
-  tenders.forEach((t) => {
-    counts[t.status] = (counts[t.status] || 0) + 1;
-  });
+  tenders.forEach((t) => { counts[t.status] = (counts[t.status] || 0) + 1; });
   return counts;
 }
 
@@ -91,9 +86,7 @@ function getLeadPipelineCounts() {
   leads.forEach((l) => {
     if (counts[l.lead_type]) {
       counts[l.lead_type].total++;
-      if (l.status === 'new') {
-        counts[l.lead_type].new++;
-      }
+      if (l.status === 'new') counts[l.lead_type].new++;
     }
   });
   return counts;
@@ -109,14 +102,9 @@ function getExpiryRadar() {
   complianceDocs.forEach((doc) => {
     const expiryDate = new Date(doc.valid_to);
     const daysUntil = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-
-    if (daysUntil <= 30 && daysUntil > 0) {
-      docs30.push(doc);
-    } else if (daysUntil <= 60 && daysUntil > 30) {
-      docs60.push(doc);
-    } else if (daysUntil <= 90 && daysUntil > 60) {
-      docs90.push(doc);
-    }
+    if (daysUntil <= 30 && daysUntil > 0) docs30.push(doc);
+    else if (daysUntil <= 60 && daysUntil > 30) docs60.push(doc);
+    else if (daysUntil <= 90 && daysUntil > 60) docs90.push(doc);
   });
 
   return { docs30, docs60, docs90 };
@@ -127,98 +115,115 @@ function getUpcomingDeadlines() {
   const now = new Date();
   return tenders
     .filter((t) => t.deadline_at && ['new', 'analyzing', 'go', 'in_preparation'].includes(t.status))
-    .map((t) => {
-      const deadline = new Date(t.deadline_at);
-      const daysUntil = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-      return { ...t, daysUntil };
-    })
+    .map((t) => ({
+      ...t,
+      daysUntil: Math.ceil((new Date(t.deadline_at).getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
+    }))
     .sort((a, b) => a.daysUntil - b.daysUntil)
     .slice(0, 5);
 }
 
-// Get new/actionable items
+// Get alerts
 function getAlerts() {
   const alerts: { type: 'warning' | 'info' | 'success'; message: string; link?: string }[] = [];
-
-  // New leads
   const newLeads = leads.filter((l) => l.status === 'new').length;
-  if (newLeads > 0) {
-    alerts.push({
-      type: 'info',
-      message: `${newLeads} nieuwe lead${newLeads > 1 ? 's' : ''} wachtend op opvolging`,
-      link: '/dashboard/leads',
-    });
-  }
+  if (newLeads > 0) alerts.push({ type: 'info', message: `${newLeads} nieuwe lead${newLeads > 1 ? 's' : ''} wachtend`, link: '/dashboard/leads' });
 
-  // Tenders needing decision
   const analyzing = tenders.filter((t) => t.status === 'analyzing').length;
-  if (analyzing > 0) {
-    alerts.push({
-      type: 'warning',
-      message: `${analyzing} tender${analyzing > 1 ? 's' : ''} wachtend op go/no-go beslissing`,
-      link: '/dashboard/tenders',
-    });
-  }
+  if (analyzing > 0) alerts.push({ type: 'warning', message: `${analyzing} tender${analyzing > 1 ? 's' : ''} wachtend op go/no-go`, link: '/dashboard/tenders' });
 
-  // Expiring documents
   const { docs30 } = getExpiryRadar();
-  if (docs30.length > 0) {
-    alerts.push({
-      type: 'warning',
-      message: `${docs30.length} document${docs30.length > 1 ? 'en' : ''} verloopt binnen 30 dagen`,
-      link: '/dashboard/compliance',
-    });
-  }
+  if (docs30.length > 0) alerts.push({ type: 'warning', message: `${docs30.length} document${docs30.length > 1 ? 'en' : ''} verloopt binnen 30d`, link: '/dashboard/compliance' });
 
-  // Won tender celebration
   const won = tenders.filter((t) => t.status === 'won').length;
-  if (won > 0) {
-    alerts.push({
-      type: 'success',
-      message: `${won} gewonnen tender${won > 1 ? 's' : ''} deze periode`,
-    });
-  }
+  if (won > 0) alerts.push({ type: 'success', message: `${won} gewonnen tender${won > 1 ? 's' : ''}` });
 
   return alerts;
 }
 
 const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
+  DIRECTIE: 'Directie', SALES: 'Sales', HR: 'HR',
+  OPERATIONS: 'Operations', ADMIN: 'Administrator', VIEWER: 'Viewer',
 };
 
-const tenderStageLabels: Record<string, string> = {
-  new: 'Nieuw',
-  analyzing: 'Analyse',
-  go: 'Go',
-  in_preparation: 'Voorbereiding',
-  submitted: 'Ingediend',
-  won: 'Gewonnen',
-  lost: 'Verloren',
+const tenderStages = [
+  { key: 'new', label: 'Nieuw', color: '#4F46E5' },
+  { key: 'analyzing', label: 'Analyse', color: '#F59E0B' },
+  { key: 'go', label: 'Go', color: '#10B981' },
+  { key: 'in_preparation', label: 'Prep', color: '#8B5CF6' },
+  { key: 'submitted', label: 'Ingediend', color: '#0EA5E9' },
+  { key: 'won', label: 'Gewonnen', color: '#22C55E' },
+];
+
+const leadTypeConfig: Record<string, { icon: React.ElementType; label: string; color: string }> = {
+  project: { icon: Building2, label: 'Project', color: '#C9A87C' },
+  facility: { icon: Wrench, label: 'Facility', color: '#0EA5E9' },
+  partner: { icon: Handshake, label: 'Partner', color: '#8B5CF6' },
+  procurement: { icon: FileText, label: 'Procurement', color: '#10B981' },
+  contact: { icon: Users, label: 'Contact', color: '#6B7280' },
 };
 
-const leadTypeIcons: Record<string, React.ElementType> = {
-  project: Building2,
-  facility: Wrench,
-  partner: Handshake,
-  procurement: FileText,
-  contact: Users,
-};
+// Animated counter component
+function AnimatedValue({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
+  const [displayValue, setDisplayValue] = useState(0);
 
-const leadTypeLabels: Record<string, string> = {
-  project: 'Project',
-  facility: 'Facility',
-  partner: 'Partner',
-  procurement: 'Procurement',
-  contact: 'Contact',
-};
+  useEffect(() => {
+    const duration = 1500;
+    const startTime = performance.now();
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setDisplayValue(Math.floor(eased * value));
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }, [value]);
+
+  return <span className="tabular-nums">{prefix}{displayValue.toLocaleString('nl-BE')}{suffix}</span>;
+}
+
+// Radial progress component
+function RadialProgress({ value, max, size = 80, strokeWidth = 6, color = '#C9A87C' }: { value: number; max: number; size?: number; strokeWidth?: number; color?: string }) {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const progress = (value / max) * circumference;
+
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="rgba(255,255,255,0.06)"
+          strokeWidth={strokeWidth}
+        />
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          animate={{ strokeDashoffset: circumference - progress }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="font-display text-2xl text-white">{value}</span>
+      </div>
+    </div>
+  );
+}
 
 export function DashboardClient({ user }: DashboardClientProps) {
   const [isExporting, setIsExporting] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const displayName = user.full_name || user.email.split('@')[0];
   const firstName = displayName.split(' ')[0];
 
@@ -228,28 +233,19 @@ export function DashboardClient({ user }: DashboardClientProps) {
   const deadlines = getUpcomingDeadlines();
   const alerts = getAlerts();
 
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+
   const handleExport = async () => {
     setIsExporting(true);
-    // Simulate export - in production this would generate a real PDF/CSV
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log('[EXPORT] Board pack export triggered', {
-      timestamp: new Date().toISOString(),
-      user: user.email,
-      data: {
-        tenderCounts,
-        leadCounts,
-        expiryRadar: {
-          critical: expiryRadar.docs30.length,
-          warning: expiryRadar.docs60.length,
-          upcoming: expiryRadar.docs90.length,
-        },
-      },
-    });
-    alert('Board pack export gestart. In productie wordt dit een PDF/CSV download.');
+    console.log('[EXPORT] Board pack triggered');
+    alert('Board pack export gestart.');
     setIsExporting(false);
   };
 
-  // Calculate key metrics
   const totalTenderValue = tenders
     .filter((t) => ['go', 'in_preparation', 'submitted'].includes(t.status))
     .reduce((sum, t) => sum + (t.estimated_value || 0), 0);
@@ -258,8 +254,10 @@ export function DashboardClient({ user }: DashboardClientProps) {
     ? Math.round((tenderCounts.won / (tenderCounts.won + tenderCounts.lost || 1)) * 100)
     : 0;
 
+  const greeting = currentTime.getHours() < 12 ? 'Goedemorgen' : currentTime.getHours() < 18 ? 'Goedemiddag' : 'Goedenavond';
+
   return (
-    <div className="min-h-screen bg-[#FAF7F2]">
+    <div className="min-h-screen bg-[#0A0A09]">
       <Sidebar />
 
       <div className="ml-64">
@@ -269,235 +267,140 @@ export function DashboardClient({ user }: DashboardClientProps) {
           userRole={roleLabels[user.role] || user.role}
         />
 
-        <main className="p-6">
-          {/* Welcome + Export */}
+        <main className="p-8">
+          {/* Hero Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 flex items-start justify-between"
+            className="mb-10"
           >
-            <div>
-              <h2 className="text-2xl font-bold text-[#0C0C0C]">
-                Goedemorgen, {firstName}
-              </h2>
-              <p className="mt-1 text-[#6B6560]">
-                Overzicht van de huidige bedrijfssituatie
-              </p>
+            <div className="flex items-start justify-between">
+              <div>
+                <h1 className="font-display text-4xl text-white tracking-tight">
+                  {greeting}, <span className="text-[#C9A87C]">{firstName}</span>
+                </h1>
+                <p className="mt-2 text-white/40 text-sm">
+                  {currentTime.toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+              </div>
+              <button
+                onClick={handleExport}
+                disabled={isExporting}
+                className="flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] text-white px-5 py-3 text-sm font-medium transition-all hover:bg-white/[0.1] hover:border-white/[0.15] disabled:opacity-50"
+              >
+                <Download className="w-4 h-4" />
+                {isExporting ? 'Exporteren...' : 'Board Pack'}
+              </button>
             </div>
-            <button
-              onClick={handleExport}
-              disabled={isExporting}
-              className="flex items-center gap-2 bg-[#0C0C0C] text-white px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#9A6B4C] disabled:opacity-50"
-            >
-              <Download className="w-4 h-4" />
-              {isExporting ? 'Exporteren...' : 'Board Pack Export'}
-            </button>
           </motion.div>
 
-          {/* Alerts Section */}
-          {alerts.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="mb-8 space-y-2"
-            >
-              {alerts.map((alert, index) => (
-                <div
-                  key={index}
-                  className={`flex items-center justify-between p-4 border-l-4 ${
-                    alert.type === 'warning'
-                      ? 'bg-amber-50 border-amber-500'
-                      : alert.type === 'success'
-                      ? 'bg-green-50 border-green-500'
-                      : 'bg-blue-50 border-blue-500'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <AlertTriangle
-                      className={`w-5 h-5 ${
-                        alert.type === 'warning'
-                          ? 'text-amber-600'
-                          : alert.type === 'success'
-                          ? 'text-green-600'
-                          : 'text-blue-600'
-                      }`}
-                    />
-                    <span className="text-sm font-medium text-[#0C0C0C]">
-                      {alert.message}
-                    </span>
+          {/* Alerts Strip */}
+          <AnimatePresence>
+            {alerts.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mb-8 flex flex-wrap gap-3"
+              >
+                {alerts.map((alert, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                    className={`flex items-center gap-3 px-4 py-2.5 text-sm font-medium ${
+                      alert.type === 'warning' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                      alert.type === 'success' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                      'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                    }`}
+                  >
+                    {alert.type === 'warning' ? <AlertTriangle className="w-4 h-4" /> :
+                     alert.type === 'success' ? <Check className="w-4 h-4" /> :
+                     <Bell className="w-4 h-4" />}
+                    <span>{alert.message}</span>
+                    {alert.link && (
+                      <Link href={alert.link} className="ml-2 opacity-60 hover:opacity-100 transition-opacity">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </Link>
+                    )}
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Key Metrics Row */}
+          <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: Target, label: 'Actieve Tenders', value: tenderCounts.go + tenderCounts.in_preparation + tenderCounts.submitted, color: '#C9A87C' },
+              { icon: TrendingUp, label: 'Pipeline Waarde', value: totalTenderValue, prefix: '€', suffix: '', format: 'currency', color: '#10B981' },
+              { icon: Users, label: 'Nieuwe Leads', value: leads.filter((l) => l.status === 'new').length, color: '#0EA5E9' },
+              { icon: Briefcase, label: 'Win Rate', value: winRate, suffix: '%', color: '#8B5CF6' },
+            ].map((metric, i) => (
+              <motion.div
+                key={metric.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.05 }}
+                className="group relative bg-white/[0.02] border border-white/[0.06] p-6 hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-500"
+              >
+                <div className="absolute top-0 left-0 w-1 h-full" style={{ backgroundColor: metric.color, opacity: 0.5 }} />
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-2">{metric.label}</p>
+                    <p className="font-display text-4xl text-white">
+                      {metric.format === 'currency' ? (
+                        <span className="tabular-nums">€{(metric.value / 1000000).toFixed(1)}M</span>
+                      ) : (
+                        <AnimatedValue value={metric.value} prefix={metric.prefix} suffix={metric.suffix} />
+                      )}
+                    </p>
                   </div>
-                  {alert.link && (
-                    <a
-                      href={alert.link}
-                      className="text-sm text-[#9A6B4C] hover:underline flex items-center gap-1"
-                    >
-                      Bekijken <ChevronRight className="w-4 h-4" />
-                    </a>
-                  )}
+                  <div className="p-3 bg-white/[0.04] group-hover:bg-white/[0.08] transition-colors" style={{ color: metric.color }}>
+                    <metric.icon className="w-5 h-5" strokeWidth={1.5} />
+                  </div>
                 </div>
-              ))}
-            </motion.div>
-          )}
-
-          {/* Key Metrics */}
-          <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white p-6 border border-[#0C0C0C]/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
-                  <Target className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-[#6B6560]">Actieve Tenders</p>
-                  <p className="text-2xl font-bold text-[#0C0C0C]">
-                    {tenderCounts.go + tenderCounts.in_preparation + tenderCounts.submitted}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="bg-white p-6 border border-[#0C0C0C]/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
-                  <TrendingUp className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-[#6B6560]">Pipeline Waarde</p>
-                  <p className="text-2xl font-bold text-[#0C0C0C]">
-                    €{(totalTenderValue / 1000000).toFixed(1)}M
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white p-6 border border-[#0C0C0C]/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
-                  <Users className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-[#6B6560]">Nieuwe Leads</p>
-                  <p className="text-2xl font-bold text-[#0C0C0C]">
-                    {leads.filter((l) => l.status === 'new').length}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              className="bg-white p-6 border border-[#0C0C0C]/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
-                  <Briefcase className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-[#6B6560]">Win Rate</p>
-                  <p className="text-2xl font-bold text-[#0C0C0C]">{winRate}%</p>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Two Column Layout */}
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Tender Pipeline */}
+          {/* Main Grid */}
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* Tender Pipeline - Full visual */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white border border-[#0C0C0C]/5"
+              className="lg:col-span-2 bg-white/[0.02] border border-white/[0.06]"
             >
-              <div className="p-6 border-b border-[#0C0C0C]/5 flex items-center justify-between">
-                <h3 className="font-semibold text-[#0C0C0C]">Tender Pipeline</h3>
-                <Link
-                  href="/dashboard/tenders"
-                  className="text-sm text-[#9A6B4C] hover:underline"
-                >
-                  Alle tenders →
+              <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
+                <h3 className="font-semibold text-white">Tender Pipeline</h3>
+                <Link href="/dashboard/tenders" className="text-sm text-[#C9A87C] hover:text-[#E5D4B8] transition-colors flex items-center gap-1">
+                  Bekijk alles <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="p-6">
-                <div className="space-y-4">
-                  {['new', 'analyzing', 'go', 'in_preparation', 'submitted', 'won'].map((stage) => (
-                    <div key={stage} className="flex items-center justify-between">
-                      <span className="text-sm text-[#6B6560]">{tenderStageLabels[stage]}</span>
-                      <div className="flex items-center gap-3">
-                        <div className="w-32 h-2 bg-[#0C0C0C]/5 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full ${
-                              stage === 'won'
-                                ? 'bg-green-500'
-                                : stage === 'analyzing'
-                                ? 'bg-amber-500'
-                                : 'bg-[#9A6B4C]'
-                            }`}
-                            style={{
-                              width: `${(tenderCounts[stage] / tenders.length) * 100}%`,
-                            }}
-                          />
-                        </div>
-                        <span className="text-sm font-medium text-[#0C0C0C] w-6 text-right">
-                          {tenderCounts[stage]}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Lead Pipeline by Type */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="bg-white border border-[#0C0C0C]/5"
-            >
-              <div className="p-6 border-b border-[#0C0C0C]/5 flex items-center justify-between">
-                <h3 className="font-semibold text-[#0C0C0C]">Lead Pipeline</h3>
-                <a
-                  href="/dashboard/leads"
-                  className="text-sm text-[#9A6B4C] hover:underline"
-                >
-                  Alle leads →
-                </a>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  {Object.entries(leadCounts).map(([type, counts]) => {
-                    const Icon = leadTypeIcons[type] || Users;
+                {/* Pipeline Visualization */}
+                <div className="flex items-end justify-between gap-2 h-40 mb-6">
+                  {tenderStages.map((stage) => {
+                    const count = tenderCounts[stage.key] || 0;
+                    const maxCount = Math.max(...tenderStages.map(s => tenderCounts[s.key] || 0), 1);
+                    const height = (count / maxCount) * 100;
                     return (
-                      <div key={type} className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Icon className="w-4 h-4 text-[#9A6B4C]" />
-                          <span className="text-sm text-[#6B6560]">{leadTypeLabels[type]}</span>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <span className="text-sm text-[#0C0C0C]">{counts.total} totaal</span>
-                          {counts.new > 0 && (
-                            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
-                              {counts.new} nieuw
-                            </span>
-                          )}
+                      <div key={stage.key} className="flex-1 flex flex-col items-center">
+                        <motion.div
+                          initial={{ height: 0 }}
+                          animate={{ height: `${height}%` }}
+                          transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-full min-h-[4px] rounded-t relative overflow-hidden"
+                          style={{ backgroundColor: `${stage.color}20` }}
+                        >
+                          <div className="absolute inset-0" style={{ backgroundColor: stage.color, opacity: 0.8 }} />
+                        </motion.div>
+                        <div className="mt-3 text-center">
+                          <div className="font-display text-xl text-white">{count}</div>
+                          <div className="text-[10px] text-white/40 uppercase tracking-wider mt-1">{stage.label}</div>
                         </div>
                       </div>
                     );
@@ -510,47 +413,62 @@ export function DashboardClient({ user }: DashboardClientProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-white border border-[#0C0C0C]/5"
+              transition={{ delay: 0.35 }}
+              className="bg-white/[0.02] border border-white/[0.06]"
             >
-              <div className="p-6 border-b border-[#0C0C0C]/5 flex items-center justify-between">
-                <h3 className="font-semibold text-[#0C0C0C]">Expiry Radar</h3>
-                <a
-                  href="/dashboard/compliance"
-                  className="text-sm text-[#9A6B4C] hover:underline"
-                >
-                  Alle documenten →
-                </a>
+              <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
+                <h3 className="font-semibold text-white">Expiry Radar</h3>
+                <Link href="/dashboard/compliance" className="text-sm text-[#C9A87C] hover:text-[#E5D4B8] transition-colors">
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
-              <div className="p-6">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-red-50 border border-red-200">
-                    <Shield className="w-6 h-6 text-red-500 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-red-600">{expiryRadar.docs30.length}</p>
-                    <p className="text-xs text-red-500">30 dagen</p>
-                  </div>
-                  <div className="text-center p-4 bg-amber-50 border border-amber-200">
-                    <Clock className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-amber-600">{expiryRadar.docs60.length}</p>
-                    <p className="text-xs text-amber-500">60 dagen</p>
-                  </div>
-                  <div className="text-center p-4 bg-green-50 border border-green-200">
-                    <Calendar className="w-6 h-6 text-green-500 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-green-600">{expiryRadar.docs90.length}</p>
-                    <p className="text-xs text-green-500">90 dagen</p>
-                  </div>
-                </div>
+              <div className="p-6 flex justify-center gap-6">
+                <RadialProgress value={expiryRadar.docs30.length} max={5} color="#EF4444" />
+                <RadialProgress value={expiryRadar.docs60.length} max={5} color="#F59E0B" />
+                <RadialProgress value={expiryRadar.docs90.length} max={5} color="#22C55E" />
+              </div>
+              <div className="px-6 pb-6 flex justify-center gap-8 text-xs text-white/40">
+                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-500" />30 dagen</span>
+                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500" />60 dagen</span>
+                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-green-500" />90 dagen</span>
+              </div>
+            </motion.div>
 
-                {expiryRadar.docs30.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-[#0C0C0C]/5">
-                    <p className="text-xs font-medium text-red-600 mb-2">Kritiek (30 dagen):</p>
-                    {expiryRadar.docs30.map((doc) => (
-                      <p key={doc.id} className="text-sm text-[#6B6560]">
-                        • {doc.name}
-                      </p>
-                    ))}
-                  </div>
-                )}
+            {/* Lead Pipeline */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-white/[0.02] border border-white/[0.06]"
+            >
+              <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
+                <h3 className="font-semibold text-white">Lead Pipeline</h3>
+                <Link href="/dashboard/leads" className="text-sm text-[#C9A87C] hover:text-[#E5D4B8] transition-colors">
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+              <div className="p-4">
+                {Object.entries(leadCounts).map(([type, counts]) => {
+                  const config = leadTypeConfig[type];
+                  if (!config) return null;
+                  const Icon = config.icon;
+                  return (
+                    <div key={type} className="flex items-center gap-4 p-3 hover:bg-white/[0.02] transition-colors">
+                      <div className="p-2" style={{ backgroundColor: `${config.color}15`, color: config.color }}>
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm text-white">{config.label}</div>
+                        <div className="text-xs text-white/40">{counts.total} totaal</div>
+                      </div>
+                      {counts.new > 0 && (
+                        <span className="text-xs font-medium px-2 py-1 bg-blue-500/20 text-blue-400">
+                          +{counts.new}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -559,37 +477,38 @@ export function DashboardClient({ user }: DashboardClientProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45 }}
-              className="bg-white border border-[#0C0C0C]/5"
+              className="lg:col-span-2 bg-white/[0.02] border border-white/[0.06]"
             >
-              <div className="p-6 border-b border-[#0C0C0C]/5">
-                <h3 className="font-semibold text-[#0C0C0C]">Komende Deadlines</h3>
+              <div className="p-6 border-b border-white/[0.06]">
+                <h3 className="font-semibold text-white">Komende Deadlines</h3>
               </div>
-              <div className="divide-y divide-[#0C0C0C]/5">
+              <div className="divide-y divide-white/[0.04]">
                 {deadlines.length === 0 ? (
-                  <p className="p-6 text-sm text-[#6B6560]">Geen deadlines komende periode</p>
+                  <p className="p-6 text-sm text-white/40">Geen deadlines komende periode</p>
                 ) : (
-                  deadlines.map((tender) => (
-                    <div key={tender.id} className="p-4 hover:bg-[#FAF7F2]">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-[#0C0C0C] truncate">
-                            {tender.title}
-                          </p>
-                          <p className="text-xs text-[#6B6560]">{tender.buyer}</p>
-                        </div>
-                        <span
-                          className={`text-xs px-2 py-1 rounded ${
-                            tender.daysUntil <= 7
-                              ? 'bg-red-100 text-red-700'
-                              : tender.daysUntil <= 14
-                              ? 'bg-amber-100 text-amber-700'
-                              : 'bg-green-100 text-green-700'
-                          }`}
-                        >
-                          {tender.daysUntil}d
-                        </span>
+                  deadlines.map((tender, i) => (
+                    <motion.div
+                      key={tender.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + i * 0.05 }}
+                      className="p-4 flex items-center gap-4 hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className={`w-12 h-12 flex items-center justify-center font-display text-lg ${
+                        tender.daysUntil <= 7 ? 'bg-red-500/10 text-red-400' :
+                        tender.daysUntil <= 14 ? 'bg-amber-500/10 text-amber-400' :
+                        'bg-green-500/10 text-green-400'
+                      }`}>
+                        {tender.daysUntil}d
                       </div>
-                    </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-white truncate">{tender.title}</p>
+                        <p className="text-xs text-white/40 mt-0.5">{tender.buyer}</p>
+                      </div>
+                      <Link href={`/dashboard/tenders/${tender.id}`} className="p-2 text-white/30 hover:text-[#C9A87C] transition-colors">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </Link>
+                    </motion.div>
                   ))
                 )}
               </div>
