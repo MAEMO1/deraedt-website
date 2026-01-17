@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
+import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,19 +13,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check env vars
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.error('Supabase environment variables not configured');
+      return NextResponse.json(
+        { error: 'Server configuratie fout' },
+        { status: 500 }
+      );
+    }
+
     // Track cookies to set
-    const cookiesToSet: Array<{ name: string; value: string; options: Record<string, unknown> }> = [];
+    const cookiesToSet: Array<{ name: string; value: string; options: Partial<ResponseCookie> }> = [];
 
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      supabaseUrl,
+      supabaseAnonKey,
       {
         cookies: {
           getAll() {
             return request.cookies.getAll();
           },
           setAll(cookies) {
-            cookiesToSet.push(...cookies);
+            cookies.forEach(({ name, value, options }) => {
+              cookiesToSet.push({
+                name,
+                value,
+                options: {
+                  ...options,
+                  // Ensure sameSite is properly typed
+                  sameSite: options?.sameSite as 'lax' | 'strict' | 'none' | undefined,
+                },
+              });
+            });
           },
         },
       }
@@ -57,7 +80,8 @@ export async function POST(request: NextRequest) {
     }
 
     return response;
-  } catch {
+  } catch (err) {
+    console.error('Login error:', err);
     return NextResponse.json(
       { error: 'Er is een fout opgetreden' },
       { status: 500 }
