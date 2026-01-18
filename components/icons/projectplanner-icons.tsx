@@ -1,11 +1,11 @@
 // Custom illustrative icons for projectplanner
-// Inspired by McCownGordon's architectural icon style
+// Bold, professional style with good visual weight
 
 interface IconProps {
   className?: string;
 }
 
-// Nieuwbouw - Modern building with crane element
+// Nieuwbouw - Modern building under construction
 export function NieuwbouwIcon({ className }: IconProps) {
   return (
     <svg
@@ -14,40 +14,81 @@ export function NieuwbouwIcon({ className }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Main building */}
-      <rect x="16" y="24" width="24" height="28" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      {/* Crane */}
+      <path
+        d="M48 8 L48 44"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M28 8 L54 8"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M48 8 L44 16 M48 8 L52 16"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      {/* Crane cable and hook */}
+      <path
+        d="M34 8 L34 18"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M31 18 L37 18 L34 24 Z"
+        fill="currentColor"
+      />
 
-      {/* Windows grid */}
-      <rect x="20" y="28" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="30" y="28" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="20" y="38" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="30" y="38" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
+      {/* Building */}
+      <rect
+        x="12"
+        y="24"
+        width="28"
+        height="32"
+        fill="currentColor"
+        fillOpacity="0.1"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
+
+      {/* Windows - filled for visual weight */}
+      <rect x="16" y="28" width="8" height="6" fill="currentColor" />
+      <rect x="28" y="28" width="8" height="6" fill="currentColor" />
+      <rect x="16" y="38" width="8" height="6" fill="currentColor" />
+      <rect x="28" y="38" width="8" height="6" fill="currentColor" />
 
       {/* Door */}
-      <rect x="24" y="46" width="8" height="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <rect
+        x="22"
+        y="48"
+        width="8"
+        height="8"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
-      {/* Crane arm */}
-      <line x1="44" y1="12" x2="44" y2="40" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="32" y1="12" x2="52" y2="12" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="44" y1="12" x2="40" y2="18" stroke="currentColor" strokeWidth="1" />
-      <line x1="44" y1="12" x2="48" y2="18" stroke="currentColor" strokeWidth="1" />
-
-      {/* Crane hook */}
-      <line x1="36" y1="12" x2="36" y2="20" stroke="currentColor" strokeWidth="1" />
-      <path d="M34 20 L38 20 L36 24 Z" stroke="currentColor" strokeWidth="1" fill="none" />
-
-      {/* Ground line */}
-      <line x1="12" y1="52" x2="52" y2="52" stroke="currentColor" strokeWidth="1.5" />
-
-      {/* Scaffolding on side */}
-      <line x1="10" y1="30" x2="16" y2="30" stroke="currentColor" strokeWidth="1" />
-      <line x1="10" y1="40" x2="16" y2="40" stroke="currentColor" strokeWidth="1" />
-      <line x1="12" y1="24" x2="12" y2="52" stroke="currentColor" strokeWidth="1" />
+      {/* Ground */}
+      <line
+        x1="6"
+        y1="56"
+        x2="58"
+        y2="56"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-// Renovatie - House with tools/renovation elements
+// Renovatie - House with renovation tools
 export function RenovatieIcon({ className }: IconProps) {
   return (
     <svg
@@ -56,50 +97,95 @@ export function RenovatieIcon({ className }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* House base */}
-      <rect x="14" y="30" width="28" height="22" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      {/* House body */}
+      <rect
+        x="12"
+        y="30"
+        width="32"
+        height="26"
+        fill="currentColor"
+        fillOpacity="0.1"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
 
       {/* Roof */}
-      <path d="M10 30 L28 14 L46 30" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      <path
+        d="M8 30 L28 12 L48 30"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="currentColor"
+        fillOpacity="0.15"
+      />
 
       {/* Chimney */}
-      <rect x="36" y="18" width="6" height="10" stroke="currentColor" strokeWidth="1" fill="none" />
+      <rect
+        x="36"
+        y="16"
+        width="6"
+        height="12"
+        fill="currentColor"
+        fillOpacity="0.2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
-      {/* Window (partially removed for renovation effect) */}
-      <rect x="18" y="34" width="8" height="8" stroke="currentColor" strokeWidth="1" fill="none" />
-      <line x1="22" y1="34" x2="22" y2="42" stroke="currentColor" strokeWidth="0.75" />
-      <line x1="18" y1="38" x2="26" y2="38" stroke="currentColor" strokeWidth="0.75" />
+      {/* Window */}
+      <rect x="16" y="36" width="10" height="8" fill="currentColor" />
 
       {/* Door */}
-      <rect x="30" y="40" width="8" height="12" stroke="currentColor" strokeWidth="1.5" fill="none" />
-      <circle cx="36" cy="46" r="1" fill="currentColor" />
+      <rect
+        x="30"
+        y="42"
+        width="10"
+        height="14"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <circle cx="37" cy="50" r="1.5" fill="currentColor" />
 
-      {/* Hammer tool */}
-      <g transform="translate(44, 16) rotate(45)">
-        <rect x="0" y="0" width="4" height="12" stroke="currentColor" strokeWidth="1" fill="none" />
-        <rect x="-2" y="12" width="8" height="3" stroke="currentColor" strokeWidth="1" fill="none" />
+      {/* Hammer - bold */}
+      <g transform="translate(50, 12) rotate(30)">
+        <rect
+          x="-2"
+          y="0"
+          width="4"
+          height="16"
+          fill="currentColor"
+          fillOpacity="0.3"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <rect
+          x="-5"
+          y="14"
+          width="10"
+          height="5"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
       </g>
 
-      {/* Paint brush */}
-      <g transform="translate(50, 36)">
-        <rect x="0" y="0" width="3" height="10" stroke="currentColor" strokeWidth="1" fill="none" />
-        <rect x="-1" y="10" width="5" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-        <line x1="0" y1="12" x2="0" y2="16" stroke="currentColor" strokeWidth="0.5" />
-        <line x1="1.5" y1="12" x2="1.5" y2="16" stroke="currentColor" strokeWidth="0.5" />
-        <line x1="3" y1="12" x2="3" y2="16" stroke="currentColor" strokeWidth="0.5" />
-      </g>
-
-      {/* Ground line */}
-      <line x1="10" y1="52" x2="54" y2="52" stroke="currentColor" strokeWidth="1.5" />
-
-      {/* Debris/bricks */}
-      <rect x="12" y="48" width="3" height="2" stroke="currentColor" strokeWidth="0.75" fill="none" />
-      <rect x="8" y="50" width="4" height="2" stroke="currentColor" strokeWidth="0.75" fill="none" />
+      {/* Ground */}
+      <line
+        x1="6"
+        y1="56"
+        x2="58"
+        y2="56"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-// Erfgoed - Historic building with architectural details
+// Erfgoed - Classical heritage building
 export function ErfgoedIcon({ className }: IconProps) {
   return (
     <svg
@@ -108,52 +194,68 @@ export function ErfgoedIcon({ className }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Pediment (triangular top) */}
-      <path d="M12 22 L32 8 L52 22" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      {/* Pediment/roof */}
+      <path
+        d="M8 24 L32 6 L56 24 Z"
+        fill="currentColor"
+        fillOpacity="0.15"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
 
-      {/* Tympanum decoration */}
-      <circle cx="32" cy="17" r="3" stroke="currentColor" strokeWidth="1" fill="none" />
+      {/* Entablature */}
+      <rect
+        x="8"
+        y="24"
+        width="48"
+        height="5"
+        fill="currentColor"
+        fillOpacity="0.2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
-      {/* Entablature (horizontal band) */}
-      <rect x="10" y="22" width="44" height="4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      {/* Columns - filled for weight */}
+      <rect x="12" y="29" width="6" height="22" fill="currentColor" fillOpacity="0.8" />
+      <rect x="24" y="29" width="6" height="22" fill="currentColor" fillOpacity="0.8" />
+      <rect x="34" y="29" width="6" height="22" fill="currentColor" fillOpacity="0.8" />
+      <rect x="46" y="29" width="6" height="22" fill="currentColor" fillOpacity="0.8" />
 
-      {/* Columns */}
-      <g>
-        {/* Left column */}
-        <rect x="14" y="26" width="4" height="22" stroke="currentColor" strokeWidth="1" fill="none" />
-        <ellipse cx="16" cy="26" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
-        <ellipse cx="16" cy="48" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
+      {/* Column capitals */}
+      <rect x="10" y="28" width="10" height="3" fill="currentColor" />
+      <rect x="22" y="28" width="10" height="3" fill="currentColor" />
+      <rect x="32" y="28" width="10" height="3" fill="currentColor" />
+      <rect x="44" y="28" width="10" height="3" fill="currentColor" />
 
-        {/* Center-left column */}
-        <rect x="24" y="26" width="4" height="22" stroke="currentColor" strokeWidth="1" fill="none" />
-        <ellipse cx="26" cy="26" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
-        <ellipse cx="26" cy="48" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
+      {/* Base */}
+      <rect
+        x="6"
+        y="51"
+        width="52"
+        height="5"
+        fill="currentColor"
+        fillOpacity="0.2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
-        {/* Center-right column */}
-        <rect x="36" y="26" width="4" height="22" stroke="currentColor" strokeWidth="1" fill="none" />
-        <ellipse cx="38" cy="26" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
-        <ellipse cx="38" cy="48" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
+      {/* Central door arch */}
+      <path
+        d="M26 51 L26 40 Q32 34 38 40 L38 51"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
-        {/* Right column */}
-        <rect x="46" y="26" width="4" height="22" stroke="currentColor" strokeWidth="1" fill="none" />
-        <ellipse cx="48" cy="26" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
-        <ellipse cx="48" cy="48" rx="2.5" ry="1" stroke="currentColor" strokeWidth="0.75" fill="none" />
-      </g>
-
-      {/* Central door with arch */}
-      <path d="M28 48 L28 36 Q32 32 36 36 L36 48" stroke="currentColor" strokeWidth="1.5" fill="none" />
-
-      {/* Base/stylobate */}
-      <rect x="8" y="48" width="48" height="4" stroke="currentColor" strokeWidth="1.5" fill="none" />
-
-      {/* Steps */}
-      <line x1="6" y1="52" x2="58" y2="52" stroke="currentColor" strokeWidth="1" />
-      <line x1="4" y1="55" x2="60" y2="55" stroke="currentColor" strokeWidth="1" />
+      {/* Pediment decoration */}
+      <circle cx="32" cy="15" r="4" fill="currentColor" fillOpacity="0.4" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
 }
 
-// Onderhoud - Building with maintenance/repair elements
+// Onderhoud - Building with maintenance gear
 export function OnderhoudIcon({ className }: IconProps) {
   return (
     <svg
@@ -162,63 +264,87 @@ export function OnderhoudIcon({ className }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Main building */}
-      <rect x="18" y="20" width="28" height="32" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      {/* Building */}
+      <rect
+        x="16"
+        y="18"
+        width="26"
+        height="38"
+        fill="currentColor"
+        fillOpacity="0.1"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
 
       {/* Roof */}
-      <path d="M14 20 L32 10 L50 20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      <path
+        d="M12 18 L29 6 L46 18"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="currentColor"
+        fillOpacity="0.15"
+      />
 
       {/* Windows */}
-      <rect x="22" y="24" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="36" y="24" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="22" y="34" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="36" y="34" width="6" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
+      <rect x="20" y="24" width="7" height="6" fill="currentColor" />
+      <rect x="31" y="24" width="7" height="6" fill="currentColor" />
+      <rect x="20" y="34" width="7" height="6" fill="currentColor" />
+      <rect x="31" y="34" width="7" height="6" fill="currentColor" />
 
       {/* Door */}
-      <rect x="28" y="44" width="8" height="8" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <rect
+        x="25"
+        y="46"
+        width="8"
+        height="10"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
-      {/* Wrench tool */}
-      <g transform="translate(50, 14)">
+      {/* Gear/Cog - bold */}
+      <g transform="translate(52, 32)">
+        <circle cx="0" cy="0" r="8" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" />
+        <circle cx="0" cy="0" r="3" fill="currentColor" />
+        {/* Gear teeth */}
+        <rect x="-2" y="-12" width="4" height="5" fill="currentColor" />
+        <rect x="-2" y="7" width="4" height="5" fill="currentColor" />
+        <rect x="-12" y="-2" width="5" height="4" fill="currentColor" />
+        <rect x="7" y="-2" width="5" height="4" fill="currentColor" />
+      </g>
+
+      {/* Wrench */}
+      <g transform="translate(50, 8)">
         <path
-          d="M0 0 L0 14 M-3 0 Q0 -2 3 0 M-3 0 L-3 4 L3 4 L3 0"
+          d="M0 0 L0 14"
           stroke="currentColor"
-          strokeWidth="1.5"
-          fill="none"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <path
+          d="M-4 0 Q0 -3 4 0 L4 5 L-4 5 Z"
+          fill="currentColor"
         />
       </g>
 
-      {/* Gear/cog */}
-      <g transform="translate(8, 30)">
-        <circle cx="0" cy="0" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
-        <circle cx="0" cy="0" r="2" stroke="currentColor" strokeWidth="1" fill="none" />
-        {/* Gear teeth */}
-        <line x1="0" y1="-5" x2="0" y2="-7" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="5" y1="0" x2="7" y2="0" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="0" y1="5" x2="0" y2="7" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="-5" y1="0" x2="-7" y2="0" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="3.5" y1="-3.5" x2="5" y2="-5" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="3.5" y1="3.5" x2="5" y2="5" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="-3.5" y1="3.5" x2="-5" y2="5" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="-3.5" y1="-3.5" x2="-5" y2="-5" stroke="currentColor" strokeWidth="1.5" />
-      </g>
-
-      {/* Checklist */}
-      <g transform="translate(52, 36)">
-        <rect x="0" y="0" width="10" height="14" stroke="currentColor" strokeWidth="1" fill="none" />
-        <line x1="2" y1="3" x2="8" y2="3" stroke="currentColor" strokeWidth="0.75" />
-        <line x1="2" y1="6" x2="8" y2="6" stroke="currentColor" strokeWidth="0.75" />
-        <line x1="2" y1="9" x2="8" y2="9" stroke="currentColor" strokeWidth="0.75" />
-        <path d="M2 3 L3 4 L5 2" stroke="currentColor" strokeWidth="0.75" fill="none" />
-        <path d="M2 6 L3 7 L5 5" stroke="currentColor" strokeWidth="0.75" fill="none" />
-      </g>
-
-      {/* Ground line */}
-      <line x1="10" y1="52" x2="54" y2="52" stroke="currentColor" strokeWidth="1.5" />
+      {/* Ground */}
+      <line
+        x1="6"
+        y1="56"
+        x2="48"
+        y2="56"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-// Particulier - Modern house with person silhouette
+// Particulier - House with person
 export function ParticulierIcon({ className }: IconProps) {
   return (
     <svg
@@ -227,43 +353,98 @@ export function ParticulierIcon({ className }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* House */}
-      <rect x="20" y="28" width="24" height="22" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      {/* House body */}
+      <rect
+        x="18"
+        y="28"
+        width="28"
+        height="28"
+        fill="currentColor"
+        fillOpacity="0.1"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
 
       {/* Roof */}
-      <path d="M16 28 L32 14 L48 28" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      <path
+        d="M14 28 L32 10 L50 28"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="currentColor"
+        fillOpacity="0.15"
+      />
 
       {/* Chimney */}
-      <rect x="38" y="18" width="5" height="8" stroke="currentColor" strokeWidth="1" fill="none" />
+      <rect
+        x="38"
+        y="14"
+        width="6"
+        height="12"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
       {/* Window */}
-      <rect x="24" y="32" width="8" height="8" stroke="currentColor" strokeWidth="1" fill="none" />
-      <line x1="28" y1="32" x2="28" y2="40" stroke="currentColor" strokeWidth="0.75" />
-      <line x1="24" y1="36" x2="32" y2="36" stroke="currentColor" strokeWidth="0.75" />
+      <rect x="22" y="34" width="10" height="10" fill="currentColor" />
+      <line x1="27" y1="34" x2="27" y2="44" stroke="currentColor" strokeOpacity="0.3" strokeWidth="2" />
+      <line x1="22" y1="39" x2="32" y2="39" stroke="currentColor" strokeOpacity="0.3" strokeWidth="2" />
 
       {/* Door */}
-      <rect x="36" y="38" width="6" height="12" stroke="currentColor" strokeWidth="1.5" fill="none" />
-      <circle cx="40" cy="44" r="0.75" fill="currentColor" />
+      <rect
+        x="36"
+        y="40"
+        width="8"
+        height="16"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <circle cx="42" cy="48" r="1.5" fill="currentColor" />
 
-      {/* Person silhouette */}
-      <g transform="translate(10, 34)">
-        <circle cx="0" cy="0" r="3" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <path d="M0 3 L0 12" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M-4 8 L0 5 L4 8" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <path d="M0 12 L-3 18" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M0 12 L3 18" stroke="currentColor" strokeWidth="1.5" />
+      {/* Person - bold silhouette */}
+      <g transform="translate(8, 32)">
+        <circle cx="0" cy="0" r="4" fill="currentColor" />
+        <path
+          d="M0 4 L0 14"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <path
+          d="M-5 10 L0 6 L5 10"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M0 14 L-4 24 M0 14 L4 24"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
       </g>
 
-      {/* Garden/grass element */}
-      <path d="M18 50 Q20 46 22 50 Q24 46 26 50" stroke="currentColor" strokeWidth="1" fill="none" />
-
-      {/* Ground line */}
-      <line x1="6" y1="52" x2="54" y2="52" stroke="currentColor" strokeWidth="1.5" />
+      {/* Ground */}
+      <line
+        x1="2"
+        y1="56"
+        x2="58"
+        y2="56"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-// Bedrijf - Office building with business elements
+// Bedrijf - Office building
 export function BedrijfIcon({ className }: IconProps) {
   return (
     <svg
@@ -273,53 +454,87 @@ export function BedrijfIcon({ className }: IconProps) {
       className={className}
     >
       {/* Main building */}
-      <rect x="18" y="16" width="28" height="36" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <rect
+        x="14"
+        y="12"
+        width="30"
+        height="44"
+        fill="currentColor"
+        fillOpacity="0.1"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
 
-      {/* Windows grid - 3x4 */}
-      {[0, 1, 2].map((row) =>
-        [0, 1].map((col) => (
-          <rect
-            key={`${row}-${col}`}
-            x={22 + col * 12}
-            y={20 + row * 10}
-            width="6"
-            height="6"
-            stroke="currentColor"
-            strokeWidth="1"
-            fill="none"
-          />
-        ))
-      )}
+      {/* Roof structure */}
+      <rect
+        x="24"
+        y="6"
+        width="10"
+        height="6"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Windows grid - filled */}
+      <rect x="18" y="16" width="8" height="6" fill="currentColor" />
+      <rect x="32" y="16" width="8" height="6" fill="currentColor" />
+      <rect x="18" y="26" width="8" height="6" fill="currentColor" />
+      <rect x="32" y="26" width="8" height="6" fill="currentColor" />
+      <rect x="18" y="36" width="8" height="6" fill="currentColor" />
+      <rect x="32" y="36" width="8" height="6" fill="currentColor" />
 
       {/* Entrance */}
-      <rect x="26" y="46" width="12" height="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
-      <line x1="32" y1="46" x2="32" y2="52" stroke="currentColor" strokeWidth="1" />
-
-      {/* Roof detail */}
-      <rect x="28" y="12" width="8" height="4" stroke="currentColor" strokeWidth="1" fill="none" />
-
-      {/* Flag/antenna */}
-      <line x1="32" y1="6" x2="32" y2="12" stroke="currentColor" strokeWidth="1" />
-      <path d="M32 6 L38 8 L32 10" stroke="currentColor" strokeWidth="1" fill="none" />
+      <rect
+        x="24"
+        y="48"
+        width="10"
+        height="8"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <line x1="29" y1="48" x2="29" y2="56" stroke="currentColor" strokeWidth="1.5" />
 
       {/* Briefcase */}
-      <g transform="translate(48, 38)">
-        <rect x="0" y="2" width="10" height="8" stroke="currentColor" strokeWidth="1" fill="none" rx="1" />
-        <path d="M3 2 L3 0 L7 0 L7 2" stroke="currentColor" strokeWidth="1" fill="none" />
-        <line x1="0" y1="5" x2="10" y2="5" stroke="currentColor" strokeWidth="0.75" />
+      <g transform="translate(50, 36)">
+        <rect
+          x="0"
+          y="4"
+          width="12"
+          height="10"
+          rx="1"
+          fill="currentColor"
+          fillOpacity="0.3"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        <path
+          d="M4 4 L4 1 L8 1 L8 4"
+          stroke="currentColor"
+          strokeWidth="2"
+          fill="none"
+        />
+        <line x1="0" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" />
       </g>
 
-      {/* Ground line */}
-      <line x1="10" y1="52" x2="54" y2="52" stroke="currentColor" strokeWidth="1.5" />
-
-      {/* Parking lines */}
-      <line x1="12" y1="52" x2="12" y2="56" stroke="currentColor" strokeWidth="1" />
-      <line x1="16" y1="52" x2="16" y2="56" stroke="currentColor" strokeWidth="1" />
+      {/* Ground */}
+      <line
+        x1="6"
+        y1="56"
+        x2="58"
+        y2="56"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-// Overheid - Government building with flag
+// Overheid - Government building with dome
 export function OverheidIcon({ className }: IconProps) {
   return (
     <svg
@@ -329,39 +544,73 @@ export function OverheidIcon({ className }: IconProps) {
       className={className}
     >
       {/* Dome */}
-      <path d="M24 22 Q32 10 40 22" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <path
+        d="M22 22 Q32 6 42 22"
+        fill="currentColor"
+        fillOpacity="0.15"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
+
+      {/* Flag pole and flag */}
+      <line x1="32" y1="2" x2="32" y2="12" stroke="currentColor" strokeWidth="2" />
+      <rect x="32" y="2" width="8" height="5" fill="currentColor" />
 
       {/* Dome base */}
-      <rect x="22" y="22" width="20" height="4" stroke="currentColor" strokeWidth="1" fill="none" />
-
-      {/* Flag pole on dome */}
-      <line x1="32" y1="4" x2="32" y2="14" stroke="currentColor" strokeWidth="1" />
-      <rect x="32" y="4" width="6" height="4" stroke="currentColor" strokeWidth="1" fill="none" />
+      <rect
+        x="20"
+        y="22"
+        width="24"
+        height="4"
+        fill="currentColor"
+        fillOpacity="0.2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
       {/* Main building */}
-      <rect x="14" y="26" width="36" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <rect
+        x="10"
+        y="26"
+        width="44"
+        height="26"
+        fill="currentColor"
+        fillOpacity="0.1"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
 
-      {/* Pillars */}
-      <line x1="20" y1="26" x2="20" y2="50" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="32" y1="26" x2="32" y2="50" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="44" y1="26" x2="44" y2="50" stroke="currentColor" strokeWidth="1.5" />
+      {/* Pillars - bold */}
+      <rect x="14" y="28" width="5" height="22" fill="currentColor" fillOpacity="0.7" />
+      <rect x="30" y="28" width="5" height="22" fill="currentColor" fillOpacity="0.7" />
+      <rect x="45" y="28" width="5" height="22" fill="currentColor" fillOpacity="0.7" />
 
-      {/* Central door */}
-      <path d="M28 50 L28 40 Q32 36 36 40 L36 50" stroke="currentColor" strokeWidth="1.5" fill="none" />
-
-      {/* Windows */}
-      <rect x="16" y="32" width="4" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
-      <rect x="44" y="32" width="4" height="6" stroke="currentColor" strokeWidth="1" fill="none" />
+      {/* Central door with arch */}
+      <path
+        d="M26 52 L26 40 Q32 34 38 40 L38 52"
+        fill="currentColor"
+        fillOpacity="0.3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
 
       {/* Steps */}
-      <rect x="10" y="50" width="44" height="3" stroke="currentColor" strokeWidth="1" fill="none" />
-      <line x1="8" y1="53" x2="56" y2="53" stroke="currentColor" strokeWidth="1" />
-      <line x1="6" y1="56" x2="58" y2="56" stroke="currentColor" strokeWidth="1" />
+      <rect
+        x="6"
+        y="52"
+        width="52"
+        height="4"
+        fill="currentColor"
+        fillOpacity="0.2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <line x1="4" y1="56" x2="60" y2="56" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }
 
-// Ontwikkelaar - Blueprint/development concept
+// Ontwikkelaar - Blueprint with building plan
 export function OntwikkelaarIcon({ className }: IconProps) {
   return (
     <svg
@@ -371,49 +620,80 @@ export function OntwikkelaarIcon({ className }: IconProps) {
       className={className}
     >
       {/* Blueprint paper */}
-      <rect x="10" y="12" width="44" height="40" stroke="currentColor" strokeWidth="1.5" fill="none" rx="1" />
+      <rect
+        x="8"
+        y="8"
+        width="48"
+        height="48"
+        rx="2"
+        fill="currentColor"
+        fillOpacity="0.08"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
 
-      {/* Paper curl */}
-      <path d="M54 12 L54 16 L50 12" stroke="currentColor" strokeWidth="1" fill="none" />
+      {/* Building plan outline */}
+      <rect
+        x="16"
+        y="20"
+        width="24"
+        height="28"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeDasharray="4 2"
+      />
 
-      {/* Building outline on blueprint */}
-      <rect x="20" y="22" width="20" height="24" stroke="currentColor" strokeWidth="1" strokeDasharray="2 1" fill="none" />
+      {/* Roof plan */}
+      <path
+        d="M14 20 L28 10 L42 20"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeDasharray="4 2"
+        fill="none"
+      />
 
-      {/* Roof line */}
-      <path d="M18 22 L30 14 L42 22" stroke="currentColor" strokeWidth="1" strokeDasharray="2 1" fill="none" />
+      {/* Windows on plan */}
+      <rect x="19" y="24" width="6" height="5" fill="currentColor" fillOpacity="0.4" />
+      <rect x="31" y="24" width="6" height="5" fill="currentColor" fillOpacity="0.4" />
+      <rect x="19" y="33" width="6" height="5" fill="currentColor" fillOpacity="0.4" />
+      <rect x="31" y="33" width="6" height="5" fill="currentColor" fillOpacity="0.4" />
 
-      {/* Windows on blueprint */}
-      <rect x="23" y="26" width="4" height="4" stroke="currentColor" strokeWidth="0.75" fill="none" />
-      <rect x="33" y="26" width="4" height="4" stroke="currentColor" strokeWidth="0.75" fill="none" />
-      <rect x="23" y="34" width="4" height="4" stroke="currentColor" strokeWidth="0.75" fill="none" />
-      <rect x="33" y="34" width="4" height="4" stroke="currentColor" strokeWidth="0.75" fill="none" />
+      {/* Door on plan */}
+      <rect x="24" y="42" width="8" height="6" fill="currentColor" fillOpacity="0.3" />
 
-      {/* Measurements */}
-      <g>
-        {/* Horizontal measurement */}
-        <line x1="20" y1="48" x2="40" y2="48" stroke="currentColor" strokeWidth="0.75" />
-        <line x1="20" y1="46" x2="20" y2="50" stroke="currentColor" strokeWidth="0.75" />
-        <line x1="40" y1="46" x2="40" y2="50" stroke="currentColor" strokeWidth="0.75" />
-
-        {/* Vertical measurement */}
-        <line x1="44" y1="22" x2="44" y2="46" stroke="currentColor" strokeWidth="0.75" />
-        <line x1="42" y1="22" x2="46" y2="22" stroke="currentColor" strokeWidth="0.75" />
-        <line x1="42" y1="46" x2="46" y2="46" stroke="currentColor" strokeWidth="0.75" />
+      {/* Dimension lines */}
+      <g stroke="currentColor" strokeWidth="1.5">
+        <line x1="16" y1="52" x2="40" y2="52" />
+        <line x1="16" y1="50" x2="16" y2="54" />
+        <line x1="40" y1="50" x2="40" y2="54" />
       </g>
 
-      {/* Compass rose */}
-      <g transform="translate(48, 20)">
-        <circle cx="0" cy="0" r="4" stroke="currentColor" strokeWidth="0.75" fill="none" />
-        <line x1="0" y1="-4" x2="0" y2="4" stroke="currentColor" strokeWidth="0.5" />
-        <line x1="-4" y1="0" x2="4" y2="0" stroke="currentColor" strokeWidth="0.5" />
-        <path d="M0 -3 L1 0 L0 1 L-1 0 Z" stroke="currentColor" strokeWidth="0.5" fill="currentColor" />
+      {/* Compass/North indicator */}
+      <g transform="translate(50, 18)">
+        <circle cx="0" cy="0" r="6" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M0 -5 L2 2 L0 0 L-2 2 Z" fill="currentColor" />
+        <line x1="0" y1="0" x2="0" y2="4" stroke="currentColor" strokeWidth="1.5" />
       </g>
 
       {/* Pencil */}
-      <g transform="translate(14, 32) rotate(-45)">
-        <rect x="0" y="0" width="3" height="16" stroke="currentColor" strokeWidth="1" fill="none" />
-        <path d="M0 16 L1.5 20 L3 16" stroke="currentColor" strokeWidth="1" fill="none" />
-        <line x1="0" y1="14" x2="3" y2="14" stroke="currentColor" strokeWidth="0.75" />
+      <g transform="translate(48, 40)">
+        <rect
+          x="0"
+          y="0"
+          width="5"
+          height="18"
+          fill="currentColor"
+          fillOpacity="0.3"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <path
+          d="M0 18 L2.5 24 L5 18"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
       </g>
     </svg>
   );
