@@ -67,7 +67,7 @@ CREATE TRIGGER trigger_generate_ticket_reference
 CREATE TRIGGER set_facility_tickets_updated_at
   BEFORE UPDATE ON facility_tickets
   FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+  EXECUTE FUNCTION public.update_updated_at();
 
 -- Enable RLS
 ALTER TABLE facility_tickets ENABLE ROW LEVEL SECURITY;

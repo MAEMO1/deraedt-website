@@ -57,13 +57,13 @@ CREATE INDEX idx_partner_documents_valid_to ON partner_documents(valid_to);
 CREATE TRIGGER set_partners_updated_at
   BEFORE UPDATE ON partners
   FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+  EXECUTE FUNCTION public.update_updated_at();
 
 -- Auto-update updated_at for partner_documents
 CREATE TRIGGER set_partner_documents_updated_at
   BEFORE UPDATE ON partner_documents
   FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+  EXECUTE FUNCTION public.update_updated_at();
 
 -- Enable RLS
 ALTER TABLE partners ENABLE ROW LEVEL SECURITY;
