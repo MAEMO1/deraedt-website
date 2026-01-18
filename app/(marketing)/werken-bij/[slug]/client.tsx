@@ -123,6 +123,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
         body: JSON.stringify({
           job_id: job.id,
           job_slug: job.slug,
+          job_title: job.title,
           full_name: data.full_name,
           email: data.email,
           phone: data.phone,

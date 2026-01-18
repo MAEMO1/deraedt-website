@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema, getLeadTypeFromSubject } from "@/lib/validations/contact";
 import { createClient } from "@/lib/supabase/server";
+import { sendContactNotification } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -76,13 +77,18 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     });
 
-    // TODO: Send notification email when SMTP is configured
-    // await resend.emails.send({
-    //   from: "website@deraedt.be",
-    //   to: "info@deraedt.be",
-    //   subject: `Nieuw contactformulier: ${onderwerp}`,
-    //   html: `...`,
-    // });
+    // Send notification email (non-blocking)
+    sendContactNotification({
+      naam,
+      email,
+      telefoon: telefoon || undefined,
+      organisatie: organisatie || undefined,
+      onderwerp,
+      bericht,
+      leadId: lead.id,
+    }).catch((err) => {
+      console.error('[CONTACT] Email notification failed:', err);
+    });
 
     return NextResponse.json({
       success: true,

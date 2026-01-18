@@ -416,6 +416,181 @@
       ],
       "commands": ["pnpm verify"],
       "notes": "Created partners + partner_documents tables with RLS, audit triggers, compliance status view. TypeScript types added. Query functions including getPartnersWithDocuments for nested data. Server page fetches data, client receives via props."
+    },
+    {
+      "id": "FIX-001",
+      "priority": 73,
+      "title": "Projectplanner backend integration",
+      "description": "Wire projectplanner form submission to API. Currently handleSubmit() is a stub that only waits 1.5s without saving data.",
+      "acceptanceCriteria": [
+        "API route exists at /api/projectplanner that creates lead",
+        "handleSubmit() calls API with form data",
+        "Lead created with type 'project' and source 'projectplanner'",
+        "Form data stored in lead message/metadata field",
+        "Error handling with toast notifications",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/api/projectplanner/route.ts",
+        "app/(wizard)/projectplanner/page.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created API route with Zod validation and human-readable message formatting. Updated handleSubmit() to POST to API with toast notifications for success/error."
+    },
+    {
+      "id": "FIX-002",
+      "priority": 74,
+      "title": "Lead detail page",
+      "description": "Create dedicated lead detail page for full lead view. Currently only modal exists.",
+      "acceptanceCriteria": [
+        "/dashboard/leads/[id] page exists",
+        "Shows full lead info (contact, org, message, type, status)",
+        "Edit status, owner, next action date inline",
+        "Notes section with add/view notes",
+        "Activity timeline from audit log",
+        "Back link to leads list",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/(portal)/dashboard/leads/[id]/page.tsx",
+        "app/(portal)/dashboard/leads/[id]/client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created full lead detail page with server component fetching lead/notes/profiles. Client component with contact info grid, message display, notes section with add form, and actions sidebar (status, assignment, next action date)."
+    },
+    {
+      "id": "FIX-003",
+      "priority": 75,
+      "title": "Cases dashboard management",
+      "description": "Create cases/referenties dashboard page for managing case studies. Database schema exists but no admin UI.",
+      "acceptanceCriteria": [
+        "/dashboard/cases page exists",
+        "Shows list of all cases with key info",
+        "Filter by sector/status",
+        "Case detail view/modal",
+        "Data from Supabase with seed fallback",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/(portal)/dashboard/cases/page.tsx",
+        "app/(portal)/dashboard/cases/cases-client.tsx",
+        "components/portal/sidebar.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created cases dashboard with grid view, stats (total/published/featured), filters (search, sector, year), and detail modal with KPIs. Added Cases link to sidebar."
+    },
+    {
+      "id": "FIX-004",
+      "priority": 76,
+      "title": "Email notifications with Resend",
+      "description": "Implement email notifications for contact form submissions and job applications using Resend service.",
+      "acceptanceCriteria": [
+        "lib/email.ts exists with Resend client setup",
+        "Contact form sends notification email to info@deraedt.be",
+        "Job application sends confirmation email to applicant",
+        "Email templates are professional and match brand",
+        "Graceful fallback if email fails (don't block form submission)",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "lib/email.ts",
+        "app/api/contact/route.ts",
+        "app/api/applications/route.ts",
+        "app/(marketing)/werken-bij/[slug]/client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created lib/email.ts with Resend integration for 3 email types: contact notification, application confirmation, HR notification. Professional HTML templates with De Raedt branding. Graceful fallback logs emails when RESEND_API_KEY is not configured."
+    },
+    {
+      "id": "FIX-005",
+      "priority": 77,
+      "title": "DELETE API endpoints for GDPR compliance",
+      "description": "Add DELETE endpoints for leads, applications, facility tickets, and tenders to support GDPR right-to-delete.",
+      "acceptanceCriteria": [
+        "DELETE /api/leads/[id] removes lead and related notes",
+        "DELETE /api/applications/[id] removes application and CV",
+        "DELETE /api/facility-tickets/[id] removes ticket",
+        "DELETE /api/tenders/[id] removes tender (admin only)",
+        "All deletes log to audit trail",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/api/leads/[id]/route.ts",
+        "app/api/applications/[id]/route.ts",
+        "app/api/facility-tickets/[id]/route.ts",
+        "app/api/tenders/[id]/route.ts"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added DELETE method to all 4 routes. Leads DELETE also removes related notes. Applications DELETE also removes CV from storage. Audit logging handled by existing DB triggers."
+    },
+    {
+      "id": "FIX-006",
+      "priority": 78,
+      "title": "Board Pack PDF export",
+      "description": "Implement PDF export for directie cockpit board pack with KPIs, pipeline status, and alerts.",
+      "acceptanceCriteria": [
+        "POST /api/export/board-pack generates PDF",
+        "PDF contains: KPI tiles, tender pipeline, lead pipeline, expiry radar, alerts",
+        "PDF has De Raedt branding (logo, colors)",
+        "Download triggers from cockpit 'Board Pack' button",
+        "Audit log entry for export action",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/api/export/board-pack/route.ts",
+        "lib/pdf/board-pack.ts",
+        "app/(portal)/dashboard/dashboard-client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Installed jspdf. Created lib/pdf/board-pack.ts with branded PDF generation. API route fetches data and generates PDF. Dashboard button triggers download."
+    },
+    {
+      "id": "FIX-007",
+      "priority": 79,
+      "title": "Compliance document upload",
+      "description": "Add upload functionality to compliance vault for adding new certificates and documents.",
+      "acceptanceCriteria": [
+        "POST /api/compliance-docs creates new document record",
+        "File upload to Supabase Storage (compliance bucket)",
+        "UI upload form in compliance dashboard",
+        "Required fields: name, type, issuer, valid_from, valid_to, file",
+        "Validation for PDF/image files, max 10MB",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/api/compliance-docs/route.ts",
+        "app/(portal)/dashboard/compliance/compliance-client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created POST/GET /api/compliance-docs with Zod validation. Added upload modal to compliance client with form fields: name, type, issuer, reference, scope, dates, file. File validation for PDF/images max 10MB."
+    },
+    {
+      "id": "FIX-008",
+      "priority": 80,
+      "title": "Facility ticket creation from dashboard",
+      "description": "Add ability to create new facility tickets from dashboard with full details.",
+      "acceptanceCriteria": [
+        "POST /api/facility-tickets creates new ticket",
+        "UI form in facility dashboard for new ticket",
+        "Fields: client_name, location, description, urgency, category",
+        "Auto-generate ticket reference (FT-YYYY-XXXX)",
+        "SLA deadline auto-calculated based on urgency",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/api/facility-tickets/route.ts",
+        "app/(portal)/dashboard/facility/facility-client.tsx"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created POST/GET /api/facility-tickets with Zod validation. Auto-generates FT-YYYY-XXXX reference. SLA deadline calculated based on urgency (critical=4h, high=8h, medium=24h, low=72h). Added create ticket modal to facility dashboard with all fields."
     }
   ]
 }

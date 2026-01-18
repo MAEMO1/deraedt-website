@@ -107,3 +107,39 @@ Notes: Created partners + partner_documents tables with RLS, audit triggers, com
 Status: DONE
 Notes: Created PATCH /api/leads/[id] for updating status, owner_id, next_action_date. Created POST/GET /api/leads/[id]/notes for lead notes. Added getLeadNotes query function. Updated leads-client.tsx to persist changes to Supabase instead of console.log. Added loading states and error handling.
 ---
+[FIX-001] - Projectplanner backend integration
+Status: DONE
+Notes: Created /api/projectplanner route with Zod validation. Updated handleSubmit() to POST form data to API. Lead created with type 'project' and source 'projectplanner'. Human-readable message formatting with project details. Toast notifications for success/error.
+---
+[FIX-002] - Lead detail page
+Status: DONE
+Notes: Created /dashboard/leads/[id] with server + client components. Full lead info display (contact, org, message, type, status, budget, timing, source). Inline edit for status, owner, next action date. Notes section with add form and timeline. Back link to leads list.
+---
+[FIX-003] - Cases dashboard management
+Status: DONE
+Notes: Created /dashboard/cases with grid view of all cases. Stats cards (total/published/featured). Filters: search, sector (client_type), year. Case detail modal with KPIs display. Added Cases link to sidebar navigation.
+---
+[FIX-004] - Email notifications with Resend
+Status: DONE
+Notes: Created lib/email.ts with Resend integration for 3 email types (contact notification, application confirmation, HR notification). Professional HTML templates with De Raedt branding. Graceful fallback logs emails when RESEND_API_KEY missing. Updated contact and applications API routes. Added job_title to application submission.
+---
+[FIX-005] - DELETE API endpoints for GDPR compliance
+Status: DONE
+Notes: Added DELETE method to all 4 routes: leads (+ notes), applications (+ CV storage), facility-tickets, tenders. Audit logging via existing DB triggers.
+---
+[FIX-006] - Board Pack PDF export
+Status: DONE
+Notes: Installed jspdf library. Created lib/pdf/board-pack.ts with branded PDF generation (KPIs, pipelines, expiry radar, alerts). API route /api/export/board-pack generates PDF. Dashboard button triggers download.
+---
+[FIX-007] - Compliance document upload
+Status: DONE
+Notes: Created POST/GET /api/compliance-docs with Zod validation. Added upload modal to compliance client with form fields (name, type, issuer, reference, scope, dates, file). File validation for PDF/images max 10MB.
+---
+[FIX-008] - Facility ticket creation from dashboard
+Status: DONE
+Notes: Created POST/GET /api/facility-tickets with Zod validation. Auto-generates FT-YYYY-XXXX reference. SLA deadline calculated based on urgency (critical=4h, high=8h, medium=24h, low=72h). Added create ticket modal to facility dashboard with all required fields.
+---
+[COMPLETE] - All FIX stories completed
+Status: DONE
+Notes: All 8 FIX stories (FIX-001 to FIX-008) implemented and verified. Growth OS feature gaps addressed.
+---

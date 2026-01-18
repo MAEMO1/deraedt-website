@@ -206,10 +206,33 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
 
   const handleExport = async () => {
     setIsExporting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log('[EXPORT] Board pack triggered');
-    alert('Board pack export gestart.');
-    setIsExporting(false);
+    try {
+      const response = await fetch('/api/export/board-pack', {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+
+      // Get the blob and create download
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `board-pack-${new Date().toISOString().split('T')[0]}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      console.log('[EXPORT] Board pack downloaded successfully');
+    } catch (error) {
+      console.error('[EXPORT] Board pack error:', error);
+      alert('Er ging iets mis bij het genereren van de board pack.');
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const totalTenderValue = tenders

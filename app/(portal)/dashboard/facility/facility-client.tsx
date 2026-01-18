@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
   Filter,
@@ -17,9 +17,10 @@ import {
   AlertCircle,
   CheckCircle,
   Image as ImageIcon,
+  Loader2,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile, FacilityTicket } from '@/lib/supabase/types';
+import type { Profile, FacilityTicket, TicketUrgency } from '@/lib/supabase/types';
 
 interface FacilityClientProps {
   user: Profile;
@@ -69,12 +70,43 @@ const statusColors: Record<string, string> = {
   resolved: 'bg-green-100 text-green-700 border-green-200',
 };
 
+interface CreateTicketForm {
+  client_name: string;
+  location: string;
+  description: string;
+  urgency: TicketUrgency;
+  category: string;
+  contact_name: string;
+  contact_phone: string;
+  contact_email: string;
+}
+
+const CATEGORY_OPTIONS = [
+  { value: 'electrical', label: 'Elektriciteit' },
+  { value: 'plumbing', label: 'Sanitair' },
+  { value: 'hvac', label: 'HVAC' },
+  { value: 'structural', label: 'Constructie' },
+  { value: 'other', label: 'Andere' },
+];
+
 export function FacilityClient({ user, initialTickets, teamMembers }: FacilityClientProps) {
   const [tickets, setTickets] = useState<Ticket[]>(initialTickets);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterUrgency, setFilterUrgency] = useState<string>('all');
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [createForm, setCreateForm] = useState<CreateTicketForm>({
+    client_name: '',
+    location: '',
+    description: '',
+    urgency: 'medium',
+    category: '',
+    contact_name: '',
+    contact_phone: '',
+    contact_email: '',
+  });
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -214,11 +246,53 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
   };
 
   const handleCreateTicket = () => {
-    console.log('[CREATE TICKET]', {
-      user: user.email,
-      timestamp: new Date().toISOString(),
-    });
-    alert('Ticket aanmaken functionaliteit. In productie opent dit een formulier of verwijst naar het publieke interventie formulier.');
+    setShowCreateModal(true);
+  };
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!createForm.client_name || !createForm.location || !createForm.description) {
+      alert('Vul alle verplichte velden in');
+      return;
+    }
+
+    setIsCreating(true);
+    try {
+      const response = await fetch('/api/facility-tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(createForm),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create ticket');
+      }
+
+      const result = await response.json();
+
+      // Add the new ticket to the local state
+      if (result.ticket) {
+        setTickets((prev) => [result.ticket, ...prev]);
+      }
+
+      // Reset form and close modal
+      setCreateForm({
+        client_name: '',
+        location: '',
+        description: '',
+        urgency: 'medium',
+        category: '',
+        contact_name: '',
+        contact_phone: '',
+        contact_email: '',
+      });
+      setShowCreateModal(false);
+    } catch (error) {
+      console.error('Create ticket error:', error);
+      alert('Er ging iets mis bij het aanmaken van het ticket');
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   // Stats
@@ -613,6 +687,175 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
           </motion.div>
         </div>
       )}
+
+      {/* Create Ticket Modal */}
+      <AnimatePresence>
+        {showCreateModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            onClick={() => setShowCreateModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6 border-b border-[#0C0C0C]/10 flex items-center justify-between">
+                <h2 className="text-xl font-display text-[#0C0C0C]">Nieuw Ticket</h2>
+                <button
+                  onClick={() => setShowCreateModal(false)}
+                  className="p-1 hover:bg-[#0C0C0C]/5 rounded"
+                >
+                  <X className="w-5 h-5 text-[#6B6560]" />
+                </button>
+              </div>
+
+              <form onSubmit={handleCreateSubmit} className="p-6 space-y-4">
+                {/* Client Name */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Klantnaam *
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.client_name}
+                    onChange={(e) => setCreateForm({ ...createForm, client_name: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    required
+                  />
+                </div>
+
+                {/* Location */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Locatie *
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.location}
+                    onChange={(e) => setCreateForm({ ...createForm, location: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="bijv. Gebouw A, Verdieping 2, Lokaal 201"
+                    required
+                  />
+                </div>
+
+                {/* Urgency */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Urgentie *
+                  </label>
+                  <select
+                    value={createForm.urgency}
+                    onChange={(e) => setCreateForm({ ...createForm, urgency: e.target.value as TicketUrgency })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  >
+                    {Object.entries(urgencyLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Category */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Categorie
+                  </label>
+                  <select
+                    value={createForm.category}
+                    onChange={(e) => setCreateForm({ ...createForm, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  >
+                    <option value="">Selecteer categorie</option>
+                    {CATEGORY_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Beschrijving *
+                  </label>
+                  <textarea
+                    value={createForm.description}
+                    onChange={(e) => setCreateForm({ ...createForm, description: e.target.value })}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none"
+                    placeholder="Beschrijf het probleem..."
+                    required
+                  />
+                </div>
+
+                {/* Contact Info */}
+                <div className="border-t border-[#0C0C0C]/10 pt-4">
+                  <p className="text-sm font-medium text-[#0C0C0C] mb-3">Contactpersoon (optioneel)</p>
+                  <div className="space-y-3">
+                    <input
+                      type="text"
+                      value={createForm.contact_name}
+                      onChange={(e) => setCreateForm({ ...createForm, contact_name: e.target.value })}
+                      className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                      placeholder="Naam"
+                    />
+                    <div className="grid grid-cols-2 gap-3">
+                      <input
+                        type="tel"
+                        value={createForm.contact_phone}
+                        onChange={(e) => setCreateForm({ ...createForm, contact_phone: e.target.value })}
+                        className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                        placeholder="Telefoon"
+                      />
+                      <input
+                        type="email"
+                        value={createForm.contact_email}
+                        onChange={(e) => setCreateForm({ ...createForm, contact_email: e.target.value })}
+                        className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                        placeholder="Email"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <div className="pt-4 flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowCreateModal(false)}
+                    className="flex-1 px-4 py-2 border border-[#0C0C0C]/10 text-[#0C0C0C] font-medium hover:bg-[#0C0C0C]/5"
+                  >
+                    Annuleren
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isCreating}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#0C0C0C] text-white font-medium hover:bg-[#9A6B4C] disabled:opacity-50"
+                  >
+                    {isCreating ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Aanmaken...
+                      </>
+                    ) : (
+                      'Ticket Aanmaken'
+                    )}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

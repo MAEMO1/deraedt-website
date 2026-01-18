@@ -92,3 +92,68 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const supabase = await createClient();
+
+    // First fetch the application to get CV URL
+    const { data: application } = await supabase
+      .from('job_applications')
+      .select('cv_url')
+      .eq('id', id)
+      .single();
+
+    // Delete CV from storage if it exists
+    if (application?.cv_url) {
+      try {
+        // Extract path from URL (assumes Supabase storage URL format)
+        const urlParts = application.cv_url.split('/storage/v1/object/public/');
+        if (urlParts.length > 1) {
+          const pathParts = urlParts[1].split('/');
+          const bucket = pathParts[0];
+          const path = pathParts.slice(1).join('/');
+
+          const { error: storageError } = await supabase
+            .storage
+            .from(bucket)
+            .remove([path]);
+
+          if (storageError) {
+            console.error('[DELETE /api/applications/[id]] Failed to delete CV:', storageError);
+            // Continue anyway - file might not exist
+          }
+        }
+      } catch (e) {
+        console.error('[DELETE /api/applications/[id]] CV deletion error:', e);
+      }
+    }
+
+    // Delete the application
+    const { error } = await supabase
+      .from('job_applications')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('[DELETE /api/applications/[id]] Supabase error:', error);
+      return NextResponse.json(
+        { success: false, error: 'Failed to delete application' },
+        { status: 500 }
+      );
+    }
+
+    console.log('[DELETE /api/applications/[id]] Application deleted:', id);
+    return NextResponse.json({ success: true, message: 'Application and CV deleted successfully' });
+  } catch (error) {
+    console.error('[DELETE /api/applications/[id]] Error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

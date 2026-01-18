@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { sendApplicationConfirmation, sendApplicationNotification } from '@/lib/email';
 
 const applicationSchema = z.object({
   job_id: z.string().min(1, 'Job ID is required'),
   job_slug: z.string().min(1, 'Job slug is required'),
+  job_title: z.string().min(1, 'Job title is required'),
   full_name: z.string().min(2, 'Naam is verplicht'),
   email: z.string().email('Ongeldig emailadres'),
   phone: z.string().optional(),
@@ -50,12 +52,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Send confirmation email when SMTP is configured
-    // For now, we just log it
     console.log(`[APPLICATION] New application received for job ${data.job_slug}:`, {
       applicant: data.full_name,
       email: data.email,
       applicationId: application.id,
+    });
+
+    // Send emails (non-blocking)
+    const emailData = {
+      fullName: data.full_name,
+      email: data.email,
+      jobTitle: data.job_title,
+      jobSlug: data.job_slug,
+      applicationId: application.id,
+      phone: data.phone,
+      cvUrl: data.cv_url,
+    };
+
+    // Send confirmation to applicant
+    sendApplicationConfirmation(emailData).catch((err) => {
+      console.error('[APPLICATION] Confirmation email failed:', err);
+    });
+
+    // Send notification to HR
+    sendApplicationNotification(emailData).catch((err) => {
+      console.error('[APPLICATION] HR notification email failed:', err);
     });
 
     return NextResponse.json({

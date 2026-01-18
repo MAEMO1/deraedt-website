@@ -256,5 +256,23 @@ JSON seed files in `scripts/seed/`:
 - **ENVIRONMENT VARIABLES NODIG:**
   - `CRON_SECRET` — Beveiliging van cron endpoint (optioneel in dev)
 
+### 2026-01-18: Feature completeness fixes
+
+- **AUDIT:** Feature verification revealed 3 gaps in production readiness
+- **FIX-001:** Projectplanner form was UI-only (handleSubmit was stub)
+  - Created `/api/projectplanner` endpoint
+  - Wired form to API with toast notifications
+  - Leads now stored with type='project', source='projectplanner'
+- **FIX-002:** Lead detail page missing (only modal existed)
+  - Created `/dashboard/leads/[id]` with full page layout
+  - Server component fetches lead + notes + profiles
+  - Inline edit for status, owner, next action date
+- **FIX-003:** Cases dashboard missing (schema existed but no UI)
+  - Created `/dashboard/cases` with grid view
+  - Filters: search, sector, year
+  - Detail modal with KPIs display
+  - Added Cases link to sidebar
+- **COMPLETENESS:** Platform now ~85% feature complete
+
 ---
-_Last updated: 2026-01-17_
+_Last updated: 2026-01-18_

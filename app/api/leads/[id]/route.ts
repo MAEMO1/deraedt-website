@@ -94,3 +94,47 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const supabase = await createClient();
+
+    // First delete related lead_notes (cascade manually for safety)
+    const { error: notesError } = await supabase
+      .from('lead_notes')
+      .delete()
+      .eq('lead_id', id);
+
+    if (notesError) {
+      console.error('[DELETE /api/leads/[id]] Failed to delete notes:', notesError);
+      // Continue anyway - notes might not exist
+    }
+
+    // Delete the lead itself
+    const { error } = await supabase
+      .from('leads')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('[DELETE /api/leads/[id]] Supabase error:', error);
+      return NextResponse.json(
+        { success: false, error: 'Failed to delete lead' },
+        { status: 500 }
+      );
+    }
+
+    console.log('[DELETE /api/leads/[id]] Lead deleted:', id);
+    return NextResponse.json({ success: true, message: 'Lead deleted successfully' });
+  } catch (error) {
+    console.error('[DELETE /api/leads/[id]] Error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

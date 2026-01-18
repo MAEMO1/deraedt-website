@@ -96,3 +96,39 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const supabase = await createClient();
+
+    // Note: In production, add admin role check here
+    // const user = await getCurrentUser();
+    // if (!hasRole(user.role, 'ADMIN')) { return 403 }
+
+    const { error } = await supabase
+      .from('tenders')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('[DELETE /api/tenders/[id]] Supabase error:', error);
+      return NextResponse.json(
+        { success: false, error: 'Failed to delete tender' },
+        { status: 500 }
+      );
+    }
+
+    console.log('[DELETE /api/tenders/[id]] Tender deleted:', id);
+    return NextResponse.json({ success: true, message: 'Tender deleted successfully' });
+  } catch (error) {
+    console.error('[DELETE /api/tenders/[id]] Error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

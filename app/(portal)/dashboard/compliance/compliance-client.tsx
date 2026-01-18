@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
   Filter,
@@ -15,9 +15,11 @@ import {
   Package,
   Upload,
   Eye,
+  X,
+  Loader2,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
-import type { Profile, ComplianceDoc } from '@/lib/supabase/types';
+import type { Profile, ComplianceDoc, ComplianceDocType } from '@/lib/supabase/types';
 
 interface ComplianceClientProps {
   user: Profile;
@@ -76,11 +78,43 @@ const statusColors: Record<string, string> = {
   pending_renewal: 'bg-blue-100 text-blue-700 border-blue-200',
 };
 
+const DOC_TYPE_OPTIONS: { value: ComplianceDocType; label: string }[] = [
+  { value: 'iso', label: 'ISO Certificaat' },
+  { value: 'vca', label: 'VCA Certificaat' },
+  { value: 'co2', label: 'CO₂ Prestatieladder' },
+  { value: 'insurance', label: 'Verzekering' },
+  { value: 'erkenning', label: 'Erkenning' },
+  { value: 'policy', label: 'Beleidsdocument' },
+  { value: 'other', label: 'Andere' },
+];
+
+interface UploadFormData {
+  name: string;
+  doc_type: ComplianceDocType;
+  issuer: string;
+  reference_number: string;
+  scope: string;
+  valid_from: string;
+  valid_to: string;
+}
+
 export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [selectedDocs, setSelectedDocs] = useState<Set<string>>(new Set());
   const [showExpiryRadar, setShowExpiryRadar] = useState(true);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadForm, setUploadForm] = useState<UploadFormData>({
+    name: '',
+    doc_type: 'iso',
+    issuer: '',
+    reference_number: '',
+    scope: '',
+    valid_from: '',
+    valid_to: '',
+  });
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -164,6 +198,92 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
     alert(
       `Tender Pack met ${selectedDocs.size} document(en) wordt samengesteld.\n\nIn productie wordt een ZIP/PDF gegenereerd met:\n${selectedDocsList.map((d) => `- ${d.name}`).join('\n')}`
     );
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type and size
+      const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+      const maxSize = 10 * 1024 * 1024; // 10MB
+
+      if (!validTypes.includes(file.type)) {
+        alert('Alleen PDF en afbeeldingen (JPG, PNG, WebP) zijn toegestaan');
+        return;
+      }
+
+      if (file.size > maxSize) {
+        alert('Bestand mag maximaal 10MB zijn');
+        return;
+      }
+
+      setUploadFile(file);
+    }
+  };
+
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!uploadForm.name || !uploadForm.valid_from || !uploadForm.valid_to) {
+      alert('Vul alle verplichte velden in');
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      let fileUrl: string | undefined;
+
+      // Upload file if provided
+      if (uploadFile) {
+        const formData = new FormData();
+        formData.append('file', uploadFile);
+        formData.append('bucket', 'compliance');
+
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (uploadResponse.ok) {
+          const uploadResult = await uploadResponse.json();
+          fileUrl = uploadResult.url;
+        }
+      }
+
+      // Create compliance doc record
+      const response = await fetch('/api/compliance-docs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...uploadForm,
+          file_url: fileUrl,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create document');
+      }
+
+      // Reset form and close modal
+      setUploadForm({
+        name: '',
+        doc_type: 'iso',
+        issuer: '',
+        reference_number: '',
+        scope: '',
+        valid_from: '',
+        valid_to: '',
+      });
+      setUploadFile(null);
+      setShowUploadModal(false);
+
+      // Reload page to refresh data
+      window.location.reload();
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Er ging iets mis bij het uploaden');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -319,7 +439,10 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
 
             <div className="flex items-center gap-3">
               {/* Upload button */}
-              <button className="flex items-center gap-2 border border-[#0C0C0C]/10 text-[#0C0C0C] px-4 py-2 text-sm font-medium hover:bg-[#0C0C0C]/5">
+              <button
+                onClick={() => setShowUploadModal(true)}
+                className="flex items-center gap-2 border border-[#0C0C0C]/10 text-[#0C0C0C] px-4 py-2 text-sm font-medium hover:bg-[#0C0C0C]/5"
+              >
                 <Upload className="w-4 h-4" />
                 Document Uploaden
               </button>
@@ -509,6 +632,185 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
           </motion.div>
         </main>
       </div>
+
+      {/* Upload Modal */}
+      <AnimatePresence>
+        {showUploadModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            onClick={() => setShowUploadModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6 border-b border-[#0C0C0C]/10 flex items-center justify-between">
+                <h2 className="text-xl font-display text-[#0C0C0C]">Document Uploaden</h2>
+                <button
+                  onClick={() => setShowUploadModal(false)}
+                  className="p-1 hover:bg-[#0C0C0C]/5 rounded"
+                >
+                  <X className="w-5 h-5 text-[#6B6560]" />
+                </button>
+              </div>
+
+              <form onSubmit={handleUploadSubmit} className="p-6 space-y-4">
+                {/* Name */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Naam *
+                  </label>
+                  <input
+                    type="text"
+                    value={uploadForm.name}
+                    onChange={(e) => setUploadForm({ ...uploadForm, name: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    required
+                  />
+                </div>
+
+                {/* Doc Type */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Document Type *
+                  </label>
+                  <select
+                    value={uploadForm.doc_type}
+                    onChange={(e) => setUploadForm({ ...uploadForm, doc_type: e.target.value as ComplianceDocType })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  >
+                    {DOC_TYPE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Issuer */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Uitgever
+                  </label>
+                  <input
+                    type="text"
+                    value={uploadForm.issuer}
+                    onChange={(e) => setUploadForm({ ...uploadForm, issuer: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="bijv. Bureau Veritas"
+                  />
+                </div>
+
+                {/* Reference Number */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Referentienummer
+                  </label>
+                  <input
+                    type="text"
+                    value={uploadForm.reference_number}
+                    onChange={(e) => setUploadForm({ ...uploadForm, reference_number: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  />
+                </div>
+
+                {/* Scope */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Scope
+                  </label>
+                  <input
+                    type="text"
+                    value={uploadForm.scope}
+                    onChange={(e) => setUploadForm({ ...uploadForm, scope: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="bijv. Algemene bouwwerken"
+                  />
+                </div>
+
+                {/* Dates */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                      Geldig vanaf *
+                    </label>
+                    <input
+                      type="date"
+                      value={uploadForm.valid_from}
+                      onChange={(e) => setUploadForm({ ...uploadForm, valid_from: e.target.value })}
+                      className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                      Geldig tot *
+                    </label>
+                    <input
+                      type="date"
+                      value={uploadForm.valid_to}
+                      onChange={(e) => setUploadForm({ ...uploadForm, valid_to: e.target.value })}
+                      className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* File Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Document (PDF of afbeelding)
+                  </label>
+                  <label className="flex items-center justify-center gap-3 px-4 py-6 border-2 border-dashed border-[#0C0C0C]/10 hover:border-[#9A6B4C] cursor-pointer transition-colors">
+                    <Upload className="w-5 h-5 text-[#6B6560]" />
+                    <span className="text-sm text-[#6B6560]">
+                      {uploadFile ? uploadFile.name : 'Klik om te uploaden'}
+                    </span>
+                    <input
+                      type="file"
+                      accept=".pdf,image/jpeg,image/png,image/webp"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                  </label>
+                  <p className="mt-1 text-xs text-[#6B6560]">Max 10MB</p>
+                </div>
+
+                {/* Submit */}
+                <div className="pt-4 flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowUploadModal(false)}
+                    className="flex-1 px-4 py-2 border border-[#0C0C0C]/10 text-[#0C0C0C] font-medium hover:bg-[#0C0C0C]/5"
+                  >
+                    Annuleren
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isUploading}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#0C0C0C] text-white font-medium hover:bg-[#9A6B4C] disabled:opacity-50"
+                  >
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Uploaden...
+                      </>
+                    ) : (
+                      'Document Toevoegen'
+                    )}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

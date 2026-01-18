@@ -17,6 +17,7 @@ import {
   Phone,
   Loader2,
 } from "lucide-react";
+import { toast } from "sonner";
 import { COMPANY } from "@/lib/constants";
 
 // Streamlined questions
@@ -144,9 +145,32 @@ export default function ProjectplannerPage() {
   const handleSubmit = async () => {
     if (!canProceed()) return;
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsComplete(true);
+
+    try {
+      const response = await fetch("/api/projectplanner", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Verzenden mislukt");
+      }
+
+      toast.success("Aanvraag verzonden!", {
+        description: "We nemen binnen 48 uur contact met u op.",
+      });
+      setIsComplete(true);
+    } catch (error) {
+      console.error("[PROJECTPLANNER] Submit error:", error);
+      toast.error("Er is iets misgegaan", {
+        description: "Probeer het later opnieuw of neem telefonisch contact op.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const restart = () => {

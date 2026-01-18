@@ -94,3 +94,35 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const supabase = await createClient();
+
+    const { error } = await supabase
+      .from('facility_tickets')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('[DELETE /api/facility-tickets/[id]] Supabase error:', error);
+      return NextResponse.json(
+        { success: false, error: 'Failed to delete ticket' },
+        { status: 500 }
+      );
+    }
+
+    console.log('[DELETE /api/facility-tickets/[id]] Ticket deleted:', id);
+    return NextResponse.json({ success: true, message: 'Ticket deleted successfully' });
+  } catch (error) {
+    console.error('[DELETE /api/facility-tickets/[id]] Error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
