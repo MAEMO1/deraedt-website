@@ -58,7 +58,7 @@ export function Hero() {
             >
               Bouwen aan de
               <br />
-              <span className="text-[#204CE5]">toekomst</span>
+              <span className="text-white">toekomst</span>
             </motion.h1>
 
             {/* Subtitle */}
@@ -96,27 +96,6 @@ export function Hero() {
               </Link>
             </motion.div>
 
-            {/* Trust indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="mt-16 flex items-center gap-8"
-            >
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="w-10 h-10 rounded-full bg-white/20 border-2 border-[#112337] flex items-center justify-center text-white text-xs font-bold"
-                  >
-                    {i === 4 ? "+" : ""}
-                  </div>
-                ))}
-              </div>
-              <div className="text-white/60 text-sm">
-                <span className="text-white font-semibold">Actief sinds 1930</span>
-              </div>
-            </motion.div>
           </div>
         </div>
       </motion.div>
