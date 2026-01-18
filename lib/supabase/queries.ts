@@ -17,6 +17,7 @@ import type {
   FacilityTicket,
   Partner,
   PartnerDocument,
+  Profile,
 } from './types';
 
 // Import seed data as fallback
@@ -27,6 +28,7 @@ import complianceDocsData from '@/scripts/seed/compliance_docs.json';
 import casesData from '@/scripts/seed/cases.json';
 import facilityTicketsData from '@/scripts/seed/facility_tickets.json';
 import partnersData from '@/scripts/seed/partners.json';
+import profilesData from '@/scripts/seed/profiles.json';
 
 // ============================================================================
 // TENDERS
@@ -503,7 +505,7 @@ export async function getPartnersWithDocuments(): Promise<PartnerWithDocuments[]
     }
 
     // Get all documents for these partners
-    const partnerIds = partnersDb.map(p => p.id);
+    const partnerIds = partnersDb.map((p: Partner) => p.id);
     const { data: docsDb, error: docsError } = await supabase
       .from('partner_documents')
       .select('*')
@@ -514,15 +516,44 @@ export async function getPartnersWithDocuments(): Promise<PartnerWithDocuments[]
     }
 
     // Combine partners with their documents
-    const partnersWithDocs: PartnerWithDocuments[] = partnersDb.map(partner => ({
+    const partnersWithDocs: PartnerWithDocuments[] = partnersDb.map((partner: Partner) => ({
       ...partner,
-      documents: (docsDb || []).filter(d => d.partner_id === partner.id),
+      documents: (docsDb || []).filter((d: PartnerDocument) => d.partner_id === partner.id),
     }));
 
     return partnersWithDocs;
   } catch (err) {
     console.error('[getPartnersWithDocuments] Error:', err);
     return partnersData as unknown as PartnerWithDocuments[];
+  }
+}
+
+// ============================================================================
+// PROFILES (Team Members)
+// ============================================================================
+
+export async function getProfiles(): Promise<Profile[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('full_name', { ascending: true });
+
+    if (error) {
+      console.error('[getProfiles] Supabase error:', error);
+      return profilesData as unknown as Profile[];
+    }
+
+    if (!data || data.length === 0) {
+      console.log('[getProfiles] No data in Supabase, using seed data');
+      return profilesData as unknown as Profile[];
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[getProfiles] Error:', err);
+    return profilesData as unknown as Profile[];
   }
 }
 

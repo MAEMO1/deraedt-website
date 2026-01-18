@@ -89,15 +89,42 @@ const employmentTypeLabels: Record<string, string> = {
   internship: 'Stage',
 };
 
-export function RecruitmentClient({ user, jobs, applications: initialApplications }: RecruitmentClientProps) {
+interface CreateJobForm {
+  title: string;
+  department: string;
+  location: string;
+  description: string;
+  employment_type: 'full_time' | 'part_time' | 'contract' | 'internship';
+  requirements: string;
+  benefits: string;
+  status: 'draft' | 'published';
+}
+
+const initialJobForm: CreateJobForm = {
+  title: '',
+  department: '',
+  location: '',
+  description: '',
+  employment_type: 'full_time',
+  requirements: '',
+  benefits: '',
+  status: 'draft',
+};
+
+export function RecruitmentClient({ user, jobs: initialJobs, applications: initialApplications }: RecruitmentClientProps) {
   const [activeTab, setActiveTab] = useState<'jobs' | 'applications'>('jobs');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
   const [applications, setApplications] = useState<JobApplication[]>(initialApplications);
+  const [jobs, setJobs] = useState<Job[]>(initialJobs);
   const [retentionMonths, setRetentionMonths] = useState(12);
   const [vdabSyncStatuses, setVdabSyncStatuses] = useState<Map<string, VDABSyncStatus>>(new Map());
   const [publishingJobId, setPublishingJobId] = useState<string | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [jobForm, setJobForm] = useState<CreateJobForm>(initialJobForm);
+  const [isCreatingJob, setIsCreatingJob] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -145,27 +172,77 @@ export function RecruitmentClient({ user, jobs, applications: initialApplication
     return job?.title || 'Onbekende vacature';
   };
 
-  const handleStatusChange = (applicationId: string, newStatus: ApplicationStatus) => {
+  const handleStatusChange = async (applicationId: string, newStatus: ApplicationStatus) => {
+    // Optimistic update
     setApplications((prev) =>
       prev.map((app) =>
         app.id === applicationId ? { ...app, status: newStatus } : app
       )
     );
 
-    console.log('[APPLICATION STATUS CHANGE]', {
-      application_id: applicationId,
-      new_status: newStatus,
-      user: user.email,
-      timestamp: new Date().toISOString(),
-    });
+    try {
+      const response = await fetch(`/api/applications/${applicationId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        console.error('[APPLICATION STATUS CHANGE] API error');
+        // Could revert optimistic update here if needed
+      } else {
+        console.log('[APPLICATION STATUS CHANGE] Saved:', {
+          application_id: applicationId,
+          new_status: newStatus,
+        });
+      }
+    } catch (error) {
+      console.error('[APPLICATION STATUS CHANGE] Error:', error);
+    }
   };
 
   const handleCreateJob = () => {
-    console.log('[CREATE JOB]', {
-      user: user.email,
-      timestamp: new Date().toISOString(),
-    });
-    alert('Vacature aanmaken functionaliteit. In productie opent dit een formulier.');
+    setJobForm(initialJobForm);
+    setCreateError(null);
+    setShowCreateModal(true);
+  };
+
+  const handleSubmitJob = async () => {
+    setIsCreatingJob(true);
+    setCreateError(null);
+
+    try {
+      const response = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: jobForm.title,
+          department: jobForm.department,
+          location: jobForm.location,
+          description: jobForm.description,
+          employment_type: jobForm.employment_type,
+          requirements: jobForm.requirements.split('\n').filter(r => r.trim()),
+          benefits: jobForm.benefits.split('\n').filter(b => b.trim()),
+          status: jobForm.status,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Er is iets misgegaan');
+      }
+
+      // Add new job to list
+      setJobs(prev => [result.job, ...prev]);
+      setShowCreateModal(false);
+      setJobForm(initialJobForm);
+    } catch (error) {
+      console.error('[CREATE JOB ERROR]', error);
+      setCreateError(error instanceof Error ? error.message : 'Er is iets misgegaan');
+    } finally {
+      setIsCreatingJob(false);
+    }
   };
 
   const handleEditJob = (jobId: string) => {
@@ -740,6 +817,192 @@ export function RecruitmentClient({ user, jobs, applications: initialApplication
                   Gegevens worden automatisch verwijderd op {formatDate(selectedApplication.retention_until)}
                 </p>
               </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Create Job Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          >
+            <div className="p-6 border-b border-[#0C0C0C]/10 flex items-center justify-between sticky top-0 bg-white z-10">
+              <h2 className="text-xl font-display text-[#0C0C0C]">Nieuwe Vacature</h2>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="p-2 hover:bg-[#0C0C0C]/5 rounded"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              {createError && (
+                <div className="bg-red-50 border border-red-200 p-4 rounded">
+                  <p className="text-sm text-red-700">{createError}</p>
+                </div>
+              )}
+
+              {/* Title */}
+              <div>
+                <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                  Titel <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={jobForm.title}
+                  onChange={(e) => setJobForm(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="bijv. Werfleider"
+                  className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                />
+              </div>
+
+              {/* Department & Location */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Afdeling <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={jobForm.department}
+                    onChange={(e) => setJobForm(prev => ({ ...prev, department: e.target.value }))}
+                    placeholder="bijv. Bouw"
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Locatie <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={jobForm.location}
+                    onChange={(e) => setJobForm(prev => ({ ...prev, location: e.target.value }))}
+                    placeholder="bijv. Oost-Vlaanderen"
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Employment Type */}
+              <div>
+                <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                  Type
+                </label>
+                <select
+                  value={jobForm.employment_type}
+                  onChange={(e) => setJobForm(prev => ({ ...prev, employment_type: e.target.value as CreateJobForm['employment_type'] }))}
+                  className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none bg-white"
+                >
+                  {Object.entries(employmentTypeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                  Beschrijving <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={jobForm.description}
+                  onChange={(e) => setJobForm(prev => ({ ...prev, description: e.target.value }))}
+                  rows={4}
+                  placeholder="Beschrijf de functie en verantwoordelijkheden..."
+                  className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none"
+                />
+              </div>
+
+              {/* Requirements */}
+              <div>
+                <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                  Vereisten <span className="text-xs text-[#6B6560]">(één per regel)</span>
+                </label>
+                <textarea
+                  value={jobForm.requirements}
+                  onChange={(e) => setJobForm(prev => ({ ...prev, requirements: e.target.value }))}
+                  rows={4}
+                  placeholder="Minimum 5 jaar ervaring&#10;Rijbewijs B&#10;VCA-attest"
+                  className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none"
+                />
+              </div>
+
+              {/* Benefits */}
+              <div>
+                <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                  Voordelen <span className="text-xs text-[#6B6560]">(één per regel)</span>
+                </label>
+                <textarea
+                  value={jobForm.benefits}
+                  onChange={(e) => setJobForm(prev => ({ ...prev, benefits: e.target.value }))}
+                  rows={4}
+                  placeholder="Competitief salaris&#10;Bedrijfswagen&#10;Maaltijdcheques"
+                  className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none"
+                />
+              </div>
+
+              {/* Status */}
+              <div>
+                <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                  Status
+                </label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="draft"
+                      checked={jobForm.status === 'draft'}
+                      onChange={() => setJobForm(prev => ({ ...prev, status: 'draft' }))}
+                      className="text-[#9A6B4C] focus:ring-[#9A6B4C]"
+                    />
+                    <span className="text-sm text-[#0C0C0C]">Concept</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="published"
+                      checked={jobForm.status === 'published'}
+                      onChange={() => setJobForm(prev => ({ ...prev, status: 'published' }))}
+                      className="text-[#9A6B4C] focus:ring-[#9A6B4C]"
+                    />
+                    <span className="text-sm text-[#0C0C0C]">Direct publiceren</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-[#0C0C0C]/10 flex items-center justify-end gap-4">
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="px-4 py-2 text-sm text-[#6B6560] hover:text-[#0C0C0C]"
+              >
+                Annuleren
+              </button>
+              <button
+                onClick={handleSubmitJob}
+                disabled={isCreatingJob || !jobForm.title || !jobForm.department || !jobForm.location || !jobForm.description}
+                className="flex items-center gap-2 bg-[#0C0C0C] text-white px-4 py-2 text-sm font-medium hover:bg-[#9A6B4C] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isCreatingJob ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Opslaan...
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-4 h-4" />
+                    Vacature Aanmaken
+                  </>
+                )}
+              </button>
             </div>
           </motion.div>
         </div>

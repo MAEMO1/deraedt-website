@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   TrendingUp,
@@ -26,39 +26,6 @@ interface AnalyticsClientProps {
   applications: JobApplication[];
 }
 
-// Mock analytics events data
-const mockAnalyticsEvents = {
-  pageViews: {
-    '/werken-bij': { views: 1245, period: 'week' },
-    '/projecten': { views: 892, period: 'week' },
-    '/diensten': { views: 756, period: 'week' },
-    '/contact': { views: 534, period: 'week' },
-  },
-  jobPageViews: {
-    'projectleider-bouw': 312,
-    'dakwerker-ervaren': 287,
-    'calculator-bouw': 198,
-    'stage-bouwkunde': 156,
-  },
-  applications: {
-    'projectleider-bouw': 8,
-    'dakwerker-ervaren': 12,
-    'calculator-bouw': 5,
-    'stage-bouwkunde': 15,
-  },
-  leadsPerMonth: [
-    { month: 'Aug', count: 12 },
-    { month: 'Sep', count: 18 },
-    { month: 'Okt', count: 15 },
-    { month: 'Nov', count: 22 },
-    { month: 'Dec', count: 19 },
-    { month: 'Jan', count: 24 },
-  ],
-  responseTimeHours: 4.2, // Average hours to first response
-  tenderWinRate: 0.42, // 42%
-  conversionRate: 0.18, // 18% of leads converted
-};
-
 const roleLabels: Record<string, string> = {
   DIRECTIE: 'Directie',
   SALES: 'Sales',
@@ -80,19 +47,70 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
 
   const totalTenders = tenders.length;
   const wonTenders = tenders.filter((t) => t.status === 'won').length;
-  const tenderWinRate = totalTenders > 0 ? (wonTenders / totalTenders) * 100 : 0;
+  const submittedTenders = tenders.filter((t) => ['submitted', 'won', 'lost'].includes(t.status)).length;
+  const tenderWinRate = submittedTenders > 0 ? (wonTenders / submittedTenders) * 100 : 0;
   const pipelineValue = tenders
     .filter((t) => ['new', 'analyzing', 'go', 'in_preparation'].includes(t.status))
     .reduce((sum, t) => sum + (t.estimated_value || 0), 0);
 
   // Calculate job metrics from real data
-  const totalJobViews = Object.values(mockAnalyticsEvents.jobPageViews).reduce((a, b) => a + b, 0);
-  const totalApplications = applications.length || Object.values(mockAnalyticsEvents.applications).reduce((a, b) => a + b, 0);
-  const applicationRate = totalJobViews > 0 ? (totalApplications / totalJobViews) * 100 : 0;
   const activeJobs = jobs.filter(j => j.status === 'published').length;
+  const totalApplications = applications.length;
+
+  // Compute applications per job from real data
+  const jobApplicationCounts = useMemo(() => {
+    const counts: Record<string, { title: string; applications: number }> = {};
+    jobs.forEach(job => {
+      counts[job.id] = {
+        title: job.title,
+        applications: applications.filter(a => a.job_id === job.id).length,
+      };
+    });
+    return counts;
+  }, [jobs, applications]);
+
+  // Compute leads per month from real data (last 6 months)
+  const leadsPerMonth = useMemo(() => {
+    const months: { month: string; count: number }[] = [];
+    const now = new Date();
+    const monthNames = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthStart = new Date(date.getFullYear(), date.getMonth(), 1);
+      const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+      const count = leads.filter(lead => {
+        const createdAt = new Date(lead.created_at);
+        return createdAt >= monthStart && createdAt <= monthEnd;
+      }).length;
+
+      months.push({
+        month: monthNames[date.getMonth()],
+        count,
+      });
+    }
+    return months;
+  }, [leads]);
+
+  // Compute average response time from leads that have been contacted
+  const avgResponseTimeHours = useMemo(() => {
+    const contactedLeads = leads.filter(l =>
+      l.status !== 'new' && l.created_at && l.updated_at
+    );
+    if (contactedLeads.length === 0) return 0;
+
+    const totalHours = contactedLeads.reduce((sum, lead) => {
+      const created = new Date(lead.created_at).getTime();
+      const updated = new Date(lead.updated_at).getTime();
+      return sum + (updated - created) / (1000 * 60 * 60);
+    }, 0);
+
+    return totalHours / contactedLeads.length;
+  }, [leads]);
 
   // Chart helper: max value for scaling
-  const maxLeadsPerMonth = Math.max(...mockAnalyticsEvents.leadsPerMonth.map((m) => m.count));
+  const maxLeadsPerMonth = Math.max(...leadsPerMonth.map((m) => m.count), 1);
 
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
@@ -138,14 +156,16 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                   <Users className="w-6 h-6 text-blue-600" />
                 </div>
-                <span className="flex items-center gap-1 text-sm text-green-600">
-                  <TrendingUp className="w-4 h-4" />
-                  +12%
-                </span>
+                {newLeads > 0 && (
+                  <span className="flex items-center gap-1 text-sm text-green-600">
+                    <TrendingUp className="w-4 h-4" />
+                    +{newLeads}
+                  </span>
+                )}
               </div>
               <p className="text-3xl font-bold text-[#0C0C0C]">{totalLeads}</p>
               <p className="text-sm text-[#6B6560]">Totaal Leads</p>
-              <p className="text-xs text-[#6B6560] mt-2">{newLeads} nieuw deze maand</p>
+              <p className="text-xs text-[#6B6560] mt-2">{newLeads} nieuw</p>
             </motion.div>
 
             {/* Response Time */}
@@ -159,13 +179,15 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                   <Clock className="w-6 h-6 text-green-600" />
                 </div>
-                <span className="flex items-center gap-1 text-sm text-green-600">
-                  <TrendingDown className="w-4 h-4" />
-                  -18%
-                </span>
+                {avgResponseTimeHours < 6 && (
+                  <span className="flex items-center gap-1 text-sm text-green-600">
+                    <TrendingDown className="w-4 h-4" />
+                    &lt;6u
+                  </span>
+                )}
               </div>
               <p className="text-3xl font-bold text-[#0C0C0C]">
-                {mockAnalyticsEvents.responseTimeHours.toFixed(1)}u
+                {avgResponseTimeHours > 0 ? avgResponseTimeHours.toFixed(1) : '--'}u
               </p>
               <p className="text-sm text-[#6B6560]">Gem. Responstijd</p>
               <p className="text-xs text-[#6B6560] mt-2">Time-to-first-response</p>
@@ -231,7 +253,7 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
               </div>
 
               <div className="flex items-end justify-between h-48 gap-4">
-                {mockAnalyticsEvents.leadsPerMonth.map((month, index) => (
+                {leadsPerMonth.map((month, index) => (
                   <div key={month.month} className="flex-1 flex flex-col items-center gap-2">
                     <span className="text-sm font-semibold text-[#0C0C0C]">{month.count}</span>
                     <motion.div
@@ -262,38 +284,37 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
               </div>
 
               <div className="space-y-4">
-                {Object.entries(mockAnalyticsEvents.jobPageViews).map(([job, views]) => {
-                  const applications = mockAnalyticsEvents.applications[job as keyof typeof mockAnalyticsEvents.applications] || 0;
-                  const convRate = views > 0 ? (applications / views) * 100 : 0;
+                {jobs.slice(0, 4).map((job) => {
+                  const appCount = jobApplicationCounts[job.id]?.applications || 0;
 
                   return (
-                    <div key={job} className="space-y-2">
+                    <div key={job.id} className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-[#0C0C0C] capitalize">
-                          {job.replace(/-/g, ' ')}
+                        <span className="text-[#0C0C0C]">
+                          {job.title}
                         </span>
-                        <span className="text-[#6B6560]">
-                          {convRate.toFixed(1)}% conversie
+                        <span className={`text-xs px-2 py-0.5 rounded ${
+                          job.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
+                        }`}>
+                          {job.status === 'published' ? 'Actief' : 'Gesloten'}
                         </span>
                       </div>
                       <div className="flex gap-2 h-6">
                         <div className="flex-1 bg-[#0C0C0C]/5 rounded overflow-hidden relative">
                           <motion.div
                             initial={{ width: 0 }}
-                            animate={{ width: '100%' }}
+                            animate={{ width: `${Math.min(100, appCount * 10)}%` }}
                             transition={{ delay: 0.6, duration: 0.5 }}
                             className="h-full bg-blue-200 rounded"
                           />
                           <span className="absolute inset-0 flex items-center justify-center text-xs text-[#0C0C0C]">
-                            <Eye className="w-3 h-3 mr-1" />
-                            {views} views
+                            {job.location}
                           </span>
                         </div>
                         <div
-                          className="bg-green-500 rounded flex items-center justify-center px-2 text-white text-xs"
-                          style={{ width: Math.max(50, applications * 4) }}
+                          className="bg-green-500 rounded flex items-center justify-center px-2 text-white text-xs min-w-[50px]"
                         >
-                          {applications}
+                          {appCount} sol.
                         </div>
                       </div>
                     </div>
@@ -302,9 +323,9 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
               </div>
 
               <div className="mt-6 pt-4 border-t border-[#0C0C0C]/10 flex justify-between text-sm">
-                <span className="text-[#6B6560]">Totaal: {totalJobViews} views</span>
+                <span className="text-[#6B6560]">{activeJobs} actieve vacatures</span>
                 <span className="text-[#6B6560]">{totalApplications} sollicitaties</span>
-                <span className="font-medium text-[#0C0C0C]">{applicationRate.toFixed(1)}% gem. conversie</span>
+                <span className="font-medium text-[#0C0C0C]">{jobs.length} totaal</span>
               </div>
             </motion.div>
           </div>
@@ -369,7 +390,7 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
               </div>
             </motion.div>
 
-            {/* Top Performing Pages */}
+            {/* Top Tender Buyers */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -378,27 +399,35 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
             >
               <h3 className="font-semibold text-[#0C0C0C] mb-6 flex items-center gap-2">
                 <Eye className="w-5 h-5 text-[#9A6B4C]" />
-                Top Pagina&apos;s
+                Top Opdrachtgevers
               </h3>
 
               <div className="space-y-4">
-                {Object.entries(mockAnalyticsEvents.pageViews)
-                  .sort(([, a], [, b]) => b.views - a.views)
-                  .map(([page, data], index) => (
-                    <div key={page} className="flex items-center gap-4">
-                      <span className="w-6 h-6 bg-[#9A6B4C]/10 rounded flex items-center justify-center text-xs font-semibold text-[#9A6B4C]">
-                        {index + 1}
-                      </span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-[#0C0C0C]">{page}</p>
-                        <p className="text-xs text-[#6B6560]">{data.views} views/week</p>
+                {(() => {
+                  // Group tenders by buyer and count
+                  const buyerCounts: Record<string, number> = {};
+                  tenders.forEach(t => {
+                    buyerCounts[t.buyer] = (buyerCounts[t.buyer] || 0) + 1;
+                  });
+                  return Object.entries(buyerCounts)
+                    .sort(([, a], [, b]) => b - a)
+                    .slice(0, 4)
+                    .map(([buyer, count], index) => (
+                      <div key={buyer} className="flex items-center gap-4">
+                        <span className="w-6 h-6 bg-[#9A6B4C]/10 rounded flex items-center justify-center text-xs font-semibold text-[#9A6B4C]">
+                          {index + 1}
+                        </span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-[#0C0C0C]">{buyer}</p>
+                          <p className="text-xs text-[#6B6560]">{count} tender{count > 1 ? 's' : ''}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ));
+                })()}
               </div>
             </motion.div>
 
-            {/* Recent Activity */}
+            {/* Performance Highlights */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -411,27 +440,47 @@ export function AnalyticsClient({ user, tenders, leads, jobs, applications }: An
               </h3>
 
               <div className="space-y-4">
-                <div className="flex items-start gap-3 p-3 bg-green-50 rounded border border-green-100">
-                  <Award className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-green-700">Tender Win Rate +5%</p>
-                    <p className="text-xs text-green-600">Boven sectorgemiddelde (35%)</p>
+                {tenderWinRate >= 35 ? (
+                  <div className="flex items-start gap-3 p-3 bg-green-50 rounded border border-green-100">
+                    <Award className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-green-700">Tender Win Rate {tenderWinRate.toFixed(0)}%</p>
+                      <p className="text-xs text-green-600">Boven sectorgemiddelde (35%)</p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-start gap-3 p-3 bg-amber-50 rounded border border-amber-100">
+                    <Target className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-amber-700">Tender Win Rate {tenderWinRate.toFixed(0)}%</p>
+                      <p className="text-xs text-amber-600">Doelstelling: 35%</p>
+                    </div>
+                  </div>
+                )}
 
-                <div className="flex items-start gap-3 p-3 bg-blue-50 rounded border border-blue-100">
-                  <Clock className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-700">Responstijd verbeterd</p>
-                    <p className="text-xs text-blue-600">4.2u → doelstelling: &lt;6u</p>
+                {avgResponseTimeHours > 0 && avgResponseTimeHours < 6 ? (
+                  <div className="flex items-start gap-3 p-3 bg-blue-50 rounded border border-blue-100">
+                    <Clock className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-blue-700">Responstijd op target</p>
+                      <p className="text-xs text-blue-600">{avgResponseTimeHours.toFixed(1)}u → doelstelling: &lt;6u</p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                    <Clock className="w-5 h-5 text-gray-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">Responstijd meting</p>
+                      <p className="text-xs text-gray-600">Doelstelling: &lt;6u</p>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex items-start gap-3 p-3 bg-amber-50 rounded border border-amber-100">
                   <Briefcase className="w-5 h-5 text-amber-600 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-amber-700">Hoge interesse vacatures</p>
-                    <p className="text-xs text-amber-600">{activeJobs} actieve vacatures, +{totalApplications} sollicitaties</p>
+                    <p className="text-sm font-medium text-amber-700">Recruitment activiteit</p>
+                    <p className="text-xs text-amber-600">{activeJobs} actieve vacatures, {totalApplications} sollicitaties</p>
                   </div>
                 </div>
               </div>

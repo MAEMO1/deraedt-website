@@ -24,20 +24,13 @@ import type { Profile, FacilityTicket } from '@/lib/supabase/types';
 interface FacilityClientProps {
   user: Profile;
   initialTickets: FacilityTicket[];
+  teamMembers: Profile[];
 }
 
 // Extended ticket interface for local state (includes assigned_name for display)
 interface Ticket extends FacilityTicket {
   assigned_name?: string;
 }
-
-// Mock team members for assignment
-const teamMembers = [
-  { id: 'user-001', name: 'Sophie De Raedt' },
-  { id: 'user-002', name: 'Jan Vermeersch' },
-  { id: 'user-003', name: 'Pieter Claes' },
-  { id: 'user-004', name: 'Els Vandenberghe' },
-];
 
 const roleLabels: Record<string, string> = {
   DIRECTIE: 'Directie',
@@ -76,7 +69,7 @@ const statusColors: Record<string, string> = {
   resolved: 'bg-green-100 text-green-700 border-green-200',
 };
 
-export function FacilityClient({ user, initialTickets }: FacilityClientProps) {
+export function FacilityClient({ user, initialTickets, teamMembers }: FacilityClientProps) {
   const [tickets, setTickets] = useState<Ticket[]>(initialTickets);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -136,7 +129,8 @@ export function FacilityClient({ user, initialTickets }: FacilityClientProps) {
     return { text: formatDateTime(slaDueAt), color: 'text-[#6B6560]', overdue: false };
   };
 
-  const handleStatusChange = (ticketId: string, newStatus: string) => {
+  const handleStatusChange = async (ticketId: string, newStatus: string) => {
+    // Optimistic update
     setTickets((prev) =>
       prev.map((t) =>
         t.id === ticketId
@@ -152,23 +146,35 @@ export function FacilityClient({ user, initialTickets }: FacilityClientProps) {
       );
     }
 
-    console.log('[TICKET STATUS CHANGE]', {
-      ticket_id: ticketId,
-      new_status: newStatus,
-      user: user.email,
-      timestamp: new Date().toISOString(),
-    });
+    try {
+      const response = await fetch(`/api/facility-tickets/${ticketId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        console.error('[TICKET STATUS CHANGE] API error');
+        // Could revert optimistic update here if needed
+      } else {
+        console.log('[TICKET STATUS CHANGE] Saved:', { ticket_id: ticketId, new_status: newStatus });
+      }
+    } catch (error) {
+      console.error('[TICKET STATUS CHANGE] Error:', error);
+    }
   };
 
-  const handleAssignmentChange = (ticketId: string, assignedTo: string) => {
+  const handleAssignmentChange = async (ticketId: string, assignedTo: string) => {
     const member = teamMembers.find((m) => m.id === assignedTo);
+
+    // Optimistic update
     setTickets((prev) =>
       prev.map((t) =>
         t.id === ticketId
           ? {
               ...t,
               assigned_to: assignedTo || null,
-              assigned_name: member?.name,
+              assigned_name: member?.full_name || undefined,
               updated_at: new Date().toISOString(),
             }
           : t
@@ -182,20 +188,29 @@ export function FacilityClient({ user, initialTickets }: FacilityClientProps) {
           ? {
               ...prev,
               assigned_to: assignedTo || null,
-              assigned_name: member?.name,
+              assigned_name: member?.full_name || undefined,
               updated_at: new Date().toISOString(),
             }
           : null
       );
     }
 
-    console.log('[TICKET ASSIGNMENT]', {
-      ticket_id: ticketId,
-      assigned_to: assignedTo,
-      assigned_name: member?.name,
-      user: user.email,
-      timestamp: new Date().toISOString(),
-    });
+    try {
+      const response = await fetch(`/api/facility-tickets/${ticketId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ assigned_to: assignedTo || null }),
+      });
+
+      if (!response.ok) {
+        console.error('[TICKET ASSIGNMENT] API error');
+        // Could revert optimistic update here if needed
+      } else {
+        console.log('[TICKET ASSIGNMENT] Saved:', { ticket_id: ticketId, assigned_to: assignedTo });
+      }
+    } catch (error) {
+      console.error('[TICKET ASSIGNMENT] Error:', error);
+    }
   };
 
   const handleCreateTicket = () => {
@@ -566,7 +581,7 @@ export function FacilityClient({ user, initialTickets }: FacilityClientProps) {
                   <option value="">Niet toegewezen</option>
                   {teamMembers.map((member) => (
                     <option key={member.id} value={member.id}>
-                      {member.name}
+                      {member.full_name || member.email}
                     </option>
                   ))}
                 </select>

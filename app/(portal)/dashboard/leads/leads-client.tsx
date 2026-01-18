@@ -25,6 +25,7 @@ import type { Profile, Lead, LeadNote } from '@/lib/supabase/types';
 interface LeadsClientProps {
   user: Profile;
   leads: Lead[];
+  teamMembers: Profile[];
 }
 
 const roleLabels: Record<string, string> = {
@@ -62,16 +63,9 @@ const typeLabels: Record<string, string> = {
   contact: 'Contact',
 };
 
-// Mock team members for assignment
-const teamMembers = [
-  { id: 'user-1', name: 'Jan Peeters', role: 'Sales' },
-  { id: 'user-2', name: 'Marie Janssens', role: 'Operations' },
-  { id: 'user-3', name: 'Thomas De Raedt', role: 'Directie' },
-];
-
 const stages = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
 
-export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
+export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsClientProps) {
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -370,7 +364,7 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                         <td className="p-4">
                           {lead.owner_id ? (
                             <span className="text-xs text-[#6B6560]">
-                              {teamMembers.find((m) => m.id === lead.owner_id)?.name || 'Toegewezen'}
+                              {teamMembers.find((m) => m.id === lead.owner_id)?.full_name || 'Toegewezen'}
                             </span>
                           ) : (
                             <span className="text-xs text-[#6B6560]/50">Niet toegewezen</span>
@@ -504,7 +498,7 @@ export function LeadsClient({ user, leads: initialLeads }: LeadsClientProps) {
                   <option value="">-- Selecteer teamlid --</option>
                   {teamMembers.map((member) => (
                     <option key={member.id} value={member.id}>
-                      {member.name} ({member.role})
+                      {member.full_name || member.email} ({roleLabels[member.role] || member.role})
                     </option>
                   ))}
                 </select>

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "user-001",
+    "email": "sophie@deraedt.be",
+    "full_name": "Sophie De Raedt",
+    "role": "DIRECTIE",
+    "avatar_url": null,
+    "created_at": "2024-01-01T09:00:00Z",
+    "updated_at": "2024-01-01T09:00:00Z"
+  },
+  {
+    "id": "user-002",
+    "email": "jan@deraedt.be",
+    "full_name": "Jan Vermeersch",
+    "role": "SALES",
+    "avatar_url": null,
+    "created_at": "2024-01-01T09:00:00Z",
+    "updated_at": "2024-01-01T09:00:00Z"
+  },
+  {
+    "id": "user-003",
+    "email": "pieter@deraedt.be",
+    "full_name": "Pieter Claes",
+    "role": "OPERATIONS",
+    "avatar_url": null,
+    "created_at": "2024-01-01T09:00:00Z",
+    "updated_at": "2024-01-01T09:00:00Z"
+  },
+  {
+    "id": "user-004",
+    "email": "els@deraedt.be",
+    "full_name": "Els Vandenberghe",
+    "role": "HR",
+    "avatar_url": null,
+    "created_at": "2024-01-01T09:00:00Z",
+    "updated_at": "2024-01-01T09:00:00Z"
+  },
+  {
+    "id": "user-005",
+    "email": "thomas@deraedt.be",
+    "full_name": "Thomas De Raedt",
+    "role": "DIRECTIE",
+    "avatar_url": null,
+    "created_at": "2024-01-01T09:00:00Z",
+    "updated_at": "2024-01-01T09:00:00Z"
+  }
+]

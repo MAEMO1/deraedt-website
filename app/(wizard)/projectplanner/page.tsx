@@ -4,19 +4,22 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  Building2,
-  Hammer,
-  Landmark,
-  Wrench,
-  Home,
-  Building,
-  Briefcase,
   ArrowRight,
   Check,
   X,
   Phone,
   Loader2,
 } from "lucide-react";
+import {
+  NieuwbouwIcon,
+  RenovatieIcon,
+  ErfgoedIcon,
+  OnderhoudIcon,
+  ParticulierIcon,
+  BedrijfIcon,
+  OverheidIcon,
+  OntwikkelaarIcon,
+} from "@/components/icons/projectplanner-icons";
 import { COMPANY } from "@/lib/constants";
 
 // Streamlined questions
@@ -26,10 +29,10 @@ const questions = [
     headline: "Wat wilt u bouwen?",
     type: "icons" as const,
     options: [
-      { id: "nieuwbouw", icon: Building2, label: "Nieuwbouw" },
-      { id: "renovatie", icon: Hammer, label: "Renovatie" },
-      { id: "erfgoed", icon: Landmark, label: "Erfgoed" },
-      { id: "onderhoud", icon: Wrench, label: "Onderhoud" },
+      { id: "nieuwbouw", icon: NieuwbouwIcon, label: "Nieuwbouw" },
+      { id: "renovatie", icon: RenovatieIcon, label: "Renovatie" },
+      { id: "erfgoed", icon: ErfgoedIcon, label: "Erfgoed" },
+      { id: "onderhoud", icon: OnderhoudIcon, label: "Onderhoud" },
     ],
   },
   {
@@ -37,10 +40,10 @@ const questions = [
     headline: "Wie bent u?",
     type: "icons" as const,
     options: [
-      { id: "particulier", icon: Home, label: "Particulier" },
-      { id: "bedrijf", icon: Building, label: "Bedrijf" },
-      { id: "overheid", icon: Landmark, label: "Overheid" },
-      { id: "ontwikkelaar", icon: Briefcase, label: "Ontwikkelaar" },
+      { id: "particulier", icon: ParticulierIcon, label: "Particulier" },
+      { id: "bedrijf", icon: BedrijfIcon, label: "Bedrijf" },
+      { id: "overheid", icon: OverheidIcon, label: "Overheid" },
+      { id: "ontwikkelaar", icon: OntwikkelaarIcon, label: "Ontwikkelaar" },
     ],
   },
   {
@@ -299,10 +302,9 @@ export default function ProjectplannerPage() {
                           }`}
                         >
                           <Icon
-                            className={`w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-200 ${
+                            className={`w-10 h-10 sm:w-12 sm:h-12 transition-colors duration-200 ${
                               isSelected ? "text-[#204CE5]" : "text-[#112337]/40 group-hover:text-[#204CE5]/60"
                             }`}
-                            strokeWidth={1.5}
                           />
                         </div>
                         <span

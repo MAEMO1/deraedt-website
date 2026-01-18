@@ -188,7 +188,7 @@ export class TenderAgent {
       .eq('status', 'completed');
 
     const totalImported =
-      importStats?.reduce((sum, r) => sum + (r.tenders_imported || 0), 0) || 0;
+      importStats?.reduce((sum: number, r: { tenders_imported: number | null }) => sum + (r.tenders_imported || 0), 0) || 0;
 
     // Get last run
     const { data: lastRunData } = await supabase

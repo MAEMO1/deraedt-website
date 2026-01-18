@@ -197,25 +197,43 @@ export function TenderDetailClient({ user, tender }: TenderDetailClientProps) {
       timestamp: new Date().toISOString(),
     };
 
-    // Log the decision (in production, this would save to database)
-    console.log('[TENDER DECISION]', {
-      tender_id: tender.id,
-      tender_title: tender.title,
-      decision,
-      checklist: checklist.map((item) => ({
-        id: item.id,
-        checked: item.checked,
-        notes: item.notes,
-      })),
-    });
+    try {
+      // Save decision to database
+      const response = await fetch(`/api/tenders/${tender.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: type,
+          decision_reason: decisionReason,
+          decision_by: user.id,
+          go_no_go_checklist: Object.fromEntries(
+            checklist.map((item) => [item.id, { checked: item.checked, notes: item.notes }])
+          ),
+        }),
+      });
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('[TENDER DECISION] API error:', error);
+        alert('Fout bij opslaan van beslissing. Probeer het opnieuw.');
+        setIsSubmitting(false);
+        return;
+      }
 
-    setDecisions((prev) => [decision, ...prev]);
-    setCurrentStatus(type);
-    setDecisionReason('');
-    setIsSubmitting(false);
+      console.log('[TENDER DECISION] Saved:', {
+        tender_id: tender.id,
+        decision,
+      });
+
+      setDecisions((prev) => [decision, ...prev]);
+      setCurrentStatus(type);
+      setDecisionReason('');
+    } catch (error) {
+      console.error('[TENDER DECISION] Error:', error);
+      alert('Fout bij opslaan van beslissing. Probeer het opnieuw.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const deadline = tender.deadline_at ? formatDeadline(tender.deadline_at) : null;

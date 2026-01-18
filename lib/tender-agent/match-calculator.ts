@@ -71,7 +71,7 @@ async function getCpvRelevanceMap(): Promise<Map<string, CpvRelevance>> {
     return new Map();
   }
 
-  cpvCache = new Map(data.map((r) => [r.cpv_code, r as CpvRelevance]));
+  cpvCache = new Map(data.map((r: CpvRelevance) => [r.cpv_code, r]));
   cpvCacheExpiry = now + 60 * 60 * 1000; // 1 hour
 
   return cpvCache;
