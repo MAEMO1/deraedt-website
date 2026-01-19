@@ -17,9 +17,9 @@ const serviceImages: Record<string, string> = {
 
 // Map service IDs to actual routes
 const serviceRoutes: Record<string, string> = {
-  bouwwerken: "/diensten/bouw-renovatie",
-  dakwerken: "/diensten/bouw-renovatie",
-  erfgoed: "/diensten/bouw-renovatie",
+  bouwwerken: "/diensten/bouwwerken",
+  dakwerken: "/diensten/dakwerken",
+  erfgoed: "/diensten/erfgoed",
   facility: "/diensten/facility",
 };
 
