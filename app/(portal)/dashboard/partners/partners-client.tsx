@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
   Filter,
@@ -19,6 +19,7 @@ import {
   X,
   Check,
   Eye,
+  Loader2,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, Partner as BasePartner, PartnerDocument } from '@/lib/supabase/types';
@@ -78,11 +79,49 @@ const docTypeLabels: Record<string, string> = {
 
 const requiredDocuments = ['vca', 'insurance', 'reference'];
 
+const specialtyLabels: Record<string, string> = {
+  elektriciteit: 'Elektriciteit',
+  sanitair: 'Sanitair',
+  hvac: 'HVAC',
+  dakwerken: 'Dakwerken',
+  metselwerk: 'Metselwerk',
+  schrijnwerk: 'Schrijnwerk',
+  schilderwerken: 'Schilderwerken',
+  vloeren: 'Vloeren',
+  grondwerken: 'Grondwerken',
+  staalconstructies: 'Staalconstructies',
+  andere: 'Andere',
+};
+
+interface CreatePartnerForm {
+  company_name: string;
+  contact_name: string;
+  contact_email: string;
+  contact_phone: string;
+  address: string;
+  specialty: string;
+  notes: string;
+}
+
+const emptyForm: CreatePartnerForm = {
+  company_name: '',
+  contact_name: '',
+  contact_email: '',
+  contact_phone: '',
+  address: '',
+  specialty: '',
+  notes: '',
+};
+
 export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
   const [partners, setPartners] = useState<Partner[]>(initialPartners);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [createForm, setCreateForm] = useState<CreatePartnerForm>(emptyForm);
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -188,12 +227,45 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
     });
   };
 
-  const handleCreatePartner = () => {
-    console.log('[CREATE PARTNER]', {
-      user: user.email,
-      timestamp: new Date().toISOString(),
-    });
-    alert('Partner aanmaken functionaliteit. In productie opent dit een intake formulier.');
+  const handleOpenCreateModal = () => {
+    setCreateForm(emptyForm);
+    setCreateError(null);
+    setShowCreateModal(true);
+  };
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsCreating(true);
+    setCreateError(null);
+
+    try {
+      const res = await fetch('/api/partners', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(createForm),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setCreateError(data.error || 'Er is een fout opgetreden');
+        return;
+      }
+
+      // Add the new partner to the list with empty documents array
+      const newPartner: Partner = {
+        ...data.partner,
+        documents: [],
+      };
+      setPartners((prev) => [newPartner, ...prev]);
+      setShowCreateModal(false);
+      setCreateForm(emptyForm);
+    } catch (err) {
+      console.error('[CREATE PARTNER] Error:', err);
+      setCreateError('Netwerkfout bij aanmaken partner');
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   // Stats
@@ -273,7 +345,7 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
             </div>
 
             <button
-              onClick={handleCreatePartner}
+              onClick={handleOpenCreateModal}
               className="flex items-center gap-2 bg-[#0C0C0C] text-white px-4 py-2 text-sm font-medium hover:bg-[#9A6B4C]"
             >
               <Plus className="w-4 h-4" />
@@ -563,6 +635,176 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
           </motion.div>
         </div>
       )}
+
+      {/* Create Partner Modal */}
+      <AnimatePresence>
+        {showCreateModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            onClick={() => setShowCreateModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6 border-b border-[#0C0C0C]/10 flex items-center justify-between">
+                <h2 className="text-xl font-display text-[#0C0C0C]">Nieuwe Partner</h2>
+                <button
+                  onClick={() => setShowCreateModal(false)}
+                  className="p-1 hover:bg-[#0C0C0C]/5 rounded"
+                >
+                  <X className="w-5 h-5 text-[#6B6560]" />
+                </button>
+              </div>
+
+              <form onSubmit={handleCreateSubmit} className="p-6 space-y-4">
+                {/* Error message */}
+                {createError && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm">
+                    {createError}
+                  </div>
+                )}
+
+                {/* Company Name */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Bedrijfsnaam *
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.company_name}
+                    onChange={(e) => setCreateForm({ ...createForm, company_name: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="bijv. Elektro Vanbelle BVBA"
+                    required
+                  />
+                </div>
+
+                {/* Specialty */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Specialiteit *
+                  </label>
+                  <select
+                    value={createForm.specialty}
+                    onChange={(e) => setCreateForm({ ...createForm, specialty: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none bg-white"
+                    required
+                  >
+                    <option value="">-- Selecteer --</option>
+                    {Object.entries(specialtyLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Contact Name */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Contactpersoon *
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.contact_name}
+                    onChange={(e) => setCreateForm({ ...createForm, contact_name: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="Jan Janssens"
+                    required
+                  />
+                </div>
+
+                {/* Contact Email */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    E-mailadres *
+                  </label>
+                  <input
+                    type="email"
+                    value={createForm.contact_email}
+                    onChange={(e) => setCreateForm({ ...createForm, contact_email: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="jan@bedrijf.be"
+                    required
+                  />
+                </div>
+
+                {/* Contact Phone */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Telefoonnummer
+                  </label>
+                  <input
+                    type="tel"
+                    value={createForm.contact_phone}
+                    onChange={(e) => setCreateForm({ ...createForm, contact_phone: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="+32 9 123 45 67"
+                  />
+                </div>
+
+                {/* Address */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Adres
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.address}
+                    onChange={(e) => setCreateForm({ ...createForm, address: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
+                    placeholder="Industrielaan 10, 9000 Gent"
+                  />
+                </div>
+
+                {/* Notes */}
+                <div>
+                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
+                    Notities
+                  </label>
+                  <textarea
+                    value={createForm.notes}
+                    onChange={(e) => setCreateForm({ ...createForm, notes: e.target.value })}
+                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none resize-none"
+                    rows={3}
+                    placeholder="Eventuele opmerkingen..."
+                  />
+                </div>
+
+                {/* Submit buttons */}
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowCreateModal(false)}
+                    className="flex-1 px-4 py-2 border border-[#0C0C0C]/10 text-[#0C0C0C] hover:bg-[#FAF7F2]"
+                  >
+                    Annuleren
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isCreating}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#0C0C0C] text-white hover:bg-[#9A6B4C] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
+                    Partner Aanmaken
+                  </button>
+                </div>
+
+                <p className="text-xs text-[#6B6560] text-center">
+                  Na aanmaken kunnen documenten worden geüpload voor prequalificatie.
+                </p>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -18,6 +18,11 @@
 4. **Geen scope creep** — alleen wat in de story staat
 5. **Discoveries → AGENTS.md** — elke ontdekking vastleggen
 6. **Commit format:** `feat: [STORY_ID] - [Title]`
+7. **DRY Principle** — Don't Repeat Yourself:
+   - Hergebruik bestaande types uit `lib/supabase/types.ts`
+   - Hergebruik bestaande API patterns en validators
+   - Hergebruik UI components en styling constants
+   - Check eerst of vergelijkbare code al bestaat voordat je nieuwe code schrijft
 
 ## Commando's
 
