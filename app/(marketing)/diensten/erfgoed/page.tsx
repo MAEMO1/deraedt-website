@@ -5,83 +5,52 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import {
-  Building2,
-  Hammer,
   Landmark,
   ArrowRight,
-  ArrowUpRight,
   CheckCircle2,
   Phone,
   Award,
-  Shield,
+  Building2,
 } from "lucide-react";
 import { COMPANY, STATS, CERTIFICATIONS } from "@/lib/constants";
 
-const services = [
+const expertise = [
   {
-    number: "01",
-    icon: Building2,
-    title: "Algemene Bouwwerken",
-    description: "Complete bouwprojecten van A tot Z voor overheden en bedrijven. Van fundament tot sleutel-op-de-deur.",
-    features: [
-      "Publieke gebouwen (scholen, sportinfrastructuur)",
-      "Verbouwingen en uitbreidingen",
-      "Structurele werken en funderingen",
-      "Afwerking: vloeren, plafonds, pleisterwerk",
-      "Klasse 6 erkend voor grote projecten",
-    ],
-    image: "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
+    title: "Monumentenrestauratie",
+    description: "Volledige restauratie van beschermde monumenten met respect voor het historische karakter.",
+    examples: ["Stadhuis Gent", "Justitiepaleis Dendermonde", "Historische kerken"],
   },
   {
-    number: "02",
-    icon: Hammer,
-    title: "Dakwerken & Renovatie",
-    description: "Specialisten in hellende en platte daken. Van isolatie tot waterdichting, met premium materialen.",
-    features: [
-      "Hellende en platte daken",
-      "Sarking isolatie methode",
-      "Koperbekleding en zinkwerk",
-      "Dakgoten en regenwaterafvoer",
-      "Valbeveiliging op daken",
-    ],
-    image: "/images/original-site/Koning-Boudewijn-Stadion.webp",
+    title: "Dakrestauratie",
+    description: "Authentieke materialen en technieken voor historische daken. Leien, koper en zink.",
+    examples: ["Natuurleien", "Historisch koperbekleding", "Traditioneel soldeerwerk"],
   },
   {
-    number: "03",
-    icon: Landmark,
-    title: "Erfgoedrenovatie",
-    description: "Restauratie van beschermd bouwkundig erfgoed met authentieke technieken en materialen.",
-    features: [
-      "Monumentenrestauratie (o.a. Stadhuis Gent)",
-      "Authentieke materialen en soldeerwerk",
-      "Natuurleien vervangen en herstellen",
-      "Werken voor KU Leuven campussen",
-      "Beschermde stads- en dorpsgezichten",
-    ],
-    image: "/images/original-site/Justitiepaleis-Dendermonde.jpg",
+    title: "Gevelrestauratie",
+    description: "Herstel van historisch metselwerk, voegwerk en ornamenten.",
+    examples: ["Schoorsteenherstellingen", "Gevelreiniging", "Voegwerk renovatie"],
   },
 ];
 
-const scopeIncludes = [
-  "Algemene bouwwerken voor overheden en bedrijven",
-  "Dakwerken: hellend, plat, koper, zink, leien",
-  "Sarking isolatie en energetische renovatie",
-  "Gevelwerken, voegwerk en buitenschrijnwerk",
-  "Monumentenrestauratie en erfgoedrenovatie",
-  "Structurele versterkingen en stabilisatie",
-  "Valbeveiliging en toegankelijkheidswerken",
-  "Afwerking: pleisterwerk, vloeren, plafonds",
+const features = [
+  "Monumentenrestauratie en -onderhoud",
+  "Authentieke materialen en technieken",
+  "Natuurleien vervangen en herstellen",
+  "Historisch koper- en zinkwerk",
+  "Traditioneel soldeerwerk",
+  "Beschermde stads- en dorpsgezichten",
+  "Werken voor KU Leuven campussen",
+  "Samenwerking met erfgoedconsulenten",
 ];
 
-const scopeExcludes = [
-  "Elektriciteitswerken",
-  "HVAC-installatie",
-  "Sanitaire installatie",
-  "Tuinaanleg en groenvoorziening",
-  "Interieurontwerp en meubilering",
+const references = [
+  { name: "Stadhuis Gent", type: "Raamcontract", year: "2023" },
+  { name: "Stadhuis Brussel", type: "Beschermd erfgoed", year: "2023" },
+  { name: "Justitiepaleis Dendermonde", type: "Beschermd erfgoed", year: "2023" },
+  { name: "KU Leuven", type: "10 campussen", year: "Lopend" },
 ];
 
-// Hero Section with parallax
+// Hero Section
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -94,11 +63,10 @@ function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-[90vh] bg-[#112337] overflow-hidden">
-      {/* Background Image with Parallax */}
       <motion.div style={{ y: imageY }} className="absolute inset-0">
         <Image
-          src="/images/original-site/Atlas-College-Genk-10-scaled.jpg"
-          alt="Bouwproject"
+          src="/images/original-site/Justitiepaleis-Dendermonde.jpg"
+          alt="Erfgoedrenovatie"
           fill
           className="object-cover"
           priority
@@ -108,18 +76,14 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#112337] via-transparent to-[#112337]/30" />
       </motion.div>
 
-      {/* Noise texture */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
       }} />
 
-      {/* Content */}
       <motion.div style={{ opacity }} className="relative z-10 min-h-[90vh] flex items-center">
         <div className="container-wide pt-32 pb-24">
           <div className="grid lg:grid-cols-12 gap-12 items-end">
-            {/* Main Content */}
             <div className="lg:col-span-7">
-              {/* Back link */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -134,41 +98,37 @@ function HeroSection() {
                 </Link>
               </motion.div>
 
-              {/* Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-8"
               >
-                <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                Bouw & Renovatie
+                <Landmark className="w-4 h-4" />
+                Erfgoedrenovatie
               </motion.div>
 
-              {/* Headline */}
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.05] tracking-tight"
               >
-                Bouw, Dakwerken
+                Behoud van
                 <br />
-                <span className="text-[#204CE5]">& Erfgoed</span>
+                <span className="text-[#204CE5]">erfgoed</span>
               </motion.h1>
 
-              {/* Subtitle */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-xl"
               >
-                Van dakwerken tot monumentenrestauratie. Klasse 6 erkend voor
-                publieke gebouwen met specialisatie in erfgoedrenovatie.
+                Restauratie van beschermd bouwkundig erfgoed met authentieke
+                technieken. Vakmanschap dat generaties overstijgt.
               </motion.p>
 
-              {/* CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -192,7 +152,6 @@ function HeroSection() {
               </motion.div>
             </div>
 
-            {/* Stats Card */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -204,8 +163,8 @@ function HeroSection() {
                   {[
                     { value: STATS.yearsExperience, suffix: "+", label: "Jaar ervaring" },
                     { value: "6", suffix: "", label: "Klasse erkenning" },
-                    { value: "3", suffix: "x", label: "Gecertificeerd" },
-                    { value: "40", suffix: "+", label: "Vakmensen" },
+                    { value: "ISO", suffix: "", label: "9001 kwaliteit" },
+                    { value: "4", suffix: "", label: "Referenties" },
                   ].map((stat, i) => (
                     <div key={stat.label} className={i > 1 ? "pt-6 border-t border-white/10" : ""}>
                       <div className="text-3xl sm:text-4xl font-bold text-white">
@@ -216,7 +175,6 @@ function HeroSection() {
                   ))}
                 </div>
 
-                {/* Certifications */}
                 <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-3">
                   {CERTIFICATIONS.filter(c => c.prominent).slice(0, 3).map((cert) => (
                     <div key={cert.id} className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full">
@@ -234,187 +192,165 @@ function HeroSection() {
   );
 }
 
-// Services Section with numbered items
-function ServicesSection() {
+// Expertise Section
+function ExpertiseSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section ref={ref} className="py-24 sm:py-32 bg-[#F8F9FA]">
       <div className="container-wide">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl mb-20"
+          className="max-w-3xl mb-16"
         >
           <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
             Onze Expertise
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] leading-[1.1]">
-            Drie pijlers van <span className="text-[#204CE5]">vakmanschap</span>
+            Authentiek <span className="text-[#204CE5]">vakmanschap</span>
           </h2>
         </motion.div>
 
-        {/* Services List */}
-        <div className="space-y-24">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            const isReversed = index % 2 === 1;
+        <div className="grid md:grid-cols-3 gap-8">
+          {expertise.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-500"
+            >
+              <h3 className="text-2xl font-bold text-[#112337] mb-4">{item.title}</h3>
+              <p className="text-[#686E77] mb-6 leading-relaxed">{item.description}</p>
 
-            return (
-              <motion.article
-                key={service.number}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-              >
-                {/* Image */}
-                <div className={`lg:col-span-7 ${isReversed ? "lg:order-2" : ""}`}>
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden group">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#112337]/60 via-transparent to-transparent" />
-
-                    {/* Number badge */}
-                    <div className="absolute top-6 left-6 w-16 h-16 rounded-2xl bg-white flex items-center justify-center">
-                      <span className="text-2xl font-bold text-[#204CE5]">{service.number}</span>
-                    </div>
+              <div className="space-y-2">
+                {item.examples.map((example) => (
+                  <div key={example} className="flex items-center gap-2 text-sm text-[#112337]">
+                    <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
+                    {example}
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className={`lg:col-span-5 ${isReversed ? "lg:order-1" : ""}`}>
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-[#204CE5]/10 flex items-center justify-center">
-                      <Icon className="w-7 h-7 text-[#204CE5]" />
-                    </div>
-                  </div>
-
-                  <h3 className="text-3xl sm:text-4xl font-bold text-[#112337] mb-4">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-lg text-[#686E77] mb-8 leading-relaxed">
-                    {service.description}
-                  </p>
-
-                  <ul className="space-y-3">
-                    {service.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
-                        <span className="text-[#112337]">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.article>
-            );
-          })}
+                ))}
+              </div>
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-// Scope Section
-function ScopeSection() {
+// References Section
+function ReferencesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section ref={ref} className="py-24 sm:py-32 bg-white">
       <div className="container-wide">
-        {/* Header */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="inline-flex items-center gap-2 bg-[#112337] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              Referenties
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#112337] leading-[1.1] mb-8">
+              Bewezen <span className="text-[#204CE5]">trackrecord</span>
+            </h2>
+            <p className="text-lg text-[#686E77] leading-relaxed mb-10">
+              Wij werken voor de meest prestigieuze erfgoedprojecten in België.
+              Van historische stadhuizen tot universiteitscampussen.
+            </p>
+
+            <div className="space-y-6">
+              {references.map((ref, i) => (
+                <motion.div
+                  key={ref.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+                  className="flex items-center justify-between p-4 bg-[#F8F9FA] rounded-xl"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-[#204CE5]/10 flex items-center justify-center">
+                      <Building2 className="w-5 h-5 text-[#204CE5]" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-[#112337]">{ref.name}</div>
+                      <div className="text-sm text-[#686E77]">{ref.type}</div>
+                    </div>
+                  </div>
+                  <span className="text-sm text-[#204CE5] font-medium">{ref.year}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <Image
+                src="/images/original-site/Foto-Stadhuis-Gent.jpeg"
+                alt="Stadhuis Gent"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-6 -right-6 bg-[#112337] rounded-2xl p-6 max-w-[220px]">
+              <div className="text-xl font-bold text-white">Stadhuis Gent</div>
+              <div className="text-sm text-white/60 mt-1">Raamcontract dakonderhoud</div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Features Section
+function FeaturesSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section ref={ref} className="py-24 sm:py-32 bg-[#F8F9FA]">
+      <div className="container-wide">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 bg-[#112337] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-            Scope
+          <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+            Volledig Pakket
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-[#112337]">
-            Wat wij wel en niet doen
+            Onze diensten
           </h2>
-          <p className="mt-6 text-[#686E77] max-w-2xl mx-auto">
-            Transparantie over onze scope voorkomt misverstanden. Voor specialistische
-            installaties werken wij samen met betrouwbare partners.
-          </p>
         </motion.div>
 
-        {/* Scope Grid */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* What we do */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-[#F8F9FA] rounded-2xl p-8 sm:p-10"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-[#204CE5]/10 flex items-center justify-center">
-                <CheckCircle2 className="w-6 h-6 text-[#204CE5]" />
-              </div>
-              <h3 className="text-2xl font-bold text-[#112337]">Wat wij doen</h3>
-            </div>
-
-            <ul className="space-y-4">
-              {scopeIncludes.map((item, i) => (
-                <motion.li
-                  key={item}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.05 }}
-                  className="flex items-start gap-3"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
-                  <span className="text-[#112337]">{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Via partners */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-[#112337] rounded-2xl p-8 sm:p-10"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-white">Via partners</h3>
-            </div>
-
-            <ul className="space-y-4">
-              {scopeExcludes.map((item, i) => (
-                <motion.li
-                  key={item}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.4 + i * 0.05 }}
-                  className="flex items-start gap-3"
-                >
-                  <ArrowUpRight className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
-                  <span className="text-white/70">{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-
-            <p className="mt-8 pt-6 border-t border-white/10 text-sm text-white/50">
-              Wij coördineren deze werken via vaste onderaannemers en kunnen een totaalofferte aanbieden.
-            </p>
-          </motion.div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, i) => (
+            <motion.div
+              key={feature}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="bg-white rounded-xl p-6 flex items-start gap-3"
+            >
+              <CheckCircle2 className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
+              <span className="text-[#112337]">{feature}</span>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -428,7 +364,6 @@ function CTASection() {
 
   return (
     <section ref={ref} className="py-24 sm:py-32 bg-[#112337] relative overflow-hidden">
-      {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
       }} />
@@ -441,17 +376,16 @@ function CTASection() {
           className="text-center max-w-3xl mx-auto"
         >
           <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-8">
-            Klaar om te starten?
+            Erfgoedproject?
           </span>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-            Laat ons uw bouwproject{" "}
-            <span className="text-[#204CE5]">realiseren</span>
+            Behoud uw <span className="text-[#204CE5]">monument</span>
           </h2>
 
           <p className="mt-8 text-xl text-white/60 max-w-xl mx-auto">
-            Plan uw project met onze gratis projectplanner. Binnen 48 uur
-            ontvangt u een vrijblijvende offerte van ons team.
+            Neem contact op voor een vrijblijvend adviesgesprek. Wij komen
+            graag ter plaatse voor een eerste inventarisatie.
           </p>
 
           <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
@@ -476,12 +410,13 @@ function CTASection() {
   );
 }
 
-export function BouwRenovatieClient() {
+export default function ErfgoedPage() {
   return (
     <>
       <HeroSection />
-      <ServicesSection />
-      <ScopeSection />
+      <ExpertiseSection />
+      <ReferencesSection />
+      <FeaturesSection />
       <CTASection />
     </>
   );
