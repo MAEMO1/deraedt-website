@@ -1048,7 +1048,7 @@
   "servicesPage": {
     "hero": {
       "badge": "Notre Expertise",
-      "titleLine1": "Building",
+      "titleLine1": "Construire l'",
       "titleLine2": "Excellence",
       "description": "{years} ans de savoir-faire. De la rénovation monumentale du patrimoine à la construction neuve innovante — agréé Classe 6 pour des projets sans limites.",
       "startProject": "Démarrez votre projet",
@@ -1066,8 +1066,8 @@
     },
     "section": {
       "badge": "Nos Services",
-      "title": "Comprehensive Building",
-      "titleAccent": "Solutions",
+      "title": "Solutions de Construction",
+      "titleAccent": "Complètes",
       "description": "Des fondations à la toiture — une gamme complète de services pour votre projet de construction, soutenue par {years} ans d'expertise."
     },
     "services": {

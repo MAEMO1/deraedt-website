@@ -1048,8 +1048,8 @@
   "servicesPage": {
     "hero": {
       "badge": "Onze Expertise",
-      "titleLine1": "Building",
-      "titleLine2": "Excellence",
+      "titleLine1": "Bouwen aan",
+      "titleLine2": "Excellentie",
       "description": "{years} jaar vakmanschap. Van monumentale erfgoedrenovatie tot innovatieve nieuwbouw — Klasse 6 erkend voor projecten zonder grenzen.",
       "startProject": "Start uw project",
       "discoverServices": "Ontdek onze diensten"
@@ -1066,8 +1066,8 @@
     },
     "section": {
       "badge": "Onze Diensten",
-      "title": "Comprehensive Building",
-      "titleAccent": "Solutions",
+      "title": "Complete Bouw",
+      "titleAccent": "Oplossingen",
       "description": "Van fundament tot dakwerk — een compleet dienstenpakket voor uw bouwproject, ondersteund door {years} jaar expertise."
     },
     "services": {
