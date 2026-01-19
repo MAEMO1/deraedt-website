@@ -4,37 +4,41 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { Award, ArrowRight, ArrowUpRight, Play, CheckCircle2, Users, Building2, Shield, Leaf } from "lucide-react";
+import { Award, ArrowRight, ArrowUpRight, Play, CheckCircle2, Users, Building2, Shield, Heart, TrendingUp } from "lucide-react";
 import { COMPANY, STATS, CERTIFICATIONS } from "@/lib/constants";
 
 const timeline = [
-  { year: "1930", title: "Oprichting", description: "Familiebedrijf opgericht in Zele, Oost-Vlaanderen" },
-  { year: "1980", title: "Groei", description: "Uitbreiding naar erfgoedrenovatie en publieke werken" },
-  { year: "2010", title: "Klasse 6", description: "Hoogste erkenningsklasse voor overheidsopdrachten" },
-  { year: "2024", title: "ISO 9001", description: "Kwaliteitsmanagementsysteem certificering" },
-  { year: "2025", title: "CO₂-Niveau 3", description: "Duurzaamheidscertificaat van Vinçotte" },
+  { year: "1930", title: "Roots", description: "Familiebedrijf actief sinds 1930 in de bouwsector in Zele" },
+  { year: "2024", title: "Certificering", description: "ISO 9001 behaald en VCA** certificaat hernieuwd na succesvolle audit" },
+  { year: "2025", title: "Duurzaamheid", description: "CO₂-Prestatieladder niveau 3 gecertificeerd door Vinçotte" },
 ];
 
+// De 5 V's - originele waarden
 const values = [
   {
     icon: Shield,
     title: "Verantwoordelijkheid",
-    description: "Volledige verantwoordelijkheid voor elk project. Van start tot oplevering staan wij garant voor kwaliteit.",
+    description: "Wij nemen volledige verantwoordelijkheid voor elk project. Van start tot oplevering staan wij garant voor kwaliteit.",
   },
   {
     icon: Users,
     title: "Veiligheid",
-    description: "VCA** gecertificeerd. De veiligheid van onze medewerkers en opdrachtgevers staat altijd voorop.",
+    description: "VCA** gecertificeerd. Veiligheid van onze medewerkers en opdrachtgevers staat altijd voorop.",
   },
   {
     icon: Building2,
-    title: "Vakmanschap",
-    description: "Traditionele technieken gecombineerd met moderne innovatie. 96 jaar expertise in elke steen.",
+    title: "Vrijheid",
+    description: "Ruimte voor initiatief en creativiteit. Onze medewerkers krijgen de vrijheid om hun vakmanschap te tonen.",
   },
   {
-    icon: Leaf,
-    title: "Duurzaamheid",
-    description: "CO₂-Prestatieladder niveau 3 gecertificeerd. Bouwen met respect voor de toekomst.",
+    icon: Heart,
+    title: "Vertrouwen",
+    description: `Al meer dan ${STATS.yearsExperience} jaar een betrouwbare partner. Onze reputatie is gebouwd op wederzijds vertrouwen.`,
+  },
+  {
+    icon: TrendingUp,
+    title: "Vooruitgang",
+    description: "Continue groei en ontwikkeling. Wij investeren in innovatie, opleiding en duurzaamheid.",
   },
 ];
 
@@ -278,8 +282,15 @@ function StorySection() {
                   gerenommeerd bouwbedrijf met meer dan {STATS.employees} medewerkers.
                 </p>
                 <p>
-                  Onze specialisatie in erfgoedrenovatie maakt ons de partner bij uitstek
-                  voor de restauratie van historische gebouwen en monumenten.
+                  Sinds 1930 combineren wij traditioneel vakmanschap met
+                  moderne bouwtechnieken. Onze specialisatie in erfgoedrenovatie maakt
+                  ons de partner bij uitstek voor de restauratie van historische
+                  gebouwen en monumenten.
+                </p>
+                <p>
+                  Met een Klasse 6 erkenning zijn wij bevoegd voor de meest complexe
+                  overheidsopdrachten. Onze ISO 9001 en VCA** certificeringen garanderen
+                  kwaliteit en veiligheid op elke werf.
                 </p>
               </div>
 
@@ -329,7 +340,7 @@ function TimelineSection() {
           {/* Horizontal line */}
           <div className="absolute top-8 left-0 right-0 h-px bg-gradient-to-r from-[#204CE5]/20 via-[#204CE5]/40 to-[#204CE5]/20 hidden lg:block" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {timeline.map((item, index) => (
               <motion.div
                 key={item.year}
@@ -392,41 +403,48 @@ function ValuesSection() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mb-16"
         >
-          <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
-            <span className="w-12 h-px bg-[#204CE5]" />
-            Onze Waarden
+          <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+            De 5 V&apos;s
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
             Waar wij voor <span className="text-[#204CE5]">staan</span>
           </h2>
         </motion.div>
 
-        {/* Values Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* Values List - Numbered style for 5 V's */}
+        <div className="space-y-0 border-t border-white/10">
           {values.map((value, index) => {
             const Icon = value.icon;
             return (
-              <motion.div
+              <motion.article
                 key={value.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group border-b border-white/10"
               >
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0">
+                <div className="py-8 sm:py-10 flex items-start gap-6 sm:gap-10">
+                  {/* Number */}
+                  <span className="text-5xl sm:text-6xl font-bold text-[#204CE5] leading-none min-w-[60px] sm:min-w-[80px]">
+                    {index + 1}
+                  </span>
+
+                  {/* Icon */}
+                  <div className="w-14 h-14 rounded-2xl bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0 mt-1">
                     <Icon className="w-6 h-6 text-[#204CE5]" />
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#204CE5] transition-colors">
+
+                  {/* Content */}
+                  <div className="flex-1 pt-1">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
                       {value.title}
                     </h3>
-                    <p className="text-white/60 leading-relaxed">
+                    <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl">
                       {value.description}
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </motion.article>
             );
           })}
         </div>
