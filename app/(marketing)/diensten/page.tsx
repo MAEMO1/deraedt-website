@@ -95,7 +95,7 @@ const services = [
       "24/7 interventies bij schade",
       "Preventief onderhoud & inspectie",
     ],
-    stats: { value: "10+", label: "Actieve raamcontracten" },
+    stats: { value: "4", label: "Raamcontracten" },
     image: "/images/original-site/Koning-Boudewijn-Stadion.webp",
     accent: "#204CE5",
   },
