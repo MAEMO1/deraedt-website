@@ -9,27 +9,12 @@ import {
   ArrowRight,
   CheckCircle,
   Shield,
-  Clock,
-  Target,
-  Award,
 } from "lucide-react";
 import { FEATURED_PROJECTS, PROJECT_CATEGORIES } from "@/lib/constants";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
-
-// Project KPIs - these would typically come from a CMS or database
-const projectKPIs = {
-  planning: "100%",
-  planningLabel: "Planning gehaald",
-  safety: "0",
-  safetyLabel: "Veiligheidsincidenten",
-  quality: "100%",
-  qualityLabel: "Eerste-keer-goed",
-  satisfaction: "9.2",
-  satisfactionLabel: "Klanttevredenheid",
-};
 
 export async function generateStaticParams() {
   return FEATURED_PROJECTS.map((project) => ({
@@ -125,50 +110,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="flex items-center gap-3">
               <Tag className="w-5 h-5 text-[#204CE5]" />
               <span>{categoryLabel}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* KPI Bar - Procurement Scorable */}
-      <section className="bg-[#112337] border-t border-white/10">
-        <div className="container-wide py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
-                <Clock className="w-4 h-4" />
-              </div>
-              <div className="text-3xl font-bold text-white">{projectKPIs.planning}</div>
-              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
-                {projectKPIs.planningLabel}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
-                <Shield className="w-4 h-4" />
-              </div>
-              <div className="text-3xl font-bold text-white">{projectKPIs.safety}</div>
-              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
-                {projectKPIs.safetyLabel}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
-                <Target className="w-4 h-4" />
-              </div>
-              <div className="text-3xl font-bold text-white">{projectKPIs.quality}</div>
-              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
-                {projectKPIs.qualityLabel}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
-                <Award className="w-4 h-4" />
-              </div>
-              <div className="text-3xl font-bold text-white">{projectKPIs.satisfaction}</div>
-              <div className="text-xs text-white/40 uppercase tracking-wider mt-1">
-                {projectKPIs.satisfactionLabel}
-              </div>
             </div>
           </div>
         </div>
