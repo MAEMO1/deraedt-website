@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ type ConsentType = "all" | "necessary" | null;
 export function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const t = useTranslations("cookieBanner");
 
   useEffect(() => {
     const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
@@ -52,17 +54,16 @@ export function CookieBanner() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-[#1E3A5F]">
-                    Wij respecteren uw privacy
+                    {t("title")}
                   </h3>
                   <p className="mt-1 text-sm text-gray-600">
-                    Deze website maakt gebruik van cookies om uw ervaring te
-                    verbeteren. U kunt kiezen welke cookies u wilt accepteren.
+                    {t("description")}
                     {!showDetails && (
                       <button
                         onClick={() => setShowDetails(true)}
                         className="ml-1 text-[#4299E1] hover:underline"
                       >
-                        Meer informatie
+                        {t("moreInfo")}
                       </button>
                     )}
                   </p>
@@ -75,21 +76,18 @@ export function CookieBanner() {
                     >
                       <div>
                         <strong className="text-[#1E3A5F]">
-                          Noodzakelijke cookies
+                          {t("necessary.title")}
                         </strong>
                         <p className="text-gray-600">
-                          Deze cookies zijn essentieel voor het functioneren van
-                          de website en kunnen niet worden uitgeschakeld.
+                          {t("necessary.description")}
                         </p>
                       </div>
                       <div>
                         <strong className="text-[#1E3A5F]">
-                          Analytische cookies
+                          {t("analytics.title")}
                         </strong>
                         <p className="text-gray-600">
-                          Helpen ons te begrijpen hoe bezoekers de website
-                          gebruiken, zodat we de gebruikerservaring kunnen
-                          verbeteren.
+                          {t("analytics.description")}
                         </p>
                       </div>
                       <div className="flex gap-2">
@@ -97,14 +95,14 @@ export function CookieBanner() {
                           href="/privacy"
                           className="text-[#4299E1] hover:underline"
                         >
-                          Privacybeleid
+                          {t("privacyPolicy")}
                         </Link>
                         <span className="text-gray-300">|</span>
                         <Link
                           href="/cookies"
                           className="text-[#4299E1] hover:underline"
                         >
-                          Cookiebeleid
+                          {t("cookiePolicy")}
                         </Link>
                       </div>
                     </motion.div>
@@ -119,13 +117,13 @@ export function CookieBanner() {
                   variant="outline"
                   className="w-full sm:w-auto"
                 >
-                  Alleen noodzakelijke
+                  {t("acceptNecessary")}
                 </Button>
                 <Button
                   onClick={() => handleConsent("all")}
                   className="w-full sm:w-auto"
                 >
-                  Alles accepteren
+                  {t("acceptAll")}
                 </Button>
               </div>
             </div>
@@ -133,7 +131,7 @@ export function CookieBanner() {
             <button
               onClick={() => handleConsent("necessary")}
               className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 lg:hidden"
-              aria-label="Sluiten"
+              aria-label={t("acceptNecessary")}
             >
               <X className="h-5 w-5" />
             </button>

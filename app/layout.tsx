@@ -68,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl-BE">
+    <html suppressHydrationWarning>
       <head>
         <StructuredData />
       </head>

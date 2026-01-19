@@ -1,0 +1,405 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "about": "About Us",
+      "services": "Services",
+      "projects": "Projects",
+      "procurement": "For Governments",
+      "careers": "Careers",
+      "contact": "Contact"
+    },
+    "cta": {
+      "startProject": "Start your project",
+      "viewProjects": "View projects",
+      "contactUs": "Contact us",
+      "learnMore": "Learn more",
+      "viewAll": "View all",
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Submit",
+      "retry": "Try again",
+      "close": "Close",
+      "viewProject": "View project",
+      "discoverStory": "Discover our story",
+      "downloadPdf": "Download PDF"
+    },
+    "footer": {
+      "navigation": "Navigation",
+      "services": "Services",
+      "contact": "Contact",
+      "years": "Years",
+      "class": "Class",
+      "experts": "Experts",
+      "tagline": "For {years} years, your trusted partner for heritage renovation, new construction and facility management in Belgium.",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "servicesList": {
+        "newbuild": "New Construction",
+        "renovation": "Renovation",
+        "heritage": "Heritage Renovation",
+        "facility": "Facility Management"
+      }
+    }
+  },
+  "header": {
+    "menu": "Menu",
+    "close": "Close",
+    "navigation": "Navigation",
+    "forProfessionals": "For professionals",
+    "procurementHub": "Procurement Hub",
+    "procurementDesc": "Certificates & documentation",
+    "projectPlanner": "Project Planner",
+    "projectPlannerDesc": "Start your project"
+  },
+  "hero": {
+    "badge": "Family contractor since 1930",
+    "headline": "Building the",
+    "headlineAccent": "future",
+    "words": {
+      "building": "Building",
+      "to": "the",
+      "the": ""
+    },
+    "subtitle": "Heritage renovation, new construction and facility management. For {years} years, your trusted partner for government contracts and complex construction projects.",
+    "stats": {
+      "yearsExperience": "Years of experience",
+      "certified": "Certified",
+      "employees": "Employees",
+      "classRecognition": "Class recognition"
+    }
+  },
+  "services": {
+    "expertise": "Expertise",
+    "title": "Our services",
+    "ctaTitle": "Ready to build?",
+    "ctaSubtitle": "Contact us for a no-obligation consultation about your construction plans.",
+    "bouwwerken": {
+      "title": "General Construction",
+      "description": "Construction projects from A to Z for governments and businesses. Class 6 certified."
+    },
+    "dakwerken": {
+      "title": "Roofing",
+      "description": "Specialists in pitched and flat roofs, insulation and waterproofing."
+    },
+    "erfgoed": {
+      "title": "Heritage Renovation",
+      "description": "Restoration of protected architectural heritage using authentic techniques."
+    },
+    "facility": {
+      "title": "Maintenance & Interventions",
+      "description": "Framework contracts for roof maintenance, repairs and renovation work."
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Recent projects",
+    "portfolio": "Portfolio",
+    "allProjects": "All Projects",
+    "categories": {
+      "all": "All Projects",
+      "heritage": "Heritage & Monuments",
+      "education": "Education",
+      "healthcare": "Healthcare",
+      "residential": "Residential",
+      "infrastructure": "Infrastructure",
+      "government": "Government"
+    },
+    "scope": "Scope",
+    "client": "Client",
+    "year": "Year"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Craftsmanship since 1930",
+    "description": "For {years} years, De Raedt has been building Belgium's future. As a warm family business, we combine traditional craftsmanship with innovative techniques — from heritage renovation to modern new construction.",
+    "yearsExperience": "Years of Experience",
+    "activeSince": "Active Since",
+    "coreValuesTitle": "Our Core Values — The 5 V's",
+    "values": {
+      "responsibility": {
+        "title": "Responsibility",
+        "description": "We guarantee quality"
+      },
+      "safety": {
+        "title": "Safety",
+        "description": "VCA** certified"
+      },
+      "freedom": {
+        "title": "Freedom",
+        "description": "Room for creativity"
+      },
+      "trust": {
+        "title": "Trust",
+        "description": "Transparent communication"
+      },
+      "progress": {
+        "title": "Progress",
+        "description": "Continuous innovation"
+      }
+    }
+  },
+  "certifications": {
+    "title": "Certifications & Accreditations",
+    "subtitle": "Quality",
+    "description": "Our certifications guarantee quality, safety and sustainability in every project.",
+    "trustIndicators": {
+      "audited": "Annually audited",
+      "current": "All certificates up to date",
+      "improvement": "Continuous improvement"
+    },
+    "klasse6": {
+      "name": "Class 6",
+      "fullName": "Class 6 Accreditation",
+      "description": "Highest accreditation class for government contracts"
+    },
+    "iso9001": {
+      "name": "ISO 9001",
+      "fullName": "ISO 9001:2015",
+      "description": "Quality management system"
+    },
+    "vca": {
+      "name": "VCA**",
+      "fullName": "VCA** (Petrochemical)",
+      "description": "Safety, Health and Environment - Highest level"
+    },
+    "co2": {
+      "name": "CO₂-Level 3",
+      "fullName": "CO₂ Performance Ladder 3.1 – Level 3",
+      "description": "CO₂ conscious certificate for sustainable construction"
+    }
+  },
+  "cta": {
+    "badge": "Start today",
+    "title": "Ready to",
+    "titleAccent": "build",
+    "subtitle": "Contact us today for a no-obligation consultation about your project. We're happy to think along with you."
+  },
+  "clients": {
+    "title": "Trusted by leading organizations",
+    "subtitle": "Governments and businesses choose De Raedt as a reliable construction partner."
+  },
+  "cookieBanner": {
+    "title": "We respect your privacy",
+    "description": "This website uses cookies to improve your experience. You can choose which cookies to accept.",
+    "moreInfo": "More information",
+    "necessary": {
+      "title": "Necessary cookies",
+      "description": "These cookies are essential for the website to function and cannot be disabled."
+    },
+    "analytics": {
+      "title": "Analytical cookies",
+      "description": "Help us understand how visitors use the website, so we can improve the user experience."
+    },
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "acceptNecessary": "Necessary only",
+    "acceptAll": "Accept all"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Get in touch",
+    "form": {
+      "name": "Name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "company": "Company",
+      "subject": "Subject",
+      "message": "Message",
+      "privacy": "I agree to the",
+      "privacyLink": "privacy policy",
+      "submit": "Send message",
+      "sending": "Sending...",
+      "success": "Your message has been sent. We'll get back to you as soon as possible.",
+      "error": "Something went wrong. Please try again later."
+    },
+    "subjects": {
+      "raamcontract": "Framework contract / Tender",
+      "offerte": "Request a quote",
+      "interventie": "Intervention / Repair",
+      "facility": "Facility Management",
+      "sollicitatie": "Job application",
+      "anders": "Other"
+    },
+    "info": {
+      "title": "Contact information",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Opening hours",
+      "hoursValue": "Mon-Fri: 8:00 AM - 5:00 PM"
+    }
+  },
+  "projectPlanner": {
+    "title": "Let's build",
+    "subtitle": "Start your project",
+    "steps": {
+      "projectType": "Project type",
+      "clientType": "Client type",
+      "scope": "Scope",
+      "timeline": "Timeline",
+      "location": "Location",
+      "contact": "Contact"
+    },
+    "questions": {
+      "projectType": "What do you want to build?",
+      "clientType": "Who are you?",
+      "scope": "What is your budget?",
+      "timeline": "When do you want to start?",
+      "location": "Where is the project located?",
+      "contact": "Your contact details"
+    },
+    "options": {
+      "projectTypes": {
+        "nieuwbouw": "New Construction",
+        "renovatie": "Renovation",
+        "erfgoed": "Heritage",
+        "onderhoud": "Maintenance"
+      },
+      "clientTypes": {
+        "particulier": "Private individual",
+        "bedrijf": "Business",
+        "overheid": "Government",
+        "ontwikkelaar": "Developer"
+      },
+      "budgets": {
+        "small": "< €100,000",
+        "medium": "€100,000 - €500,000",
+        "large": "€500,000 - €2,000,000",
+        "enterprise": "> €2,000,000"
+      },
+      "timelines": {
+        "asap": "As soon as possible",
+        "3months": "Within 3 months",
+        "6months": "Within 6 months",
+        "year": "Within a year",
+        "flexible": "Flexible"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "company": "Company (optional)",
+      "message": "Additional information (optional)",
+      "privacy": "By submitting, you agree to our",
+      "privacyLink": "privacy policy",
+      "required": "Required field"
+    },
+    "success": {
+      "badge": "Request submitted",
+      "title": "Thank you",
+      "message": "We're analyzing your project and will contact you within {hours} hours.",
+      "backHome": "Back to home"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "message": "Please try again later or contact us by phone.",
+      "retry": "Try again"
+    }
+  },
+  "careers": {
+    "title": "Careers",
+    "subtitle": "Build the future with us",
+    "description": "Join a family business with 96 years of experience. At De Raedt, we combine tradition with innovation.",
+    "openPositions": "Open positions",
+    "noPositions": "No vacancies at the moment",
+    "spontaneous": {
+      "title": "Spontaneous application",
+      "description": "No suitable vacancy? Send us your CV."
+    },
+    "benefits": {
+      "title": "What we offer",
+      "stability": "Job security in a family business",
+      "growth": "Training opportunities",
+      "equipment": "Quality materials and equipment",
+      "team": "Close-knit team with experienced colleagues"
+    },
+    "apply": {
+      "title": "Apply",
+      "name": "Name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "cv": "Upload CV",
+      "motivation": "Motivation",
+      "submit": "Submit application",
+      "success": "Your application has been received. We'll get back to you as soon as possible.",
+      "error": "Something went wrong. Please try again later."
+    }
+  },
+  "procurement": {
+    "title": "Procurement Hub",
+    "subtitle": "For governments and contracting authorities",
+    "description": "All the information you need for your selection guide or tender preparation.",
+    "documentation": "Documentation",
+    "downloadAll": "Download all",
+    "categories": {
+      "general": "General information",
+      "certifications": "Certifications",
+      "references": "References",
+      "financial": "Financial data"
+    },
+    "usps": {
+      "klasse6": {
+        "title": "Class 6 Certified",
+        "description": "Highest accreditation class for government contracts without tender limit"
+      },
+      "certified": {
+        "title": "Triple Certified",
+        "description": "ISO 9001 + VCA** + CO₂ Performance Ladder level 3"
+      },
+      "since1930": {
+        "title": "Active Since 1930",
+        "description": "Family continuity with proven track record in the construction sector"
+      },
+      "framework": {
+        "title": "Framework Contract Experience",
+        "description": "Experience with framework contracts for public authorities (incl. VEB)"
+      }
+    }
+  },
+  "sustainability": {
+    "title": "Sustainability",
+    "subtitle": "Building a sustainable future",
+    "description": "We take our environmental responsibility seriously. With the CO₂ Performance Ladder level 3 certificate, we demonstrate our commitment to sustainable construction."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated"
+  },
+  "cookies": {
+    "title": "Cookie Policy",
+    "lastUpdated": "Last updated"
+  },
+  "partnerIntake": {
+    "title": "Partner Documentation",
+    "subtitle": "Upload your documents",
+    "description": "Upload the requested documents here to complete your partnership.",
+    "documents": {
+      "vca": "VCA Certificate",
+      "insurance": "Insurance certificate",
+      "references": "References"
+    },
+    "upload": {
+      "dropzone": "Drag files here or click to upload",
+      "formats": "PDF, JPG or PNG (max. 10MB)",
+      "success": "File uploaded successfully",
+      "error": "Upload failed. Please try again."
+    },
+    "submit": "Submit documents",
+    "success": {
+      "title": "Thank you!",
+      "message": "Your documents have been received. We'll contact you after verification."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to home"
+  },
+  "metadata": {
+    "siteTitle": "Bouwwerken De Raedt Ivan NV",
+    "siteDescription": "For {years} years, your trusted partner for new construction, renovation and heritage renovation in Belgium. Class 6 certified contractor with ISO 9001, VCA** and CO₂ Performance Ladder level 3 certification.",
+    "keywords": "construction company, contractor, renovation, new construction, heritage renovation, Belgium, East Flanders, Zele, De Raedt"
+  }
+}

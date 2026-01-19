@@ -1,0 +1,405 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Accueil",
+      "about": "À propos",
+      "services": "Services",
+      "projects": "Projets",
+      "procurement": "Pour les administrations",
+      "careers": "Emploi",
+      "contact": "Contact"
+    },
+    "cta": {
+      "startProject": "Démarrez votre projet",
+      "viewProjects": "Voir les projets",
+      "contactUs": "Contactez-nous",
+      "learnMore": "En savoir plus",
+      "viewAll": "Voir tout",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "submit": "Envoyer",
+      "retry": "Réessayer",
+      "close": "Fermer",
+      "viewProject": "Voir le projet",
+      "discoverStory": "Découvrez notre histoire",
+      "downloadPdf": "Télécharger PDF"
+    },
+    "footer": {
+      "navigation": "Navigation",
+      "services": "Services",
+      "contact": "Contact",
+      "years": "Ans",
+      "class": "Classe",
+      "experts": "Experts",
+      "tagline": "Depuis {years} ans, votre partenaire de confiance pour la rénovation patrimoniale, la construction neuve et la gestion des installations en Belgique.",
+      "privacy": "Confidentialité",
+      "cookies": "Cookies",
+      "servicesList": {
+        "newbuild": "Construction neuve",
+        "renovation": "Rénovation",
+        "heritage": "Rénovation patrimoniale",
+        "facility": "Facility Management"
+      }
+    }
+  },
+  "header": {
+    "menu": "Menu",
+    "close": "Fermer",
+    "navigation": "Navigation",
+    "forProfessionals": "Pour les professionnels",
+    "procurementHub": "Hub Procurement",
+    "procurementDesc": "Certificats & documentation",
+    "projectPlanner": "Planificateur de projet",
+    "projectPlannerDesc": "Démarrez votre projet"
+  },
+  "hero": {
+    "badge": "Entrepreneur familial depuis 1930",
+    "headline": "Construire l'",
+    "headlineAccent": "avenir",
+    "words": {
+      "building": "Construire",
+      "to": "l'",
+      "the": ""
+    },
+    "subtitle": "Rénovation patrimoniale, construction neuve et facility management. Depuis {years} ans, votre partenaire de confiance pour les marchés publics et les projets de construction complexes.",
+    "stats": {
+      "yearsExperience": "Années d'expérience",
+      "certified": "Certifié",
+      "employees": "Employés",
+      "classRecognition": "Classe d'agrément"
+    }
+  },
+  "services": {
+    "expertise": "Expertise",
+    "title": "Nos services",
+    "ctaTitle": "Prêt à construire ?",
+    "ctaSubtitle": "Contactez-nous pour un entretien sans engagement concernant vos projets de construction.",
+    "bouwwerken": {
+      "title": "Travaux de construction généraux",
+      "description": "Projets de construction de A à Z pour les administrations et les entreprises. Agréé classe 6."
+    },
+    "dakwerken": {
+      "title": "Travaux de toiture",
+      "description": "Spécialistes des toitures inclinées et plates, isolation et étanchéité."
+    },
+    "erfgoed": {
+      "title": "Rénovation patrimoniale",
+      "description": "Restauration du patrimoine bâti classé avec des techniques authentiques."
+    },
+    "facility": {
+      "title": "Entretien & Interventions",
+      "description": "Contrats-cadres pour l'entretien des toitures, réparations et travaux de rénovation."
+    }
+  },
+  "projects": {
+    "title": "Projets",
+    "subtitle": "Réalisations récentes",
+    "portfolio": "Portfolio",
+    "allProjects": "Tous les projets",
+    "categories": {
+      "all": "Tous les projets",
+      "heritage": "Patrimoine & Monuments",
+      "education": "Enseignement",
+      "healthcare": "Soins de santé",
+      "residential": "Résidentiel",
+      "infrastructure": "Infrastructure",
+      "government": "Administrations"
+    },
+    "scope": "Portée",
+    "client": "Maître d'ouvrage",
+    "year": "Année"
+  },
+  "about": {
+    "title": "À propos",
+    "subtitle": "Savoir-faire depuis 1930",
+    "description": "Depuis {years} ans, De Raedt construit l'avenir de la Belgique. En tant qu'entreprise familiale chaleureuse, nous combinons l'artisanat traditionnel avec des techniques innovantes — de la rénovation du patrimoine à la construction neuve moderne.",
+    "yearsExperience": "Années d'expérience",
+    "activeSince": "Actif depuis",
+    "coreValuesTitle": "Nos valeurs fondamentales — Les 5 V",
+    "values": {
+      "responsibility": {
+        "title": "Responsabilité",
+        "description": "Nous garantissons la qualité"
+      },
+      "safety": {
+        "title": "Sécurité",
+        "description": "Certifié VCA**"
+      },
+      "freedom": {
+        "title": "Liberté",
+        "description": "Place à la créativité"
+      },
+      "trust": {
+        "title": "Confiance",
+        "description": "Communication transparente"
+      },
+      "progress": {
+        "title": "Progrès",
+        "description": "Innovation continue"
+      }
+    }
+  },
+  "certifications": {
+    "title": "Certifications & Agréments",
+    "subtitle": "Qualité",
+    "description": "Nos certifications garantissent qualité, sécurité et durabilité dans chaque projet.",
+    "trustIndicators": {
+      "audited": "Audité annuellement",
+      "current": "Tous les certificats à jour",
+      "improvement": "Amélioration continue"
+    },
+    "klasse6": {
+      "name": "Classe 6",
+      "fullName": "Agrément Classe 6",
+      "description": "Classe d'agrément la plus élevée pour les marchés publics"
+    },
+    "iso9001": {
+      "name": "ISO 9001",
+      "fullName": "ISO 9001:2015",
+      "description": "Système de management de la qualité"
+    },
+    "vca": {
+      "name": "VCA**",
+      "fullName": "VCA** (Pétrochimie)",
+      "description": "Sécurité, Santé et Environnement - Niveau le plus élevé"
+    },
+    "co2": {
+      "name": "CO₂-Niveau 3",
+      "fullName": "Échelle de performance CO₂ 3.1 – Niveau 3",
+      "description": "Certificat CO₂ pour la construction durable"
+    }
+  },
+  "cta": {
+    "badge": "Commencez aujourd'hui",
+    "title": "Prêt à",
+    "titleAccent": "construire",
+    "subtitle": "Contactez-nous dès aujourd'hui pour un entretien sans engagement concernant votre projet. Nous réfléchissons avec vous."
+  },
+  "clients": {
+    "title": "La confiance d'organisations de premier plan",
+    "subtitle": "Administrations et entreprises choisissent De Raedt comme partenaire de construction fiable."
+  },
+  "cookieBanner": {
+    "title": "Nous respectons votre vie privée",
+    "description": "Ce site web utilise des cookies pour améliorer votre expérience. Vous pouvez choisir quels cookies accepter.",
+    "moreInfo": "Plus d'informations",
+    "necessary": {
+      "title": "Cookies nécessaires",
+      "description": "Ces cookies sont essentiels au fonctionnement du site web et ne peuvent pas être désactivés."
+    },
+    "analytics": {
+      "title": "Cookies analytiques",
+      "description": "Nous aident à comprendre comment les visiteurs utilisent le site web, afin d'améliorer l'expérience utilisateur."
+    },
+    "privacyPolicy": "Politique de confidentialité",
+    "cookiePolicy": "Politique de cookies",
+    "acceptNecessary": "Uniquement nécessaires",
+    "acceptAll": "Tout accepter"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Contactez-nous",
+    "form": {
+      "name": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "company": "Entreprise",
+      "subject": "Sujet",
+      "message": "Message",
+      "privacy": "J'accepte la",
+      "privacyLink": "politique de confidentialité",
+      "submit": "Envoyer le message",
+      "sending": "Envoi en cours...",
+      "success": "Votre message a été envoyé. Nous vous contacterons dans les plus brefs délais.",
+      "error": "Une erreur s'est produite. Veuillez réessayer plus tard."
+    },
+    "subjects": {
+      "raamcontract": "Contrat-cadre / Appel d'offres",
+      "offerte": "Demande de devis",
+      "interventie": "Intervention / Réparation",
+      "facility": "Facility Management",
+      "sollicitatie": "Candidature",
+      "anders": "Autre"
+    },
+    "info": {
+      "title": "Coordonnées",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "hours": "Heures d'ouverture",
+      "hoursValue": "Lun-Ven: 8h00 - 17h00"
+    }
+  },
+  "projectPlanner": {
+    "title": "Construisons ensemble",
+    "subtitle": "Démarrez votre projet",
+    "steps": {
+      "projectType": "Type de projet",
+      "clientType": "Type de client",
+      "scope": "Portée",
+      "timeline": "Planning",
+      "location": "Localisation",
+      "contact": "Contact"
+    },
+    "questions": {
+      "projectType": "Que souhaitez-vous construire ?",
+      "clientType": "Qui êtes-vous ?",
+      "scope": "Quel est votre budget ?",
+      "timeline": "Quand souhaitez-vous commencer ?",
+      "location": "Où se situe le projet ?",
+      "contact": "Vos coordonnées"
+    },
+    "options": {
+      "projectTypes": {
+        "nieuwbouw": "Construction neuve",
+        "renovatie": "Rénovation",
+        "erfgoed": "Patrimoine",
+        "onderhoud": "Entretien"
+      },
+      "clientTypes": {
+        "particulier": "Particulier",
+        "bedrijf": "Entreprise",
+        "overheid": "Administration",
+        "ontwikkelaar": "Promoteur"
+      },
+      "budgets": {
+        "small": "< 100.000€",
+        "medium": "100.000€ - 500.000€",
+        "large": "500.000€ - 2.000.000€",
+        "enterprise": "> 2.000.000€"
+      },
+      "timelines": {
+        "asap": "Dès que possible",
+        "3months": "Dans les 3 mois",
+        "6months": "Dans les 6 mois",
+        "year": "Dans l'année",
+        "flexible": "Flexible"
+      }
+    },
+    "form": {
+      "name": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "company": "Entreprise (optionnel)",
+      "message": "Informations supplémentaires (optionnel)",
+      "privacy": "En envoyant, vous acceptez notre",
+      "privacyLink": "politique de confidentialité",
+      "required": "Champ obligatoire"
+    },
+    "success": {
+      "badge": "Demande envoyée",
+      "title": "Merci",
+      "message": "Nous analysons votre projet et vous contacterons dans les {hours} heures.",
+      "backHome": "Retour à l'accueil"
+    },
+    "error": {
+      "title": "Une erreur s'est produite",
+      "message": "Veuillez réessayer plus tard ou contactez-nous par téléphone.",
+      "retry": "Réessayer"
+    }
+  },
+  "careers": {
+    "title": "Emploi",
+    "subtitle": "Construisez l'avenir avec nous",
+    "description": "Rejoignez une entreprise familiale avec 96 ans d'expérience. Chez De Raedt, nous combinons tradition et innovation.",
+    "openPositions": "Postes ouverts",
+    "noPositions": "Aucun poste vacant actuellement",
+    "spontaneous": {
+      "title": "Candidature spontanée",
+      "description": "Aucun poste correspondant ? Envoyez-nous votre CV."
+    },
+    "benefits": {
+      "title": "Ce que nous offrons",
+      "stability": "Sécurité d'emploi dans une entreprise familiale",
+      "growth": "Possibilités de formation",
+      "equipment": "Matériel et équipement de qualité",
+      "team": "Équipe soudée avec des collègues expérimentés"
+    },
+    "apply": {
+      "title": "Postuler",
+      "name": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "cv": "Télécharger CV",
+      "motivation": "Motivation",
+      "submit": "Envoyer la candidature",
+      "success": "Votre candidature a été reçue. Nous vous contacterons dans les plus brefs délais.",
+      "error": "Une erreur s'est produite. Veuillez réessayer plus tard."
+    }
+  },
+  "procurement": {
+    "title": "Hub Procurement",
+    "subtitle": "Pour les administrations et pouvoirs adjudicateurs",
+    "description": "Toutes les informations nécessaires pour votre guide de sélection ou préparation de cahier des charges.",
+    "documentation": "Documentation",
+    "downloadAll": "Tout télécharger",
+    "categories": {
+      "general": "Informations générales",
+      "certifications": "Certifications",
+      "references": "Références",
+      "financial": "Données financières"
+    },
+    "usps": {
+      "klasse6": {
+        "title": "Agréé Classe 6",
+        "description": "Classe d'agrément la plus élevée pour les marchés publics sans limite de montant"
+      },
+      "certified": {
+        "title": "Triple Certification",
+        "description": "ISO 9001 + VCA** + Échelle de performance CO₂ niveau 3"
+      },
+      "since1930": {
+        "title": "Actif depuis 1930",
+        "description": "Continuité familiale avec un historique prouvé dans le secteur de la construction"
+      },
+      "framework": {
+        "title": "Expérience Contrats-cadres",
+        "description": "Expérience avec les contrats-cadres pour les pouvoirs publics (dont VEB)"
+      }
+    }
+  },
+  "sustainability": {
+    "title": "Durabilité",
+    "subtitle": "Construire un avenir durable",
+    "description": "Nous prenons notre responsabilité environnementale au sérieux. Avec le certificat Échelle de performance CO₂ niveau 3, nous démontrons notre engagement pour la construction durable."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour"
+  },
+  "cookies": {
+    "title": "Politique de cookies",
+    "lastUpdated": "Dernière mise à jour"
+  },
+  "partnerIntake": {
+    "title": "Documentation Partenaire",
+    "subtitle": "Téléchargez vos documents",
+    "description": "Téléchargez ici les documents demandés pour finaliser votre partenariat.",
+    "documents": {
+      "vca": "Certificat VCA",
+      "insurance": "Attestation d'assurance",
+      "references": "Références"
+    },
+    "upload": {
+      "dropzone": "Glissez les fichiers ici ou cliquez pour télécharger",
+      "formats": "PDF, JPG ou PNG (max. 10MB)",
+      "success": "Fichier téléchargé avec succès",
+      "error": "Échec du téléchargement. Veuillez réessayer."
+    },
+    "submit": "Envoyer les documents",
+    "success": {
+      "title": "Merci !",
+      "message": "Vos documents ont été reçus. Nous vous contacterons après vérification."
+    }
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil"
+  },
+  "metadata": {
+    "siteTitle": "Bouwwerken De Raedt Ivan NV",
+    "siteDescription": "Depuis {years} ans, votre partenaire de confiance pour la construction neuve, la rénovation et la rénovation patrimoniale en Belgique. Entrepreneur agréé classe 6 avec certifications ISO 9001, VCA** et Échelle de performance CO₂ niveau 3.",
+    "keywords": "entreprise de construction, entrepreneur, rénovation, construction neuve, rénovation patrimoniale, Belgique, Flandre-Orientale, Zele, De Raedt"
+  }
+}

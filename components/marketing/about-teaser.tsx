@@ -2,7 +2,8 @@
 
 import { motion, useInView, animate } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 import { STATS, COMPANY } from "@/lib/constants";
@@ -26,17 +27,13 @@ function useAnimatedCounter(target: number, isInView: boolean, duration = 2) {
   return value;
 }
 
-const VALUES = [
-  { letter: "V", word: "Verantwoordelijkheid", description: "Wij staan garant voor kwaliteit" },
-  { letter: "V", word: "Veiligheid", description: "VCA** gecertificeerd" },
-  { letter: "V", word: "Vrijheid", description: "Ruimte voor creativiteit" },
-  { letter: "V", word: "Vertrouwen", description: "Transparante communicatie" },
-  { letter: "V", word: "Vooruitgang", description: "Continue innovatie" },
-];
+const VALUE_KEYS = ["responsibility", "safety", "freedom", "trust", "progress"] as const;
 
 export function AboutTeaser() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("about");
+  const tCta = useTranslations("common.cta");
 
   // Animated counters for the floating card
   const yearsCount = useAnimatedCounter(STATS.yearsExperience, isInView);
@@ -73,14 +70,14 @@ export function AboutTeaser() {
                 {yearsCount}<span className="text-[#204CE5]">+</span>
               </div>
               <div className="mt-2 text-xs text-white/60 uppercase tracking-wider">
-                Jaar Ervaring
+                {t("yearsExperience")}
               </div>
               <div className="mt-6 pt-6 border-t border-white/10">
                 <div className="text-2xl font-bold text-[#204CE5] tabular-nums">
                   {foundedCount}
                 </div>
                 <div className="text-xs text-white/60 uppercase tracking-wider">
-                  Actief Sinds
+                  {t("activeSince")}
                 </div>
               </div>
             </motion.div>
@@ -92,43 +89,39 @@ export function AboutTeaser() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="label-overline">Over Ons</span>
+            <span className="label-overline">{t("title")}</span>
 
             <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] leading-tight">
-              Vakmanschap
-              <br />
-              <span className="text-[#204CE5]">sinds 1930</span>
+              {t("subtitle")}
             </h2>
 
             <p className="mt-8 text-lg text-[#686E77] leading-relaxed max-w-xl">
-              Al {STATS.yearsExperience} jaar bouwt De Raedt mee aan de toekomst van België.
-              Als warm familiebedrijf combineren wij traditioneel vakmanschap met
-              innovatieve technieken — van erfgoedrenovatie tot moderne nieuwbouw.
+              {t("description", { years: STATS.yearsExperience })}
             </p>
 
             {/* The 5 V's */}
             <div className="mt-12">
               <div className="text-sm text-[#686E77] font-semibold mb-6">
-                Onze Kernwaarden — De 5 V&apos;s
+                {t("coreValuesTitle")}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {VALUES.map((value, index) => (
+                {VALUE_KEYS.map((valueKey, index) => (
                   <motion.div
-                    key={value.word}
+                    key={valueKey}
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6, delay: 0.6 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                     className="group flex items-start gap-4 p-4 rounded-xl bg-[#F5F5F5] hover:bg-[#204CE5]/5 transition-colors duration-300"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#204CE5]/10 text-[#204CE5] text-sm font-bold transition-all duration-300 group-hover:bg-[#204CE5] group-hover:text-white">
-                      {value.letter}
+                      V
                     </span>
                     <div>
                       <span className="block text-sm font-semibold text-[#112337] group-hover:text-[#204CE5] transition-colors">
-                        {value.word}
+                        {t(`values.${valueKey}.title`)}
                       </span>
                       <span className="text-xs text-[#686E77] mt-0.5 block">
-                        {value.description}
+                        {t(`values.${valueKey}.description`)}
                       </span>
                     </div>
                   </motion.div>
@@ -147,7 +140,7 @@ export function AboutTeaser() {
                 href="/over-ons"
                 className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30"
               >
-                <span>Ontdek ons verhaal</span>
+                <span>{tCta("discoverStory")}</span>
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </motion.div>

@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { COMPANY } from "@/lib/constants";
 import { Phone, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
+import { LanguageSwitcher } from "./language-switcher";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const t = useTranslations("header");
+  const tNav = useTranslations("common.navigation");
 
   useEffect(() => {
     let ticking = false;
@@ -49,6 +52,15 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  const navItems = [
+    { href: "/", labelKey: "home" },
+    { href: "/diensten", labelKey: "services" },
+    { href: "/projecten", labelKey: "projects" },
+    { href: "/over-ons", labelKey: "about" },
+    { href: "/werken-bij", labelKey: "careers" },
+    { href: "/contact", labelKey: "contact" },
+  ] as const;
+
   return (
     <>
       <header
@@ -68,10 +80,15 @@ export function Header() {
 
             {/* Right side - minimal like McCownGordon */}
             <div className="flex items-center gap-3 sm:gap-6">
+              {/* Language Switcher - hidden on mobile */}
+              <div className="hidden md:block">
+                <LanguageSwitcher />
+              </div>
+
               {/* Phone - hidden on mobile */}
               <a
                 href={`tel:${COMPANY.contact.phone}`}
-                className="hidden md:flex items-center gap-2 text-sm font-medium text-[#204CE5] hover:text-[#1A3BB8] transition-colors"
+                className="hidden lg:flex items-center gap-2 text-sm font-medium text-[#204CE5] hover:text-[#1A3BB8] transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 <span>{COMPANY.contact.phone}</span>
@@ -82,7 +99,7 @@ export function Header() {
                 href="/projectplanner"
                 className="hidden sm:inline-flex items-center px-5 py-2.5 border-2 border-[#204CE5] text-[#204CE5] text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:bg-[#204CE5] hover:text-white"
               >
-                Projectplanner
+                {t("projectPlanner")}
               </Link>
 
               {/* Menu button - always visible */}
@@ -91,7 +108,7 @@ export function Header() {
                 className="flex items-center gap-2 text-sm font-semibold text-[#112337] hover:text-[#204CE5] transition-colors"
               >
                 <span className="hidden sm:inline uppercase tracking-wider text-xs">
-                  {menuOpen ? "Sluiten" : "Menu"}
+                  {menuOpen ? t("close") : t("menu")}
                 </span>
                 {menuOpen ? (
                   <X className="w-6 h-6" />
@@ -120,7 +137,7 @@ export function Header() {
                   onClick={() => setMenuOpen(false)}
                   className="flex items-center gap-2 text-sm font-semibold text-[#112337] hover:text-[#204CE5] transition-colors"
                 >
-                  <span className="hidden sm:inline uppercase tracking-wider text-xs">Sluiten</span>
+                  <span className="hidden sm:inline uppercase tracking-wider text-xs">{t("close")}</span>
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -133,17 +150,10 @@ export function Header() {
               {/* Main navigation */}
               <div>
                 <div className="text-xs font-semibold text-[#686E77] uppercase tracking-wider mb-6">
-                  Navigatie
+                  {t("navigation")}
                 </div>
                 <ul className="space-y-1">
-                  {[
-                    { href: "/", label: "Home" },
-                    { href: "/diensten", label: "Diensten" },
-                    { href: "/projecten", label: "Projecten" },
-                    { href: "/over-ons", label: "Over Ons" },
-                    { href: "/werken-bij", label: "Werken Bij" },
-                    { href: "/contact", label: "Contact" },
-                  ].map((item) => {
+                  {navItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
                       <li key={item.href}>
@@ -157,7 +167,7 @@ export function Header() {
                               : "text-[#112337] hover:text-[#204CE5]"
                           )}
                         >
-                          {item.label}
+                          {tNav(item.labelKey)}
                         </Link>
                       </li>
                     );
@@ -168,34 +178,48 @@ export function Header() {
               {/* Secondary navigation */}
               <div>
                 <div className="text-xs font-semibold text-[#686E77] uppercase tracking-wider mb-6">
-                  Voor professionals
+                  {t("forProfessionals")}
                 </div>
                 <ul className="space-y-4">
-                  {[
-                    { href: "/procurement", label: "Procurement Hub", desc: "Certificaten & documentatie" },
-                    { href: "/projectplanner", label: "Projectplanner", desc: "Start uw project" },
-                  ].map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMenuOpen(false)}
-                        className="group block p-4 bg-[#F5F5F5] hover:bg-[#204CE5]/5 transition-colors rounded-lg"
-                      >
-                        <span className="block text-lg font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors">
-                          {item.label}
-                        </span>
-                        <span className="block text-sm text-[#686E77] mt-1">
-                          {item.desc}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
+                  <li>
+                    <Link
+                      href="/procurement"
+                      onClick={() => setMenuOpen(false)}
+                      className="group block p-4 bg-[#F5F5F5] hover:bg-[#204CE5]/5 transition-colors rounded-lg"
+                    >
+                      <span className="block text-lg font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors">
+                        {t("procurementHub")}
+                      </span>
+                      <span className="block text-sm text-[#686E77] mt-1">
+                        {t("procurementDesc")}
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/projectplanner"
+                      onClick={() => setMenuOpen(false)}
+                      className="group block p-4 bg-[#F5F5F5] hover:bg-[#204CE5]/5 transition-colors rounded-lg"
+                    >
+                      <span className="block text-lg font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors">
+                        {t("projectPlanner")}
+                      </span>
+                      <span className="block text-sm text-[#686E77] mt-1">
+                        {t("projectPlannerDesc")}
+                      </span>
+                    </Link>
+                  </li>
                 </ul>
 
+                {/* Language switcher in mobile menu */}
+                <div className="mt-8 pt-8 border-t border-[#112337]/10 md:hidden">
+                  <LanguageSwitcher />
+                </div>
+
                 {/* Contact info in menu */}
-                <div className="mt-12 pt-8 border-t border-[#112337]/10">
+                <div className="mt-8 pt-8 border-t border-[#112337]/10">
                   <div className="text-xs font-semibold text-[#686E77] uppercase tracking-wider mb-4">
-                    Contact
+                    {tNav("contact")}
                   </div>
                   <div className="space-y-3">
                     <a

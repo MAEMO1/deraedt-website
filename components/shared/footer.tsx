@@ -1,12 +1,33 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Mail, MapPin, Phone, Linkedin, ArrowRight } from "lucide-react";
-import { COMPANY, NAV_ITEMS, STATS } from "@/lib/constants";
+import { COMPANY, STATS } from "@/lib/constants";
 import { Logo } from "./logo";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations("common.footer");
+  const tNav = useTranslations("common.navigation");
+  const tCta = useTranslations("common.cta");
+
+  const navItems = [
+    { href: "/", labelKey: "home" },
+    { href: "/over-ons", labelKey: "about" },
+    { href: "/diensten", labelKey: "services" },
+    { href: "/projecten", labelKey: "projects" },
+    { href: "/procurement", labelKey: "procurement" },
+    { href: "/werken-bij", labelKey: "careers" },
+    { href: "/contact", labelKey: "contact" },
+  ] as const;
+
+  const services = [
+    { labelKey: "newbuild" },
+    { labelKey: "renovation" },
+    { labelKey: "heritage" },
+    { labelKey: "facility" },
+  ] as const;
 
   return (
     <footer className="bg-[#112337] text-white">
@@ -17,25 +38,24 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-6">
             <Logo variant="white" />
             <p className="text-white/60 leading-relaxed max-w-sm">
-              Al {STATS.yearsExperience} jaar uw betrouwbare partner voor
-              erfgoedrenovatie, nieuwbouw en facility management in België.
+              {t("tagline", { years: STATS.yearsExperience })}
             </p>
 
             {/* Stats */}
             <div className="flex items-center gap-6 pt-4">
               <div>
                 <div className="text-3xl font-bold">{STATS.yearsExperience}<span className="text-[#204CE5]">+</span></div>
-                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Jaar</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">{t("years")}</div>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
                 <div className="text-3xl font-bold">6</div>
-                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Klasse</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">{t("class")}</div>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
                 <div className="text-3xl font-bold">40<span className="text-[#204CE5]">+</span></div>
-                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Experts</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">{t("experts")}</div>
               </div>
             </div>
           </div>
@@ -43,16 +63,16 @@ export function Footer() {
           {/* Navigation */}
           <div className="lg:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-6">
-              Navigatie
+              {t("navigation")}
             </h3>
             <ul className="space-y-3">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     className="text-white/70 hover:text-white transition-colors duration-200"
                   >
-                    {item.label}
+                    {tNav(item.labelKey)}
                   </Link>
                 </li>
               ))}
@@ -62,12 +82,12 @@ export function Footer() {
           {/* Services */}
           <div className="lg:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-6">
-              Diensten
+              {t("services")}
             </h3>
             <ul className="space-y-3">
-              {["Nieuwbouw", "Renovatie", "Erfgoedrenovatie", "Facility Management"].map((service) => (
-                <li key={service}>
-                  <span className="text-white/70">{service}</span>
+              {services.map((service) => (
+                <li key={service.labelKey}>
+                  <span className="text-white/70">{t(`servicesList.${service.labelKey}`)}</span>
                 </li>
               ))}
             </ul>
@@ -76,7 +96,7 @@ export function Footer() {
           {/* Contact */}
           <div className="lg:col-span-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-6">
-              Contact
+              {t("contact")}
             </h3>
             <ul className="space-y-4">
               <li>
@@ -119,7 +139,7 @@ export function Footer() {
               href="/projectplanner"
               className="mt-8 inline-flex items-center gap-2 bg-[#204CE5] text-white px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-[#1A3BB8]"
             >
-              Start uw project
+              {tCta("startProject")}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -152,10 +172,10 @@ export function Footer() {
                 <Linkedin className="h-5 w-5" />
               </a>
               <Link href="/privacy" className="text-sm text-white/40 hover:text-white transition-colors duration-200">
-                Privacy
+                {t("privacy")}
               </Link>
               <Link href="/cookies" className="text-sm text-white/40 hover:text-white transition-colors duration-200">
-                Cookies
+                {t("cookies")}
               </Link>
             </div>
           </div>

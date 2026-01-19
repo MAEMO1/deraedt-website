@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { motion, useMotionValue, useSpring, useInView, animate } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import { STATS } from "@/lib/constants";
+import { Link } from "@/i18n/navigation";
 import { useRef, MouseEvent, useEffect, useState } from "react";
 
 // Magnetic button component for hero CTAs
@@ -39,18 +41,19 @@ function MagneticCTA({
   };
 
   return (
-    <motion.a
-      ref={ref}
-      href={href}
-      className={className}
-      style={{ x: springX, y: springY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
-      {children}
-    </motion.a>
+    <Link href={href}>
+      <motion.span
+        ref={ref}
+        className={className}
+        style={{ x: springX, y: springY }}
+        onMouseMove={handleMouseMove as unknown as React.MouseEventHandler<HTMLSpanElement>}
+        onMouseLeave={handleMouseLeave}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        {children}
+      </motion.span>
+    </Link>
   );
 }
 
@@ -113,7 +116,18 @@ const wordAnimation = {
 };
 
 export function Hero() {
-  const headlineWords = ["Bouwen", "aan", "de"];
+  const t = useTranslations("hero");
+  const tCta = useTranslations("common.cta");
+
+  // Split headline into words for animation
+  const headlineWords = t("headline").split(" ");
+
+  const stats = [
+    { value: STATS.yearsExperience, suffix: "+", labelKey: "yearsExperience", color: "#C73030" },
+    { value: "3", suffix: "x", labelKey: "certified", color: "#7C3AED" },
+    { value: "40", suffix: "+", labelKey: "employees", color: "#D97706" },
+    { value: "6", suffix: "", labelKey: "classRecognition", color: "#204CE5" },
+  ] as const;
 
   return (
     <section className="relative min-h-screen bg-[#112337]">
@@ -150,7 +164,7 @@ export function Hero() {
                 animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
-              Familiale aannemer sinds 1930
+              {t("badge")}
             </motion.div>
 
             {/* Headline - word by word reveal */}
@@ -181,7 +195,7 @@ export function Hero() {
                   className="inline-block text-white"
                   style={{ transformOrigin: "bottom center" }}
                 >
-                  toekomst
+                  {t("headlineAccent")}
                 </motion.span>
               </span>
             </h1>
@@ -194,9 +208,7 @@ export function Hero() {
                 transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-base sm:text-lg md:text-xl text-white/70 max-w-xl leading-relaxed"
               >
-                Erfgoedrenovatie, nieuwbouw en facility management.
-                Al {STATS.yearsExperience} jaar uw betrouwbare partner voor
-                overheidsopdrachten en complexe bouwprojecten.
+                {t("subtitle", { years: STATS.yearsExperience })}
               </motion.p>
             </div>
 
@@ -211,7 +223,7 @@ export function Hero() {
                 href="/projectplanner"
                 className="inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30 group"
               >
-                Start uw project
+                {tCta("startProject")}
                 <motion.span
                   className="inline-block"
                   whileHover={{ x: 4 }}
@@ -225,7 +237,7 @@ export function Hero() {
                 className="inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold transition-all duration-300 hover:bg-white/20 border border-white/10 group"
               >
                 <Play className="w-4 sm:w-5 h-4 sm:h-5 transition-transform group-hover:scale-110" />
-                Bekijk projecten
+                {tCta("viewProjects")}
               </MagneticCTA>
             </motion.div>
 
@@ -242,14 +254,9 @@ export function Hero() {
       >
         <div className="container-wide py-5 sm:py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
-            {[
-              { value: STATS.yearsExperience, suffix: "+", label: "Jaar ervaring", color: "#C73030" },
-              { value: "3", suffix: "x", label: "Gecertificeerd", color: "#7C3AED" },
-              { value: "40", suffix: "+", label: "Medewerkers", color: "#D97706" },
-              { value: "6", suffix: "", label: "Klasse erkenning", color: "#204CE5" },
-            ].map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
-                key={stat.label}
+                key={stat.labelKey}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -261,7 +268,9 @@ export function Hero() {
                 >
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-[#686E77]">{stat.label}</div>
+                <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-[#686E77]">
+                  {t(`stats.${stat.labelKey}`)}
+                </div>
               </motion.div>
             ))}
           </div>

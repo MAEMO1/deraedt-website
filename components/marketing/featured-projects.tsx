@@ -2,7 +2,8 @@
 
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { FEATURED_PROJECTS } from "@/lib/constants";
@@ -11,10 +12,12 @@ function ProjectCard({
   project,
   index,
   layout = "default",
+  viewProjectLabel,
 }: {
   project: (typeof FEATURED_PROJECTS)[number];
   index: number;
   layout?: "featured" | "default" | "wide";
+  viewProjectLabel: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -86,7 +89,7 @@ function ProjectCard({
             {/* View link */}
             <div className="mt-5 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span className="text-xs font-semibold text-[#204CE5]">
-                Bekijk project
+                {viewProjectLabel}
               </span>
               <ArrowUpRight className="w-4 h-4 text-[#204CE5]" />
             </div>
@@ -100,6 +103,8 @@ function ProjectCard({
 export function FeaturedProjects() {
   const headerRef = useRef<HTMLDivElement>(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
+  const t = useTranslations("projects");
+  const tCta = useTranslations("common.cta");
 
   return (
     <section className="section-spacing bg-white">
@@ -113,9 +118,9 @@ export function FeaturedProjects() {
           className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16"
         >
           <div>
-            <span className="label-overline">Portfolio</span>
+            <span className="label-overline">{t("portfolio")}</span>
             <h2 className="mt-4 heading-lg">
-              Recente <span className="text-[#204CE5]">realisaties</span>
+              {t("subtitle")}
             </h2>
           </div>
 
@@ -123,7 +128,7 @@ export function FeaturedProjects() {
             href="/projecten"
             className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-lg"
           >
-            <span>Alle projecten</span>
+            <span>{t("allProjects")}</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.header>
@@ -136,6 +141,7 @@ export function FeaturedProjects() {
               project={FEATURED_PROJECTS[0]}
               index={0}
               layout="featured"
+              viewProjectLabel={tCta("viewProject")}
             />
           </div>
 
@@ -149,6 +155,7 @@ export function FeaturedProjects() {
                   project={project}
                   index={index + 1}
                   layout="default"
+                  viewProjectLabel={tCta("viewProject")}
                 />
               ))}
             </div>
@@ -159,6 +166,7 @@ export function FeaturedProjects() {
                 project={FEATURED_PROJECTS[3]}
                 index={3}
                 layout="wide"
+                viewProjectLabel={tCta("viewProject")}
               />
             )}
           </div>
@@ -173,6 +181,7 @@ export function FeaturedProjects() {
                 project={project}
                 index={index + 4}
                 layout="default"
+                viewProjectLabel={tCta("viewProject")}
               />
             ))}
           </div>

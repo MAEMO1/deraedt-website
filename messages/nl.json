@@ -1,0 +1,405 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "about": "Over Ons",
+      "services": "Diensten",
+      "projects": "Projecten",
+      "procurement": "Voor Overheden",
+      "careers": "Werken Bij",
+      "contact": "Contact"
+    },
+    "cta": {
+      "startProject": "Start uw project",
+      "viewProjects": "Bekijk projecten",
+      "contactUs": "Neem contact op",
+      "learnMore": "Meer informatie",
+      "viewAll": "Bekijk alles",
+      "next": "Volgende",
+      "previous": "Vorige",
+      "submit": "Versturen",
+      "retry": "Opnieuw",
+      "close": "Sluiten",
+      "viewProject": "Bekijk project",
+      "discoverStory": "Ontdek ons verhaal",
+      "downloadPdf": "Download PDF"
+    },
+    "footer": {
+      "navigation": "Navigatie",
+      "services": "Diensten",
+      "contact": "Contact",
+      "years": "Jaar",
+      "class": "Klasse",
+      "experts": "Experts",
+      "tagline": "Al {years} jaar uw betrouwbare partner voor erfgoedrenovatie, nieuwbouw en facility management in België.",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "servicesList": {
+        "newbuild": "Nieuwbouw",
+        "renovation": "Renovatie",
+        "heritage": "Erfgoedrenovatie",
+        "facility": "Facility Management"
+      }
+    }
+  },
+  "header": {
+    "menu": "Menu",
+    "close": "Sluiten",
+    "navigation": "Navigatie",
+    "forProfessionals": "Voor professionals",
+    "procurementHub": "Procurement Hub",
+    "procurementDesc": "Certificaten & documentatie",
+    "projectPlanner": "Projectplanner",
+    "projectPlannerDesc": "Start uw project"
+  },
+  "hero": {
+    "badge": "Familiale aannemer sinds 1930",
+    "headline": "Bouwen aan de",
+    "headlineAccent": "toekomst",
+    "words": {
+      "building": "Bouwen",
+      "to": "aan",
+      "the": "de"
+    },
+    "subtitle": "Erfgoedrenovatie, nieuwbouw en facility management. Al {years} jaar uw betrouwbare partner voor overheidsopdrachten en complexe bouwprojecten.",
+    "stats": {
+      "yearsExperience": "Jaar ervaring",
+      "certified": "Gecertificeerd",
+      "employees": "Medewerkers",
+      "classRecognition": "Klasse erkenning"
+    }
+  },
+  "services": {
+    "expertise": "Expertise",
+    "title": "Onze diensten",
+    "ctaTitle": "Klaar om te bouwen?",
+    "ctaSubtitle": "Neem contact op voor een vrijblijvend gesprek over uw bouwplannen.",
+    "bouwwerken": {
+      "title": "Algemene Bouwwerken",
+      "description": "Bouwprojecten van A tot Z voor overheden en bedrijven. Klasse 6 erkend."
+    },
+    "dakwerken": {
+      "title": "Dakwerken",
+      "description": "Specialisten in hellende en platte daken, isolatie en waterdichting."
+    },
+    "erfgoed": {
+      "title": "Erfgoedrenovatie",
+      "description": "Restauratie van beschermd bouwkundig erfgoed met authentieke technieken."
+    },
+    "facility": {
+      "title": "Onderhoud & Interventies",
+      "description": "Raamcontracten voor dakonderhoud, herstellingen en renovatiewerken."
+    }
+  },
+  "projects": {
+    "title": "Projecten",
+    "subtitle": "Recente realisaties",
+    "portfolio": "Portfolio",
+    "allProjects": "Alle Projecten",
+    "categories": {
+      "all": "Alle Projecten",
+      "heritage": "Erfgoed & Monumenten",
+      "education": "Onderwijs",
+      "healthcare": "Zorg",
+      "residential": "Residentieel",
+      "infrastructure": "Infrastructuur",
+      "government": "Overheid"
+    },
+    "scope": "Scope",
+    "client": "Opdrachtgever",
+    "year": "Jaar"
+  },
+  "about": {
+    "title": "Over Ons",
+    "subtitle": "Vakmanschap sinds 1930",
+    "description": "Al {years} jaar bouwt De Raedt mee aan de toekomst van België. Als warm familiebedrijf combineren wij traditioneel vakmanschap met innovatieve technieken — van erfgoedrenovatie tot moderne nieuwbouw.",
+    "yearsExperience": "Jaar Ervaring",
+    "activeSince": "Actief Sinds",
+    "coreValuesTitle": "Onze Kernwaarden — De 5 V's",
+    "values": {
+      "responsibility": {
+        "title": "Verantwoordelijkheid",
+        "description": "Wij staan garant voor kwaliteit"
+      },
+      "safety": {
+        "title": "Veiligheid",
+        "description": "VCA** gecertificeerd"
+      },
+      "freedom": {
+        "title": "Vrijheid",
+        "description": "Ruimte voor creativiteit"
+      },
+      "trust": {
+        "title": "Vertrouwen",
+        "description": "Transparante communicatie"
+      },
+      "progress": {
+        "title": "Vooruitgang",
+        "description": "Continue innovatie"
+      }
+    }
+  },
+  "certifications": {
+    "title": "Certificeringen & Erkenningen",
+    "subtitle": "Kwaliteit",
+    "description": "Onze certificeringen garanderen kwaliteit, veiligheid en duurzaamheid in elk project.",
+    "trustIndicators": {
+      "audited": "Jaarlijks geauditeerd",
+      "current": "Alle certificaten actueel",
+      "improvement": "Continue verbetering"
+    },
+    "klasse6": {
+      "name": "Klasse 6",
+      "fullName": "Erkenning Klasse 6",
+      "description": "Hoogste erkenningsklasse voor overheidsopdrachten"
+    },
+    "iso9001": {
+      "name": "ISO 9001",
+      "fullName": "ISO 9001:2015",
+      "description": "Kwaliteitsmanagementsysteem"
+    },
+    "vca": {
+      "name": "VCA**",
+      "fullName": "VCA** (Petrochemie)",
+      "description": "Veiligheid, Gezondheid en Milieu - Hoogste niveau"
+    },
+    "co2": {
+      "name": "CO₂-Niveau 3",
+      "fullName": "CO₂-Prestatieladder 3.1 – Niveau 3",
+      "description": "CO₂-bewust certificaat voor duurzaam bouwen"
+    }
+  },
+  "cta": {
+    "badge": "Start vandaag",
+    "title": "Klaar om te",
+    "titleAccent": "bouwen",
+    "subtitle": "Neem vandaag nog contact met ons op voor een vrijblijvend gesprek over uw project. Wij denken graag met u mee."
+  },
+  "clients": {
+    "title": "Vertrouwd door toonaangevende organisaties",
+    "subtitle": "Overheden en bedrijven kiezen voor De Raedt als betrouwbare bouwpartner."
+  },
+  "cookieBanner": {
+    "title": "Wij respecteren uw privacy",
+    "description": "Deze website maakt gebruik van cookies om uw ervaring te verbeteren. U kunt kiezen welke cookies u wilt accepteren.",
+    "moreInfo": "Meer informatie",
+    "necessary": {
+      "title": "Noodzakelijke cookies",
+      "description": "Deze cookies zijn essentieel voor het functioneren van de website en kunnen niet worden uitgeschakeld."
+    },
+    "analytics": {
+      "title": "Analytische cookies",
+      "description": "Helpen ons te begrijpen hoe bezoekers de website gebruiken, zodat we de gebruikerservaring kunnen verbeteren."
+    },
+    "privacyPolicy": "Privacybeleid",
+    "cookiePolicy": "Cookiebeleid",
+    "acceptNecessary": "Alleen noodzakelijke",
+    "acceptAll": "Alles accepteren"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Neem contact met ons op",
+    "form": {
+      "name": "Naam",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "company": "Bedrijf",
+      "subject": "Onderwerp",
+      "message": "Bericht",
+      "privacy": "Ik ga akkoord met het",
+      "privacyLink": "privacybeleid",
+      "submit": "Verstuur bericht",
+      "sending": "Versturen...",
+      "success": "Uw bericht is verzonden. We nemen zo snel mogelijk contact met u op.",
+      "error": "Er is iets misgegaan. Probeer het later opnieuw."
+    },
+    "subjects": {
+      "raamcontract": "Raamcontract / Aanbesteding",
+      "offerte": "Offerte aanvragen",
+      "interventie": "Interventie / Herstelling",
+      "facility": "Facility Management",
+      "sollicitatie": "Sollicitatie",
+      "anders": "Anders"
+    },
+    "info": {
+      "title": "Contactgegevens",
+      "address": "Adres",
+      "phone": "Telefoon",
+      "email": "E-mail",
+      "hours": "Openingsuren",
+      "hoursValue": "Ma-Vr: 8:00 - 17:00"
+    }
+  },
+  "projectPlanner": {
+    "title": "Laten we bouwen",
+    "subtitle": "Start uw project",
+    "steps": {
+      "projectType": "Projecttype",
+      "clientType": "Klanttype",
+      "scope": "Scope",
+      "timeline": "Planning",
+      "location": "Locatie",
+      "contact": "Contact"
+    },
+    "questions": {
+      "projectType": "Wat wilt u bouwen?",
+      "clientType": "Wie bent u?",
+      "scope": "Wat is uw budget?",
+      "timeline": "Wanneer wilt u starten?",
+      "location": "Waar is het project?",
+      "contact": "Uw contactgegevens"
+    },
+    "options": {
+      "projectTypes": {
+        "nieuwbouw": "Nieuwbouw",
+        "renovatie": "Renovatie",
+        "erfgoed": "Erfgoed",
+        "onderhoud": "Onderhoud"
+      },
+      "clientTypes": {
+        "particulier": "Particulier",
+        "bedrijf": "Bedrijf",
+        "overheid": "Overheid",
+        "ontwikkelaar": "Ontwikkelaar"
+      },
+      "budgets": {
+        "small": "< €100.000",
+        "medium": "€100.000 - €500.000",
+        "large": "€500.000 - €2.000.000",
+        "enterprise": "> €2.000.000"
+      },
+      "timelines": {
+        "asap": "Zo snel mogelijk",
+        "3months": "Binnen 3 maanden",
+        "6months": "Binnen 6 maanden",
+        "year": "Binnen een jaar",
+        "flexible": "Flexibel"
+      }
+    },
+    "form": {
+      "name": "Naam",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "company": "Bedrijf (optioneel)",
+      "message": "Bijkomende informatie (optioneel)",
+      "privacy": "Door te versturen gaat u akkoord met ons",
+      "privacyLink": "privacybeleid",
+      "required": "Verplicht veld"
+    },
+    "success": {
+      "badge": "Aanvraag verzonden",
+      "title": "Bedankt",
+      "message": "We analyseren uw project en nemen binnen {hours} uur contact op.",
+      "backHome": "Naar home"
+    },
+    "error": {
+      "title": "Er ging iets mis",
+      "message": "Probeer het later opnieuw of neem telefonisch contact op.",
+      "retry": "Opnieuw proberen"
+    }
+  },
+  "careers": {
+    "title": "Werken Bij",
+    "subtitle": "Bouw mee aan de toekomst",
+    "description": "Word onderdeel van een familiaal bedrijf met 96 jaar ervaring. Bij De Raedt combineren we traditie met innovatie.",
+    "openPositions": "Open vacatures",
+    "noPositions": "Momenteel geen openstaande vacatures",
+    "spontaneous": {
+      "title": "Spontaan solliciteren",
+      "description": "Geen passende vacature gevonden? Stuur ons gerust uw CV."
+    },
+    "benefits": {
+      "title": "Wat wij bieden",
+      "stability": "Jobzekerheid in een familiaal bedrijf",
+      "growth": "Opleidingsmogelijkheden",
+      "equipment": "Kwalitatief materiaal en uitrusting",
+      "team": "Hecht team met ervaren collega's"
+    },
+    "apply": {
+      "title": "Solliciteren",
+      "name": "Naam",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "cv": "CV uploaden",
+      "motivation": "Motivatie",
+      "submit": "Sollicitatie versturen",
+      "success": "Uw sollicitatie is ontvangen. We nemen zo snel mogelijk contact op.",
+      "error": "Er is iets misgegaan. Probeer het later opnieuw."
+    }
+  },
+  "procurement": {
+    "title": "Procurement Hub",
+    "subtitle": "Voor overheden en aanbestedende diensten",
+    "description": "Alle informatie die u nodig heeft voor uw selectieleidraad of bestekvoorbereiding.",
+    "documentation": "Documentatie",
+    "downloadAll": "Alles downloaden",
+    "categories": {
+      "general": "Algemene informatie",
+      "certifications": "Certificeringen",
+      "references": "Referenties",
+      "financial": "Financiële gegevens"
+    },
+    "usps": {
+      "klasse6": {
+        "title": "Klasse 6 Erkend",
+        "description": "Hoogste erkenningsklasse voor overheidsopdrachten zonder aanbestedingsgrens"
+      },
+      "certified": {
+        "title": "Triple Gecertificeerd",
+        "description": "ISO 9001 + VCA** + CO₂-Prestatieladder niveau 3"
+      },
+      "since1930": {
+        "title": "Actief Sinds 1930",
+        "description": "Familiale continuïteit met bewezen trackrecord in de bouwsector"
+      },
+      "framework": {
+        "title": "Raamcontract Ervaring",
+        "description": "Ervaring met raamcontracten voor publieke opdrachtgevers (o.a. VEB)"
+      }
+    }
+  },
+  "sustainability": {
+    "title": "Duurzaamheid",
+    "subtitle": "Bouwen aan een duurzame toekomst",
+    "description": "Wij nemen onze verantwoordelijkheid voor het milieu serieus. Met het CO₂-Prestatieladder niveau 3 certificaat tonen we ons engagement voor duurzaam bouwen."
+  },
+  "privacy": {
+    "title": "Privacybeleid",
+    "lastUpdated": "Laatst bijgewerkt"
+  },
+  "cookies": {
+    "title": "Cookiebeleid",
+    "lastUpdated": "Laatst bijgewerkt"
+  },
+  "partnerIntake": {
+    "title": "Partner Documentatie",
+    "subtitle": "Upload uw documenten",
+    "description": "Upload hier de gevraagde documenten om uw partnerschap te voltooien.",
+    "documents": {
+      "vca": "VCA-certificaat",
+      "insurance": "Verzekeringsbewijs",
+      "references": "Referenties"
+    },
+    "upload": {
+      "dropzone": "Sleep bestanden hierheen of klik om te uploaden",
+      "formats": "PDF, JPG of PNG (max. 10MB)",
+      "success": "Bestand succesvol geüpload",
+      "error": "Upload mislukt. Probeer het opnieuw."
+    },
+    "submit": "Documenten versturen",
+    "success": {
+      "title": "Bedankt!",
+      "message": "Uw documenten zijn ontvangen. We nemen contact op na verificatie."
+    }
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "description": "De pagina die u zoekt bestaat niet of is verplaatst.",
+    "backHome": "Terug naar home"
+  },
+  "metadata": {
+    "siteTitle": "Bouwwerken De Raedt Ivan NV",
+    "siteDescription": "Al {years} jaar uw betrouwbare partner voor nieuwbouw, renovatie en erfgoedrenovatie in België. Klasse 6 erkend aannemer met ISO 9001, VCA** en CO₂-Prestatieladder niveau 3 certificering.",
+    "keywords": "bouwbedrijf, aannemer, renovatie, nieuwbouw, erfgoedrenovatie, België, Oost-Vlaanderen, Zele, De Raedt"
+  }
+}

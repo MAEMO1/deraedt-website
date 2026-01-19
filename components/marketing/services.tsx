@@ -1,11 +1,12 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { ArrowRight, Phone } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { SERVICES, COMPANY } from "@/lib/constants";
+import { COMPANY } from "@/lib/constants";
 
 // Service images mapping
 const serviceImages: Record<string, string> = {
@@ -23,12 +24,16 @@ const serviceRoutes: Record<string, string> = {
   facility: "/diensten/facility",
 };
 
+const serviceIds = ["bouwwerken", "dakwerken", "erfgoed", "facility"] as const;
+
 export function Services() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const ctaRef = useRef<HTMLDivElement>(null);
   const isCtaInView = useInView(ctaRef, { once: true, margin: "-50px" });
   const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const t = useTranslations("services");
+  const tNav = useTranslations("common.navigation");
 
   return (
     <section ref={sectionRef} className="bg-white">
@@ -37,19 +42,19 @@ export function Services() {
         {/* Left side - Image */}
         <div className="relative h-[400px] lg:h-auto lg:min-h-[600px] overflow-hidden">
           {/* Background images that fade in/out - only load default initially */}
-          {SERVICES.map((service) => {
-            const isDefault = service.id === "bouwwerken";
-            const isVisible = hoveredService === service.id || (!hoveredService && isDefault);
+          {serviceIds.map((serviceId) => {
+            const isDefault = serviceId === "bouwwerken";
+            const isVisible = hoveredService === serviceId || (!hoveredService && isDefault);
             return (
               <div
-                key={service.id}
+                key={serviceId}
                 className={`absolute inset-0 transition-opacity duration-500 ${
                   isVisible ? "opacity-100" : "opacity-0"
                 }`}
               >
                 <Image
-                  src={serviceImages[service.id]}
-                  alt={service.title}
+                  src={serviceImages[serviceId]}
+                  alt={t(`${serviceId}.title`)}
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -70,12 +75,10 @@ export function Services() {
               transition={{ duration: 0.6 }}
             >
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">
-                Expertise
+                {t("expertise")}
               </span>
               <h2 className="mt-3 text-4xl lg:text-5xl font-bold text-white leading-tight">
-                Onze
-                <br />
-                diensten
+                {t("title")}
               </h2>
             </motion.div>
           </div>
@@ -84,26 +87,26 @@ export function Services() {
         {/* Right side - Service list */}
         <div className="bg-[#F5F5F5]">
           <div className="h-full flex flex-col">
-            {SERVICES.map((service, index) => (
+            {serviceIds.map((serviceId, index) => (
               <motion.div
-                key={service.id}
+                key={serviceId}
                 initial={{ opacity: 0, x: 20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link
-                  href={serviceRoutes[service.id]}
+                  href={serviceRoutes[serviceId]}
                   className="group block border-b border-[#112337]/10 last:border-b-0"
-                  onMouseEnter={() => setHoveredService(service.id)}
+                  onMouseEnter={() => setHoveredService(serviceId)}
                   onMouseLeave={() => setHoveredService(null)}
                 >
                   <div className="flex items-center justify-between p-8 lg:p-10 transition-all duration-300 group-hover:bg-white group-hover:pl-12">
                     <div className="flex-1">
                       <h3 className="text-2xl lg:text-3xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
-                        {service.title}
+                        {t(`${serviceId}.title`)}
                       </h3>
                       <p className="mt-2 text-[#686E77] text-sm lg:text-base max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        {service.description}
+                        {t(`${serviceId}.description`)}
                       </p>
                     </div>
                     <div className="ml-6 w-12 h-12 rounded-full bg-transparent group-hover:bg-[#204CE5] flex items-center justify-center transition-all duration-300">
@@ -129,10 +132,10 @@ export function Services() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-xl">
               <h3 className="text-3xl sm:text-4xl font-bold text-white">
-                Klaar om te bouwen?
+                {t("ctaTitle")}
               </h3>
               <p className="mt-4 text-white/60 text-lg">
-                Neem contact op voor een vrijblijvend gesprek over uw bouwplannen.
+                {t("ctaSubtitle")}
               </p>
             </div>
 
@@ -141,7 +144,7 @@ export function Services() {
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 bg-[#204CE5] text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-lg"
               >
-                <span>Contact</span>
+                <span>{tNav("contact")}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a

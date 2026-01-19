@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useRef, useEffect, useState } from "react";
 
 const CLIENTS = [
@@ -86,6 +87,7 @@ export function ClientLogos() {
   const isMarqueeVisible = useInView(marqueeRef, { once: false, margin: "0px" });
   const firstHalf = CLIENTS.slice(0, 6);
   const secondHalf = CLIENTS.slice(6);
+  const t = useTranslations("clients");
 
   return (
     <section ref={ref} className="py-20 sm:py-28 bg-white relative overflow-hidden">
@@ -98,10 +100,10 @@ export function ClientLogos() {
           className="text-center mb-12"
         >
           <h2 className="text-2xl sm:text-3xl font-bold text-[#112337]">
-            Vertrouwd door toonaangevende <span className="text-[#204CE5]">organisaties</span>
+            {t("title")}
           </h2>
           <p className="mt-4 text-[#686E77] max-w-2xl mx-auto">
-            Overheden en bedrijven kiezen voor De Raedt vanwege onze betrouwbaarheid, kwaliteit en jarenlange expertise.
+            {t("subtitle")}
           </p>
         </motion.div>
 

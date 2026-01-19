@@ -1,40 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { Shield, CheckCircle2, Award, BadgeCheck } from "lucide-react";
 
-const CERTIFICATIONS = [
-  {
-    id: "iso9001",
-    name: "ISO 9001",
-    fullName: "ISO 9001:2015",
-    description: "Kwaliteitsmanagementsysteem",
-    icon: Shield,
-  },
-  {
-    id: "vca",
-    name: "VCA**",
-    fullName: "VCA** Petrochemie",
-    description: "Veiligheid, Gezondheid & Milieu",
-    icon: BadgeCheck,
-  },
-  {
-    id: "klasse6",
-    name: "Klasse 6",
-    fullName: "Erkenning Klasse 6",
-    description: "Overheidsopdrachten tot onbeperkt",
-    icon: Award,
-  },
-];
+const CERTIFICATION_KEYS = ["klasse6", "iso9001", "vca"] as const;
+
+const ICONS = {
+  klasse6: Award,
+  iso9001: Shield,
+  vca: BadgeCheck,
+};
 
 function CertificationBadge({
-  certification,
+  certKey,
   index,
+  t,
 }: {
-  certification: (typeof CERTIFICATIONS)[number];
+  certKey: (typeof CERTIFICATION_KEYS)[number];
   index: number;
+  t: ReturnType<typeof useTranslations>;
 }) {
-  const Icon = certification.icon;
+  const Icon = ICONS[certKey];
 
   return (
     <motion.div
@@ -63,14 +50,14 @@ function CertificationBadge({
         <div className="mt-6">
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-[#112337]">
-              {certification.name}
+              {t(`${certKey}.name`)}
             </span>
           </div>
           <p className="mt-1 text-sm font-medium text-[#204CE5]">
-            {certification.fullName}
+            {t(`${certKey}.fullName`)}
           </p>
           <p className="mt-2 text-sm text-[#686E77]">
-            {certification.description}
+            {t(`${certKey}.description`)}
           </p>
         </div>
 
@@ -88,6 +75,8 @@ function CertificationBadge({
 }
 
 export function Certifications() {
+  const t = useTranslations("certifications");
+
   return (
     <section className="section-spacing bg-[#F5F5F5]">
       <div className="container-wide">
@@ -99,26 +88,25 @@ export function Certifications() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="label-overline">Kwaliteit</span>
+          <span className="label-overline">{t("subtitle")}</span>
 
           <h2 className="mt-4 heading-lg">
-            Certificeringen &{" "}
-            <span className="text-[#204CE5]">Erkenningen</span>
+            {t("title")}
           </h2>
 
           <p className="mt-4 text-lg text-[#686E77] max-w-2xl mx-auto">
-            Onze certificeringen garanderen de hoogste standaarden in
-            kwaliteit, veiligheid en professionaliteit.
+            {t("description")}
           </p>
         </motion.div>
 
         {/* Certifications grid */}
         <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
-          {CERTIFICATIONS.map((cert, index) => (
+          {CERTIFICATION_KEYS.map((certKey, index) => (
             <CertificationBadge
-              key={cert.id}
-              certification={cert}
+              key={certKey}
+              certKey={certKey}
               index={index}
+              t={t}
             />
           ))}
         </div>
@@ -133,17 +121,17 @@ export function Certifications() {
         >
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span className="text-sm">Jaarlijks geauditeerd</span>
+            <span className="text-sm">{t("trustIndicators.audited")}</span>
           </div>
           <div className="h-4 w-px bg-[#112337]/10" />
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span className="text-sm">Alle certificaten actueel</span>
+            <span className="text-sm">{t("trustIndicators.current")}</span>
           </div>
           <div className="h-4 w-px bg-[#112337]/10" />
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span className="text-sm">Continue verbetering</span>
+            <span className="text-sm">{t("trustIndicators.improvement")}</span>
           </div>
         </motion.div>
       </div>
