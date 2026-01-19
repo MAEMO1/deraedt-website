@@ -284,18 +284,18 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : {}}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="group"
     >
       <div className={`grid lg:grid-cols-12 gap-8 lg:gap-0 items-stretch ${isReversed ? "" : ""}`}>
         {/* Image Column - 7 cols */}
         <div className={`lg:col-span-7 ${isReversed ? "lg:order-2" : ""}`}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1, delay: 0.2 }}
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="relative aspect-[4/3] lg:aspect-[16/12] overflow-hidden rounded-2xl lg:rounded-3xl"
           >
             <Image
@@ -318,9 +318,9 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         {/* Content Column - 5 cols with overlap */}
         <div className={`lg:col-span-5 ${isReversed ? "lg:order-1 lg:pr-0 lg:pl-12" : "lg:pl-0 lg:pr-12"} flex items-center`}>
           <motion.div
-            initial={{ opacity: 0, x: isReversed ? -30 : 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, x: isReversed ? -50 : 50, y: 30 }}
+            animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className={`bg-white lg:bg-[#F8F9FA] rounded-2xl lg:rounded-3xl p-8 lg:p-12 ${isReversed ? "lg:-mr-24" : "lg:-ml-24"} lg:relative lg:z-10 shadow-xl lg:shadow-2xl`}
           >
             {/* Icon & Category */}
@@ -400,9 +400,9 @@ function ProcessSection() {
       <div className="container-wide relative">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-3xl mb-20"
         >
           <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
@@ -428,9 +428,9 @@ function ProcessSection() {
             {workProcess.map((step, index) => (
               <motion.div
                 key={step.step}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{ duration: 0.7, delay: 0.2 + index * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 className="relative text-center group"
               >
                 {/* Step number */}
@@ -480,9 +480,9 @@ function CTASection() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left: Content */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 60 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-8">
               <span className="w-12 h-px bg-[#204CE5]" />
@@ -519,9 +519,9 @@ function CTASection() {
 
           {/* Right: Trust card */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 60, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-10 border border-white/10">
               <h3 className="text-2xl font-bold text-white mb-8">

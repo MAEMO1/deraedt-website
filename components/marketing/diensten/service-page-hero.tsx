@@ -29,6 +29,8 @@ export function ServicePageHero({
           fill
           className="object-cover"
           priority
+          sizes="100vw"
+          quality={75}
         />
         <div className="absolute inset-0 bg-[#112337]/70" />
       </div>

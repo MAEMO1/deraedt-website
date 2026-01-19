@@ -37,10 +37,12 @@ function MarqueeRow({
   clients,
   direction = "left",
   speed = 35,
+  isPaused = false,
 }: {
   clients: typeof CLIENTS;
   direction?: "left" | "right";
   speed?: number;
+  isPaused?: boolean;
 }) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -60,25 +62,18 @@ function MarqueeRow({
       <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-      <motion.div
-        className="flex"
-        animate={{
-          x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"],
-        }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: animationSpeed,
-            ease: "linear",
-          },
+      <div
+        className="flex will-change-transform"
+        style={{
+          animation: `marquee-${direction} ${animationSpeed}s linear infinite`,
+          animationPlayState: isPaused ? "paused" : "running",
         }}
       >
         {/* Double the logos for seamless loop */}
         {[...clients, ...clients].map((client, index) => (
           <ClientLogo key={`${client.name}-${index}`} client={client} />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -86,6 +81,9 @@ function MarqueeRow({
 export function ClientLogos() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  // Track if marquee is visible for animation pause
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const isMarqueeVisible = useInView(marqueeRef, { once: false, margin: "0px" });
   const firstHalf = CLIENTS.slice(0, 6);
   const secondHalf = CLIENTS.slice(6);
 
@@ -107,15 +105,16 @@ export function ClientLogos() {
           </p>
         </motion.div>
 
-        {/* Logo Marquees */}
+        {/* Logo Marquees - pause when not visible */}
         <motion.div
+          ref={marqueeRef}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="space-y-4"
         >
-          <MarqueeRow clients={firstHalf} direction="left" speed={40} />
-          <MarqueeRow clients={secondHalf} direction="right" speed={45} />
+          <MarqueeRow clients={firstHalf} direction="left" speed={40} isPaused={!isMarqueeVisible} />
+          <MarqueeRow clients={secondHalf} direction="right" speed={45} isPaused={!isMarqueeVisible} />
         </motion.div>
       </div>
     </section>

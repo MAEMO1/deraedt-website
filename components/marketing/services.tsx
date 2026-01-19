@@ -36,25 +36,31 @@ export function Services() {
       <div className="grid lg:grid-cols-2">
         {/* Left side - Image */}
         <div className="relative h-[400px] lg:h-auto lg:min-h-[600px] overflow-hidden">
-          {/* Background images that fade in/out */}
-          {SERVICES.map((service) => (
-            <div
-              key={service.id}
-              className={`absolute inset-0 transition-opacity duration-700 ${
-                hoveredService === service.id || (!hoveredService && service.id === "bouwwerken")
-                  ? "opacity-100"
-                  : "opacity-0"
-              }`}
-            >
-              <Image
-                src={serviceImages[service.id]}
-                alt={service.title}
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-[#112337]/30" />
-            </div>
-          ))}
+          {/* Background images that fade in/out - only load default initially */}
+          {SERVICES.map((service) => {
+            const isDefault = service.id === "bouwwerken";
+            const isVisible = hoveredService === service.id || (!hoveredService && isDefault);
+            return (
+              <div
+                key={service.id}
+                className={`absolute inset-0 transition-opacity duration-500 ${
+                  isVisible ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={serviceImages[service.id]}
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority={isDefault}
+                  loading={isDefault ? undefined : "lazy"}
+                  quality={75}
+                />
+                <div className="absolute inset-0 bg-[#112337]/30" />
+              </div>
+            );
+          })}
 
           {/* Overlay content */}
           <div className="absolute inset-0 flex items-end p-8 lg:p-12">

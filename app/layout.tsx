@@ -10,20 +10,23 @@ const dmSerif = DM_Serif_Display({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400"],
+  display: "swap",
 });
 
 // Clean geometric sans with personality
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 // Warm, elegant reading serif
 const crimson = Crimson_Pro({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
