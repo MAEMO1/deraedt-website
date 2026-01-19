@@ -50,12 +50,18 @@
     "procurementHub": "Procurement Hub",
     "procurementDesc": "Certificaten & documentatie",
     "projectPlanner": "Projectplanner",
-    "projectPlannerDesc": "Start uw project"
+    "projectPlannerDesc": "Start uw project",
+    "language": "Taal"
   },
   "hero": {
     "badge": "Familiale aannemer sinds 1930",
     "headline": "Bouwen aan de",
     "headlineAccent": "toekomst",
+    "badges": {
+      "klasse6": "Klasse 6",
+      "iso9001": "ISO 9001",
+      "co2": "CO₂-Niveau 3"
+    },
     "words": {
       "building": "Bouwen",
       "to": "aan",

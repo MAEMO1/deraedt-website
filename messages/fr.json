@@ -50,12 +50,18 @@
     "procurementHub": "Hub Procurement",
     "procurementDesc": "Certificats & documentation",
     "projectPlanner": "Planificateur de projet",
-    "projectPlannerDesc": "Démarrez votre projet"
+    "projectPlannerDesc": "Démarrez votre projet",
+    "language": "Langue"
   },
   "hero": {
     "badge": "Entrepreneur familial depuis 1930",
     "headline": "Construire l'",
     "headlineAccent": "avenir",
+    "badges": {
+      "klasse6": "Classe 6",
+      "iso9001": "ISO 9001",
+      "co2": "CO₂-Niveau 3"
+    },
     "words": {
       "building": "Construire",
       "to": "l'",

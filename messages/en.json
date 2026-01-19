@@ -50,12 +50,18 @@
     "procurementHub": "Procurement Hub",
     "procurementDesc": "Certificates & documentation",
     "projectPlanner": "Project Planner",
-    "projectPlannerDesc": "Start your project"
+    "projectPlannerDesc": "Start your project",
+    "language": "Language"
   },
   "hero": {
     "badge": "Family contractor since 1930",
     "headline": "Building the",
     "headlineAccent": "future",
+    "badges": {
+      "klasse6": "Class 6",
+      "iso9001": "ISO 9001",
+      "co2": "CO₂-Level 3"
+    },
     "words": {
       "building": "Building",
       "to": "the",

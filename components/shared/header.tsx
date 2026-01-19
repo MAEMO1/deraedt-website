@@ -212,8 +212,11 @@ export function Header() {
                 </ul>
 
                 {/* Language switcher in mobile menu */}
-                <div className="mt-8 pt-8 border-t border-[#112337]/10 md:hidden">
-                  <LanguageSwitcher />
+                <div className="mt-8 pt-8 border-t border-[#112337]/10">
+                  <div className="text-xs font-semibold text-[#686E77] uppercase tracking-wider mb-4">
+                    {t("language")}
+                  </div>
+                  <LanguageSwitcher variant="menu" />
                 </div>
 
                 {/* Contact info in menu */}
