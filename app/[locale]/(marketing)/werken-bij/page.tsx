@@ -239,11 +239,11 @@ function BenefitsSection() {
                   <div className="w-14 h-14 rounded-2xl bg-[#204CE5]/10 group-hover:bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0 transition-colors duration-500">
                     <Icon className="w-6 h-6 text-[#204CE5]" />
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-[#112337] group-hover:text-white transition-colors duration-500 mb-3">
+                  <div className="min-w-0 overflow-hidden">
+                    <h3 className="text-2xl font-bold text-[#112337] group-hover:text-white transition-colors duration-500 mb-3 break-words hyphens-auto">
                       {t(`benefitsSection.items.${key}.title`)}
                     </h3>
-                    <p className="text-[#686E77] group-hover:text-white/60 transition-colors duration-500 leading-relaxed">
+                    <p className="text-[#686E77] group-hover:text-white/60 transition-colors duration-500 leading-relaxed break-words">
                       {t(`benefitsSection.items.${key}.description`)}
                     </p>
                   </div>
@@ -387,11 +387,11 @@ function CultureSection() {
                 </span>
 
                 {/* Content */}
-                <div className="flex-1 pt-2">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
+                <div className="flex-1 pt-2 min-w-0 overflow-hidden">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300 break-words hyphens-auto">
                     {t(`culture.items.${key}.title`)}
                   </h3>
-                  <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl">
+                  <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl break-words">
                     {t(`culture.items.${key}.description`)}
                   </p>
                 </div>

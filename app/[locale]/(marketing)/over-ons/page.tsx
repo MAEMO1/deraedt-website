@@ -427,11 +427,11 @@ function ValuesSection() {
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1 pt-1">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
+                  <div className="flex-1 pt-1 min-w-0 overflow-hidden">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300 break-words hyphens-auto">
                       {t(`values.items.${key}.title`)}
                     </h3>
-                    <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl break-words">
                       {key === "trust"
                         ? t(`values.items.${key}.description`, { years: STATS.yearsExperience })
                         : t(`values.items.${key}.description`)
