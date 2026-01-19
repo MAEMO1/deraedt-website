@@ -91,17 +91,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             Terug naar projecten
           </Link>
 
-          {/* Scope badge */}
-          {project.scope && (
-            <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <Shield className="w-4 h-4" />
-              {project.scope}
-            </div>
-          )}
+          {/* Badges row */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            {/* Scope badge */}
+            {project.scope && (
+              <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-semibold">
+                <Shield className="w-4 h-4" />
+                {project.scope}
+              </div>
+            )}
 
-          {/* Category */}
-          <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6 ml-3">
-            {categoryLabel}
+            {/* Category */}
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
+              {categoryLabel}
+            </div>
           </div>
 
           {/* Title */}
