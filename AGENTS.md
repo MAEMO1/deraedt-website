@@ -359,5 +359,32 @@ JSON seed files in `scripts/seed/`:
   - Label constants: ~50 regels per client → alleen imports
 - **PATTERN:** Importeer altijd van `@/lib/dashboard` en `@/lib/api` voor consistency
 
+### 2026-01-19: Mobile Responsiveness Testing (LESSON LEARNED)
+
+- **PROBLEEM:** Puppeteer screenshots op 800x600px (tablet) misten text overflow issues die alleen optreden op echte mobile viewports (375px)
+- **SYMPTOMEN:** Lange Nederlandse samengestelde woorden (bijv. "Verantwoordelijk", "Doorgroeimogelijkheden") werden afgesneden aan de rechterkant op mobiel
+- **ROOT CAUSE:** Flexbox containers zonder `min-w-0` laten children overflowing; lange woorden breken niet automatisch
+- **FIX PATTERN:**
+  ```css
+  /* Container */
+  .flex-1.min-w-0.overflow-hidden
+
+  /* Tekst elementen */
+  .break-words.hyphens-auto  /* Voor titels met lange woorden */
+  .break-words               /* Voor paragrafen */
+  ```
+- **GETROFFEN BESTANDEN:**
+  - `app/[locale]/(marketing)/over-ons/page.tsx` — ValuesSection (De 5 V's)
+  - `app/[locale]/(marketing)/werken-bij/page.tsx` — BenefitsSection, CultureSection
+- **TESTING RULE:** Bij mobile responsiveness checks ALTIJD testen op:
+  - 375px breed (iPhone SE/mini)
+  - 390px breed (iPhone 14/15)
+  - 414px breed (iPhone Plus/Max)
+- **PUPPETEER CONFIG:**
+  ```javascript
+  await page.setViewport({ width: 375, height: 812 }); // iPhone viewport
+  ```
+- **VUISTREGEL:** Nederlandse UI tekst met woorden >15 karakters vereist `break-words hyphens-auto`
+
 ---
-_Last updated: 2026-01-19 (Partner Portal)_
+_Last updated: 2026-01-19 (Mobile Responsiveness)_
