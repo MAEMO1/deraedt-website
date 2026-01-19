@@ -1,11 +1,30 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { STATS, COMPANY } from "@/lib/constants";
+
+// Animated counter hook for counting up
+function useAnimatedCounter(target: number, isInView: boolean, duration = 2) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const controls = animate(0, target, {
+      duration,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => setValue(Math.round(latest)),
+    });
+
+    return () => controls.stop();
+  }, [isInView, target, duration]);
+
+  return value;
+}
 
 const VALUES = [
   { letter: "V", word: "Verantwoordelijkheid", description: "Wij staan garant voor kwaliteit" },
@@ -18,6 +37,10 @@ const VALUES = [
 export function AboutTeaser() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  // Animated counters for the floating card
+  const yearsCount = useAnimatedCounter(STATS.yearsExperience, isInView);
+  const foundedCount = useAnimatedCounter(COMPANY.founded, isInView, 2.5);
 
   return (
     <section ref={ref} className="section-spacing bg-white overflow-hidden">
@@ -46,15 +69,15 @@ export function AboutTeaser() {
               transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="absolute -bottom-8 -right-4 lg:-right-12 bg-[#112337] text-white p-8 rounded-2xl shadow-2xl"
             >
-              <div className="text-6xl lg:text-7xl font-bold leading-none">
-                {STATS.yearsExperience}<span className="text-[#204CE5]">+</span>
+              <div className="text-6xl lg:text-7xl font-bold leading-none tabular-nums">
+                {yearsCount}<span className="text-[#204CE5]">+</span>
               </div>
               <div className="mt-2 text-xs text-white/60 uppercase tracking-wider">
                 Jaar Ervaring
               </div>
               <div className="mt-6 pt-6 border-t border-white/10">
-                <div className="text-2xl font-bold text-[#204CE5]">
-                  {COMPANY.founded}
+                <div className="text-2xl font-bold text-[#204CE5] tabular-nums">
+                  {foundedCount}
                 </div>
                 <div className="text-xs text-white/60 uppercase tracking-wider">
                   Actief Sinds

@@ -1,11 +1,30 @@
 "use client";
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, animate } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Award, ArrowRight, ArrowUpRight, Play, CheckCircle2, Users, Building2, Shield, Heart, TrendingUp } from "lucide-react";
 import { COMPANY, STATS, CERTIFICATIONS } from "@/lib/constants";
+
+// Animated counter hook for counting up
+function useAnimatedCounter(target: number, isInView: boolean, duration = 2) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const controls = animate(0, target, {
+      duration,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => setValue(Math.round(latest)),
+    });
+
+    return () => controls.stop();
+  }, [isInView, target, duration]);
+
+  return value;
+}
 
 const timeline = [
   { year: "1930", title: "Roots", description: "Familiebedrijf actief sinds 1930 in de bouwsector in Zele" },
@@ -45,12 +64,18 @@ const values = [
 // Hero Section
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // Animated counters for stats
+  const foundedYear = useAnimatedCounter(1930, statsInView, 2.5);
+  const employeeCount = useAnimatedCounter(parseInt(STATS.employees, 10), statsInView);
 
   return (
     <section ref={ref} className="relative min-h-[90vh] bg-[#112337] overflow-hidden">
@@ -138,6 +163,7 @@ function HeroSection() {
 
             {/* Right: Stats */}
             <motion.div
+              ref={statsRef}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
@@ -145,10 +171,10 @@ function HeroSection() {
             >
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { value: "1930", label: "Opgericht" },
-                  { value: `${STATS.employees}+`, label: "Medewerkers" },
-                  { value: "Klasse 6", label: "Erkenning" },
-                  { value: "3x", label: "Gecertificeerd" },
+                  { value: foundedYear, suffix: "", label: "Opgericht", color: "#C73030" },
+                  { value: employeeCount, suffix: "+", label: "Medewerkers", color: "#7C3AED" },
+                  { value: "Klasse", suffix: " 6", label: "Erkenning", color: "#D97706", isText: true },
+                  { value: "3", suffix: "x", label: "Gecertificeerd", color: "#204CE5", isText: true },
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}
@@ -157,7 +183,10 @@ function HeroSection() {
                     transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                     className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors duration-300"
                   >
-                    <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-3xl font-bold text-white mb-1 tabular-nums">
+                      {stat.value}
+                      <span style={{ color: stat.color }}>{stat.suffix}</span>
+                    </div>
                     <div className="text-sm text-white/40">{stat.label}</div>
                   </motion.div>
                 ))}
@@ -457,6 +486,7 @@ function ValuesSection() {
 function TeamSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const teamCount = useAnimatedCounter(parseInt(STATS.employees, 10), isInView);
 
   return (
     <section ref={ref} className="py-24 lg:py-32 bg-[#F8F9FA]">
@@ -531,7 +561,7 @@ function TeamSection() {
             </div>
             {/* Stats badge */}
             <div className="absolute -bottom-6 -left-6 bg-[#112337] text-white p-6 rounded-2xl shadow-2xl">
-              <div className="text-4xl font-bold">{STATS.employees}+</div>
+              <div className="text-4xl font-bold tabular-nums">{teamCount}<span className="text-[#204CE5]">+</span></div>
               <div className="text-sm text-[#204CE5] uppercase tracking-wider">Vakmannen</div>
             </div>
           </motion.div>
