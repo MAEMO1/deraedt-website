@@ -8,16 +8,32 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { FEATURED_PROJECTS } from "@/lib/constants";
 
+// Map project slugs to translation keys
+const PROJECT_SLUG_TO_KEY: Record<string, string> = {
+  "koning-boudewijnstadion": "koningBoudewijnstadion",
+  "justitiepaleis-dendermonde": "justitiepaleisDendermonde",
+  "infrabel-onderhoudscentrum": "infrabelOnderhoudscentrum",
+  "stadhuis-gent": "stadhuisGent",
+  "stadhuis-brussel": "stadhuisBrussel",
+};
+
 function ProjectCard({
   project,
   index,
   layout = "default",
   viewProjectLabel,
+  translations,
 }: {
   project: (typeof FEATURED_PROJECTS)[number];
   index: number;
   layout?: "featured" | "default" | "wide";
   viewProjectLabel: string;
+  translations: {
+    title: string;
+    description: string;
+    client: string;
+    category: string;
+  };
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -41,7 +57,7 @@ function ProjectCard({
           {/* Image */}
           <Image
             src={project.image}
-            alt={project.title}
+            alt={translations.title}
             fill
             className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
           />
@@ -59,7 +75,7 @@ function ProjectCard({
               className="mb-3"
             >
               <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white text-xs font-medium px-3 py-1 rounded-full">
-                {project.category}
+                {translations.category}
               </span>
             </motion.div>
 
@@ -73,16 +89,16 @@ function ProjectCard({
                   : "text-xl sm:text-2xl"
               }`}
             >
-              {project.title}
+              {translations.title}
             </h3>
 
             {/* Client */}
-            <p className="mt-2 text-sm text-white/60">{project.client}</p>
+            <p className="mt-2 text-sm text-white/60">{translations.client}</p>
 
             {/* Description - only on featured/wide */}
             {(layout === "featured" || layout === "wide") && (
               <p className="mt-3 max-w-md text-sm text-white/50 leading-relaxed hidden sm:block">
-                {project.description}
+                {translations.description}
               </p>
             )}
 
@@ -105,6 +121,18 @@ export function FeaturedProjects() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
   const t = useTranslations("projects");
   const tCta = useTranslations("common.cta");
+  const tFeatured = useTranslations("featuredProjects");
+
+  // Helper to get translations for a project
+  const getProjectTranslations = (project: (typeof FEATURED_PROJECTS)[number]) => {
+    const projectKey = PROJECT_SLUG_TO_KEY[project.slug] || project.slug;
+    return {
+      title: tFeatured(`${projectKey}.title`),
+      description: tFeatured(`${projectKey}.description`),
+      client: tFeatured(`${projectKey}.client`),
+      category: t(`categories.${project.category}`),
+    };
+  };
 
   return (
     <section className="section-spacing bg-white">
@@ -142,6 +170,7 @@ export function FeaturedProjects() {
               index={0}
               layout="featured"
               viewProjectLabel={tCta("viewProject")}
+              translations={getProjectTranslations(FEATURED_PROJECTS[0])}
             />
           </div>
 
@@ -156,6 +185,7 @@ export function FeaturedProjects() {
                   index={index + 1}
                   layout="default"
                   viewProjectLabel={tCta("viewProject")}
+                  translations={getProjectTranslations(project)}
                 />
               ))}
             </div>
@@ -167,6 +197,7 @@ export function FeaturedProjects() {
                 index={3}
                 layout="wide"
                 viewProjectLabel={tCta("viewProject")}
+                translations={getProjectTranslations(FEATURED_PROJECTS[3])}
               />
             )}
           </div>
@@ -182,6 +213,7 @@ export function FeaturedProjects() {
                 index={index + 4}
                 layout="default"
                 viewProjectLabel={tCta("viewProject")}
+                translations={getProjectTranslations(project)}
               />
             ))}
           </div>
