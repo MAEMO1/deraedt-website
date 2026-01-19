@@ -128,6 +128,8 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
   const [inviteUrl, setInviteUrl] = useState<string | null>(null);
   const [isGeneratingInvite, setIsGeneratingInvite] = useState(false);
   const [inviteCopied, setInviteCopied] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -274,14 +276,21 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
     }
   };
 
-  const handleGenerateInvite = async (partnerId: string) => {
-    setIsGeneratingInvite(true);
+  const handleGenerateInvite = async (partnerId: string, sendEmail: boolean = false) => {
+    if (sendEmail) {
+      setIsSendingEmail(true);
+    } else {
+      setIsGeneratingInvite(true);
+    }
     setInviteUrl(null);
     setInviteCopied(false);
+    setEmailSent(false);
 
     try {
       const res = await fetch(`/api/partners/${partnerId}/invite`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sendEmail }),
       });
 
       const data = await res.json();
@@ -292,10 +301,16 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
       }
 
       setInviteUrl(data.invite.url);
+      if (sendEmail && data.emailSent) {
+        setEmailSent(true);
+        // Auto-hide email sent message after 5 seconds
+        setTimeout(() => setEmailSent(false), 5000);
+      }
     } catch (err) {
       console.error('[GENERATE INVITE] Error:', err);
     } finally {
       setIsGeneratingInvite(false);
+      setIsSendingEmail(false);
     }
   };
 
@@ -574,11 +589,19 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
                   Document Upload Uitnodigen
                 </h4>
                 <p className="text-sm text-[#6B6560] mb-3">
-                  Genereer een link zodat de partner zelf documenten kan uploaden.
+                  Genereer een link of stuur direct een email naar de partner.
                 </p>
 
+                {/* Email sent success message */}
+                {emailSent && (
+                  <div className="mb-3 p-3 bg-green-50 border border-green-200 text-green-700 text-sm flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
+                    Email succesvol verstuurd naar {selectedPartner.contact_email}
+                  </div>
+                )}
+
                 {inviteUrl ? (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex gap-2">
                       <input
                         type="text"
@@ -603,28 +626,66 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-[#6B6560]">
-                      Link is 30 dagen geldig. Stuur deze naar {selectedPartner.contact_email}
-                    </p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-[#6B6560]">
+                        Link is 30 dagen geldig.
+                      </p>
+                      <button
+                        onClick={() => handleGenerateInvite(selectedPartner.id, true)}
+                        disabled={isSendingEmail}
+                        className="flex items-center gap-1 px-3 py-1.5 text-xs bg-[#9A6B4C] text-white hover:bg-[#0C0C0C] disabled:opacity-50"
+                      >
+                        {isSendingEmail ? (
+                          <>
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                            Versturen...
+                          </>
+                        ) : (
+                          <>
+                            <Mail className="w-3 h-3" />
+                            Verstuur via Email
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => handleGenerateInvite(selectedPartner.id)}
-                    disabled={isGeneratingInvite}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#9A6B4C] text-white text-sm hover:bg-[#0C0C0C] disabled:opacity-50"
-                  >
-                    {isGeneratingInvite ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Genereren...
-                      </>
-                    ) : (
-                      <>
-                        <Link2 className="w-4 h-4" />
-                        Genereer Upload Link
-                      </>
-                    )}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleGenerateInvite(selectedPartner.id)}
+                      disabled={isGeneratingInvite || isSendingEmail}
+                      className="flex items-center gap-2 px-4 py-2 bg-white border border-[#0C0C0C]/10 text-[#0C0C0C] text-sm hover:bg-[#FAF7F2] disabled:opacity-50"
+                    >
+                      {isGeneratingInvite ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Genereren...
+                        </>
+                      ) : (
+                        <>
+                          <Link2 className="w-4 h-4" />
+                          Alleen Link
+                        </>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => handleGenerateInvite(selectedPartner.id, true)}
+                      disabled={isGeneratingInvite || isSendingEmail}
+                      className="flex items-center gap-2 px-4 py-2 bg-[#9A6B4C] text-white text-sm hover:bg-[#0C0C0C] disabled:opacity-50"
+                    >
+                      {isSendingEmail ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Versturen...
+                        </>
+                      ) : (
+                        <>
+                          <Mail className="w-4 h-4" />
+                          Verstuur Email
+                        </>
+                      )}
+                    </button>
+                  </div>
                 )}
               </div>
 

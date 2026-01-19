@@ -1,16 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser, canPerformAction } from '@/lib/supabase/auth';
+import { sendPartnerInvite } from '@/lib/email';
 
 /**
  * POST /api/partners/[id]/invite
  * Generate or regenerate invite link for partner
+ *
+ * Body (optional):
+ * - sendEmail: boolean - If true, sends invite email to partner
  */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+
+  // Parse optional body
+  let sendEmail = false;
+  try {
+    const body = await request.json();
+    sendEmail = body?.sendEmail === true;
+  } catch {
+    // No body or invalid JSON - that's fine, defaults to false
+  }
 
   // Check authentication
   const user = await getCurrentUser();
@@ -62,8 +75,25 @@ export async function POST(
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://deraedt-website.vercel.app';
     const inviteUrl = `${baseUrl}/partner-intake/${partner.intake_token}`;
 
+    // Send email if requested
+    let emailSent = false;
+    if (sendEmail && partner.contact_email) {
+      emailSent = await sendPartnerInvite({
+        companyName: partner.company_name,
+        contactName: partner.contact_name || partner.company_name,
+        contactEmail: partner.contact_email,
+        inviteUrl,
+        expiresAt: partner.intake_token_expires_at,
+      });
+
+      if (!emailSent) {
+        console.warn('[POST /api/partners/[id]/invite] Email failed to send, but invite link was generated');
+      }
+    }
+
     return NextResponse.json({
       success: true,
+      emailSent,
       invite: {
         url: inviteUrl,
         token: partner.intake_token,

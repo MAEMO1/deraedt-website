@@ -351,3 +351,121 @@ export async function sendApplicationNotification(data: ApplicationConfirmationD
     return false;
   }
 }
+
+interface PartnerInviteData {
+  companyName: string;
+  contactName: string;
+  contactEmail: string;
+  inviteUrl: string;
+  expiresAt: string;
+}
+
+/**
+ * Send partner invite email with document upload link
+ */
+export async function sendPartnerInvite(data: PartnerInviteData): Promise<boolean> {
+  const formattedExpiry = new Date(data.expiresAt).toLocaleDateString('nl-BE', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Partner Documentatie Uploaden</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #0C0C0C; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: #0C0C0C; padding: 30px; text-align: center;">
+    <h1 style="color: white; margin: 0; font-size: 24px; letter-spacing: 2px;">DE RAEDT</h1>
+  </div>
+
+  <div style="padding: 30px; background: #FAF7F2;">
+    <h2 style="color: #0C0C0C; margin-top: 0;">Partner Documentatie</h2>
+
+    <p>Beste ${data.contactName},</p>
+
+    <p>
+      Wij nodigen <strong>${data.companyName}</strong> uit om de vereiste documenten te uploaden
+      voor onze partnersamenwerking.
+    </p>
+
+    <div style="background: #9A6B4C; padding: 20px; margin: 25px 0; text-align: center;">
+      <p style="color: white; margin: 0 0 15px 0; font-size: 14px;">
+        Klik op onderstaande knop om uw documenten te uploaden:
+      </p>
+      <a href="${data.inviteUrl}" style="display: inline-block; background: white; color: #0C0C0C; padding: 14px 28px; text-decoration: none; font-weight: 600; font-size: 14px;">
+        DOCUMENTEN UPLOADEN
+      </a>
+    </div>
+
+    <h3 style="color: #0C0C0C; margin-top: 30px;">Benodigde documenten:</h3>
+
+    <ul style="padding-left: 20px;">
+      <li style="margin-bottom: 8px;"><strong>VCA-certificaat</strong> — Veiligheid, gezondheid en milieu</li>
+      <li style="margin-bottom: 8px;"><strong>Verzekeringsbewijs</strong> — BA en eventuele andere polissen</li>
+      <li style="margin-bottom: 8px;"><strong>Referenties</strong> — Projectreferenties of attesten</li>
+    </ul>
+
+    <div style="background: white; border: 1px solid #E5E5E5; padding: 15px; margin-top: 20px;">
+      <p style="margin: 0; font-size: 13px; color: #6B6560;">
+        <strong>Let op:</strong> Deze link is geldig tot <strong>${formattedExpiry}</strong>.
+        Na deze datum dient u een nieuwe uitnodiging aan te vragen.
+      </p>
+    </div>
+
+    <p style="margin-top: 30px;">
+      Heeft u vragen? Contacteer ons via <a href="mailto:info@deraedt.be" style="color: #9A6B4C;">info@deraedt.be</a>.
+    </p>
+
+    <p style="margin-top: 30px;">
+      Met vriendelijke groeten,<br>
+      <strong>Bouwwerken De Raedt Ivan NV</strong>
+    </p>
+  </div>
+
+  <div style="padding: 20px; text-align: center; font-size: 12px; color: #6B6560;">
+    <p style="margin: 0;">Bouwwerken De Raedt Ivan NV</p>
+    <p style="margin: 5px 0 0 0;">Industrielaan 27, 9320 Aalst</p>
+    <p style="margin: 10px 0 0 0; font-size: 11px;">
+      Deze email is automatisch gegenereerd. Antwoord niet op dit adres.
+    </p>
+  </div>
+</body>
+</html>
+`;
+
+  // In production, throw if email not configured. In dev, log and continue.
+  assertEmailConfigured('send partner invite');
+
+  if (!resend) {
+    console.log('[EMAIL] Development mode - logging email instead:', {
+      to: data.contactEmail,
+      subject: `Documenten uploaden - ${data.companyName}`,
+      inviteUrl: data.inviteUrl,
+    });
+    return true;
+  }
+
+  try {
+    const { error } = await resend.emails.send({
+      from: `De Raedt Partners <${FROM_EMAIL}>`,
+      to: data.contactEmail,
+      subject: `Documenten uploaden - ${data.companyName}`,
+      html,
+    });
+
+    if (error) {
+      console.error('[EMAIL] Failed to send partner invite:', error);
+      return false;
+    }
+
+    console.log('[EMAIL] Partner invite sent to', data.contactEmail);
+    return true;
+  } catch (err) {
+    console.error('[EMAIL] Error sending partner invite:', err);
+    return false;
+  }
+}
