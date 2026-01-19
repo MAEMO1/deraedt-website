@@ -176,8 +176,10 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
               <span className="text-sm">Alle vacatures</span>
             </Link>
 
-            <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-              {job.department}
+            <div className="mb-6">
+              <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium">
+                {job.department}
+              </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
