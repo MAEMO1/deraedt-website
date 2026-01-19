@@ -22,9 +22,6 @@ import {
 import {
   COMPANY,
   STATS,
-  CERTIFICATIONS,
-  RAAMCONTRACTEN,
-  KEY_CLIENTS,
 } from "@/lib/constants";
 
 const certificationIcons: Record<string, typeof Shield> = {
@@ -71,8 +68,20 @@ function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: s
   );
 }
 
+// Map RAAMCONTRACTEN to translation keys
+const RAAMCONTRACT_KEYS = ['stadGent', 'stadBrussel', 'veb', 'kuLeuven'] as const;
+
+// Map KEY_CLIENTS to translation keys
+const KEY_CLIENT_KEYS = ['infrabel', 'nmbs', 'regieGebouwen', 'stadGent', 'stadBrussel', 'stadAntwerpen', 'agVespa', 'provincieOostVlaanderen'] as const;
+
+// Map CERTIFICATIONS to translation keys
+const CERTIFICATION_KEYS = ['klasse6', 'iso9001', 'vca', 'co2'] as const;
+
 export default function ProcurementPage() {
   const t = useTranslations('procurement');
+  const tCerts = useTranslations('certifications');
+  const tRaam = useTranslations('raamcontracten');
+  const tClients = useTranslations('keyClients');
   const heroRef = useRef<HTMLDivElement>(null);
   const certsRef = useRef<HTMLDivElement>(null);
   const raamcontractenRef = useRef<HTMLDivElement>(null);
@@ -274,11 +283,12 @@ export default function ProcurementPage() {
 
           {/* Certification cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CERTIFICATIONS.map((cert, index) => {
-              const Icon = certificationIcons[cert.id] || Award;
+            {CERTIFICATION_KEYS.map((certKey, index) => {
+              const Icon = certificationIcons[certKey] || Award;
+              const isCO2 = certKey === 'co2';
               return (
                 <motion.article
-                  key={cert.id}
+                  key={certKey}
                   initial={{ opacity: 0, y: 40 }}
                   animate={isCertsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
@@ -297,24 +307,24 @@ export default function ProcurementPage() {
                   </div>
 
                   <h3 className={`font-bold text-[#112337] ${index === 0 ? "text-3xl" : "text-xl"}`}>
-                    {cert.name}
+                    {tCerts(`${certKey}.name`)}
                   </h3>
-                  <p className="mt-1 text-sm font-medium text-[#204CE5]">{cert.fullName}</p>
+                  <p className="mt-1 text-sm font-medium text-[#204CE5]">{tCerts(`${certKey}.fullName`)}</p>
                   <p className={`mt-4 text-[#686E77] ${index === 0 ? "text-base" : "text-sm"}`}>
-                    {cert.description}
+                    {tCerts(`${certKey}.description`)}
                   </p>
 
-                  {"scope" in cert && cert.scope && (
+                  {isCO2 && (
                     <div className="mt-6 pt-6 border-t border-[#112337]/5">
                       <div className="text-xs font-semibold text-[#686E77] mb-2">{t('certifications.scope')}</div>
-                      <p className="text-sm text-[#112337]/70">{cert.scope}</p>
+                      <p className="text-sm text-[#112337]/70">{tCerts('co2.scope')}</p>
                     </div>
                   )}
 
-                  {"validUntil" in cert && cert.validUntil && (
+                  {isCO2 && (
                     <div className="mt-4 flex items-center gap-2 text-xs text-[#686E77]">
                       <Calendar className="w-3.5 h-3.5" />
-                      <span>{t('certifications.validUntil')}: {cert.validUntil}</span>
+                      <span>{t('certifications.validUntil')}: {tCerts('co2.validUntil')}</span>
                     </div>
                   )}
                 </motion.article>
@@ -365,20 +375,20 @@ export default function ProcurementPage() {
               </p>
 
               <div className="mt-10 space-y-4">
-                {RAAMCONTRACTEN.map((contract, index) => (
+                {RAAMCONTRACT_KEYS.map((contractKey, index) => (
                   <motion.div
-                    key={contract.client}
+                    key={contractKey}
                     initial={{ opacity: 0, x: -20 }}
                     animate={isRaamcontractenInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                     className="group flex items-center gap-6 p-5 bg-[#F5F5F5] rounded-xl border-l-4 border-[#204CE5] hover:bg-[#204CE5]/5 transition-colors duration-300"
                   >
                     <div className="flex-1">
-                      <div className="font-semibold text-[#112337]">{contract.client}</div>
-                      <div className="text-sm text-[#686E77] mt-0.5">{contract.scope}</div>
+                      <div className="font-semibold text-[#112337]">{tRaam(`${contractKey}.client`)}</div>
+                      <div className="text-sm text-[#686E77] mt-0.5">{tRaam(`${contractKey}.scope`)}</div>
                     </div>
                     <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold">
-                      {contract.type}
+                      {tRaam(`${contractKey}.type`)}
                     </div>
                   </motion.div>
                 ))}
@@ -394,13 +404,13 @@ export default function ProcurementPage() {
               <div className="bg-[#112337] rounded-2xl p-12 text-white">
                 <h3 className="text-2xl font-bold mb-8">{t('raamcontracten.trustedBy')}</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  {KEY_CLIENTS.slice(0, 8).map((client) => (
+                  {KEY_CLIENT_KEYS.map((clientKey) => (
                     <div
-                      key={client.name}
+                      key={clientKey}
                       className="text-sm text-white/60 flex items-center gap-3 py-2"
                     >
                       <CheckCircle className="w-4 h-4 text-[#204CE5] flex-shrink-0" />
-                      {client.name}
+                      {tClients(clientKey)}
                     </div>
                   ))}
                 </div>

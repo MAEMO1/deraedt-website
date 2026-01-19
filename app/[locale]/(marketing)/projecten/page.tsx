@@ -7,8 +7,17 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Search, ArrowUpRight, ArrowRight, ChevronRight, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { FEATURED_PROJECTS, PROJECT_CATEGORIES, STATS, CERTIFICATIONS } from "@/lib/constants";
+import { FEATURED_PROJECTS, PROJECT_CATEGORIES, STATS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+// Map project slugs to translation keys
+const PROJECT_SLUG_TO_KEY: Record<string, string> = {
+  "koning-boudewijnstadion": "koningBoudewijnstadion",
+  "justitiepaleis-dendermonde": "justitiepaleisDendermonde",
+  "infrabel-onderhoudscentrum": "infrabelOnderhoudscentrum",
+  "stadhuis-gent": "stadhuisGent",
+  "stadhuis-brussel": "stadhuisBrussel",
+};
 
 // Featured Project Card (larger, more prominent)
 function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[number] }) {
@@ -16,6 +25,9 @@ function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const t = useTranslations("projectsPage");
   const tProjects = useTranslations("projects");
+  const tFeatured = useTranslations("featuredProjects");
+
+  const projectKey = PROJECT_SLUG_TO_KEY[project.slug] || project.slug;
 
   return (
     <motion.article
@@ -29,7 +41,7 @@ function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[
         <div className="relative aspect-[21/9] overflow-hidden rounded-2xl lg:rounded-3xl bg-[#112337]">
           <Image
             src={project.image}
-            alt={project.title}
+            alt={tFeatured(`${projectKey}.title`)}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             priority
@@ -46,17 +58,17 @@ function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[
 
               {/* Title */}
               <h3 className="text-3xl lg:text-5xl font-bold text-white leading-tight mb-4">
-                {project.title}
+                {tFeatured(`${projectKey}.title`)}
               </h3>
 
               {/* Description */}
               <p className="text-white/60 text-lg mb-6 line-clamp-2">
-                {project.description}
+                {tFeatured(`${projectKey}.description`)}
               </p>
 
               {/* Meta */}
               <div className="flex items-center gap-6 text-sm text-white/40 mb-8">
-                <span>{project.client}</span>
+                <span>{tFeatured(`${projectKey}.client`)}</span>
                 <span className="w-1 h-1 rounded-full bg-white/40" />
                 <span>{project.year}</span>
               </div>
@@ -88,6 +100,9 @@ function ProjectCard({
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const t = useTranslations("projectsPage");
   const tProjects = useTranslations("projects");
+  const tFeatured = useTranslations("featuredProjects");
+
+  const projectKey = PROJECT_SLUG_TO_KEY[project.slug] || project.slug;
 
   return (
     <motion.article
@@ -101,7 +116,7 @@ function ProjectCard({
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#112337]">
           <Image
             src={project.image}
-            alt={project.title}
+            alt={tFeatured(`${projectKey}.title`)}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -117,12 +132,12 @@ function ProjectCard({
 
             {/* Title */}
             <h3 className="text-xl lg:text-2xl font-bold text-white leading-tight mb-2">
-              {project.title}
+              {tFeatured(`${projectKey}.title`)}
             </h3>
 
             {/* Client & Year */}
             <div className="flex items-center gap-3 text-sm text-white/50">
-              <span>{project.client}</span>
+              <span>{tFeatured(`${projectKey}.client`)}</span>
               <span className="w-1 h-1 rounded-full bg-white/30" />
               <span>{project.year}</span>
             </div>
@@ -361,6 +376,7 @@ function StatsSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const t = useTranslations("projectsPage");
+  const tCerts = useTranslations("certifications");
 
   const STAT_SECTION_KEYS = ["craftsmanship", "recognitionClass", "revenue", "employees"] as const;
   const STAT_SECTION_VALUES = [
@@ -405,12 +421,12 @@ function StatsSection() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-12 pt-12 border-t border-white/10 flex flex-wrap justify-center gap-4"
         >
-          {CERTIFICATIONS.filter(c => c.prominent).map((cert) => (
+          {(['klasse6', 'iso9001', 'vca', 'co2'] as const).map((certKey) => (
             <div
-              key={cert.id}
+              key={certKey}
               className="px-5 py-2.5 bg-white/5 rounded-full border border-white/10"
             >
-              <span className="text-sm font-semibold text-white/70">{cert.name}</span>
+              <span className="text-sm font-semibold text-white/70">{tCerts(`${certKey}.name`)}</span>
             </div>
           ))}
         </motion.div>

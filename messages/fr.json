@@ -240,7 +240,71 @@
     "co2": {
       "name": "CO₂-Niveau 3",
       "fullName": "Échelle de performance CO₂ 3.1 – Niveau 3",
-      "description": "Certificat CO₂ pour la construction durable"
+      "description": "Certificat CO₂ pour la construction durable",
+      "scope": "Travaux généraux de construction, toiture et infrastructure; Entretien, interventions et rénovations énergétiques",
+      "validUntil": "14 janvier 2028"
+    }
+  },
+  "raamcontracten": {
+    "stadGent": {
+      "client": "Ville de Gand",
+      "scope": "Réparation de toitures et gouttières",
+      "type": "Entretien"
+    },
+    "stadBrussel": {
+      "client": "Ville de Bruxelles",
+      "scope": "Travaux d'entretien et de rénovation",
+      "type": "Entretien & Rénovation"
+    },
+    "veb": {
+      "client": "VEB",
+      "scope": "Amélioration thermique de l'enveloppe extérieure des écoles",
+      "type": "Rénovation Énergétique"
+    },
+    "kuLeuven": {
+      "client": "KU Leuven",
+      "scope": "Partenaire de construction 10 campus",
+      "type": "Construction & Rénovation"
+    }
+  },
+  "keyClients": {
+    "infrabel": "Infrabel",
+    "nmbs": "SNCB",
+    "regieGebouwen": "Régie des Bâtiments",
+    "stadGent": "Ville de Gand",
+    "stadBrussel": "Ville de Bruxelles",
+    "stadAntwerpen": "Ville d'Anvers",
+    "agVespa": "AG Vespa",
+    "provincieOostVlaanderen": "Province de Flandre-Orientale",
+    "veb": "VEB",
+    "fluvius": "Fluvius",
+    "kbvb": "URBSFA"
+  },
+  "featuredProjects": {
+    "koningBoudewijnstadion": {
+      "title": "Stade Roi Baudouin",
+      "description": "Rénovation de toiture et stabilisation des pylônes d'éclairage",
+      "client": "URBSFA"
+    },
+    "justitiepaleisDendermonde": {
+      "title": "Palais de Justice de Termonde",
+      "description": "Installation de protections antichute sur toitures inclinées",
+      "client": "Régie des Bâtiments"
+    },
+    "infrabelOnderhoudscentrum": {
+      "title": "Centre de Maintenance des Caténaires",
+      "description": "Transformation du centre de maintenance des caténaires",
+      "client": "Infrabel"
+    },
+    "stadhuisGent": {
+      "title": "Hôtel de Ville de Gand",
+      "description": "Contrat-cadre pour la réparation de toitures",
+      "client": "Ville de Gand"
+    },
+    "stadhuisBrussel": {
+      "title": "Hôtel de Ville de Bruxelles",
+      "description": "Travaux d'entretien et de rénovation",
+      "client": "Ville de Bruxelles"
     }
   },
   "cta": {

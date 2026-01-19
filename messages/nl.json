@@ -240,7 +240,71 @@
     "co2": {
       "name": "CO₂-Niveau 3",
       "fullName": "CO₂-Prestatieladder 3.1 – Niveau 3",
-      "description": "CO₂-bewust certificaat voor duurzaam bouwen"
+      "description": "CO₂-bewust certificaat voor duurzaam bouwen",
+      "scope": "Algemene bouw-, dak- en infrastructuurwerken; Onderhoud, interventies en energetische renovaties",
+      "validUntil": "14 januari 2028"
+    }
+  },
+  "raamcontracten": {
+    "stadGent": {
+      "client": "Stad Gent",
+      "scope": "Herstellen van daken en dakgoten",
+      "type": "Onderhoud"
+    },
+    "stadBrussel": {
+      "client": "Stad Brussel",
+      "scope": "Onderhoud en renovatiewerken",
+      "type": "Onderhoud & Renovatie"
+    },
+    "veb": {
+      "client": "VEB",
+      "scope": "Thermische verbetering buitenschil scholen",
+      "type": "Energetische Renovatie"
+    },
+    "kuLeuven": {
+      "client": "KU Leuven",
+      "scope": "Bouwpartner 10 campussen",
+      "type": "Bouw & Renovatie"
+    }
+  },
+  "keyClients": {
+    "infrabel": "Infrabel",
+    "nmbs": "NMBS",
+    "regieGebouwen": "Regie der Gebouwen",
+    "stadGent": "Stad Gent",
+    "stadBrussel": "Stad Brussel",
+    "stadAntwerpen": "Stad Antwerpen",
+    "agVespa": "AG Vespa",
+    "provincieOostVlaanderen": "Provincie Oost-Vlaanderen",
+    "veb": "VEB",
+    "fluvius": "Fluvius",
+    "kbvb": "KBVB"
+  },
+  "featuredProjects": {
+    "koningBoudewijnstadion": {
+      "title": "Koning Boudewijnstadion",
+      "description": "Dakrenovatie en stabilisatie verlichtingspilonen",
+      "client": "KBVB"
+    },
+    "justitiepaleisDendermonde": {
+      "title": "Justitiepaleis van Dendermonde",
+      "description": "Plaatsen van valbeveiliging op hellende daken",
+      "client": "Regie Der Gebouwen"
+    },
+    "infrabelOnderhoudscentrum": {
+      "title": "Onderhoudscentrum Bovenleidingen",
+      "description": "Verbouwen onderhoudscentrum bovenleidingen",
+      "client": "Infrabel"
+    },
+    "stadhuisGent": {
+      "title": "Stadhuis Gent",
+      "description": "Raamcontract voor het herstellen van daken",
+      "client": "Stad Gent"
+    },
+    "stadhuisBrussel": {
+      "title": "Stadhuis Brussel",
+      "description": "Onderhoud en renovatiewerken",
+      "client": "Stad Brussel"
     }
   },
   "cta": {

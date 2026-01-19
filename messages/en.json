@@ -240,7 +240,71 @@
     "co2": {
       "name": "CO₂-Level 3",
       "fullName": "CO₂ Performance Ladder 3.1 – Level 3",
-      "description": "CO₂ conscious certificate for sustainable construction"
+      "description": "CO₂ conscious certificate for sustainable construction",
+      "scope": "General construction, roofing and infrastructure works; Maintenance, interventions and energy renovations",
+      "validUntil": "January 14, 2028"
+    }
+  },
+  "raamcontracten": {
+    "stadGent": {
+      "client": "City of Ghent",
+      "scope": "Roof and gutter repairs",
+      "type": "Maintenance"
+    },
+    "stadBrussel": {
+      "client": "City of Brussels",
+      "scope": "Maintenance and renovation works",
+      "type": "Maintenance & Renovation"
+    },
+    "veb": {
+      "client": "VEB",
+      "scope": "Thermal improvement of school building envelopes",
+      "type": "Energy Renovation"
+    },
+    "kuLeuven": {
+      "client": "KU Leuven",
+      "scope": "Construction partner for 10 campuses",
+      "type": "Construction & Renovation"
+    }
+  },
+  "keyClients": {
+    "infrabel": "Infrabel",
+    "nmbs": "NMBS",
+    "regieGebouwen": "Buildings Agency",
+    "stadGent": "City of Ghent",
+    "stadBrussel": "City of Brussels",
+    "stadAntwerpen": "City of Antwerp",
+    "agVespa": "AG Vespa",
+    "provincieOostVlaanderen": "Province of East Flanders",
+    "veb": "VEB",
+    "fluvius": "Fluvius",
+    "kbvb": "RBFA"
+  },
+  "featuredProjects": {
+    "koningBoudewijnstadion": {
+      "title": "King Baudouin Stadium",
+      "description": "Roof renovation and lighting pylon stabilization",
+      "client": "RBFA"
+    },
+    "justitiepaleisDendermonde": {
+      "title": "Dendermonde Court House",
+      "description": "Installation of fall protection on pitched roofs",
+      "client": "Buildings Agency"
+    },
+    "infrabelOnderhoudscentrum": {
+      "title": "Overhead Line Maintenance Center",
+      "description": "Conversion of overhead line maintenance center",
+      "client": "Infrabel"
+    },
+    "stadhuisGent": {
+      "title": "Ghent City Hall",
+      "description": "Framework contract for roof repairs",
+      "client": "City of Ghent"
+    },
+    "stadhuisBrussel": {
+      "title": "Brussels City Hall",
+      "description": "Maintenance and renovation works",
+      "client": "City of Brussels"
     }
   },
   "cta": {
