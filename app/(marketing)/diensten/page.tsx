@@ -307,8 +307,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             {/* Gradient overlay on hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#112337]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            {/* Floating stat badge */}
-            <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl px-5 py-3 shadow-xl">
+            {/* Floating stat badge - position based on layout direction */}
+            <div className={`absolute bottom-6 ${isReversed ? "right-6" : "left-6"} bg-white/95 backdrop-blur-sm rounded-xl px-5 py-3 shadow-xl`}>
               <div className="text-2xl font-bold text-[#112337]">{service.stats.value}</div>
               <div className="text-xs text-[#686E77] uppercase tracking-wider">{service.stats.label}</div>
             </div>
