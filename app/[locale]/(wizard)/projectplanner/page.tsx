@@ -334,14 +334,14 @@ export default function ProjectplannerPage() {
                       >
                         <div className="relative">
                           <div
-                            className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-all duration-300 ease-in-out ${
+                            className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-shadow duration-150 ${
                               isSelected
                                 ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.6)]"
                                 : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.1)] group-hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.15)]"
                             }`}
                           >
                             <Icon
-                              className={`w-8 h-8 sm:w-14 sm:h-14 lg:w-16 lg:h-16 transition-all duration-300 ease-in-out ${
+                              className={`w-8 h-8 sm:w-14 sm:h-14 lg:w-16 lg:h-16 transition-colors duration-150 ${
                                 isSelected
                                   ? "text-[#204CE5]"
                                   : "text-[#DADADA] group-hover:text-[#204CE5]/50"
@@ -351,7 +351,7 @@ export default function ProjectplannerPage() {
                           </div>
                         </div>
                         <span
-                          className={`text-xs sm:text-base font-medium tracking-wide transition-all duration-300 ${
+                          className={`text-xs sm:text-base font-medium tracking-wide transition-colors duration-150 ${
                             isSelected
                               ? "text-[#112337]"
                               : "text-[#686E77] group-hover:text-[#112337]"
@@ -375,7 +375,7 @@ export default function ProjectplannerPage() {
                       <button
                         key={option.id}
                         onClick={() => selectOption(option.id)}
-                        className={`px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base rounded-full transition-all duration-300 ease-in-out ${
+                        className={`px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base rounded-full transition-[color,box-shadow] duration-150 ${
                           isSelected
                             ? "bg-white text-[#204CE5] font-semibold shadow-[0_0_34px_-6px_rgba(32,76,229,0.5)]"
                             : "bg-white text-[#686E77] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.12)] hover:text-[#112337]"
@@ -405,7 +405,7 @@ export default function ProjectplannerPage() {
                           value={formData[field.key as keyof FormData]}
                           onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
                           placeholder={field.placeholder}
-                          className={`w-full bg-white rounded-xl px-4 py-4 sm:px-6 sm:py-5 text-[#112337] text-base sm:text-lg placeholder:text-[#DADADA] focus:outline-none transition-all duration-300 ${
+                          className={`w-full bg-white rounded-xl px-4 py-4 sm:px-6 sm:py-5 text-[#112337] text-base sm:text-lg placeholder:text-[#DADADA] focus:outline-none transition-shadow duration-150 ${
                             hasValue
                               ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.3)]"
                               : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] focus:shadow-[0_8px_30px_-4px_rgba(32,76,229,0.2)]"
