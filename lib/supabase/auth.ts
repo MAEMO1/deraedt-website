@@ -49,6 +49,8 @@ export const ROLE_PERMISSIONS = {
     'compliance:write': ['ADMIN', 'DIRECTIE'],
     'export:board-pack': ['DIRECTIE'],
     'users:manage': ['ADMIN', 'DIRECTIE'],
+    'partners:invite': ['OPERATIONS', 'ADMIN', 'DIRECTIE'],
+    'partners:write': ['OPERATIONS', 'ADMIN', 'DIRECTIE'],
   } as Record<string, UserRole[]>,
 };
 

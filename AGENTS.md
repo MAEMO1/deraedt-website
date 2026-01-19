@@ -286,6 +286,44 @@ JSON seed files in `scripts/seed/`:
   - Added Cases link to sidebar
 - **COMPLETENESS:** Platform now ~85% feature complete
 
+### 2026-01-19: Partner Creation Bug Fixes
+
+- **BUG 1 - Audit Trigger:** Partner creation failed with "record new has no field title"
+  - **OORZAAK:** `log_audit_event()` trigger probeerde `NEW.title` direct te benaderen, maar partners tabel heeft geen `title` kolom
+  - **FIX:** Migration 00013 - Gebruik `to_jsonb(NEW)` om record te converteren naar JSON, dan veilige field access met `->>'field_name'`
+  - **PATTERN:** Altijd JSONB gebruiken voor generieke triggers die op meerdere tabellen werken
+
+- **BUG 2 - RLS Infinite Recursion:** "infinite recursion detected in policy for relation profiles"
+  - **OORZAAK:** RLS policy "Admins can view all profiles" deed `SELECT FROM profiles WHERE role IN ('ADMIN', 'DIRECTIE')`, wat dezelfde policy triggerde
+  - **FIX:** Migration 00014 - `is_admin_or_directie()` SECURITY DEFINER functie die RLS bypassed
+  - **PATTERN:** RLS policies die dezelfde tabel queryen moeten SECURITY DEFINER functies gebruiken
+
+### 2026-01-19: Partner Self-Service Portal (ADM-091)
+
+- **DOEL:** Partners kunnen zelf documenten uploaden via dedicated pagina
+- **AANGEMAAKT:**
+  - `supabase/migrations/00015_partner_intake_tokens.sql`:
+    - Nieuwe kolommen: `intake_token`, `intake_token_expires_at`, `intake_completed_at`, `invited_at`
+    - `generate_partner_intake_token()` RPC functie
+    - `validate_partner_intake_token()` RPC functie
+    - Token geldig voor 30 dagen
+  - `app/(public)/partner-intake/[token]/page.tsx` + `client.tsx`:
+    - Publieke pagina (geen auth vereist)
+    - Upload VCA, verzekering, referentie documenten
+    - Progress tracking met checkmarks
+  - `app/api/partner-intake/route.ts` — Token validatie
+  - `app/api/partner-intake/upload/route.ts` — Document upload naar Supabase Storage
+  - `app/api/partners/[id]/invite/route.ts` — Genereer invite link
+- **RBAC:** Nieuwe permissions toegevoegd:
+  - `partners:invite` — OPERATIONS, ADMIN, DIRECTIE
+  - `partners:write` — OPERATIONS, ADMIN, DIRECTIE
+- **UI:** Partners dashboard uitgebreid met:
+  - "Genereer Invite Link" button in detail modal
+  - Copy-to-clipboard functionaliteit
+  - Invite URL weergave met vervaldatum
+- **SUPABASE STORAGE:** Uploads gaan naar `partner-documents` bucket
+- **SECURITY:** Token-based auth voor publieke upload, file type + size validatie
+
 ### 2026-01-19: DRY Refactoring — Shared Libraries
 
 - **DOEL:** Elimineren van ~560+ regels duplicatie across dashboard clients en API routes
@@ -322,4 +360,4 @@ JSON seed files in `scripts/seed/`:
 - **PATTERN:** Importeer altijd van `@/lib/dashboard` en `@/lib/api` voor consistency
 
 ---
-_Last updated: 2026-01-19_
+_Last updated: 2026-01-19 (Partner Portal)_

@@ -20,6 +20,9 @@ import {
   Check,
   Eye,
   Loader2,
+  Link2,
+  Copy,
+  Send,
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, Partner as BasePartner, PartnerDocument } from '@/lib/supabase/types';
@@ -122,6 +125,9 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [createForm, setCreateForm] = useState<CreatePartnerForm>(emptyForm);
+  const [inviteUrl, setInviteUrl] = useState<string | null>(null);
+  const [isGeneratingInvite, setIsGeneratingInvite] = useState(false);
+  const [inviteCopied, setInviteCopied] = useState(false);
 
   const displayName = user.full_name || user.email.split('@')[0];
 
@@ -265,6 +271,43 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
       setCreateError('Netwerkfout bij aanmaken partner');
     } finally {
       setIsCreating(false);
+    }
+  };
+
+  const handleGenerateInvite = async (partnerId: string) => {
+    setIsGeneratingInvite(true);
+    setInviteUrl(null);
+    setInviteCopied(false);
+
+    try {
+      const res = await fetch(`/api/partners/${partnerId}/invite`, {
+        method: 'POST',
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        console.error('[GENERATE INVITE] Error:', data.error);
+        return;
+      }
+
+      setInviteUrl(data.invite.url);
+    } catch (err) {
+      console.error('[GENERATE INVITE] Error:', err);
+    } finally {
+      setIsGeneratingInvite(false);
+    }
+  };
+
+  const handleCopyInvite = async () => {
+    if (!inviteUrl) return;
+
+    try {
+      await navigator.clipboard.writeText(inviteUrl);
+      setInviteCopied(true);
+      setTimeout(() => setInviteCopied(false), 2000);
+    } catch (err) {
+      console.error('[COPY INVITE] Error:', err);
     }
   };
 
@@ -522,6 +565,67 @@ export function PartnersClient({ user, initialPartners }: PartnersClientProps) {
                     ))}
                   </div>
                 </div>
+              </div>
+
+              {/* Invite Link Section */}
+              <div className="bg-[#FAF7F2] p-4 rounded">
+                <h4 className="text-sm font-semibold text-[#0C0C0C] mb-3 flex items-center gap-2">
+                  <Send className="w-4 h-4" />
+                  Document Upload Uitnodigen
+                </h4>
+                <p className="text-sm text-[#6B6560] mb-3">
+                  Genereer een link zodat de partner zelf documenten kan uploaden.
+                </p>
+
+                {inviteUrl ? (
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        readOnly
+                        value={inviteUrl}
+                        className="flex-1 px-3 py-2 text-sm bg-white border border-[#0C0C0C]/10 truncate"
+                      />
+                      <button
+                        onClick={handleCopyInvite}
+                        className="px-3 py-2 bg-[#0C0C0C] text-white text-sm hover:bg-[#9A6B4C] flex items-center gap-2"
+                      >
+                        {inviteCopied ? (
+                          <>
+                            <Check className="w-4 h-4" />
+                            Gekopieerd
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4" />
+                            Kopiëren
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs text-[#6B6560]">
+                      Link is 30 dagen geldig. Stuur deze naar {selectedPartner.contact_email}
+                    </p>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleGenerateInvite(selectedPartner.id)}
+                    disabled={isGeneratingInvite}
+                    className="flex items-center gap-2 px-4 py-2 bg-[#9A6B4C] text-white text-sm hover:bg-[#0C0C0C] disabled:opacity-50"
+                  >
+                    {isGeneratingInvite ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Genereren...
+                      </>
+                    ) : (
+                      <>
+                        <Link2 className="w-4 h-4" />
+                        Genereer Upload Link
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
 
               {/* Document Checklist */}

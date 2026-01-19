@@ -738,6 +738,36 @@
       ],
       "commands": ["pnpm verify"],
       "notes": "Created lib/config.ts with typed env object and helper functions (isEmailConfigured, isSupabaseConfigured, requireEnv). Updated lib/email.ts to use assertEmailConfigured() - throws in production if RESEND_API_KEY missing, logs in development. Lazy validation approach allows builds to succeed without all env vars."
+    },
+    {
+      "id": "ADM-091",
+      "priority": 88,
+      "title": "Partner self-service document upload portal",
+      "description": "Create a public portal where partners can upload their prequalification documents (VCA, insurance, references) via a unique invite link.",
+      "acceptanceCriteria": [
+        "/partner-intake/[token] page exists for public document upload",
+        "Admin can generate invite link from partner detail modal",
+        "Invite link expires after 30 days",
+        "Partners can upload VCA, insurance, references documents",
+        "Documents uploaded to Supabase Storage",
+        "Documents appear as 'pending' in admin for review",
+        "Partner can submit when all required docs uploaded",
+        "Admin notified of new submissions",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "supabase/migrations/00015_partner_intake_tokens.sql",
+        "app/(public)/partner-intake/[token]/page.tsx",
+        "app/(public)/partner-intake/[token]/client.tsx",
+        "app/api/partner-intake/route.ts",
+        "app/api/partner-intake/upload/route.ts",
+        "app/api/partners/[id]/invite/route.ts",
+        "app/(portal)/dashboard/partners/partners-client.tsx",
+        "lib/supabase/auth.ts"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Created partner intake token system with 30-day expiry. Public upload page with progress tracking. Admin generates invite link via 'Genereer Upload Link' button. Documents stored in Supabase Storage. RLS policies allow anon uploads with valid token. Added partners:invite and partners:write permissions."
     }
   ]
 }
