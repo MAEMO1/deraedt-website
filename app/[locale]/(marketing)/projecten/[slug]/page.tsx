@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   ArrowLeft,
   Calendar,
@@ -13,7 +14,7 @@ import {
 import { FEATURED_PROJECTS, PROJECT_CATEGORIES } from "@/lib/constants";
 
 interface ProjectPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateStaticParams() {
@@ -23,12 +24,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProjectPageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const project = FEATURED_PROJECTS.find((p) => p.slug === slug);
+  const t = await getTranslations({ locale, namespace: 'projectDetail' });
 
   if (!project) {
     return {
-      title: "Project niet gevonden",
+      title: t('notFound'),
     };
   }
 
@@ -39,7 +41,10 @@ export async function generateMetadata({ params }: ProjectPageProps) {
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations({ locale, namespace: 'projectDetail' });
   const project = FEATURED_PROJECTS.find((p) => p.slug === slug);
   const projectIndex = FEATURED_PROJECTS.findIndex((p) => p.slug === slug);
   const nextProject = FEATURED_PROJECTS[(projectIndex + 1) % FEATURED_PROJECTS.length];
@@ -49,6 +54,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const categoryLabel = PROJECT_CATEGORIES.find((c) => c.value === project.category)?.label || project.category;
+  const approachItems = [
+    t('approach.items.0'),
+    t('approach.items.1'),
+    t('approach.items.2'),
+    t('approach.items.3'),
+    t('approach.items.4'),
+  ];
 
   return (
     <>
@@ -73,7 +85,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            Terug naar projecten
+            {t('backToProjects')}
           </Link>
 
           {/* Badges row */}
@@ -133,38 +145,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               {/* Challenge Section */}
               <div className="mt-12">
-                <span className="label-overline">De Uitdaging</span>
+                <span className="label-overline">{t('challenge.badge')}</span>
 
                 <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-                  Projectomschrijving
+                  {t('challenge.title')}
                 </h2>
 
                 <div className="mt-8 space-y-6 text-[#686E77] leading-relaxed">
                   <p className="text-lg">{project.description}</p>
-                  <p>
-                    Dit project vereiste een grondige aanpak met aandacht voor de specifieke
-                    eisen van de opdrachtgever. De uitdaging lag in het combineren van
-                    kwaliteit, veiligheid en efficiëntie binnen de gestelde termijn.
-                  </p>
+                  <p>{t('challenge.description')}</p>
                 </div>
               </div>
 
               {/* Approach Section */}
               <div className="mt-16">
-                <span className="label-overline">Onze Aanpak</span>
+                <span className="label-overline">{t('approach.badge')}</span>
 
                 <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-                  Hoe wij dit project aanpakten
+                  {t('approach.title')}
                 </h2>
 
                 <div className="mt-8 space-y-4">
-                  {[
-                    "Grondige voorbereiding en planning in overleg met de opdrachtgever",
-                    "Inzet van ervaren vakmensen met relevante expertise",
-                    "Strikte naleving van veiligheidsprotocollen (VCA**)",
-                    "Wekelijkse voortgangsrapportage en transparante communicatie",
-                    "Kwaliteitscontroles conform ISO 9001 standaarden",
-                  ].map((item, index) => (
+                  {approachItems.map((item, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-[#204CE5] flex-shrink-0 mt-0.5" />
                       <span className="text-[#686E77]">{item}</span>
@@ -175,55 +177,55 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               {/* Results Section */}
               <div className="mt-16">
-                <span className="label-overline">Resultaat</span>
+                <span className="label-overline">{t('results.badge')}</span>
 
                 <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-                  Wat wij bereikten
+                  {t('results.title')}
                 </h2>
 
                 <div className="mt-8 grid sm:grid-cols-2 gap-6">
                   <div className="bg-white rounded-xl p-6">
                     <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
-                      Planning
+                      {t('results.planning.label')}
                     </div>
                     <div className="text-2xl font-bold text-[#112337]">
-                      Binnen termijn
+                      {t('results.planning.value')}
                     </div>
                     <p className="mt-2 text-sm text-[#686E77]">
-                      Project opgeleverd volgens afgesproken planning
+                      {t('results.planning.description')}
                     </p>
                   </div>
                   <div className="bg-white rounded-xl p-6">
                     <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
-                      Veiligheid
+                      {t('results.safety.label')}
                     </div>
                     <div className="text-2xl font-bold text-[#112337]">
-                      0 incidenten
+                      {t('results.safety.value')}
                     </div>
                     <p className="mt-2 text-sm text-[#686E77]">
-                      Volledige naleving VCA** veiligheidsprotocollen
+                      {t('results.safety.description')}
                     </p>
                   </div>
                   <div className="bg-white rounded-xl p-6">
                     <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
-                      Kwaliteit
+                      {t('results.quality.label')}
                     </div>
                     <div className="text-2xl font-bold text-[#112337]">
-                      ISO 9001
+                      {t('results.quality.value')}
                     </div>
                     <p className="mt-2 text-sm text-[#686E77]">
-                      Alle werken conform kwaliteitsstandaarden
+                      {t('results.quality.description')}
                     </p>
                   </div>
                   <div className="bg-white rounded-xl p-6">
                     <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-2">
-                      Hinderbeperking
+                      {t('results.disruption.label')}
                     </div>
                     <div className="text-2xl font-bold text-[#112337]">
-                      Minimaal
+                      {t('results.disruption.value')}
                     </div>
                     <p className="mt-2 text-sm text-[#686E77]">
-                      Efficiënte fasering voor minimale overlast
+                      {t('results.disruption.description')}
                     </p>
                   </div>
                 </div>
@@ -236,13 +238,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {/* Project Details Card */}
                 <div className="bg-white rounded-xl p-8">
                   <h3 className="text-xl font-bold text-[#112337] mb-6">
-                    Projectgegevens
+                    {t('sidebar.projectDetails')}
                   </h3>
 
                   <div className="space-y-6">
                     <div className="pb-4 border-b border-[#112337]/5">
                       <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
-                        Opdrachtgever
+                        {t('sidebar.client')}
                       </div>
                       <div className="font-semibold text-[#112337]">
                         {project.client}
@@ -251,7 +253,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                     <div className="pb-4 border-b border-[#112337]/5">
                       <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
-                        Jaar
+                        {t('sidebar.year')}
                       </div>
                       <div className="font-semibold text-[#112337]">
                         {project.year}
@@ -260,7 +262,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                     <div className="pb-4 border-b border-[#112337]/5">
                       <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
-                        Categorie
+                        {t('sidebar.category')}
                       </div>
                       <div className="font-semibold text-[#112337]">
                         {categoryLabel}
@@ -270,7 +272,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     {project.scope && (
                       <div className="pb-4 border-b border-[#112337]/5">
                         <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
-                          Projecttype
+                          {t('sidebar.projectType')}
                         </div>
                         <div className="font-semibold text-[#112337]">
                           {project.scope}
@@ -280,11 +282,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                     <div>
                       <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold mb-1">
-                        Status
+                        {t('sidebar.status')}
                       </div>
                       <div className="inline-flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-500 rounded-full" />
-                        <span className="font-semibold text-[#112337]">Afgerond</span>
+                        <span className="font-semibold text-[#112337]">{t('sidebar.completed')}</span>
                       </div>
                     </div>
                   </div>
@@ -294,14 +296,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       href="/projectplanner"
                       className="group flex items-center justify-center gap-3 w-full bg-[#204CE5] text-white px-6 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8]"
                     >
-                      Start uw project
+                      {t('sidebar.startProject')}
                       <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                     <Link
                       href="/contact"
                       className="flex items-center justify-center gap-3 w-full mt-3 border border-[#112337]/20 text-[#112337] px-6 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#112337] hover:text-white hover:border-[#112337]"
                     >
-                      Contact opnemen
+                      {t('sidebar.contactUs')}
                     </Link>
                   </div>
                 </div>
@@ -309,31 +311,31 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {/* Certifications Card */}
                 <div className="bg-[#112337] rounded-xl p-8 text-white">
                   <h3 className="text-lg font-bold mb-4">
-                    Kwaliteitsgarantie
+                    {t('certifications.title')}
                   </h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center gap-2 text-white/70">
                       <CheckCircle className="w-4 h-4 text-[#204CE5]" />
-                      Klasse 6 erkend
+                      {t('certifications.klasse6')}
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
                       <CheckCircle className="w-4 h-4 text-[#204CE5]" />
-                      ISO 9001 gecertificeerd
+                      {t('certifications.iso')}
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
                       <CheckCircle className="w-4 h-4 text-[#204CE5]" />
-                      VCA** veiligheid
+                      {t('certifications.vca')}
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
                       <CheckCircle className="w-4 h-4 text-[#204CE5]" />
-                      CO₂-Prestatieladder niveau 3
+                      {t('certifications.co2')}
                     </div>
                   </div>
                   <Link
                     href="/procurement"
                     className="inline-flex items-center gap-2 text-[#204CE5] text-sm font-semibold mt-6 hover:text-white transition-colors"
                   >
-                    Alle certificaten
+                    {t('certifications.viewAll')}
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
@@ -348,7 +350,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="container-wide">
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium">
-              Volgend Project
+              {t('nextProject.badge')}
             </span>
           </div>
 
@@ -370,7 +372,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <p className="mt-4 text-white/50">{nextProject.client}</p>
                   <div className="mt-6 inline-flex items-center gap-2 text-[#204CE5]">
                     <span className="text-sm font-semibold uppercase tracking-wider">
-                      Bekijk project
+                      {t('nextProject.viewProject')}
                     </span>
                     <ArrowRight className="w-4 h-4" />
                   </div>

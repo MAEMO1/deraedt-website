@@ -109,6 +109,73 @@
     "client": "Maître d'ouvrage",
     "year": "Année"
   },
+  "projectDetail": {
+    "notFound": "Projet non trouvé",
+    "backToProjects": "Retour aux projets",
+    "challenge": {
+      "badge": "Le Défi",
+      "title": "Description du projet",
+      "description": "Ce projet nécessitait une approche approfondie avec une attention particulière aux exigences spécifiques du maître d'ouvrage. Le défi consistait à combiner qualité, sécurité et efficacité dans les délais impartis."
+    },
+    "approach": {
+      "badge": "Notre Approche",
+      "title": "Comment nous avons abordé ce projet",
+      "items": [
+        "Préparation et planification approfondies en concertation avec le maître d'ouvrage",
+        "Déploiement d'artisans expérimentés avec une expertise pertinente",
+        "Respect strict des protocoles de sécurité (VCA**)",
+        "Rapports d'avancement hebdomadaires et communication transparente",
+        "Contrôles qualité conformes aux normes ISO 9001"
+      ]
+    },
+    "results": {
+      "badge": "Résultat",
+      "title": "Ce que nous avons accompli",
+      "planning": {
+        "label": "Planning",
+        "value": "Dans les délais",
+        "description": "Projet livré selon le planning convenu"
+      },
+      "safety": {
+        "label": "Sécurité",
+        "value": "0 incidents",
+        "description": "Respect total des protocoles de sécurité VCA**"
+      },
+      "quality": {
+        "label": "Qualité",
+        "value": "ISO 9001",
+        "description": "Tous les travaux conformes aux normes de qualité"
+      },
+      "disruption": {
+        "label": "Nuisances",
+        "value": "Minimales",
+        "description": "Phasage efficace pour un minimum de désagréments"
+      }
+    },
+    "sidebar": {
+      "projectDetails": "Données du projet",
+      "client": "Maître d'ouvrage",
+      "year": "Année",
+      "category": "Catégorie",
+      "projectType": "Type de projet",
+      "status": "Statut",
+      "completed": "Terminé",
+      "startProject": "Démarrez votre projet",
+      "contactUs": "Contactez-nous"
+    },
+    "certifications": {
+      "title": "Garantie de qualité",
+      "klasse6": "Classe 6 agréé",
+      "iso": "Certifié ISO 9001",
+      "vca": "Sécurité VCA**",
+      "co2": "Échelle de performance CO₂ niveau 3",
+      "viewAll": "Tous les certificats"
+    },
+    "nextProject": {
+      "badge": "Projet suivant",
+      "viewProject": "Voir le projet"
+    }
+  },
   "about": {
     "title": "À propos",
     "subtitle": "Savoir-faire depuis 1930",

@@ -2,8 +2,9 @@
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import {
   Shield,
   Award,
@@ -24,7 +25,6 @@ import {
   CERTIFICATIONS,
   RAAMCONTRACTEN,
   KEY_CLIENTS,
-  PROCUREMENT_USPS,
 } from "@/lib/constants";
 
 const certificationIcons: Record<string, typeof Shield> = {
@@ -32,6 +32,16 @@ const certificationIcons: Record<string, typeof Shield> = {
   iso9001: Award,
   vca: FileCheck,
   co2: Leaf,
+};
+
+const USP_KEYS = ['klasse6', 'certified', 'since1930', 'framework'] as const;
+const PROCESS_KEYS = ['intake', 'quote', 'execution', 'delivery'] as const;
+
+const processIcons: Record<typeof PROCESS_KEYS[number], typeof FileCheck> = {
+  intake: FileCheck,
+  quote: Calendar,
+  execution: Building2,
+  delivery: CheckCircle,
 };
 
 // Animated counter for stats
@@ -62,6 +72,7 @@ function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: s
 }
 
 export default function ProcurementPage() {
+  const t = useTranslations('procurement');
   const heroRef = useRef<HTMLDivElement>(null);
   const certsRef = useRef<HTMLDivElement>(null);
   const raamcontractenRef = useRef<HTMLDivElement>(null);
@@ -127,7 +138,7 @@ export default function ProcurementPage() {
                   className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
                 >
                   <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                  Voor Overheden & Facility Managers
+                  {t('hero.badge')}
                 </motion.div>
 
                 {/* Headline */}
@@ -148,8 +159,7 @@ export default function ProcurementPage() {
                   transition={{ duration: 1, delay: 0.5 }}
                   className="mt-8 max-w-lg text-lg text-white/60 leading-relaxed"
                 >
-                  Alle documentatie voor aanbestedingen, preselecties en
-                  raamcontracten — georganiseerd, actueel en in een klik beschikbaar.
+                  {t('hero.description')}
                 </motion.p>
 
                 {/* CTAs */}
@@ -163,7 +173,7 @@ export default function ProcurementPage() {
                     href="#certificaten"
                     className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30"
                   >
-                    <span>Bekijk certificaten</span>
+                    <span>{t('hero.viewCertificates')}</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                   <Link
@@ -171,7 +181,7 @@ export default function ProcurementPage() {
                     className="group inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-white/20"
                   >
                     <Download className="w-4 h-4" />
-                    <span>Tender Pack</span>
+                    <span>{t('hero.tenderPack')}</span>
                   </Link>
                 </motion.div>
               </div>
@@ -185,10 +195,10 @@ export default function ProcurementPage() {
               >
                 <div className="bg-white rounded-2xl p-10 shadow-xl">
                   <div className="grid grid-cols-2 gap-10">
-                    <AnimatedStat value={STATS.yearsExperience} label="Jaar ervaring" />
-                    <AnimatedStat value={15} suffix="+" label="Raamcontracten" />
-                    <AnimatedStat value={STATS.employeesExact} label="Medewerkers" />
-                    <AnimatedStat value={6} label="Klasse erkenning" />
+                    <AnimatedStat value={STATS.yearsExperience} label={t('stats.yearsExperience')} />
+                    <AnimatedStat value={15} suffix="+" label={t('stats.frameworkContracts')} />
+                    <AnimatedStat value={STATS.employeesExact} label={t('stats.employees')} />
+                    <AnimatedStat value={6} label={t('stats.classRecognition')} />
                   </div>
                 </div>
               </motion.div>
@@ -221,9 +231,9 @@ export default function ProcurementPage() {
       <section className="bg-white border-b border-[#112337]/5">
         <div className="container-wide py-12">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PROCUREMENT_USPS.map((usp, index) => (
+            {USP_KEYS.map((key, index) => (
               <motion.div
-                key={usp.title}
+                key={key}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -234,8 +244,8 @@ export default function ProcurementPage() {
                   <Zap className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-semibold text-[#112337]">{usp.title}</div>
-                  <div className="mt-1 text-sm text-[#686E77]">{usp.description}</div>
+                  <div className="font-semibold text-[#112337]">{t(`usps.${key}.title`)}</div>
+                  <div className="mt-1 text-sm text-[#686E77]">{t(`usps.${key}.description`)}</div>
                 </div>
               </motion.div>
             ))}
@@ -253,13 +263,12 @@ export default function ProcurementPage() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl mb-16"
           >
-            <span className="label-overline">Certificeringen & Erkenningen</span>
+            <span className="label-overline">{t('certifications.badge')}</span>
             <h2 className="mt-4 heading-lg">
-              Volledig <span className="text-[#204CE5]">gecertificeerd</span> voor uw aanbestedingen
+              {t('certifications.title')} <span className="text-[#204CE5]">{t('certifications.titleAccent')}</span> {t('certifications.titleSuffix')}
             </h2>
             <p className="mt-4 text-[#686E77] max-w-2xl">
-              Al onze certificaten en erkenningen zijn actueel en direct beschikbaar
-              voor opname in uw aanbestedingsdossier.
+              {t('certifications.description')}
             </p>
           </motion.header>
 
@@ -297,7 +306,7 @@ export default function ProcurementPage() {
 
                   {"scope" in cert && cert.scope && (
                     <div className="mt-6 pt-6 border-t border-[#112337]/5">
-                      <div className="text-xs font-semibold text-[#686E77] mb-2">Scope</div>
+                      <div className="text-xs font-semibold text-[#686E77] mb-2">{t('certifications.scope')}</div>
                       <p className="text-sm text-[#112337]/70">{cert.scope}</p>
                     </div>
                   )}
@@ -305,7 +314,7 @@ export default function ProcurementPage() {
                   {"validUntil" in cert && cert.validUntil && (
                     <div className="mt-4 flex items-center gap-2 text-xs text-[#686E77]">
                       <Calendar className="w-3.5 h-3.5" />
-                      <span>Geldig tot: {cert.validUntil}</span>
+                      <span>{t('certifications.validUntil')}: {cert.validUntil}</span>
                     </div>
                   )}
                 </motion.article>
@@ -321,14 +330,14 @@ export default function ProcurementPage() {
             className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <p className="text-sm text-[#686E77]">
-              Alle certificaten nodig voor uw aanbesteding?
+              {t('certifications.downloadPrompt')}
             </p>
             <Link
               href="/procurement/documentatie"
               className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
             >
               <Download className="w-4 h-4" />
-              <span>Download Tender Pack</span>
+              <span>{t('certifications.downloadTenderPack')}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </motion.div>
@@ -345,15 +354,14 @@ export default function ProcurementPage() {
               animate={isRaamcontractenInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <span className="label-overline">Bewezen Trackrecord</span>
+              <span className="label-overline">{t('raamcontracten.badge')}</span>
 
               <h2 className="mt-4 heading-lg">
-                Actieve <span className="text-[#204CE5]">raamcontracten</span>
+                {t('raamcontracten.title')} <span className="text-[#204CE5]">{t('raamcontracten.titleAccent')}</span>
               </h2>
 
               <p className="mt-6 text-[#686E77] leading-relaxed">
-                Wij hebben ervaring met raamcontracten voor publieke opdrachtgevers.
-                Deze samenwerkingen getuigen van consistent kwaliteitswerk.
+                {t('raamcontracten.description')}
               </p>
 
               <div className="mt-10 space-y-4">
@@ -384,7 +392,7 @@ export default function ProcurementPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="bg-[#112337] rounded-2xl p-12 text-white">
-                <h3 className="text-2xl font-bold mb-8">Vertrouwd door</h3>
+                <h3 className="text-2xl font-bold mb-8">{t('raamcontracten.trustedBy')}</h3>
                 <div className="grid grid-cols-2 gap-4">
                   {KEY_CLIENTS.slice(0, 8).map((client) => (
                     <div
@@ -399,9 +407,9 @@ export default function ProcurementPage() {
 
                 <div className="mt-10 pt-8 border-t border-white/10 grid grid-cols-3 gap-6 text-center">
                   {[
-                    { value: STATS.yearsExperience, label: "Jaar" },
-                    { value: "3x", label: "Gecertificeerd" },
-                    { value: STATS.employees, label: "FTE" },
+                    { value: STATS.yearsExperience, label: t('raamcontracten.year') },
+                    { value: "3x", label: t('raamcontracten.certified') },
+                    { value: STATS.employees, label: t('raamcontracten.fte') },
                   ].map((stat) => (
                     <div key={stat.label}>
                       <div className="text-4xl font-bold text-white">{stat.value}</div>
@@ -426,23 +434,18 @@ export default function ProcurementPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <span className="label-overline">Onze Aanpak</span>
+            <span className="label-overline">{t('process.badge')}</span>
             <h2 className="mt-4 heading-lg">
-              Hoe wij <span className="text-[#204CE5]">samenwerken</span>
+              {t('process.title')} <span className="text-[#204CE5]">{t('process.titleAccent')}</span>
             </h2>
           </motion.header>
 
           <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            {[
-              { step: "01", title: "Intake", description: "Analyse van bestek en projectvereisten", icon: FileCheck },
-              { step: "02", title: "Offerte", description: "Transparante prijsopbouw en planning", icon: Calendar },
-              { step: "03", title: "Uitvoering", description: "Wekelijkse rapportage en QHSE-borging", icon: Building2 },
-              { step: "04", title: "Oplevering", description: "Documentatie en garantieafhandeling", icon: CheckCircle },
-            ].map((phase, index) => {
-              const Icon = phase.icon;
+            {PROCESS_KEYS.map((key, index) => {
+              const Icon = processIcons[key];
               return (
                 <motion.div
-                  key={phase.step}
+                  key={key}
                   initial={{ opacity: 0, y: 30 }}
                   animate={isProcessInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
@@ -451,9 +454,9 @@ export default function ProcurementPage() {
                   <div className="w-20 h-20 mx-auto flex items-center justify-center bg-white rounded-xl text-[#204CE5] mb-6 group-hover:bg-[#204CE5] group-hover:text-white transition-all duration-500 shadow-sm">
                     <Icon className="w-8 h-8" />
                   </div>
-                  <div className="text-5xl font-bold text-[#112337]/10 mb-3">{phase.step}</div>
-                  <h3 className="text-xl font-bold text-[#112337]">{phase.title}</h3>
-                  <p className="mt-3 text-sm text-[#686E77]">{phase.description}</p>
+                  <div className="text-5xl font-bold text-[#112337]/10 mb-3">{String(index + 1).padStart(2, '0')}</div>
+                  <h3 className="text-xl font-bold text-[#112337]">{t(`process.phases.${key}.title`)}</h3>
+                  <p className="mt-3 text-sm text-[#686E77]">{t(`process.phases.${key}.description`)}</p>
                 </motion.div>
               );
             })}
@@ -472,7 +475,7 @@ export default function ProcurementPage() {
               transition={{ duration: 0.8 }}
             >
               <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-                Neem Contact Op
+                {t('cta.badge')}
               </span>
             </motion.div>
 
@@ -483,7 +486,7 @@ export default function ProcurementPage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-4xl sm:text-5xl font-bold text-white leading-tight"
             >
-              Klaar voor een <span className="text-[#204CE5]">kennismaking</span>?
+              {t('cta.title')} <span className="text-[#204CE5]">{t('cta.titleAccent')}</span>?
             </motion.h2>
 
             <motion.p
@@ -493,8 +496,7 @@ export default function ProcurementPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-6 text-lg text-white/60 leading-relaxed"
             >
-              Neem contact op voor een vrijblijvend gesprek over uw aanbestedingen,
-              raamcontracten of facility management behoeften.
+              {t('cta.description')}
             </motion.p>
 
             <motion.div
@@ -508,7 +510,7 @@ export default function ProcurementPage() {
                 href="/contact?subject=raamcontract"
                 className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
               >
-                <span>Plan een gesprek</span>
+                <span>{t('cta.planMeeting')}</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <a

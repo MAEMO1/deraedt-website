@@ -109,6 +109,73 @@
     "client": "Opdrachtgever",
     "year": "Jaar"
   },
+  "projectDetail": {
+    "notFound": "Project niet gevonden",
+    "backToProjects": "Terug naar projecten",
+    "challenge": {
+      "badge": "De Uitdaging",
+      "title": "Projectomschrijving",
+      "description": "Dit project vereiste een grondige aanpak met aandacht voor de specifieke eisen van de opdrachtgever. De uitdaging lag in het combineren van kwaliteit, veiligheid en efficiëntie binnen de gestelde termijn."
+    },
+    "approach": {
+      "badge": "Onze Aanpak",
+      "title": "Hoe wij dit project aanpakten",
+      "items": [
+        "Grondige voorbereiding en planning in overleg met de opdrachtgever",
+        "Inzet van ervaren vakmensen met relevante expertise",
+        "Strikte naleving van veiligheidsprotocollen (VCA**)",
+        "Wekelijkse voortgangsrapportage en transparante communicatie",
+        "Kwaliteitscontroles conform ISO 9001 standaarden"
+      ]
+    },
+    "results": {
+      "badge": "Resultaat",
+      "title": "Wat wij bereikten",
+      "planning": {
+        "label": "Planning",
+        "value": "Binnen termijn",
+        "description": "Project opgeleverd volgens afgesproken planning"
+      },
+      "safety": {
+        "label": "Veiligheid",
+        "value": "0 incidenten",
+        "description": "Volledige naleving VCA** veiligheidsprotocollen"
+      },
+      "quality": {
+        "label": "Kwaliteit",
+        "value": "ISO 9001",
+        "description": "Alle werken conform kwaliteitsstandaarden"
+      },
+      "disruption": {
+        "label": "Hinderbeperking",
+        "value": "Minimaal",
+        "description": "Efficiënte fasering voor minimale overlast"
+      }
+    },
+    "sidebar": {
+      "projectDetails": "Projectgegevens",
+      "client": "Opdrachtgever",
+      "year": "Jaar",
+      "category": "Categorie",
+      "projectType": "Projecttype",
+      "status": "Status",
+      "completed": "Afgerond",
+      "startProject": "Start uw project",
+      "contactUs": "Contact opnemen"
+    },
+    "certifications": {
+      "title": "Kwaliteitsgarantie",
+      "klasse6": "Klasse 6 erkend",
+      "iso": "ISO 9001 gecertificeerd",
+      "vca": "VCA** veiligheid",
+      "co2": "CO₂-Prestatieladder niveau 3",
+      "viewAll": "Alle certificaten"
+    },
+    "nextProject": {
+      "badge": "Volgend Project",
+      "viewProject": "Bekijk project"
+    }
+  },
   "about": {
     "title": "Over Ons",
     "subtitle": "Vakmanschap sinds 1930",

@@ -109,6 +109,73 @@
     "client": "Client",
     "year": "Year"
   },
+  "projectDetail": {
+    "notFound": "Project not found",
+    "backToProjects": "Back to projects",
+    "challenge": {
+      "badge": "The Challenge",
+      "title": "Project Description",
+      "description": "This project required a thorough approach with attention to the specific requirements of the client. The challenge was to combine quality, safety and efficiency within the set timeframe."
+    },
+    "approach": {
+      "badge": "Our Approach",
+      "title": "How we tackled this project",
+      "items": [
+        "Thorough preparation and planning in consultation with the client",
+        "Deployment of experienced craftsmen with relevant expertise",
+        "Strict compliance with safety protocols (VCA**)",
+        "Weekly progress reports and transparent communication",
+        "Quality controls in accordance with ISO 9001 standards"
+      ]
+    },
+    "results": {
+      "badge": "Result",
+      "title": "What we achieved",
+      "planning": {
+        "label": "Planning",
+        "value": "On schedule",
+        "description": "Project delivered according to agreed planning"
+      },
+      "safety": {
+        "label": "Safety",
+        "value": "0 incidents",
+        "description": "Full compliance with VCA** safety protocols"
+      },
+      "quality": {
+        "label": "Quality",
+        "value": "ISO 9001",
+        "description": "All work in accordance with quality standards"
+      },
+      "disruption": {
+        "label": "Disruption",
+        "value": "Minimal",
+        "description": "Efficient phasing for minimal inconvenience"
+      }
+    },
+    "sidebar": {
+      "projectDetails": "Project Details",
+      "client": "Client",
+      "year": "Year",
+      "category": "Category",
+      "projectType": "Project Type",
+      "status": "Status",
+      "completed": "Completed",
+      "startProject": "Start your project",
+      "contactUs": "Contact us"
+    },
+    "certifications": {
+      "title": "Quality Guarantee",
+      "klasse6": "Class 6 certified",
+      "iso": "ISO 9001 certified",
+      "vca": "VCA** safety",
+      "co2": "CO₂ Performance Ladder level 3",
+      "viewAll": "All certificates"
+    },
+    "nextProject": {
+      "badge": "Next Project",
+      "viewProject": "View project"
+    }
+  },
   "about": {
     "title": "About Us",
     "subtitle": "Craftsmanship since 1930",
