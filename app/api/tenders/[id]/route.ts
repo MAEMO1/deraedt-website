@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser, canPerformAction } from '@/lib/supabase/auth';
 
 const updateTenderSchema = z.object({
   status: z.enum(['new', 'analyzing', 'go', 'no_go', 'in_preparation', 'submitted', 'won', 'lost']).optional(),
@@ -102,12 +103,24 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // RBAC check: only ADMIN or DIRECTIE can delete tenders
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    if (!canPerformAction(user.role, 'tenders:delete')) {
+      console.warn('[DELETE /api/tenders/[id]] Forbidden - user role:', user.role);
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: insufficient permissions' },
+        { status: 403 }
+      );
+    }
+
     const { id } = await params;
     const supabase = await createClient();
-
-    // Note: In production, add admin role check here
-    // const user = await getCurrentUser();
-    // if (!hasRole(user.role, 'ADMIN')) { return 403 }
 
     const { error } = await supabase
       .from('tenders')

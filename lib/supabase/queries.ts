@@ -2,7 +2,8 @@
  * Supabase Data Queries
  *
  * Server-side data fetching functions for all dashboard modules.
- * Falls back to seed data when Supabase returns empty results.
+ * Falls back to seed data ONLY in development when Supabase returns empty results.
+ * In production, returns empty arrays instead of seed data.
  */
 
 import { createClient } from './server';
@@ -20,7 +21,7 @@ import type {
   Profile,
 } from './types';
 
-// Import seed data as fallback
+// Import seed data as fallback (ONLY used in development)
 import tendersData from '@/scripts/seed/tenders.json';
 import leadsData from '@/scripts/seed/leads.json';
 import jobsData from '@/scripts/seed/jobs.json';
@@ -29,6 +30,27 @@ import casesData from '@/scripts/seed/cases.json';
 import facilityTicketsData from '@/scripts/seed/facility_tickets.json';
 import partnersData from '@/scripts/seed/partners.json';
 import profilesData from '@/scripts/seed/profiles.json';
+
+/**
+ * Check if seed data fallback is allowed.
+ * Only allow in development, never in production.
+ */
+function canUseSeedData(): boolean {
+  return process.env.NODE_ENV !== 'production';
+}
+
+/**
+ * Get seed data fallback or empty array based on environment.
+ * In production, always returns empty array.
+ */
+function getSeedFallback<T>(seedData: T[], queryName: string): T[] {
+  if (canUseSeedData()) {
+    console.warn(`[${queryName}] Using seed data fallback (development mode)`);
+    return seedData;
+  }
+  console.error(`[${queryName}] No data available (production mode - seed fallback disabled)`);
+  return [];
+}
 
 // ============================================================================
 // TENDERS
@@ -44,18 +66,17 @@ export async function getTenders(): Promise<Tender[]> {
 
     if (error) {
       console.error('[getTenders] Supabase error:', error);
-      return tendersData as unknown as Tender[];
+      return getSeedFallback(tendersData as unknown as Tender[], 'getTenders');
     }
 
     if (!data || data.length === 0) {
-      console.log('[getTenders] No data in Supabase, using seed data');
-      return tendersData as unknown as Tender[];
+      return getSeedFallback(tendersData as unknown as Tender[], 'getTenders');
     }
 
     return data;
   } catch (err) {
     console.error('[getTenders] Error:', err);
-    return tendersData as unknown as Tender[];
+    return getSeedFallback(tendersData as unknown as Tender[], 'getTenders');
   }
 }
 
@@ -69,16 +90,21 @@ export async function getTenderById(id: string): Promise<Tender | null> {
       .single();
 
     if (error || !data) {
-      // Fallback to seed data
-      const seedTender = (tendersData as unknown as Tender[]).find(t => t.id === id);
-      return seedTender || null;
+      if (canUseSeedData()) {
+        const seedTender = (tendersData as unknown as Tender[]).find(t => t.id === id);
+        return seedTender || null;
+      }
+      return null;
     }
 
     return data;
   } catch (err) {
     console.error('[getTenderById] Error:', err);
-    const seedTender = (tendersData as unknown as Tender[]).find(t => t.id === id);
-    return seedTender || null;
+    if (canUseSeedData()) {
+      const seedTender = (tendersData as unknown as Tender[]).find(t => t.id === id);
+      return seedTender || null;
+    }
+    return null;
   }
 }
 
@@ -96,18 +122,18 @@ export async function getLeads(): Promise<Lead[]> {
 
     if (error) {
       console.error('[getLeads] Supabase error:', error);
-      return leadsData as unknown as Lead[];
+      return getSeedFallback(leadsData as unknown as Lead[], 'getLeads');
     }
 
     if (!data || data.length === 0) {
       console.log('[getLeads] No data in Supabase, using seed data');
-      return leadsData as unknown as Lead[];
+      return getSeedFallback(leadsData as unknown as Lead[], 'getLeads');
     }
 
     return data;
   } catch (err) {
     console.error('[getLeads] Error:', err);
-    return leadsData as unknown as Lead[];
+    return getSeedFallback(leadsData as unknown as Lead[], 'getLeads');
   }
 }
 
@@ -121,15 +147,21 @@ export async function getLeadById(id: string): Promise<Lead | null> {
       .single();
 
     if (error || !data) {
-      const seedLead = (leadsData as unknown as Lead[]).find(l => l.id === id);
-      return seedLead || null;
+      if (canUseSeedData()) {
+        const seedLead = (leadsData as unknown as Lead[]).find(l => l.id === id);
+        return seedLead || null;
+      }
+      return null;
     }
 
     return data;
   } catch (err) {
     console.error('[getLeadById] Error:', err);
-    const seedLead = (leadsData as unknown as Lead[]).find(l => l.id === id);
-    return seedLead || null;
+    if (canUseSeedData()) {
+      const seedLead = (leadsData as unknown as Lead[]).find(l => l.id === id);
+      return seedLead || null;
+    }
+    return null;
   }
 }
 
@@ -172,18 +204,18 @@ export async function getComplianceDocs(): Promise<ComplianceDoc[]> {
 
     if (error) {
       console.error('[getComplianceDocs] Supabase error:', error);
-      return complianceDocsData as unknown as ComplianceDoc[];
+      return getSeedFallback(complianceDocsData as unknown as ComplianceDoc[], 'getComplianceDocs');
     }
 
     if (!data || data.length === 0) {
       console.log('[getComplianceDocs] No data in Supabase, using seed data');
-      return complianceDocsData as unknown as ComplianceDoc[];
+      return getSeedFallback(complianceDocsData as unknown as ComplianceDoc[], 'getComplianceDocs');
     }
 
     return data;
   } catch (err) {
     console.error('[getComplianceDocs] Error:', err);
-    return complianceDocsData as unknown as ComplianceDoc[];
+    return getSeedFallback(complianceDocsData as unknown as ComplianceDoc[], 'getComplianceDocs');
   }
 }
 
@@ -232,18 +264,18 @@ export async function getJobs(): Promise<Job[]> {
 
     if (error) {
       console.error('[getJobs] Supabase error:', error);
-      return jobsData as unknown as Job[];
+      return getSeedFallback(jobsData as unknown as Job[], 'getJobs');
     }
 
     if (!data || data.length === 0) {
       console.log('[getJobs] No data in Supabase, using seed data');
-      return jobsData as unknown as Job[];
+      return getSeedFallback(jobsData as unknown as Job[], 'getJobs');
     }
 
     return data;
   } catch (err) {
     console.error('[getJobs] Error:', err);
-    return jobsData as unknown as Job[];
+    return getSeedFallback(jobsData as unknown as Job[], 'getJobs');
   }
 }
 
@@ -257,15 +289,21 @@ export async function getJobBySlug(slug: string): Promise<Job | null> {
       .single();
 
     if (error || !data) {
-      const seedJob = (jobsData as unknown as Job[]).find(j => j.slug === slug);
-      return seedJob || null;
+      if (canUseSeedData()) {
+        const seedJob = (jobsData as unknown as Job[]).find(j => j.slug === slug);
+        return seedJob || null;
+      }
+      return null;
     }
 
     return data;
   } catch (err) {
     console.error('[getJobBySlug] Error:', err);
-    const seedJob = (jobsData as unknown as Job[]).find(j => j.slug === slug);
-    return seedJob || null;
+    if (canUseSeedData()) {
+      const seedJob = (jobsData as unknown as Job[]).find(j => j.slug === slug);
+      return seedJob || null;
+    }
+    return null;
   }
 }
 
@@ -329,18 +367,18 @@ export async function getCases(): Promise<Case[]> {
 
     if (error) {
       console.error('[getCases] Supabase error:', error);
-      return casesData as unknown as Case[];
+      return getSeedFallback(casesData as unknown as Case[], 'getCases');
     }
 
     if (!data || data.length === 0) {
       console.log('[getCases] No data in Supabase, using seed data');
-      return casesData as unknown as Case[];
+      return getSeedFallback(casesData as unknown as Case[], 'getCases');
     }
 
     return data;
   } catch (err) {
     console.error('[getCases] Error:', err);
-    return casesData as unknown as Case[];
+    return getSeedFallback(casesData as unknown as Case[], 'getCases');
   }
 }
 
@@ -358,18 +396,18 @@ export async function getFacilityTickets(): Promise<FacilityTicket[]> {
 
     if (error) {
       console.error('[getFacilityTickets] Supabase error:', error);
-      return facilityTicketsData as unknown as FacilityTicket[];
+      return getSeedFallback(facilityTicketsData as unknown as FacilityTicket[], 'getFacilityTickets');
     }
 
     if (!data || data.length === 0) {
       console.log('[getFacilityTickets] No data in Supabase, using seed data');
-      return facilityTicketsData as unknown as FacilityTicket[];
+      return getSeedFallback(facilityTicketsData as unknown as FacilityTicket[], 'getFacilityTickets');
     }
 
     return data;
   } catch (err) {
     console.error('[getFacilityTickets] Error:', err);
-    return facilityTicketsData as unknown as FacilityTicket[];
+    return getSeedFallback(facilityTicketsData as unknown as FacilityTicket[], 'getFacilityTickets');
   }
 }
 
@@ -383,15 +421,21 @@ export async function getFacilityTicketById(id: string): Promise<FacilityTicket 
       .single();
 
     if (error || !data) {
-      const seedTicket = (facilityTicketsData as unknown as FacilityTicket[]).find(t => t.id === id);
-      return seedTicket || null;
+      if (canUseSeedData()) {
+        const seedTicket = (facilityTicketsData as unknown as FacilityTicket[]).find(t => t.id === id);
+        return seedTicket || null;
+      }
+      return null;
     }
 
     return data;
   } catch (err) {
     console.error('[getFacilityTicketById] Error:', err);
-    const seedTicket = (facilityTicketsData as unknown as FacilityTicket[]).find(t => t.id === id);
-    return seedTicket || null;
+    if (canUseSeedData()) {
+      const seedTicket = (facilityTicketsData as unknown as FacilityTicket[]).find(t => t.id === id);
+      return seedTicket || null;
+    }
+    return null;
   }
 }
 
@@ -424,18 +468,29 @@ export async function getPartners(): Promise<Partner[]> {
 
     if (error) {
       console.error('[getPartners] Supabase error:', error);
-      return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+      if (canUseSeedData()) {
+        console.warn('[getPartners] Using seed data fallback (development mode)');
+        return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+      }
+      return [];
     }
 
     if (!data || data.length === 0) {
-      console.log('[getPartners] No data in Supabase, using seed data');
-      return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+      if (canUseSeedData()) {
+        console.warn('[getPartners] Using seed data fallback (development mode)');
+        return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+      }
+      return [];
     }
 
     return data;
   } catch (err) {
     console.error('[getPartners] Error:', err);
-    return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+    if (canUseSeedData()) {
+      console.warn('[getPartners] Using seed data fallback (development mode)');
+      return (partnersData as unknown as SeedPartner[]).map(extractPartnerFromSeed);
+    }
+    return [];
   }
 }
 
@@ -449,15 +504,21 @@ export async function getPartnerById(id: string): Promise<Partner | null> {
       .single();
 
     if (error || !data) {
-      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === id);
-      return seedPartner ? extractPartnerFromSeed(seedPartner) : null;
+      if (canUseSeedData()) {
+        const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === id);
+        return seedPartner ? extractPartnerFromSeed(seedPartner) : null;
+      }
+      return null;
     }
 
     return data;
   } catch (err) {
     console.error('[getPartnerById] Error:', err);
-    const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === id);
-    return seedPartner ? extractPartnerFromSeed(seedPartner) : null;
+    if (canUseSeedData()) {
+      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === id);
+      return seedPartner ? extractPartnerFromSeed(seedPartner) : null;
+    }
+    return null;
   }
 }
 
@@ -472,20 +533,29 @@ export async function getPartnerDocuments(partnerId: string): Promise<PartnerDoc
 
     if (error) {
       console.error('[getPartnerDocuments] Supabase error:', error);
-      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
-      return seedPartner?.documents || [];
+      if (canUseSeedData()) {
+        const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
+        return seedPartner?.documents || [];
+      }
+      return [];
     }
 
     if (!data || data.length === 0) {
-      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
-      return seedPartner?.documents || [];
+      if (canUseSeedData()) {
+        const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
+        return seedPartner?.documents || [];
+      }
+      return [];
     }
 
     return data;
   } catch (err) {
     console.error('[getPartnerDocuments] Error:', err);
-    const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
-    return seedPartner?.documents || [];
+    if (canUseSeedData()) {
+      const seedPartner = (partnersData as unknown as SeedPartner[]).find(p => p.id === partnerId);
+      return seedPartner?.documents || [];
+    }
+    return [];
   }
 }
 
@@ -500,8 +570,11 @@ export async function getPartnersWithDocuments(): Promise<PartnerWithDocuments[]
       .order('created_at', { ascending: false });
 
     if (partnersError || !partnersDb || partnersDb.length === 0) {
-      console.log('[getPartnersWithDocuments] Using seed data');
-      return partnersData as unknown as PartnerWithDocuments[];
+      if (canUseSeedData()) {
+        console.warn('[getPartnersWithDocuments] Using seed data fallback (development mode)');
+        return partnersData as unknown as PartnerWithDocuments[];
+      }
+      return [];
     }
 
     // Get all documents for these partners
@@ -524,7 +597,11 @@ export async function getPartnersWithDocuments(): Promise<PartnerWithDocuments[]
     return partnersWithDocs;
   } catch (err) {
     console.error('[getPartnersWithDocuments] Error:', err);
-    return partnersData as unknown as PartnerWithDocuments[];
+    if (canUseSeedData()) {
+      console.warn('[getPartnersWithDocuments] Using seed data fallback (development mode)');
+      return partnersData as unknown as PartnerWithDocuments[];
+    }
+    return [];
   }
 }
 
@@ -542,18 +619,18 @@ export async function getProfiles(): Promise<Profile[]> {
 
     if (error) {
       console.error('[getProfiles] Supabase error:', error);
-      return profilesData as unknown as Profile[];
+      return getSeedFallback(profilesData as unknown as Profile[], 'getProfiles');
     }
 
     if (!data || data.length === 0) {
       console.log('[getProfiles] No data in Supabase, using seed data');
-      return profilesData as unknown as Profile[];
+      return getSeedFallback(profilesData as unknown as Profile[], 'getProfiles');
     }
 
     return data;
   } catch (err) {
     console.error('[getProfiles] Error:', err);
-    return profilesData as unknown as Profile[];
+    return getSeedFallback(profilesData as unknown as Profile[], 'getProfiles');
   }
 }
 

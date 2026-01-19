@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser, canPerformAction } from '@/lib/supabase/auth';
 
 const updateApplicationSchema = z.object({
   status: z.enum(['new', 'screening', 'interview', 'offer', 'hired', 'rejected']).optional(),
@@ -98,6 +99,22 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // RBAC check: only HR, ADMIN, or DIRECTIE can delete applications
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    if (!canPerformAction(user.role, 'applications:delete')) {
+      console.warn('[DELETE /api/applications/[id]] Forbidden - user role:', user.role);
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: insufficient permissions' },
+        { status: 403 }
+      );
+    }
+
     const { id } = await params;
     const supabase = await createClient();
 

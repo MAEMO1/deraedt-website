@@ -75,19 +75,10 @@ interface CreateTicketForm {
   location: string;
   description: string;
   urgency: TicketUrgency;
-  category: string;
   contact_name: string;
   contact_phone: string;
   contact_email: string;
 }
-
-const CATEGORY_OPTIONS = [
-  { value: 'electrical', label: 'Elektriciteit' },
-  { value: 'plumbing', label: 'Sanitair' },
-  { value: 'hvac', label: 'HVAC' },
-  { value: 'structural', label: 'Constructie' },
-  { value: 'other', label: 'Andere' },
-];
 
 export function FacilityClient({ user, initialTickets, teamMembers }: FacilityClientProps) {
   const [tickets, setTickets] = useState<Ticket[]>(initialTickets);
@@ -102,7 +93,6 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
     location: '',
     description: '',
     urgency: 'medium',
-    category: '',
     contact_name: '',
     contact_phone: '',
     contact_email: '',
@@ -251,7 +241,7 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
 
   const handleCreateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!createForm.client_name || !createForm.location || !createForm.description) {
+    if (!createForm.client_name || !createForm.location || !createForm.description || !createForm.contact_name || !createForm.contact_email) {
       alert('Vul alle verplichte velden in');
       return;
     }
@@ -281,7 +271,6 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
         location: '',
         description: '',
         urgency: 'medium',
-        category: '',
         contact_name: '',
         contact_phone: '',
         contact_email: '',
@@ -763,25 +752,6 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                   </select>
                 </div>
 
-                {/* Category */}
-                <div>
-                  <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
-                    Categorie
-                  </label>
-                  <select
-                    value={createForm.category}
-                    onChange={(e) => setCreateForm({ ...createForm, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
-                  >
-                    <option value="">Selecteer categorie</option>
-                    {CATEGORY_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
                 {/* Description */}
                 <div>
                   <label className="block text-sm font-medium text-[#0C0C0C] mb-1">
@@ -799,14 +769,15 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
 
                 {/* Contact Info */}
                 <div className="border-t border-[#0C0C0C]/10 pt-4">
-                  <p className="text-sm font-medium text-[#0C0C0C] mb-3">Contactpersoon (optioneel)</p>
+                  <p className="text-sm font-medium text-[#0C0C0C] mb-3">Contactpersoon</p>
                   <div className="space-y-3">
                     <input
                       type="text"
                       value={createForm.contact_name}
                       onChange={(e) => setCreateForm({ ...createForm, contact_name: e.target.value })}
                       className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
-                      placeholder="Naam"
+                      placeholder="Naam *"
+                      required
                     />
                     <div className="grid grid-cols-2 gap-3">
                       <input
@@ -821,7 +792,8 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                         value={createForm.contact_email}
                         onChange={(e) => setCreateForm({ ...createForm, contact_email: e.target.value })}
                         className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
-                        placeholder="Email"
+                        placeholder="Email *"
+                        required
                       />
                     </div>
                   </div>

@@ -14,14 +14,15 @@ const SLA_HOURS: Record<TicketUrgency, number> = {
 };
 
 const createTicketSchema = z.object({
+  // Client info used for title generation
   client_name: z.string().min(1, 'Klantnaam is verplicht'),
   location: z.string().min(1, 'Locatie is verplicht'),
   description: z.string().min(1, 'Beschrijving is verplicht'),
   urgency: z.enum(URGENCY_LEVELS as [TicketUrgency, ...TicketUrgency[]]),
-  category: z.string().optional(),
-  contact_name: z.string().optional(),
+  // Reporter info (maps to reporter_* columns in DB)
+  contact_name: z.string().min(1, 'Contactpersoon is verplicht'),
   contact_phone: z.string().optional(),
-  contact_email: z.string().email().optional().or(z.literal('')),
+  contact_email: z.string().email('Ongeldig e-mailadres'),
 });
 
 // Generate ticket reference: FT-YYYY-XXXX
@@ -53,20 +54,22 @@ export async function POST(request: NextRequest) {
     const slaDeadline = new Date();
     slaDeadline.setHours(slaDeadline.getHours() + SLA_HOURS[data.urgency]);
 
+    // Generate title from client name and location
+    const title = `${data.client_name} - ${data.location}`;
+
     const { data: ticket, error } = await supabase
       .from('facility_tickets')
       .insert({
         reference,
-        client_name: data.client_name,
+        title,
         location: data.location,
         description: data.description,
         urgency: data.urgency,
-        category: data.category || null,
-        contact_name: data.contact_name || null,
-        contact_phone: data.contact_phone || null,
-        contact_email: data.contact_email || null,
         status: 'open',
-        sla_deadline: slaDeadline.toISOString(),
+        sla_due_at: slaDeadline.toISOString(),
+        reporter_name: data.contact_name,
+        reporter_email: data.contact_email,
+        reporter_phone: data.contact_phone || null,
       })
       .select()
       .single();

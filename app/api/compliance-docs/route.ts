@@ -42,7 +42,8 @@ export async function POST(request: NextRequest) {
         valid_from: data.valid_from,
         valid_to: data.valid_to,
         file_url: data.file_url || null,
-        status: 'active',
+        is_public: false,
+        include_in_tender_pack: true,
       })
       .select()
       .single();

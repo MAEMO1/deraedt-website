@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit, getClientIP, RATE_LIMIT_CONFIGS } from '@/lib/rate-limit';
 
 const projectplannerSchema = z.object({
   // Project details
@@ -60,6 +61,26 @@ function getLabel(field: string, value: string): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = getClientIP(request.headers);
+    const rateLimitKey = `projectplanner:${clientIP}`;
+    const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMIT_CONFIGS.form);
+
+    if (!rateLimit.allowed) {
+      console.warn(`[PROJECTPLANNER] Rate limit exceeded for IP: ${clientIP}`);
+      return NextResponse.json(
+        { success: false, error: 'Te veel verzoeken. Probeer het later opnieuw.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': String(rateLimit.resetAt),
+          },
+        }
+      );
+    }
+
     const body = await request.json();
     const data = projectplannerSchema.parse(body);
 

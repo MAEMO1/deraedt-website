@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser, canPerformAction } from '@/lib/supabase/auth';
 
 const updateTicketSchema = z.object({
   status: z.enum(['open', 'in_progress', 'waiting', 'resolved']).optional(),
@@ -100,6 +101,22 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // RBAC check: only OPERATIONS, ADMIN, or DIRECTIE can delete tickets
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    if (!canPerformAction(user.role, 'facility:delete')) {
+      console.warn('[DELETE /api/facility-tickets/[id]] Forbidden - user role:', user.role);
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: insufficient permissions' },
+        { status: 403 }
+      );
+    }
+
     const { id } = await params;
     const supabase = await createClient();
 

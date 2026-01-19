@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { sendApplicationConfirmation, sendApplicationNotification } from '@/lib/email';
+import { checkRateLimit, getClientIP, RATE_LIMIT_CONFIGS } from '@/lib/rate-limit';
 
 const applicationSchema = z.object({
   job_id: z.string().min(1, 'Job ID is required'),
@@ -19,6 +20,26 @@ const applicationSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = getClientIP(request.headers);
+    const rateLimitKey = `applications:${clientIP}`;
+    const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMIT_CONFIGS.form);
+
+    if (!rateLimit.allowed) {
+      console.warn(`[APPLICATIONS] Rate limit exceeded for IP: ${clientIP}`);
+      return NextResponse.json(
+        { success: false, error: 'Te veel verzoeken. Probeer het later opnieuw.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': String(rateLimit.resetAt),
+          },
+        }
+      );
+    }
+
     const body = await request.json();
     const data = applicationSchema.parse(body);
 

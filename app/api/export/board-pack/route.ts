@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateBoardPackPDF } from '@/lib/pdf/board-pack';
 import { getExpiryRadar, getLeads, getTenders, getJobApplications } from '@/lib/supabase/queries';
+import { getCurrentUser, canPerformAction } from '@/lib/supabase/auth';
 import type { ComplianceDoc } from '@/lib/supabase/types';
 
 // Helper to calculate days remaining
@@ -12,6 +13,21 @@ function calculateDaysRemaining(validTo: string): number {
 
 export async function POST() {
   try {
+    // RBAC check: only DIRECTIE can export board pack
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    if (!canPerformAction(user.role, 'export:board-pack')) {
+      console.warn('[EXPORT] Board Pack access denied - user role:', user.role);
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: insufficient permissions' },
+        { status: 403 }
+      );
+    }
     // Fetch all required data
     const [expiryRadar, leads, tenders, applications] = await Promise.all([
       getExpiryRadar(),

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser, canPerformAction } from '@/lib/supabase/auth';
 
 const updateLeadSchema = z.object({
   status: z.enum(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost']).optional(),
@@ -100,6 +101,22 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // RBAC check: only SALES, ADMIN, or DIRECTIE can delete leads
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    if (!canPerformAction(user.role, 'leads:delete')) {
+      console.warn('[DELETE /api/leads/[id]] Forbidden - user role:', user.role);
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: insufficient permissions' },
+        { status: 403 }
+      );
+    }
+
     const { id } = await params;
     const supabase = await createClient();
 

@@ -15,12 +15,25 @@ export const runtime = 'nodejs';
 export const maxDuration = 300; // 5 minutes max for long-running ingests
 
 export async function GET(request: NextRequest) {
-  // Verify authorization
+  // Verify authorization - ALWAYS require CRON_SECRET
   const authHeader = request.headers.get('authorization');
+  const clientIP = request.headers.get('x-forwarded-for') || 'unknown';
 
-  // In production, require CRON_SECRET
-  if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
-    console.warn('[TenderIngestCron] Unauthorized request');
+  // Log all access attempts
+  console.log('[TenderIngestCron] Access attempt from:', clientIP);
+
+  // CRON_SECRET must be configured
+  if (!CRON_SECRET) {
+    console.error('[TenderIngestCron] CRON_SECRET not configured - rejecting request');
+    return NextResponse.json(
+      { error: 'Server configuration error' },
+      { status: 500 }
+    );
+  }
+
+  // Validate the bearer token
+  if (authHeader !== `Bearer ${CRON_SECRET}`) {
+    console.warn('[TenderIngestCron] Unauthorized request - invalid token');
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

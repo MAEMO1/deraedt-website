@@ -143,3 +143,35 @@ Notes: Created POST/GET /api/facility-tickets with Zod validation. Auto-generate
 Status: DONE
 Notes: All 8 FIX stories (FIX-001 to FIX-008) implemented and verified. Growth OS feature gaps addressed.
 ---
+[PROD-001] - Schema alignment: API routes vs migrations
+Status: DONE
+Notes: Fixed compliance-docs API (removed invalid 'status' field). Fixed facility-tickets API (correct field mapping: title, reporter_*, sla_due_at). Form contact fields made required.
+---
+[PROD-002] - RBAC enforcement on all mutation endpoints
+Status: DONE
+Notes: Added RBAC permission actions to lib/supabase/auth.ts. All DELETE endpoints now check getCurrentUser + canPerformAction. Returns 401/403 for unauthorized access.
+---
+[PROD-003] - Cron authentication hardening
+Status: DONE
+Notes: Fixed auth bypass in tender-ingest cron. Returns 500 if CRON_SECRET not configured, 401 if invalid token. Logs all access attempts with client IP.
+---
+[PROD-004] - Seed data dev-only guard
+Status: DONE
+Notes: Added canUseSeedData() helper checking NODE_ENV. Updated all 15+ query functions. In production returns empty array, in dev logs warning and returns seed data.
+---
+[PROD-005] - Export RBAC + security headers
+Status: DONE
+Notes: Board pack export requires DIRECTIE role. Added security headers in next.config.ts: HSTS, X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy.
+---
+[PROD-006] - Rate limiting on public endpoints
+Status: DONE
+Notes: Created lib/rate-limit.ts with sliding window rate limiter. Added to /api/contact, /api/leads, /api/projectplanner, /api/applications. 10 requests/minute, returns 429 with Retry-After header.
+---
+[PROD-007] - Env validation + email production mode
+Status: DONE
+Notes: Created lib/config.ts with typed env object and helper functions. Email service throws in production if RESEND_API_KEY missing, logs in development. Lazy validation allows builds without env vars.
+---
+[COMPLETE] - All PROD stories completed
+Status: DONE
+Notes: All 7 PROD stories (PROD-001 to PROD-007) implemented and verified. Production-readiness gaps addressed: schema alignment, RBAC enforcement, cron security, seed data guards, security headers, rate limiting, env validation.
+---

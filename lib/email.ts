@@ -2,18 +2,36 @@
  * Email Service - Resend Integration
  *
  * Sends transactional emails for contact form submissions and job applications.
- * Gracefully handles missing RESEND_API_KEY by logging instead of sending.
+ *
+ * Production behavior:
+ * - Throws error if RESEND_API_KEY is not configured
+ * - All email functions will fail with clear error messages
+ *
+ * Development behavior:
+ * - Logs emails to console if RESEND_API_KEY is not configured
+ * - Returns true to not block form submissions during development
  */
 
 import { Resend } from 'resend';
+import { env, isEmailConfigured } from './config';
 
-// Initialize Resend client (will be null if no API key)
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+// Initialize Resend client
+const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
 
-const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@deraedt.be';
-const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'info@deraedt.be';
+const FROM_EMAIL = env.FROM_EMAIL;
+const NOTIFICATION_EMAIL = env.NOTIFICATION_EMAIL;
+
+/**
+ * Check if email can be sent, throw in production if not configured
+ */
+function assertEmailConfigured(operation: string): void {
+  if (!isEmailConfigured() && env.isProduction) {
+    throw new Error(
+      `[EMAIL] Cannot ${operation}: RESEND_API_KEY is not configured. ` +
+      'Email delivery is required in production.'
+    );
+  }
+}
 
 interface ContactNotificationData {
   naam: string;
@@ -104,14 +122,17 @@ export async function sendContactNotification(data: ContactNotificationData): Pr
 </html>
 `;
 
+  // In production, throw if email not configured. In dev, log and continue.
+  assertEmailConfigured('send contact notification');
+
   if (!resend) {
-    console.log('[EMAIL] No RESEND_API_KEY configured, logging email instead:', {
+    console.log('[EMAIL] Development mode - logging email instead:', {
       to: NOTIFICATION_EMAIL,
       subject: `Nieuw contactformulier: ${data.onderwerp}`,
       from: data.naam,
       email: data.email,
     });
-    return true; // Return true to not block form submission
+    return true; // Return true to not block form submission in dev
   }
 
   try {
@@ -197,13 +218,16 @@ export async function sendApplicationConfirmation(data: ApplicationConfirmationD
 </html>
 `;
 
+  // In production, throw if email not configured. In dev, log and continue.
+  assertEmailConfigured('send application confirmation');
+
   if (!resend) {
-    console.log('[EMAIL] No RESEND_API_KEY configured, logging email instead:', {
+    console.log('[EMAIL] Development mode - logging email instead:', {
       to: data.email,
       subject: `Sollicitatie ontvangen - ${data.jobTitle}`,
       applicant: data.fullName,
     });
-    return true; // Return true to not block form submission
+    return true; // Return true to not block form submission in dev
   }
 
   try {
@@ -293,14 +317,17 @@ export async function sendApplicationNotification(data: ApplicationConfirmationD
 </html>
 `;
 
-  const HR_EMAIL = process.env.HR_EMAIL || 'hr@deraedt.be';
+  const HR_EMAIL = env.HR_EMAIL;
+
+  // In production, throw if email not configured. In dev, log and continue.
+  assertEmailConfigured('send application notification');
 
   if (!resend) {
-    console.log('[EMAIL] No RESEND_API_KEY configured, logging email instead:', {
+    console.log('[EMAIL] Development mode - logging email instead:', {
       to: HR_EMAIL,
       subject: `Nieuwe sollicitatie: ${data.jobTitle} - ${data.fullName}`,
     });
-    return true;
+    return true; // Return true to not block form submission in dev
   }
 
   try {
