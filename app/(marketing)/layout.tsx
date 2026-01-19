@@ -1,4 +1,4 @@
-import { Header, Footer, CookieBanner } from "@/components/shared";
+import { Header, Footer, CookieBanner, ScrollToTop } from "@/components/shared";
 import { ScrollProgress, ScrollToTopWithProgress } from "@/components/animations";
 
 export default function MarketingLayout({
@@ -8,6 +8,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <ScrollToTop />
       <ScrollProgress />
       <Header />
       <main>{children}</main>
