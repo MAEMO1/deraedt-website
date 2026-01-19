@@ -2,53 +2,11 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Play, Shield, Award, Leaf } from "lucide-react";
 import { STATS } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
-import { useRef, useEffect, useState } from "react";
-
-// Animated counter for stats panel
-function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    const controls = animate(0, value, {
-      duration: 2,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (latest) => {
-        setDisplayValue(Math.round(latest));
-      },
-    });
-
-    return () => controls.stop();
-  }, [isInView, value]);
-
-  return (
-    <div ref={ref} className="text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="text-4xl sm:text-5xl font-bold text-[#112337]"
-      >
-        {displayValue}{suffix}
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-2 text-sm text-[#686E77]"
-      >
-        {label}
-      </motion.div>
-    </div>
-  );
-}
+import { useRef } from "react";
 
 export function Hero() {
   const t = useTranslations("hero");
@@ -81,9 +39,9 @@ export function Hero() {
 
       <motion.div style={{ opacity: heroOpacity }} className="relative z-10 h-full">
         <div className="container-wide pt-32 sm:pt-40 pb-20">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[70vh]">
-            {/* Left content */}
-            <div>
+          <div className="flex items-center min-h-[70vh]">
+            {/* Content */}
+            <div className="max-w-3xl">
               {/* Trust badges */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -160,45 +118,9 @@ export function Hero() {
                 </Link>
               </motion.div>
             </div>
-
-            {/* Right side - Stats panel (desktop only) */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="hidden lg:block"
-            >
-              <div className="bg-white rounded-2xl p-10 shadow-2xl">
-                <div className="grid grid-cols-2 gap-8">
-                  <AnimatedStat value={STATS.yearsExperience} label={t("stats.yearsExperience")} />
-                  <AnimatedStat value={6} label={t("stats.classRecognition")} />
-                  <AnimatedStat value={STATS.employeesExact} suffix="+" label={t("stats.employees")} />
-                  <AnimatedStat value={3} suffix="x" label={t("stats.certified")} />
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
       </motion.div>
-
-      {/* Mobile stats - shows below hero content on mobile */}
-      <div className="lg:hidden relative z-10 pb-8">
-        <div className="container-wide">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="bg-white rounded-xl p-6 shadow-xl"
-          >
-            <div className="grid grid-cols-2 gap-6">
-              <AnimatedStat value={STATS.yearsExperience} label={t("stats.yearsExperience")} />
-              <AnimatedStat value={6} label={t("stats.classRecognition")} />
-              <AnimatedStat value={STATS.employeesExact} suffix="+" label={t("stats.employees")} />
-              <AnimatedStat value={3} suffix="x" label={t("stats.certified")} />
-            </div>
-          </motion.div>
-        </div>
-      </div>
 
       {/* Scroll indicator */}
       <motion.div
