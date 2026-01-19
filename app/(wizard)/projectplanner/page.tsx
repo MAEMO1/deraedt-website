@@ -419,7 +419,8 @@ export default function ProjectplannerPage() {
 
       {/* Footer */}
       <footer className="absolute bottom-0 left-0 right-0 z-40 p-6 sm:p-10">
-        <div className="flex items-center justify-center max-w-4xl mx-auto">
+        <div className="flex flex-col items-center gap-6 max-w-4xl mx-auto">
+          {/* Main action button */}
           {currentQuestion.type === "form" ? (
             <button
               onClick={handleSubmit}
@@ -458,13 +459,11 @@ export default function ProjectplannerPage() {
               </span>
             </button>
           )}
-        </div>
 
-        {/* Start over */}
-        <div className="absolute right-6 sm:right-10 bottom-6 sm:bottom-10">
+          {/* Start over - below on mobile, absolute on desktop */}
           <button
             onClick={restart}
-            className="text-sm font-medium text-[#DADADA] hover:text-[#112337] uppercase tracking-widest transition-all duration-300"
+            className="sm:absolute sm:right-10 sm:bottom-10 text-sm font-medium text-[#DADADA] hover:text-[#112337] uppercase tracking-widest transition-all duration-300"
           >
             Opnieuw
           </button>
