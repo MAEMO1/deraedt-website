@@ -233,17 +233,17 @@ function BenefitsSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group bg-[#F8F9FA] rounded-2xl p-8 hover:bg-[#112337] transition-all duration-500"
+                className="group bg-[#F8F9FA] rounded-2xl p-6 sm:p-8 hover:bg-[#112337] transition-all duration-500"
               >
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#204CE5]/10 group-hover:bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0 transition-colors duration-500">
-                    <Icon className="w-6 h-6 text-[#204CE5]" />
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#204CE5]/10 group-hover:bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0 transition-colors duration-500">
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#204CE5]" />
                   </div>
-                  <div className="min-w-0 overflow-hidden">
-                    <h3 className="text-2xl font-bold text-[#112337] group-hover:text-white transition-colors duration-500 mb-3 break-words hyphens-auto">
+                  <div className="min-w-0">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#112337] group-hover:text-white transition-colors duration-500 mb-2 sm:mb-3 break-words hyphens-auto">
                       {t(`benefitsSection.items.${key}.title`)}
                     </h3>
-                    <p className="text-[#686E77] group-hover:text-white/60 transition-colors duration-500 leading-relaxed break-words">
+                    <p className="text-sm sm:text-base text-[#686E77] group-hover:text-white/60 transition-colors duration-500 leading-relaxed break-words">
                       {t(`benefitsSection.items.${key}.description`)}
                     </p>
                   </div>
