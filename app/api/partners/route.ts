@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('[POST /api/partners] Supabase error:', error);
       return NextResponse.json(
-        { success: false, error: 'Failed to create partner' },
+        { success: false, error: `Database error: ${error.message || 'Failed to create partner'}` },
         { status: 500 }
       );
     }
