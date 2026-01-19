@@ -36,16 +36,17 @@ export function Hero() {
 
       {/* Content */}
       <motion.div style={{ opacity }} className="relative z-10 min-h-screen flex items-center">
-        <div className="container-wide pt-32 pb-20">
+        {/* pb-40 on mobile to account for stats bar, pb-32 on larger screens */}
+        <div className="container-wide pt-24 sm:pt-32 pb-44 sm:pb-32">
           <div className="max-w-3xl">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-8"
+              className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-6 sm:mb-8"
             >
-              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white rounded-full animate-pulse" />
               Familiale aannemer sinds 1930
             </motion.div>
 
@@ -54,7 +55,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] tracking-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.1] sm:leading-[1.05] tracking-tight"
             >
               Bouwen aan de
               <br />
@@ -66,7 +67,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mt-8 text-xl text-white/70 max-w-xl leading-relaxed"
+              className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl text-white/70 max-w-xl leading-relaxed"
             >
               Erfgoedrenovatie, nieuwbouw en facility management.
               Al {STATS.yearsExperience} jaar uw betrouwbare partner voor
@@ -78,20 +79,20 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-10 flex flex-wrap items-center gap-4"
+              className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4"
             >
               <Link
                 href="/projectplanner"
-                className="inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30"
+                className="inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl hover:shadow-[#204CE5]/30"
               >
                 Start uw project
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5" />
               </Link>
               <Link
                 href="/projecten"
-                className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:bg-white/20"
+                className="inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold transition-all duration-300 hover:bg-white/20"
               >
-                <Play className="w-5 h-5" />
+                <Play className="w-4 sm:w-5 h-4 sm:h-5" />
                 Bekijk projecten
               </Link>
             </motion.div>
@@ -107,8 +108,8 @@ export function Hero() {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="absolute bottom-0 left-0 right-0 bg-white z-20"
       >
-        <div className="container-wide py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="container-wide py-5 sm:py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
             {[
               { value: STATS.yearsExperience, suffix: "+", label: "Jaar ervaring" },
               { value: "3", suffix: "x", label: "Gecertificeerd" },
@@ -116,10 +117,10 @@ export function Hero() {
               { value: "6", suffix: "", label: "Klasse erkenning" },
             ].map((stat, i) => (
               <div key={stat.label} className={i > 0 ? "md:border-l md:border-gray-200 md:pl-8" : ""}>
-                <div className="text-4xl sm:text-5xl font-bold text-[#112337]">
+                <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#112337]">
                   {stat.value}<span className="text-[#204CE5]">{stat.suffix}</span>
                 </div>
-                <div className="mt-1 text-sm text-[#686E77]">{stat.label}</div>
+                <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-[#686E77]">{stat.label}</div>
               </div>
             ))}
           </div>
