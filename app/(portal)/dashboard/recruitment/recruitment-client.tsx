@@ -36,58 +36,21 @@ import {
   type VDABSyncStatus,
   type InternalJob,
 } from '@/lib/adapters/vdab';
+import {
+  ROLE_LABELS,
+  JOB_STATUS_LABELS,
+  JOB_STATUS_COLORS,
+  APPLICATION_STATUS_LABELS,
+  APPLICATION_STATUS_COLORS,
+  EMPLOYMENT_TYPE_LABELS,
+  getDisplayName,
+} from '@/lib/dashboard';
 
 interface RecruitmentClientProps {
   user: Profile;
   jobs: Job[];
   applications: JobApplication[];
 }
-
-const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
-};
-
-const jobStatusLabels: Record<string, string> = {
-  draft: 'Concept',
-  published: 'Gepubliceerd',
-  closed: 'Gesloten',
-};
-
-const jobStatusColors: Record<string, string> = {
-  draft: 'bg-gray-100 text-gray-700 border-gray-200',
-  published: 'bg-green-100 text-green-700 border-green-200',
-  closed: 'bg-red-100 text-red-700 border-red-200',
-};
-
-const applicationStatusLabels: Record<string, string> = {
-  new: 'Nieuw',
-  screening: 'Screening',
-  interview: 'Interview',
-  offer: 'Aanbod',
-  hired: 'Aangenomen',
-  rejected: 'Afgewezen',
-};
-
-const applicationStatusColors: Record<string, string> = {
-  new: 'bg-blue-100 text-blue-700 border-blue-200',
-  screening: 'bg-amber-100 text-amber-700 border-amber-200',
-  interview: 'bg-purple-100 text-purple-700 border-purple-200',
-  offer: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-  hired: 'bg-green-100 text-green-700 border-green-200',
-  rejected: 'bg-red-100 text-red-700 border-red-200',
-};
-
-const employmentTypeLabels: Record<string, string> = {
-  full_time: 'Voltijds',
-  part_time: 'Deeltijds',
-  contract: 'Contract',
-  internship: 'Stage',
-};
 
 interface CreateJobForm {
   title: string;
@@ -126,7 +89,7 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
   const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
-  const displayName = user.full_name || user.email.split('@')[0];
+  const displayName = getDisplayName(user);
 
   // Filter jobs
   const filteredJobs = jobs.filter((job) => {
@@ -323,7 +286,7 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
         <DashboardHeader
           title="Recruitment Hub"
           userName={displayName}
-          userRole={roleLabels[user.role] || user.role}
+          userRole={ROLE_LABELS[user.role] || user.role}
         />
 
         <main className="p-6">
@@ -411,12 +374,12 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
                 >
                   <option value="all">Alle statussen</option>
                   {activeTab === 'jobs'
-                    ? Object.entries(jobStatusLabels).map(([value, label]) => (
+                    ? Object.entries(JOB_STATUS_LABELS).map(([value, label]) => (
                         <option key={value} value={value}>
                           {label}
                         </option>
                       ))
-                    : Object.entries(applicationStatusLabels).map(([value, label]) => (
+                    : Object.entries(APPLICATION_STATUS_LABELS).map(([value, label]) => (
                         <option key={value} value={value}>
                           {label}
                         </option>
@@ -482,13 +445,13 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
                             <div className="flex items-center gap-2">
                               <Clock className="w-4 h-4 text-[#6B6560]" />
                               <span className="text-sm text-[#0C0C0C]">
-                                {employmentTypeLabels[job.employment_type] || job.employment_type}
+                                {EMPLOYMENT_TYPE_LABELS[job.employment_type] || job.employment_type}
                               </span>
                             </div>
                           </td>
                           <td className="p-4">
-                            <span className={`text-xs px-2 py-1 rounded border ${jobStatusColors[job.status]}`}>
-                              {jobStatusLabels[job.status]}
+                            <span className={`text-xs px-2 py-1 rounded border ${JOB_STATUS_COLORS[job.status]}`}>
+                              {JOB_STATUS_LABELS[job.status]}
                             </span>
                           </td>
                           <td className="p-4">
@@ -633,8 +596,8 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
                           <span className="text-sm text-[#6B6560]">{formatDate(app.created_at)}</span>
                         </td>
                         <td className="p-4">
-                          <span className={`text-xs px-2 py-1 rounded border ${applicationStatusColors[app.status]}`}>
-                            {applicationStatusLabels[app.status]}
+                          <span className={`text-xs px-2 py-1 rounded border ${APPLICATION_STATUS_COLORS[app.status]}`}>
+                            {APPLICATION_STATUS_LABELS[app.status]}
                           </span>
                         </td>
                         <td className="p-4">
@@ -793,13 +756,13 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
               <div>
                 <h4 className="text-sm font-semibold text-[#0C0C0C] mb-2">Status</h4>
                 <div className="flex flex-wrap gap-2">
-                  {(Object.entries(applicationStatusLabels) as [ApplicationStatus, string][]).map(([value, label]) => (
+                  {(Object.entries(APPLICATION_STATUS_LABELS) as [ApplicationStatus, string][]).map(([value, label]) => (
                     <button
                       key={value}
                       onClick={() => handleStatusChange(selectedApplication.id, value)}
                       className={`px-3 py-1.5 text-xs rounded border transition-colors ${
                         selectedApplication.status === value
-                          ? applicationStatusColors[value]
+                          ? APPLICATION_STATUS_COLORS[value]
                           : 'border-[#0C0C0C]/10 hover:bg-[#FAF7F2]'
                       }`}
                     >
@@ -899,7 +862,7 @@ export function RecruitmentClient({ user, jobs: initialJobs, applications: initi
                   onChange={(e) => setJobForm(prev => ({ ...prev, employment_type: e.target.value as CreateJobForm['employment_type'] }))}
                   className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none bg-white"
                 >
-                  {Object.entries(employmentTypeLabels).map(([value, label]) => (
+                  {Object.entries(EMPLOYMENT_TYPE_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>{label}</option>
                   ))}
                 </select>

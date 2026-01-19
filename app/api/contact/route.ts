@@ -2,29 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { contactSchema, getLeadTypeFromSubject } from "@/lib/validations/contact";
 import { createClient } from "@/lib/supabase/server";
 import { sendContactNotification } from "@/lib/email";
-import { checkRateLimit, getClientIP, RATE_LIMIT_CONFIGS } from "@/lib/rate-limit";
+import { checkFormRateLimit, handleApiError } from "@/lib/api";
 
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting
-    const clientIP = getClientIP(request.headers);
-    const rateLimitKey = `contact:${clientIP}`;
-    const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMIT_CONFIGS.form);
-
-    if (!rateLimit.allowed) {
-      console.warn(`[CONTACT] Rate limit exceeded for IP: ${clientIP}`);
-      return NextResponse.json(
-        { error: 'Te veel verzoeken. Probeer het later opnieuw.' },
-        {
-          status: 429,
-          headers: {
-            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': String(rateLimit.resetAt),
-          },
-        }
-      );
-    }
+    const rateCheck = checkFormRateLimit(request, 'contact', 'CONTACT');
+    if (!rateCheck.allowed) return rateCheck.response!;
 
     const body = await request.json();
 
@@ -117,10 +101,6 @@ export async function POST(request: NextRequest) {
       leadId: lead.id,
     });
   } catch (error) {
-    console.error("Contact form error:", error);
-    return NextResponse.json(
-      { error: "Er is een fout opgetreden" },
-      { status: 500 }
-    );
+    return handleApiError(error, 'CONTACT');
   }
 }

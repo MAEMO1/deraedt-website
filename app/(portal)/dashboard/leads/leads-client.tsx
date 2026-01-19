@@ -21,49 +21,20 @@ import {
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, Lead, LeadNote } from '@/lib/supabase/types';
+import {
+  ROLE_LABELS,
+  LEAD_STATUS_LABELS,
+  LEAD_STATUS_COLORS,
+  LEAD_TYPE_LABELS,
+  LEAD_STAGES,
+  getDisplayName,
+} from '@/lib/dashboard';
 
 interface LeadsClientProps {
   user: Profile;
   leads: Lead[];
   teamMembers: Profile[];
 }
-
-const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
-};
-
-const statusLabels: Record<string, string> = {
-  new: 'Nieuw',
-  contacted: 'Gecontacteerd',
-  qualified: 'Gekwalificeerd',
-  proposal: 'Offerte',
-  won: 'Gewonnen',
-  lost: 'Verloren',
-};
-
-const statusColors: Record<string, string> = {
-  new: 'bg-blue-100 text-blue-700 border-blue-200',
-  contacted: 'bg-purple-100 text-purple-700 border-purple-200',
-  qualified: 'bg-amber-100 text-amber-700 border-amber-200',
-  proposal: 'bg-orange-100 text-orange-700 border-orange-200',
-  won: 'bg-green-100 text-green-700 border-green-200',
-  lost: 'bg-red-100 text-red-700 border-red-200',
-};
-
-const typeLabels: Record<string, string> = {
-  project: 'Project',
-  facility: 'Facility',
-  partner: 'Partner',
-  procurement: 'Procurement',
-  contact: 'Contact',
-};
-
-const stages = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
 
 export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsClientProps) {
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
@@ -76,7 +47,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  const displayName = user.full_name || user.email.split('@')[0];
+  const displayName = getDisplayName(user);
 
   // Filter leads
   const filteredLeads = leads.filter((lead) => {
@@ -90,7 +61,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
   });
 
   // Group leads by stage for pipeline view
-  const leadsByStage = stages.reduce((acc, stage) => {
+  const leadsByStage = LEAD_STAGES.reduce((acc, stage) => {
     acc[stage] = filteredLeads.filter((lead) => lead.status === stage);
     return acc;
   }, {} as Record<string, Lead[]>);
@@ -204,7 +175,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
         <DashboardHeader
           title="Lead Hub"
           userName={displayName}
-          userRole={roleLabels[user.role] || user.role}
+          userRole={ROLE_LABELS[user.role] || user.role}
         />
 
         <main className="p-6">
@@ -232,7 +203,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
                   className="pl-10 pr-8 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none appearance-none bg-white"
                 >
                   <option value="all">Alle types</option>
-                  {Object.entries(typeLabels).map(([value, label]) => (
+                  {Object.entries(LEAD_TYPE_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -272,7 +243,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
           {/* Pipeline View */}
           {viewMode === 'pipeline' && (
             <div className="flex gap-4 overflow-x-auto pb-4">
-              {stages.map((stage) => (
+              {LEAD_STAGES.map((stage) => (
                 <motion.div
                   key={stage}
                   initial={{ opacity: 0, y: 20 }}
@@ -280,9 +251,9 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
                   className="flex-shrink-0 w-72"
                 >
                   <div className="bg-white border border-[#0C0C0C]/5">
-                    <div className={`p-4 border-b border-[#0C0C0C]/5 ${statusColors[stage].split(' ')[0]}`}>
+                    <div className={`p-4 border-b border-[#0C0C0C]/5 ${LEAD_STATUS_COLORS[stage].split(' ')[0]}`}>
                       <div className="flex items-center justify-between">
-                        <h3 className="font-semibold text-sm">{statusLabels[stage]}</h3>
+                        <h3 className="font-semibold text-sm">{LEAD_STATUS_LABELS[stage]}</h3>
                         <span className="text-xs px-2 py-0.5 bg-white/50 rounded-full">
                           {leadsByStage[stage].length}
                         </span>
@@ -297,7 +268,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
                         >
                           <div className="flex items-start justify-between mb-2">
                             <span className="text-xs px-2 py-0.5 bg-[#0C0C0C]/5 rounded">
-                              {typeLabels[lead.lead_type]}
+                              {LEAD_TYPE_LABELS[lead.lead_type]}
                             </span>
                             {lead.next_action_date && (
                               <Clock className="w-3 h-3 text-[#9A6B4C]" />
@@ -352,12 +323,12 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
                         </td>
                         <td className="p-4">
                           <span className="text-xs px-2 py-1 bg-[#0C0C0C]/5 rounded">
-                            {typeLabels[lead.lead_type]}
+                            {LEAD_TYPE_LABELS[lead.lead_type]}
                           </span>
                         </td>
                         <td className="p-4">
-                          <span className={`text-xs px-2 py-1 rounded border ${statusColors[lead.status]}`}>
-                            {statusLabels[lead.status]}
+                          <span className={`text-xs px-2 py-1 rounded border ${LEAD_STATUS_COLORS[lead.status]}`}>
+                            {LEAD_STATUS_LABELS[lead.status]}
                           </span>
                         </td>
                         <td className="p-4 text-sm text-[#0C0C0C]">{lead.budget_band || '-'}</td>
@@ -393,8 +364,8 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
           >
             <div className="p-6 border-b border-[#0C0C0C]/5 flex items-start justify-between">
               <div>
-                <span className={`text-xs px-2 py-1 rounded border ${statusColors[selectedLead.status]}`}>
-                  {statusLabels[selectedLead.status]}
+                <span className={`text-xs px-2 py-1 rounded border ${LEAD_STATUS_COLORS[selectedLead.status]}`}>
+                  {LEAD_STATUS_LABELS[selectedLead.status]}
                 </span>
                 <h2 className="font-semibold text-xl text-[#0C0C0C] mt-2">
                   {selectedLead.organisation}
@@ -450,7 +421,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="p-3 border border-[#0C0C0C]/5">
                   <p className="text-xs text-[#6B6560]">Type</p>
-                  <p className="text-sm font-medium text-[#0C0C0C]">{typeLabels[selectedLead.lead_type]}</p>
+                  <p className="text-sm font-medium text-[#0C0C0C]">{LEAD_TYPE_LABELS[selectedLead.lead_type]}</p>
                 </div>
                 {selectedLead.budget_band && (
                   <div className="p-3 border border-[#0C0C0C]/5">
@@ -498,7 +469,7 @@ export function LeadsClient({ user, leads: initialLeads, teamMembers }: LeadsCli
                   <option value="">-- Selecteer teamlid --</option>
                   {teamMembers.map((member) => (
                     <option key={member.id} value={member.id}>
-                      {member.full_name || member.email} ({roleLabels[member.role] || member.role})
+                      {member.full_name || member.email} ({ROLE_LABELS[member.role] || member.role})
                     </option>
                   ))}
                 </select>

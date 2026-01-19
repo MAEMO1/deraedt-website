@@ -20,63 +20,20 @@ import {
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, ComplianceDoc, ComplianceDocType } from '@/lib/supabase/types';
+import {
+  ROLE_LABELS,
+  COMPLIANCE_DOC_TYPE_LABELS,
+  COMPLIANCE_DOC_TYPE_ICONS,
+  COMPLIANCE_STATUS_LABELS,
+  COMPLIANCE_STATUS_COLORS,
+  getDisplayName,
+  getStatusFromExpiry,
+} from '@/lib/dashboard';
 
 interface ComplianceClientProps {
   user: Profile;
   complianceDocs: ComplianceDoc[];
 }
-
-// Calculate status from expiry date
-function getStatusFromExpiry(validTo: string): string {
-  const expiryDate = new Date(validTo);
-  const now = new Date();
-  const daysUntil = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-
-  if (daysUntil < 0) return 'expired';
-  if (daysUntil <= 30) return 'expiring_soon';
-  return 'valid';
-}
-
-const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
-};
-
-const docTypeLabels: Record<string, string> = {
-  iso: 'ISO Certificaat',
-  vca: 'VCA Certificaat',
-  co2: 'CO₂ Prestatieladder',
-  erkenning: 'Erkenning',
-  insurance: 'Verzekering',
-  policy: 'Beleidsdocument',
-};
-
-const docTypeIcons: Record<string, string> = {
-  iso: '🏆',
-  vca: '🛡️',
-  co2: '🌱',
-  erkenning: '🏗️',
-  insurance: '📋',
-  policy: '📖',
-};
-
-const statusLabels: Record<string, string> = {
-  valid: 'Geldig',
-  expiring_soon: 'Bijna Verlopen',
-  expired: 'Verlopen',
-  pending_renewal: 'In Verlenging',
-};
-
-const statusColors: Record<string, string> = {
-  valid: 'bg-green-100 text-green-700 border-green-200',
-  expiring_soon: 'bg-amber-100 text-amber-700 border-amber-200',
-  expired: 'bg-red-100 text-red-700 border-red-200',
-  pending_renewal: 'bg-blue-100 text-blue-700 border-blue-200',
-};
 
 const DOC_TYPE_OPTIONS: { value: ComplianceDocType; label: string }[] = [
   { value: 'iso', label: 'ISO Certificaat' },
@@ -116,7 +73,7 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
     valid_to: '',
   });
 
-  const displayName = user.full_name || user.email.split('@')[0];
+  const displayName = getDisplayName(user);
 
   // Calculate days until expiry for each doc
   const getExpiryInfo = (validTo: string) => {
@@ -294,7 +251,7 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
         <DashboardHeader
           title="Compliance Vault"
           userName={displayName}
-          userRole={roleLabels[user.role] || user.role}
+          userRole={ROLE_LABELS[user.role] || user.role}
         />
 
         <main className="p-6">
@@ -430,7 +387,7 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
                   <option value="all">Alle types</option>
                   {docTypes.map((type) => (
                     <option key={type} value={type}>
-                      {docTypeLabels[type] || type}
+                      {COMPLIANCE_DOC_TYPE_LABELS[type] || type}
                     </option>
                   ))}
                 </select>
@@ -521,7 +478,7 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
                         <td className="p-4">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 flex items-center justify-center bg-[#9A6B4C]/10 rounded text-lg">
-                              {docTypeIcons[doc.doc_type] || '📄'}
+                              {COMPLIANCE_DOC_TYPE_ICONS[doc.doc_type] || '📄'}
                             </div>
                             <div>
                               <p className="font-medium text-[#0C0C0C]">{doc.name}</p>
@@ -533,7 +490,7 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
                         </td>
                         <td className="p-4">
                           <span className="text-sm text-[#0C0C0C]">
-                            {docTypeLabels[doc.doc_type] || doc.doc_type}
+                            {COMPLIANCE_DOC_TYPE_LABELS[doc.doc_type] || doc.doc_type}
                           </span>
                         </td>
                         <td className="p-4">
@@ -558,8 +515,8 @@ export function ComplianceClient({ user, complianceDocs }: ComplianceClientProps
                           </div>
                         </td>
                         <td className="p-4">
-                          <span className={`text-xs px-2 py-1 rounded border ${statusColors[getStatusFromExpiry(doc.valid_to)]}`}>
-                            {statusLabels[getStatusFromExpiry(doc.valid_to)]}
+                          <span className={`text-xs px-2 py-1 rounded border ${COMPLIANCE_STATUS_COLORS[getStatusFromExpiry(doc.valid_to)]}`}>
+                            {COMPLIANCE_STATUS_LABELS[getStatusFromExpiry(doc.valid_to)]}
                           </span>
                         </td>
                         <td className="p-4">

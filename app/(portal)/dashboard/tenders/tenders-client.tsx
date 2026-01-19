@@ -15,55 +15,26 @@ import {
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, Tender } from '@/lib/supabase/types';
+import {
+  ROLE_LABELS,
+  TENDER_STATUS_LABELS,
+  TENDER_STATUS_COLORS,
+  TENDER_SOURCE_LABELS,
+  getDisplayName,
+} from '@/lib/dashboard';
+import { formatDeadline, formatValue } from '@/lib/dashboard';
 
 interface TendersClientProps {
   user: Profile;
   tenders: Tender[];
 }
 
-const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
-};
-
-const statusLabels: Record<string, string> = {
-  new: 'Nieuw',
-  analyzing: 'Analyse',
-  go: 'Go',
-  no_go: 'No-Go',
-  in_preparation: 'Voorbereiding',
-  submitted: 'Ingediend',
-  won: 'Gewonnen',
-  lost: 'Verloren',
-};
-
-const statusColors: Record<string, string> = {
-  new: 'bg-blue-100 text-blue-700 border-blue-200',
-  analyzing: 'bg-amber-100 text-amber-700 border-amber-200',
-  go: 'bg-green-100 text-green-700 border-green-200',
-  no_go: 'bg-red-100 text-red-700 border-red-200',
-  in_preparation: 'bg-purple-100 text-purple-700 border-purple-200',
-  submitted: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-  won: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-  lost: 'bg-gray-100 text-gray-700 border-gray-200',
-};
-
-const sourceLabels: Record<string, string> = {
-  ted: 'TED',
-  'e-procurement': 'e-Procurement',
-  manual: 'Handmatig',
-};
-
 export function TendersClient({ user, tenders }: TendersClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const displayName = user.full_name || user.email.split('@')[0];
+  const displayName = getDisplayName(user);
 
   // Filter tenders
   const filteredTenders = tenders.filter((tender) => {
@@ -97,24 +68,6 @@ export function TendersClient({ user, tenders }: TendersClientProps) {
     setIsRefreshing(false);
   };
 
-  const formatDeadline = (deadline: string) => {
-    const date = new Date(deadline);
-    const now = new Date();
-    const daysUntil = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-
-    if (daysUntil < 0) return { text: 'Verlopen', color: 'text-red-600' };
-    if (daysUntil <= 7) return { text: `${daysUntil}d`, color: 'text-red-600' };
-    if (daysUntil <= 14) return { text: `${daysUntil}d`, color: 'text-amber-600' };
-    return { text: `${daysUntil}d`, color: 'text-green-600' };
-  };
-
-  const formatValue = (value?: number | null) => {
-    if (!value) return '-';
-    if (value >= 1000000) return `€${(value / 1000000).toFixed(1)}M`;
-    if (value >= 1000) return `€${(value / 1000).toFixed(0)}K`;
-    return `€${value}`;
-  };
-
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
       <Sidebar />
@@ -123,7 +76,7 @@ export function TendersClient({ user, tenders }: TendersClientProps) {
         <DashboardHeader
           title="Tender Hub"
           userName={displayName}
-          userRole={roleLabels[user.role] || user.role}
+          userRole={ROLE_LABELS[user.role] || user.role}
         />
 
         <main className="p-6">
@@ -151,7 +104,7 @@ export function TendersClient({ user, tenders }: TendersClientProps) {
                   className="pl-10 pr-8 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none appearance-none bg-white"
                 >
                   <option value="all">Alle statussen</option>
-                  {Object.entries(statusLabels).map(([value, label]) => (
+                  {Object.entries(TENDER_STATUS_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -261,8 +214,8 @@ export function TendersClient({ user, tenders }: TendersClientProps) {
                           )}
                         </td>
                         <td className="p-4">
-                          <span className={`text-xs px-2 py-1 rounded border ${statusColors[tender.status]}`}>
-                            {statusLabels[tender.status]}
+                          <span className={`text-xs px-2 py-1 rounded border ${TENDER_STATUS_COLORS[tender.status]}`}>
+                            {TENDER_STATUS_LABELS[tender.status]}
                           </span>
                         </td>
                         <td className="p-4">
@@ -289,7 +242,7 @@ export function TendersClient({ user, tenders }: TendersClientProps) {
                         </td>
                         <td className="p-4">
                           <span className="text-xs text-[#6B6560]">
-                            {sourceLabels[tender.source] || tender.source}
+                            {TENDER_SOURCE_LABELS[tender.source] || tender.source}
                           </span>
                         </td>
                         <td className="p-4">

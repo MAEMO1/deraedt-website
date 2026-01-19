@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
-import { checkRateLimit, getClientIP, RATE_LIMIT_CONFIGS } from '@/lib/rate-limit';
+import { checkFormRateLimit, handleApiError, handleDatabaseError } from '@/lib/api';
 
 const leadSchema = z.object({
   lead_type: z.enum(['project', 'facility', 'partner', 'procurement', 'contact']),
@@ -19,24 +19,8 @@ const leadSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting
-    const clientIP = getClientIP(request.headers);
-    const rateLimitKey = `leads:${clientIP}`;
-    const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMIT_CONFIGS.form);
-
-    if (!rateLimit.allowed) {
-      console.warn(`[LEADS] Rate limit exceeded for IP: ${clientIP}`);
-      return NextResponse.json(
-        { success: false, error: 'Too many requests. Please try again later.' },
-        {
-          status: 429,
-          headers: {
-            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': String(rateLimit.resetAt),
-          },
-        }
-      );
-    }
+    const rateCheck = checkFormRateLimit(request, 'leads', 'LEADS');
+    if (!rateCheck.allowed) return rateCheck.response!;
 
     const body = await request.json();
     const data = leadSchema.parse(body);
@@ -62,25 +46,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Lead creation error:', error);
-      return NextResponse.json(
-        { success: false, error: 'Failed to create lead' },
-        { status: 500 }
-      );
+      return handleDatabaseError(error, 'LEADS', 'create lead');
     }
 
     return NextResponse.json({ success: true, lead });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, errors: error.issues },
-        { status: 400 }
-      );
-    }
-    console.error('Lead API error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, 'LEADS');
   }
 }

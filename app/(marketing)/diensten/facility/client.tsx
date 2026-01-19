@@ -1,11 +1,16 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
 import { useRef } from "react";
-import { ArrowRight, ChevronRight, CheckCircle2, Phone, Building2, X } from "lucide-react";
-import { COMPANY, RAAMCONTRACTEN } from "@/lib/constants";
+import { CheckCircle2, Building2, X } from "lucide-react";
+import { RAAMCONTRACTEN } from "@/lib/constants";
+import {
+  ServicePageHero,
+  TwoColumnSection,
+  ServicePageStats,
+  PageCTA,
+  SectionHeader,
+} from "@/components/marketing/diensten";
 
 const services = [
   {
@@ -69,132 +74,12 @@ const scopeExcludes = [
   "Groenonderhoud en tuinwerken",
 ];
 
-// Hero Section
-function HeroSection() {
-  return (
-    <section className="relative bg-[#112337] overflow-hidden">
-      <div className="absolute inset-0">
-        <Image
-          src="/images/original-site/Koning-Boudewijn-Stadion.webp"
-          alt="Facility Management"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-[#112337]/70" />
-      </div>
-
-      <div className="relative z-10">
-        <div className="container-wide pt-32 pb-4">
-          <nav className="flex items-center gap-2 text-sm text-white/60">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight className="w-4 h-4" />
-            <Link href="/diensten" className="hover:text-white transition-colors">Diensten</Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-white">Onderhoud & Interventies</span>
-          </nav>
-        </div>
-
-        <div className="container-wide pb-24 lg:pb-32">
-          <div className="max-w-3xl">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1]"
-            >
-              Onderhoud & Interventies
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="mt-6 text-lg sm:text-xl text-white/70 leading-relaxed max-w-2xl"
-            >
-              Raamcontracten, preventief onderhoud en snelle interventies.
-              Wij ontzorgen u volledig met ons technisch beheer.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-8 flex flex-wrap items-center gap-4"
-            >
-              <Link
-                href="/projectplanner"
-                className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-[#1a3fd4]"
-              >
-                Vraag offerte aan
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a
-                href={`tel:${COMPANY.contact.phone}`}
-                className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span>{COMPANY.contact.phone}</span>
-              </a>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Intro Section
-function IntroSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white">
-      <div className="container-wide">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-[#204CE5] text-sm font-semibold uppercase tracking-wider">
-              Facility Management
-            </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-[#112337] leading-[1.15]">
-              Uw partner voor gebouwbeheer
-            </h2>
-            <p className="mt-6 text-[#686E77] text-lg leading-relaxed">
-              Langlopende raamcontracten voor dakonderhoud, herstellingen en
-              renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel,
-              VEB en KU Leuven.
-            </p>
-            <p className="mt-4 text-[#686E77] leading-relaxed">
-              Met 4 actieve raamcontracten en 24/7 interventie service staan wij
-              klaar wanneer u ons nodig heeft.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative"
-          >
-            <div className="aspect-[4/3] rounded-lg overflow-hidden">
-              <Image
-                src="/images/original-site/Koning-Boudewijn-Stadion.webp"
-                alt="Facility Management"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
+const stats = [
+  { value: "4", suffix: "", label: "Actieve raamcontracten" },
+  { value: "6", suffix: "", label: "Klasse erkenning" },
+  { value: "24", suffix: "/7", label: "Interventies" },
+  { value: "40", suffix: "+", label: "Vakmensen" },
+];
 
 // Services Section
 function ServicesSection() {
@@ -204,19 +89,7 @@ function ServicesSection() {
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-[#F8F9FA]">
       <div className="container-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl mb-16"
-        >
-          <span className="text-[#204CE5] text-sm font-semibold uppercase tracking-wider">
-            Onze Diensten
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-            Vier pijlers van ontzorging
-          </h2>
-        </motion.div>
+        <SectionHeader label="Onze Diensten" title="Vier pijlers van ontzorging" />
 
         <div className="grid md:grid-cols-2 gap-6">
           {services.map((service, index) => (
@@ -257,22 +130,12 @@ function RaamcontractenSection() {
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-white">
       <div className="container-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-16"
-        >
-          <span className="text-[#204CE5] text-sm font-semibold uppercase tracking-wider">
-            Referenties
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-            Actieve Raamcontracten
-          </h2>
-          <p className="mt-4 text-[#686E77]">
-            Wij werken dagelijks voor toonaangevende overheden en instellingen.
-          </p>
-        </motion.div>
+        <SectionHeader
+          label="Referenties"
+          title="Actieve Raamcontracten"
+          subtitle="Wij werken dagelijks voor toonaangevende overheden en instellingen."
+          centered
+        />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {RAAMCONTRACTEN.map((contract, index) => (
@@ -311,19 +174,7 @@ function ScopeSection() {
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-[#F8F9FA]">
       <div className="container-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-16"
-        >
-          <span className="text-[#204CE5] text-sm font-semibold uppercase tracking-wider">
-            Scope
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-            Wat wij wel en niet doen
-          </h2>
-        </motion.div>
+        <SectionHeader label="Scope" title="Wat wij wel en niet doen" centered />
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* What we do */}
@@ -380,95 +231,40 @@ function ScopeSection() {
   );
 }
 
-// Stats Section
-function StatsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const stats = [
-    { value: "4", suffix: "", label: "Actieve raamcontracten" },
-    { value: "6", suffix: "", label: "Klasse erkenning" },
-    { value: "24", suffix: "/7", label: "Interventies" },
-    { value: "40", suffix: "+", label: "Vakmensen" },
-  ];
-
-  return (
-    <section ref={ref} className="py-16 bg-[#112337]">
-      <div className="container-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8"
-        >
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-white">
-                {stat.value}
-                <span className="text-[#204CE5]">{stat.suffix}</span>
-              </div>
-              <div className="mt-2 text-white/60 text-sm">{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// CTA Section
-function CTASection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white">
-      <div className="container-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#112337]">
-            Interesse in een raamcontract?
-          </h2>
-          <p className="mt-6 text-lg text-[#686E77]">
-            Neem contact met ons op voor een vrijblijvend gesprek over de
-            mogelijkheden voor uw organisatie.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/projectplanner"
-              className="inline-flex items-center justify-center gap-2 bg-[#204CE5] text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#1a3fd4]"
-            >
-              Offerte aanvragen
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
-              href={`tel:${COMPANY.contact.phone}`}
-              className="inline-flex items-center justify-center gap-2 bg-[#112337] text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#1a2d47]"
-            >
-              <Phone className="w-4 h-4" />
-              {COMPANY.contact.phone}
-            </a>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
 export function FacilityClient() {
   return (
     <>
-      <HeroSection />
-      <IntroSection />
+      <ServicePageHero
+        title="Onderhoud & Interventies"
+        subtitle="Raamcontracten, preventief onderhoud en snelle interventies. Wij ontzorgen u volledig met ons technisch beheer."
+        backgroundImage="/images/original-site/Koning-Boudewijn-Stadion.webp"
+        breadcrumbLabel="Onderhoud & Interventies"
+      />
+      <TwoColumnSection
+        label="Facility Management"
+        title="Uw partner voor gebouwbeheer"
+        image="/images/original-site/Koning-Boudewijn-Stadion.webp"
+        imageAlt="Facility Management"
+      >
+        <p className="text-[#686E77] text-lg leading-relaxed">
+          Langlopende raamcontracten voor dakonderhoud, herstellingen en
+          renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel,
+          VEB en KU Leuven.
+        </p>
+        <p className="mt-4 text-[#686E77] leading-relaxed">
+          Met 4 actieve raamcontracten en 24/7 interventie service staan wij
+          klaar wanneer u ons nodig heeft.
+        </p>
+      </TwoColumnSection>
       <ServicesSection />
       <RaamcontractenSection />
       <ScopeSection />
-      <StatsSection />
-      <CTASection />
+      <ServicePageStats stats={stats} />
+      <PageCTA
+        title="Interesse in een raamcontract?"
+        subtitle="Neem contact met ons op voor een vrijblijvend gesprek over de mogelijkheden voor uw organisatie."
+        ctaText="Offerte aanvragen"
+      />
     </>
   );
 }

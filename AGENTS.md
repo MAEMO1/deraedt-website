@@ -23,6 +23,11 @@
    - Hergebruik bestaande API patterns en validators
    - Hergebruik UI components en styling constants
    - Check eerst of vergelijkbare code al bestaat voordat je nieuwe code schrijft
+   - **Shared Libraries (VERPLICHT):**
+     - `lib/dashboard/labels.ts` — Alle labels en kleuren voor dashboard UI
+     - `lib/dashboard/formatting.ts` — Datum/waarde formatting utilities
+     - `lib/api/error-handler.ts` — API error handling (handleApiError, handleDatabaseError)
+     - `lib/api/rate-limit-response.ts` — Rate limiting helpers (checkFormRateLimit)
 
 ## Commando's
 
@@ -82,8 +87,10 @@ components/
 lib/
 ├── constants.ts     # App constants
 ├── utils.ts         # Utility functions
+├── api/             # API helpers (error-handler, rate-limit-response)
+├── dashboard/       # Dashboard labels, formatting, colors
 ├── sanity/          # Sanity client & queries
-├── supabase/        # Supabase client
+├── supabase/        # Supabase client & queries
 └── validations/     # Zod schemas
 ```
 
@@ -279,5 +286,40 @@ JSON seed files in `scripts/seed/`:
   - Added Cases link to sidebar
 - **COMPLETENESS:** Platform now ~85% feature complete
 
+### 2026-01-19: DRY Refactoring — Shared Libraries
+
+- **DOEL:** Elimineren van ~560+ regels duplicatie across dashboard clients en API routes
+- **AANGEMAAKT:** `lib/dashboard/` module:
+  - `labels.ts` — Alle labels en kleuren voor dashboard UI:
+    - `ROLE_LABELS`, `TENDER_STATUS_LABELS/COLORS`, `LEAD_STATUS_LABELS/COLORS`
+    - `COMPLIANCE_DOC_TYPE_LABELS/ICONS`, `COMPLIANCE_STATUS_LABELS/COLORS`
+    - `TICKET_URGENCY_LABELS/COLORS`, `TICKET_STATUS_LABELS/COLORS`
+    - `CLIENT_TYPE_LABELS/COLORS`, `JOB_STATUS_LABELS/COLORS`
+    - `APPLICATION_STATUS_LABELS/COLORS`, `EMPLOYMENT_TYPE_LABELS`
+    - Helper functions: `getDisplayName()`, `getStatusFromExpiry()`, `getExpiryInfo()`
+  - `formatting.ts` — Datum/waarde formatting:
+    - `formatDeadline()`, `formatValue()`, `formatDateTime()`, `getSLAStatus()`
+  - `index.ts` — Re-exports
+- **AANGEMAAKT:** `lib/api/` module:
+  - `error-handler.ts` — API error handling:
+    - `handleApiError()` — Zod + generic errors
+    - `handleDatabaseError()` — Supabase errors
+    - `notFoundResponse()`, `badRequestResponse()`, `successResponse()`
+  - `rate-limit-response.ts` — Rate limiting helpers:
+    - `checkFormRateLimit()` — Standaard form rate limiting met response
+    - `checkRateLimitWithConfig()` — Custom config rate limiting
+  - `index.ts` — Re-exports
+- **UPDATED CLIENTS:** Alle dashboard clients gebruiken nu shared labels:
+  - `tenders-client.tsx`, `leads-client.tsx`, `compliance-client.tsx`
+  - `facility-client.tsx`, `cases-client.tsx`, `recruitment-client.tsx`
+- **UPDATED API ROUTES:** Alle public API routes gebruiken nu shared error handling:
+  - `leads/route.ts`, `applications/route.ts`, `contact/route.ts`
+  - `projectplanner/route.ts`, `jobs/route.ts`, `facility-tickets/route.ts`
+- **CODE REDUCTIE:**
+  - Rate limiting: ~20 regels per route → 2 regels
+  - Error handling: ~15 regels per route → 2 regels
+  - Label constants: ~50 regels per client → alleen imports
+- **PATTERN:** Importeer altijd van `@/lib/dashboard` en `@/lib/api` voor consistency
+
 ---
-_Last updated: 2026-01-18_
+_Last updated: 2026-01-19_

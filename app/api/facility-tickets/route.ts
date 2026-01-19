@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import type { TicketUrgency } from '@/lib/supabase/types';
+import { handleApiError, handleDatabaseError } from '@/lib/api';
 
 const URGENCY_LEVELS: TicketUrgency[] = ['low', 'medium', 'high', 'critical'];
 
@@ -75,27 +76,13 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('[POST /api/facility-tickets] Supabase error:', error);
-      return NextResponse.json(
-        { success: false, error: 'Failed to create ticket' },
-        { status: 500 }
-      );
+      return handleDatabaseError(error, 'FACILITY_TICKETS', 'create ticket');
     }
 
     console.log('[POST /api/facility-tickets] Ticket created:', ticket.reference);
     return NextResponse.json({ success: true, ticket });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, errors: error.issues },
-        { status: 400 }
-      );
-    }
-    console.error('[POST /api/facility-tickets] Error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, 'FACILITY_TICKETS');
   }
 }
 
@@ -109,19 +96,11 @@ export async function GET() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('[GET /api/facility-tickets] Supabase error:', error);
-      return NextResponse.json(
-        { success: false, error: 'Failed to fetch tickets' },
-        { status: 500 }
-      );
+      return handleDatabaseError(error, 'FACILITY_TICKETS', 'fetch tickets');
     }
 
     return NextResponse.json({ success: true, tickets });
   } catch (error) {
-    console.error('[GET /api/facility-tickets] Error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, 'FACILITY_TICKETS');
   }
 }

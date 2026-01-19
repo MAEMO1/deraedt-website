@@ -21,6 +21,14 @@ import {
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, FacilityTicket, TicketUrgency } from '@/lib/supabase/types';
+import {
+  ROLE_LABELS,
+  TICKET_URGENCY_LABELS,
+  TICKET_URGENCY_COLORS,
+  TICKET_STATUS_LABELS,
+  TICKET_STATUS_COLORS,
+  getDisplayName,
+} from '@/lib/dashboard';
 
 interface FacilityClientProps {
   user: Profile;
@@ -32,43 +40,6 @@ interface FacilityClientProps {
 interface Ticket extends FacilityTicket {
   assigned_name?: string;
 }
-
-const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
-};
-
-const urgencyLabels: Record<string, string> = {
-  low: 'Laag',
-  medium: 'Medium',
-  high: 'Hoog',
-  critical: 'Kritiek',
-};
-
-const urgencyColors: Record<string, string> = {
-  low: 'bg-gray-100 text-gray-700 border-gray-200',
-  medium: 'bg-blue-100 text-blue-700 border-blue-200',
-  high: 'bg-amber-100 text-amber-700 border-amber-200',
-  critical: 'bg-red-100 text-red-700 border-red-200',
-};
-
-const statusLabels: Record<string, string> = {
-  open: 'Open',
-  in_progress: 'In Behandeling',
-  waiting: 'Wachtend',
-  resolved: 'Opgelost',
-};
-
-const statusColors: Record<string, string> = {
-  open: 'bg-blue-100 text-blue-700 border-blue-200',
-  in_progress: 'bg-amber-100 text-amber-700 border-amber-200',
-  waiting: 'bg-purple-100 text-purple-700 border-purple-200',
-  resolved: 'bg-green-100 text-green-700 border-green-200',
-};
 
 interface CreateTicketForm {
   client_name: string;
@@ -98,7 +69,7 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
     contact_email: '',
   });
 
-  const displayName = user.full_name || user.email.split('@')[0];
+  const displayName = getDisplayName(user);
 
   // Filter tickets
   const filteredTickets = tickets.filter((ticket) => {
@@ -304,7 +275,7 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
         <DashboardHeader
           title="Facility Desk"
           userName={displayName}
-          userRole={roleLabels[user.role] || user.role}
+          userRole={ROLE_LABELS[user.role] || user.role}
         />
 
         <main className="p-6">
@@ -354,7 +325,7 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                   className="pl-10 pr-8 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none appearance-none bg-white"
                 >
                   <option value="all">Alle statussen</option>
-                  {Object.entries(statusLabels).map(([value, label]) => (
+                  {Object.entries(TICKET_STATUS_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -369,7 +340,7 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                 className="px-4 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none appearance-none bg-white"
               >
                 <option value="all">Alle urgentie</option>
-                {Object.entries(urgencyLabels).map(([value, label]) => (
+                {Object.entries(TICKET_URGENCY_LABELS).map(([value, label]) => (
                   <option key={value} value={value}>
                     {label}
                   </option>
@@ -429,13 +400,13 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                           </div>
                         </td>
                         <td className="p-4">
-                          <span className={`text-xs px-2 py-1 rounded border ${urgencyColors[ticket.urgency]}`}>
-                            {urgencyLabels[ticket.urgency]}
+                          <span className={`text-xs px-2 py-1 rounded border ${TICKET_URGENCY_COLORS[ticket.urgency]}`}>
+                            {TICKET_URGENCY_LABELS[ticket.urgency]}
                           </span>
                         </td>
                         <td className="p-4">
-                          <span className={`text-xs px-2 py-1 rounded border ${statusColors[ticket.status]}`}>
-                            {statusLabels[ticket.status]}
+                          <span className={`text-xs px-2 py-1 rounded border ${TICKET_STATUS_COLORS[ticket.status]}`}>
+                            {TICKET_STATUS_LABELS[ticket.status]}
                           </span>
                         </td>
                         <td className="p-4">
@@ -540,8 +511,8 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                       <div>
                         <dt className="text-[#6B6560]">Urgentie</dt>
                         <dd>
-                          <span className={`text-xs px-2 py-1 rounded border ${urgencyColors[selectedTicket.urgency]}`}>
-                            {urgencyLabels[selectedTicket.urgency]}
+                          <span className={`text-xs px-2 py-1 rounded border ${TICKET_URGENCY_COLORS[selectedTicket.urgency]}`}>
+                            {TICKET_URGENCY_LABELS[selectedTicket.urgency]}
                           </span>
                         </dd>
                       </div>
@@ -616,13 +587,13 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
               <div>
                 <h4 className="text-sm font-semibold text-[#0C0C0C] mb-2">Status</h4>
                 <div className="flex flex-wrap gap-2">
-                  {Object.entries(statusLabels).map(([value, label]) => (
+                  {Object.entries(TICKET_STATUS_LABELS).map(([value, label]) => (
                     <button
                       key={value}
                       onClick={() => handleStatusChange(selectedTicket.id, value)}
                       className={`px-3 py-1.5 text-xs rounded border transition-colors ${
                         selectedTicket.status === value
-                          ? statusColors[value]
+                          ? TICKET_STATUS_COLORS[value]
                           : 'border-[#0C0C0C]/10 hover:bg-[#FAF7F2]'
                       }`}
                     >
@@ -744,7 +715,7 @@ export function FacilityClient({ user, initialTickets, teamMembers }: FacilityCl
                     onChange={(e) => setCreateForm({ ...createForm, urgency: e.target.value as TicketUrgency })}
                     className="w-full px-3 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none"
                   >
-                    {Object.entries(urgencyLabels).map(([value, label]) => (
+                    {Object.entries(TICKET_URGENCY_LABELS).map(([value, label]) => (
                       <option key={value} value={value}>
                         {label}
                       </option>

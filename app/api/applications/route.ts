@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { sendApplicationConfirmation, sendApplicationNotification } from '@/lib/email';
-import { checkRateLimit, getClientIP, RATE_LIMIT_CONFIGS } from '@/lib/rate-limit';
+import { checkFormRateLimit, handleApiError, handleDatabaseError } from '@/lib/api';
 
 const applicationSchema = z.object({
   job_id: z.string().min(1, 'Job ID is required'),
@@ -21,24 +21,8 @@ const applicationSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting
-    const clientIP = getClientIP(request.headers);
-    const rateLimitKey = `applications:${clientIP}`;
-    const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMIT_CONFIGS.form);
-
-    if (!rateLimit.allowed) {
-      console.warn(`[APPLICATIONS] Rate limit exceeded for IP: ${clientIP}`);
-      return NextResponse.json(
-        { success: false, error: 'Te veel verzoeken. Probeer het later opnieuw.' },
-        {
-          status: 429,
-          headers: {
-            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': String(rateLimit.resetAt),
-          },
-        }
-      );
-    }
+    const rateCheck = checkFormRateLimit(request, 'applications', 'APPLICATIONS');
+    if (!rateCheck.allowed) return rateCheck.response!;
 
     const body = await request.json();
     const data = applicationSchema.parse(body);
@@ -66,11 +50,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Application creation error:', error);
-      return NextResponse.json(
-        { success: false, error: 'Failed to submit application' },
-        { status: 500 }
-      );
+      return handleDatabaseError(error, 'APPLICATIONS', 'submit application');
     }
 
     console.log(`[APPLICATION] New application received for job ${data.job_slug}:`, {
@@ -109,16 +89,6 @@ export async function POST(request: NextRequest) {
       message: 'Uw sollicitatie is ontvangen. U ontvangt een bevestiging per email.',
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, errors: error.issues },
-        { status: 400 }
-      );
-    }
-    console.error('Application API error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, 'APPLICATIONS');
   }
 }

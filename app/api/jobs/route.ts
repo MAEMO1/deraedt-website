@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { handleApiError, handleDatabaseError } from '@/lib/api';
 
 const createJobSchema = z.object({
   title: z.string().min(1, 'Titel is verplicht'),
@@ -65,25 +66,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('[POST /api/jobs] Supabase error:', error);
-      return NextResponse.json(
-        { success: false, error: 'Failed to create job' },
-        { status: 500 }
-      );
+      return handleDatabaseError(error, 'JOBS', 'create job');
     }
 
     return NextResponse.json({ success: true, job });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, errors: error.issues },
-        { status: 400 }
-      );
-    }
-    console.error('[POST /api/jobs] Error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, 'JOBS');
   }
 }

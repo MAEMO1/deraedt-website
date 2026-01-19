@@ -19,38 +19,17 @@ import {
 } from 'lucide-react';
 import { Sidebar, DashboardHeader } from '@/components/portal';
 import type { Profile, Case } from '@/lib/supabase/types';
+import {
+  ROLE_LABELS,
+  CLIENT_TYPE_LABELS,
+  CLIENT_TYPE_COLORS,
+  getDisplayName,
+} from '@/lib/dashboard';
 
 interface CasesClientProps {
   user: Profile;
   cases: Case[];
 }
-
-const roleLabels: Record<string, string> = {
-  DIRECTIE: 'Directie',
-  SALES: 'Sales',
-  HR: 'HR',
-  OPERATIONS: 'Operations',
-  ADMIN: 'Administrator',
-  VIEWER: 'Viewer',
-};
-
-const clientTypeLabels: Record<string, string> = {
-  public: 'Overheid',
-  industrial: 'Industrie',
-  education: 'Onderwijs',
-  healthcare: 'Zorg',
-  residential: 'Residentieel',
-  commercial: 'Commercieel',
-};
-
-const clientTypeColors: Record<string, string> = {
-  public: 'bg-blue-100 text-blue-700 border-blue-200',
-  industrial: 'bg-amber-100 text-amber-700 border-amber-200',
-  education: 'bg-green-100 text-green-700 border-green-200',
-  healthcare: 'bg-red-100 text-red-700 border-red-200',
-  residential: 'bg-purple-100 text-purple-700 border-purple-200',
-  commercial: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-};
 
 interface CaseKPIs {
   budget_adherence?: number;
@@ -70,7 +49,7 @@ export function CasesClient({ user, cases }: CasesClientProps) {
   const [filterYear, setFilterYear] = useState<string>('all');
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
 
-  const displayName = user.full_name || user.email.split('@')[0];
+  const displayName = getDisplayName(user);
 
   // Get unique years for filter
   const years = [...new Set(cases.map((c) => c.year))].sort((a, b) => (b || 0) - (a || 0));
@@ -136,7 +115,7 @@ export function CasesClient({ user, cases }: CasesClientProps) {
         <DashboardHeader
           title="Cases & Referenties"
           userName={displayName}
-          userRole={roleLabels[user.role] || user.role}
+          userRole={ROLE_LABELS[user.role] || user.role}
         />
 
         <main className="p-6">
@@ -215,7 +194,7 @@ export function CasesClient({ user, cases }: CasesClientProps) {
                   className="pl-10 pr-8 py-2 border border-[#0C0C0C]/10 focus:border-[#9A6B4C] focus:outline-none appearance-none bg-white"
                 >
                   <option value="all">Alle sectoren</option>
-                  {Object.entries(clientTypeLabels).map(([value, label]) => (
+                  {Object.entries(CLIENT_TYPE_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -265,10 +244,10 @@ export function CasesClient({ user, cases }: CasesClientProps) {
                       {caseItem.client_type && (
                         <span
                           className={`text-xs px-2 py-1 rounded border ${
-                            clientTypeColors[caseItem.client_type] || 'bg-gray-100 text-gray-700'
+                            CLIENT_TYPE_COLORS[caseItem.client_type] || 'bg-gray-100 text-gray-700'
                           }`}
                         >
-                          {clientTypeLabels[caseItem.client_type] || caseItem.client_type}
+                          {CLIENT_TYPE_LABELS[caseItem.client_type] || caseItem.client_type}
                         </span>
                       )}
                       {caseItem.is_featured && (
@@ -337,10 +316,10 @@ export function CasesClient({ user, cases }: CasesClientProps) {
                   {selectedCase.client_type && (
                     <span
                       className={`text-xs px-2 py-1 rounded border ${
-                        clientTypeColors[selectedCase.client_type] || 'bg-gray-100 text-gray-700'
+                        CLIENT_TYPE_COLORS[selectedCase.client_type] || 'bg-gray-100 text-gray-700'
                       }`}
                     >
-                      {clientTypeLabels[selectedCase.client_type] || selectedCase.client_type}
+                      {CLIENT_TYPE_LABELS[selectedCase.client_type] || selectedCase.client_type}
                     </span>
                   )}
                   {selectedCase.is_featured && (
