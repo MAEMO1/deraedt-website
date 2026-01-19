@@ -2,7 +2,8 @@
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import {
   Building2,
@@ -26,118 +27,34 @@ const serviceRoutes: Record<string, string> = {
   facility: "/diensten/facility",
 };
 
-const services = [
-  {
-    id: "bouwwerken",
-    icon: Building2,
-    title: "Algemene Bouwwerken",
-    subtitle: "Klasse 6 erkend",
-    shortDesc: "Bouwprojecten van A tot Z",
-    description:
-      "Van fundament tot afwerking — complete bouwprojecten voor overheden, scholen en bedrijven. Onze Klasse 6 erkenning staat garant voor projecten zonder aanbestedingsgrens.",
-    features: [
-      "Publieke gebouwen & onderwijsinfrastructuur",
-      "Verbouwingen en uitbreidingen",
-      "Structurele werken en afwerking",
-      "Klasse 6 erkenning — geen projectlimiet",
-    ],
-    stats: { value: "€22,7M", label: "Jaaromzet" },
-    image: "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
-    accent: "#204CE5",
-  },
-  {
-    id: "dakwerken",
-    icon: Hammer,
-    title: "Dakwerken",
-    subtitle: "Dak- & gevelspecialist",
-    shortDesc: "Hellend tot plat",
-    description:
-      "Experts in dakconstructie — van traditionele natuurleien tot moderne Sarking isolatie. Inclusief koperbekleding, zinkwerk en valbeveiliging conform de strengste veiligheidsnormen.",
-    features: [
-      "Hellende en platte daksystemen",
-      "Sarking isolatie voor optimale EPB",
-      "Koper- en zinkbekleding",
-      "Valbeveiliging en dakgoten",
-    ],
-    stats: { value: "VCA**", label: "Veiligheidscertificaat" },
-    image: "/images/original-site/Foto-Stadhuis-Gent.jpeg",
-    accent: "#1E3A5A",
-  },
-  {
-    id: "erfgoed",
-    icon: Landmark,
-    title: "Erfgoedrenovatie",
-    subtitle: "Monumentenrestauratie",
-    shortDesc: "Beschermd erfgoed",
-    description:
-      "Gespecialiseerde restauratie van beschermd bouwkundig erfgoed. Met authentieke materialen, traditionele technieken en in nauwe samenwerking met Onroerend Erfgoed.",
-    features: [
-      "Monumentenrestauratie & -behoud",
-      "Authentiek soldeerwerk en ambacht",
-      "Natuurleien volgens historische methodes",
-      "Referenties: Stadhuis Gent, Brussel, KU Leuven",
-    ],
-    stats: { value: "96", label: "Jaar vakmanschap" },
-    image: "/images/original-site/Justitiepaleis-Dendermonde.jpg",
-    accent: "#112337",
-  },
-  {
-    id: "facility",
-    icon: Wrench,
-    title: "Onderhoud & Interventies",
-    subtitle: "Raamcontracten",
-    shortDesc: "Langlopende partnerships",
-    description:
-      "Langlopende raamcontracten voor dakonderhoud, herstellingen en renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel, VEB en KU Leuven.",
-    features: [
-      "Raamcontract Stad Gent & Brussel",
-      "VEB scholenonderhoud",
-      "24/7 interventies bij schade",
-      "Preventief onderhoud & inspectie",
-    ],
-    stats: { value: "4", label: "Raamcontracten" },
-    image: "/images/original-site/Koning-Boudewijn-Stadion.webp",
-    accent: "#204CE5",
-  },
+const SERVICE_IDS = ["bouwwerken", "dakwerken", "erfgoed", "facility"] as const;
+const SERVICE_ICONS = [Building2, Hammer, Landmark, Wrench];
+const SERVICE_IMAGES = [
+  "/images/original-site/Atlas-College-Genk-10-scaled.jpg",
+  "/images/original-site/Foto-Stadhuis-Gent.jpeg",
+  "/images/original-site/Justitiepaleis-Dendermonde.jpg",
+  "/images/original-site/Koning-Boudewijn-Stadion.webp",
 ];
+const SERVICE_ACCENTS = ["#204CE5", "#1E3A5A", "#112337", "#204CE5"];
+const SERVICE_STAT_VALUES = ["€22,7M", "VCA**", "96", "4"];
 
-const workProcess = [
-  {
-    step: "01",
-    title: "Intake",
-    description: "Analyse van uw wensen en mogelijkheden",
-  },
-  {
-    step: "02",
-    title: "Ontwerp",
-    description: "Gedetailleerde offerte met transparante prijzen",
-  },
-  {
-    step: "03",
-    title: "Planning",
-    description: "Coördinatie van vergunningen en materialen",
-  },
-  {
-    step: "04",
-    title: "Uitvoering",
-    description: "Kwaliteitscontroles en voortgangsrapportage",
-  },
-  {
-    step: "05",
-    title: "Oplevering",
-    description: "Grondige controle en nazorggarantie",
-  },
-];
+const PROCESS_STEPS = ["01", "02", "03", "04", "05"] as const;
+
+const HERO_STAT_KEYS = ["yearsExperience", "recognitionClass", "annualRevenue", "employees"] as const;
 
 // Hero Section Component
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const t = useTranslations("servicesPage");
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const STAT_VALUES = [STATS.yearsExperience.toString(), "6", STATS.revenueDisplay.replace("€", ""), STATS.employees];
+  const STAT_SUFFIXES = ["", "", "", "+"];
 
   return (
     <section ref={ref} className="relative min-h-[90vh] bg-[#112337] overflow-hidden">
@@ -176,7 +93,7 @@ function HeroSection() {
               >
                 <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-8">
                   <span className="w-12 h-px bg-[#204CE5]" />
-                  Onze Expertise
+                  {t("hero.badge")}
                 </span>
               </motion.div>
 
@@ -186,9 +103,9 @@ function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="text-[clamp(3rem,8vw,6rem)] font-bold text-white leading-[0.95] tracking-[-0.02em] mb-8"
               >
-                Building
+                {t("hero.titleLine1")}
                 <br />
-                <span className="text-[#204CE5]">Excellence</span>
+                <span className="text-[#204CE5]">{t("hero.titleLine2")}</span>
               </motion.h1>
 
               <motion.p
@@ -197,8 +114,7 @@ function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="text-xl text-white/50 leading-relaxed max-w-lg mb-12"
               >
-                {STATS.yearsExperience} jaar vakmanschap. Van monumentale erfgoedrenovatie
-                tot innovatieve nieuwbouw — Klasse 6 erkend voor projecten zonder grenzen.
+                {t("hero.description", { years: STATS.yearsExperience })}
               </motion.p>
 
               <motion.div
@@ -211,7 +127,7 @@ function HeroSection() {
                   href="/projectplanner"
                   className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-[0_20px_40px_rgba(32,76,229,0.3)]"
                 >
-                  Start uw project
+                  {t("hero.startProject")}
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link
@@ -219,7 +135,7 @@ function HeroSection() {
                   className="group inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-white/20 border border-white/10"
                 >
                   <Play className="w-4 h-4" />
-                  Ontdek onze diensten
+                  {t("hero.discoverServices")}
                 </Link>
               </motion.div>
             </div>
@@ -231,23 +147,18 @@ function HeroSection() {
               transition={{ duration: 0.8, delay: 0.7 }}
               className="hidden lg:grid grid-cols-2 gap-4"
             >
-              {[
-                { value: STATS.yearsExperience.toString(), label: "Jaar ervaring", suffix: "" },
-                { value: "6", label: "Erkenningsklasse", suffix: "" },
-                { value: STATS.revenueDisplay.replace("€", ""), label: "Jaaromzet", suffix: "" },
-                { value: STATS.employees, label: "Medewerkers", suffix: "+" },
-              ].map((stat, index) => (
+              {HERO_STAT_KEYS.map((key, index) => (
                 <motion.div
-                  key={stat.label}
+                  key={key}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                   className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors duration-300"
                 >
                   <div className="text-3xl font-bold text-white mb-1">
-                    {stat.value}{stat.suffix}
+                    {STAT_VALUES[index]}{STAT_SUFFIXES[index]}
                   </div>
-                  <div className="text-sm text-white/40">{stat.label}</div>
+                  <div className="text-sm text-white/40">{t(`stats.${key}`)}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -275,11 +186,16 @@ function HeroSection() {
 }
 
 // Service Card Component - Editorial Style
-function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+function ServiceCard({ serviceId, index }: { serviceId: typeof SERVICE_IDS[number]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const Icon = service.icon;
+  const t = useTranslations("servicesPage");
+  const Icon = SERVICE_ICONS[index];
   const isReversed = index % 2 === 1;
+  const accent = SERVICE_ACCENTS[index];
+
+  // Get features as array
+  const features = t.raw(`services.${serviceId}.features`) as string[];
 
   return (
     <motion.article
@@ -299,8 +215,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             className="relative aspect-[4/3] lg:aspect-[16/12] overflow-hidden rounded-2xl lg:rounded-3xl"
           >
             <Image
-              src={service.image}
-              alt={service.title}
+              src={SERVICE_IMAGES[index]}
+              alt={t(`services.${serviceId}.title`)}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
@@ -309,8 +225,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 
             {/* Floating stat badge - position based on layout direction */}
             <div className={`absolute bottom-6 ${isReversed ? "right-6" : "left-6"} bg-white/95 backdrop-blur-sm rounded-xl px-5 py-3 shadow-xl`}>
-              <div className="text-2xl font-bold text-[#112337]">{service.stats.value}</div>
-              <div className="text-xs text-[#686E77] uppercase tracking-wider">{service.stats.label}</div>
+              <div className="text-2xl font-bold text-[#112337]">{SERVICE_STAT_VALUES[index]}</div>
+              <div className="text-xs text-[#686E77] uppercase tracking-wider">{t(`services.${serviceId}.statLabel`)}</div>
             </div>
           </motion.div>
         </div>
@@ -327,37 +243,37 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             <div className="flex items-center gap-4 mb-6">
               <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                style={{ backgroundColor: `${service.accent}15` }}
+                style={{ backgroundColor: `${accent}15` }}
               >
-                <Icon className="w-6 h-6" style={{ color: service.accent }} />
+                <Icon className="w-6 h-6" style={{ color: accent }} />
               </div>
               <div>
                 <span
                   className="text-xs font-bold uppercase tracking-[0.15em]"
-                  style={{ color: service.accent }}
+                  style={{ color: accent }}
                 >
-                  {service.subtitle}
+                  {t(`services.${serviceId}.subtitle`)}
                 </span>
               </div>
             </div>
 
             {/* Title */}
             <h3 className="text-3xl lg:text-4xl font-bold text-[#112337] leading-tight mb-4">
-              {service.title}
+              {t(`services.${serviceId}.title`)}
             </h3>
 
             {/* Description */}
             <p className="text-[#686E77] leading-relaxed mb-8">
-              {service.description}
+              {t(`services.${serviceId}.description`)}
             </p>
 
             {/* Features */}
             <ul className="space-y-3 mb-10">
-              {service.features.map((feature) => (
+              {features.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
                   <CheckCircle2
                     className="w-5 h-5 flex-shrink-0 mt-0.5"
-                    style={{ color: service.accent }}
+                    style={{ color: accent }}
                   />
                   <span className="text-sm text-[#112337]">{feature}</span>
                 </li>
@@ -367,17 +283,17 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             {/* CTAs */}
             <div className="flex flex-wrap gap-3">
               <Link
-                href={serviceRoutes[service.id]}
+                href={serviceRoutes[serviceId]}
                 className="group/btn inline-flex items-center gap-2 bg-[#112337] text-white px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-[#1E3A5A]"
               >
-                Meer informatie
+                {t("card.moreInfo")}
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </Link>
               <Link
                 href="/projectplanner"
                 className="inline-flex items-center gap-2 text-[#112337] px-6 py-3 rounded-full text-sm font-semibold transition-colors duration-300 hover:text-[#204CE5] border border-[#E5E7EB] hover:border-[#204CE5]"
               >
-                Offerte aanvragen
+                {t("card.requestQuote")}
               </Link>
             </div>
           </motion.div>
@@ -391,6 +307,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 function ProcessSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("servicesPage");
 
   return (
     <section ref={ref} className="py-32 bg-white relative overflow-hidden">
@@ -407,15 +324,14 @@ function ProcessSection() {
         >
           <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
             <span className="w-12 h-px bg-[#204CE5]" />
-            Werkwijze
+            {t("process.badge")}
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] leading-[1.1] mb-6">
-            Van plan tot{" "}
-            <span className="text-[#204CE5]">oplevering</span>
+            {t("process.title")}{" "}
+            <span className="text-[#204CE5]">{t("process.titleAccent")}</span>
           </h2>
           <p className="text-lg text-[#686E77] leading-relaxed">
-            Een transparant proces met duidelijke communicatie.
-            U weet altijd waar u aan toe bent.
+            {t("process.description")}
           </p>
         </motion.div>
 
@@ -425,9 +341,9 @@ function ProcessSection() {
           <div className="absolute top-12 left-0 right-0 h-px bg-gradient-to-r from-[#204CE5]/20 via-[#204CE5]/40 to-[#204CE5]/20 hidden md:block" />
 
           <div className="grid md:grid-cols-5 gap-8 md:gap-6">
-            {workProcess.map((step, index) => (
+            {PROCESS_STEPS.map((step, index) => (
               <motion.div
-                key={step.step}
+                key={step}
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
                 animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
                 transition={{ duration: 0.7, delay: 0.2 + index * 0.12, ease: [0.16, 1, 0.3, 1] }}
@@ -436,14 +352,14 @@ function ProcessSection() {
                 {/* Step number */}
                 <div className="relative inline-flex mb-6">
                   <div className="w-24 h-24 rounded-full bg-[#F5F5F5] flex items-center justify-center transition-all duration-300 group-hover:bg-[#204CE5]/10">
-                    <span className="text-3xl font-bold text-[#204CE5]">{step.step}</span>
+                    <span className="text-3xl font-bold text-[#204CE5]">{step}</span>
                   </div>
                   {/* Active dot */}
                   <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#204CE5] hidden md:block" />
                 </div>
 
-                <h3 className="text-xl font-bold text-[#112337] mb-3">{step.title}</h3>
-                <p className="text-sm text-[#686E77] leading-relaxed">{step.description}</p>
+                <h3 className="text-xl font-bold text-[#112337] mb-3">{t(`process.steps.${step}.title`)}</h3>
+                <p className="text-sm text-[#686E77] leading-relaxed">{t(`process.steps.${step}.description`)}</p>
               </motion.div>
             ))}
           </div>
@@ -457,6 +373,10 @@ function ProcessSection() {
 function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("servicesPage");
+
+  // Get reasons as array
+  const reasons = t.raw("cta.reasons") as string[];
 
   return (
     <section ref={ref} className="relative py-32 overflow-hidden">
@@ -486,17 +406,16 @@ function CTASection() {
           >
             <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-8">
               <span className="w-12 h-px bg-[#204CE5]" />
-              Start Uw Project
+              {t("cta.badge")}
             </span>
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-8">
-              Klaar om te{" "}
-              <span className="text-[#204CE5]">beginnen</span>?
+              {t("cta.title")}{" "}
+              <span className="text-[#204CE5]">{t("cta.titleAccent")}</span>?
             </h2>
 
             <p className="text-xl text-white/50 leading-relaxed mb-12 max-w-lg">
-              Plan uw project met onze gratis projectplanner.
-              Binnen 48 uur ontvangt u een vrijblijvende offerte van ons team.
+              {t("cta.description")}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -504,7 +423,7 @@ function CTASection() {
                 href="/projectplanner"
                 className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#4D6FEB] hover:shadow-[0_20px_40px_rgba(32,76,229,0.4)]"
               >
-                Start projectplanner
+                {t("cta.startPlanner")}
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <a
@@ -525,30 +444,30 @@ function CTASection() {
           >
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-10 border border-white/10">
               <h3 className="text-2xl font-bold text-white mb-8">
-                Waarom De Raedt?
+                {t("cta.whyUs")}
               </h3>
 
               <ul className="space-y-5">
-                {[
-                  `${STATS.yearsExperience} jaar ervaring in de bouwsector`,
-                  "Klasse 6 erkend voor overheidsopdrachten",
-                  "ISO 9001 & VCA** gecertificeerd",
-                  "CO₂-Prestatieladder niveau 3",
-                  "Specialisten in erfgoedrenovatie",
-                ].map((item, index) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="w-6 h-6 rounded-full bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
-                    </div>
-                    <span className="text-white/70">{item}</span>
-                  </motion.li>
-                ))}
+                {reasons.map((item, index) => {
+                  // Replace {years} placeholder in the first item
+                  const displayItem = item.includes("{years}")
+                    ? item.replace("{years}", STATS.yearsExperience.toString())
+                    : item;
+                  return (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                      className="flex items-start gap-4"
+                    >
+                      <div className="w-6 h-6 rounded-full bg-[#204CE5]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
+                      </div>
+                      <span className="text-white/70">{displayItem}</span>
+                    </motion.li>
+                  );
+                })}
               </ul>
 
               {/* Certification badges */}
@@ -576,6 +495,7 @@ function CTASection() {
 function QuickNav() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const t = useTranslations("servicesPage");
 
   return (
     <section ref={ref} className="py-8 bg-white border-b border-[#E5E7EB] sticky top-[72px] z-40 backdrop-blur-xl bg-white/95">
@@ -586,19 +506,19 @@ function QuickNav() {
           className="flex items-center justify-between"
         >
           <div className="flex items-center gap-2 text-sm text-[#686E77]">
-            <Link href="/" className="hover:text-[#204CE5] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-[#204CE5] transition-colors">{t("nav.home")}</Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-[#112337] font-medium">Diensten</span>
+            <span className="text-[#112337] font-medium">{t("nav.services")}</span>
           </div>
 
           <nav className="hidden md:flex items-center gap-6">
-            {services.map((service) => (
+            {SERVICE_IDS.map((serviceId) => (
               <a
-                key={service.id}
-                href={`#${service.id}`}
+                key={serviceId}
+                href={`#${serviceId}`}
                 className="text-sm font-medium text-[#686E77] hover:text-[#204CE5] transition-colors"
               >
-                {service.title}
+                {t(`services.${serviceId}.title`)}
               </a>
             ))}
           </nav>
@@ -610,6 +530,8 @@ function QuickNav() {
 
 // Main Page Component
 export default function DienstenPage() {
+  const t = useTranslations("servicesPage");
+
   return (
     <>
       <HeroSection />
@@ -622,23 +544,22 @@ export default function DienstenPage() {
           <div className="max-w-3xl mb-20">
             <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
               <span className="w-12 h-px bg-[#204CE5]" />
-              Onze Diensten
+              {t("section.badge")}
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-[#112337] leading-[1.1] mb-6">
-              Comprehensive Building{" "}
-              <span className="text-[#204CE5]">Solutions</span>
+              {t("section.title")}{" "}
+              <span className="text-[#204CE5]">{t("section.titleAccent")}</span>
             </h2>
             <p className="text-lg text-[#686E77] leading-relaxed">
-              Van fundament tot dakwerk — een compleet dienstenpakket voor uw bouwproject,
-              ondersteund door {STATS.yearsExperience} jaar expertise.
+              {t("section.description", { years: STATS.yearsExperience })}
             </p>
           </div>
 
           {/* Service Cards */}
           <div className="space-y-32">
-            {services.map((service, index) => (
-              <div key={service.id} id={service.id}>
-                <ServiceCard service={service} index={index} />
+            {SERVICE_IDS.map((serviceId, index) => (
+              <div key={serviceId} id={serviceId}>
+                <ServiceCard serviceId={serviceId} index={index} />
               </div>
             ))}
           </div>

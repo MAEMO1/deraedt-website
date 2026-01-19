@@ -15,6 +15,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 interface Partner {
   id: string;
@@ -38,32 +39,9 @@ interface PartnerIntakeClientProps {
   token: string;
 }
 
-const REQUIRED_DOCS = [
-  {
-    type: 'vca',
-    label: 'VCA Certificaat',
-    description: 'Geldig VCA* of VCA** certificaat',
-    required: true,
-  },
-  {
-    type: 'insurance',
-    label: 'Verzekeringsbewijs',
-    description: 'BA-verzekering met minimaal €2.500.000 dekking',
-    required: true,
-  },
-  {
-    type: 'reference',
-    label: 'Referenties',
-    description: 'Minimaal 3 projectreferenties van de afgelopen 3 jaar',
-    required: true,
-  },
-  {
-    type: 'kvk',
-    label: 'KVK Uittreksel',
-    description: 'Recent uittreksel Kamer van Koophandel (max 3 maanden oud)',
-    required: false,
-  },
-];
+const DOC_TYPES = ['vca', 'insurance', 'reference', 'kvk'] as const;
+
+const REQUIRED_DOC_TYPES = ['vca', 'insurance', 'reference'];
 
 const statusColors: Record<string, string> = {
   missing: 'bg-gray-100 text-gray-600 border-gray-200',
@@ -72,14 +50,8 @@ const statusColors: Record<string, string> = {
   expired: 'bg-red-100 text-red-700 border-red-200',
 };
 
-const statusLabels: Record<string, string> = {
-  missing: 'Niet geüpload',
-  pending: 'In behandeling',
-  approved: 'Goedgekeurd',
-  expired: 'Verlopen',
-};
-
 export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
+  const t = useTranslations('partnerIntake');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [partner, setPartner] = useState<Partner | null>(null);
@@ -96,7 +68,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error || 'Er is een fout opgetreden');
+          setError(data.error || t('errors.fetchError'));
           if (data.completed) {
             setCompleted(true);
           }
@@ -107,14 +79,14 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
         setDocuments(data.documents || []);
       } catch (err) {
         console.error('Fetch error:', err);
-        setError('Kan gegevens niet ophalen');
+        setError(t('errors.cannotFetch'));
       } finally {
         setLoading(false);
       }
     };
 
     fetchPartnerData();
-  }, [token]);
+  }, [token, t]);
 
   const getDocumentStatus = (docType: string): PartnerDocument | null => {
     return documents.find((d) => d.doc_type === docType) || null;
@@ -145,7 +117,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setUploadError(data.error || 'Upload mislukt');
+        setUploadError(data.error || t('errors.uploadFailed'));
         return;
       }
 
@@ -161,7 +133,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
       });
     } catch (err) {
       console.error('Upload error:', err);
-      setUploadError('Netwerkfout bij uploaden');
+      setUploadError(t('errors.networkError'));
     } finally {
       setUploading(null);
     }
@@ -169,12 +141,11 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
 
   const handleSubmit = async () => {
     // Check if all required docs are uploaded
-    const requiredTypes = REQUIRED_DOCS.filter((d) => d.required).map((d) => d.type);
     const uploadedTypes = documents.filter((d) => d.status !== 'missing').map((d) => d.doc_type);
-    const missingRequired = requiredTypes.filter((t) => !uploadedTypes.includes(t));
+    const missingRequired = REQUIRED_DOC_TYPES.filter((t) => !uploadedTypes.includes(t));
 
     if (missingRequired.length > 0) {
-      setUploadError('Upload eerst alle verplichte documenten');
+      setUploadError(t('errors.requiredMissing'));
       return;
     }
 
@@ -190,14 +161,14 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setUploadError(data.error || 'Indienen mislukt');
+        setUploadError(data.error || t('errors.submitFailed'));
         return;
       }
 
       setCompleted(true);
     } catch (err) {
       console.error('Submit error:', err);
-      setUploadError('Netwerkfout bij indienen');
+      setUploadError(t('errors.networkSubmitError'));
     } finally {
       setSubmitting(false);
     }
@@ -216,7 +187,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-4">
         <div className="bg-white p-8 max-w-md w-full text-center border border-[#0C0C0C]/10">
           <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-xl font-display text-[#0C0C0C] mb-2">Link Ongeldig</h1>
+          <h1 className="text-xl font-display text-[#0C0C0C] mb-2">{t('invalidLink.title')}</h1>
           <p className="text-[#6B6560]">{error}</p>
         </div>
       </div>
@@ -233,23 +204,22 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
         >
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
           <h1 className="text-xl font-display text-[#0C0C0C] mb-2">
-            Documenten Ingediend
+            {t('success.title')}
           </h1>
           <p className="text-[#6B6560] mb-4">
-            Bedankt! Uw documenten zijn succesvol ingediend en worden beoordeeld door ons team.
-            U ontvangt bericht zodra de beoordeling is afgerond.
+            {t('success.message')}
           </p>
           <p className="text-sm text-[#6B6560]">
-            U kunt dit venster nu sluiten.
+            {t('success.closeWindow')}
           </p>
         </motion.div>
       </div>
     );
   }
 
-  const requiredDocs = REQUIRED_DOCS.filter((d) => d.required);
-  const uploadedRequiredCount = requiredDocs.filter((d) =>
-    documents.some((doc) => doc.doc_type === d.type && doc.status !== 'missing')
+  const requiredDocsCount = REQUIRED_DOC_TYPES.length;
+  const uploadedRequiredCount = REQUIRED_DOC_TYPES.filter((type) =>
+    documents.some((doc) => doc.doc_type === type && doc.status !== 'missing')
   ).length;
 
   return (
@@ -267,8 +237,8 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
             />
             <div className="h-8 w-px bg-[#0C0C0C]/10" />
             <div>
-              <h1 className="font-display text-lg text-[#0C0C0C]">Partner Prequalificatie</h1>
-              <p className="text-sm text-[#6B6560]">Document Upload Portal</p>
+              <h1 className="font-display text-lg text-[#0C0C0C]">{t('header.title')}</h1>
+              <p className="text-sm text-[#6B6560]">{t('header.subtitle')}</p>
             </div>
           </div>
         </div>
@@ -288,7 +258,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
             <div>
               <h2 className="font-display text-lg text-[#0C0C0C]">{partner?.company_name}</h2>
               <p className="text-sm text-[#6B6560]">
-                Contactpersoon: {partner?.contact_name} ({partner?.contact_email})
+                {t('contactPerson')}: {partner?.contact_name} ({partner?.contact_email})
               </p>
             </div>
           </div>
@@ -302,15 +272,15 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
           className="bg-white p-6 border border-[#0C0C0C]/10 mb-6"
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-[#0C0C0C]">Voortgang</h3>
+            <h3 className="font-semibold text-[#0C0C0C]">{t('progress.title')}</h3>
             <span className="text-sm text-[#6B6560]">
-              {uploadedRequiredCount} van {requiredDocs.length} verplichte documenten
+              {uploadedRequiredCount} {t('progress.ofRequired', { total: requiredDocsCount })}
             </span>
           </div>
           <div className="w-full bg-[#0C0C0C]/5 h-2 rounded-full overflow-hidden">
             <div
               className="h-full bg-[#9A6B4C] transition-all duration-500"
-              style={{ width: `${(uploadedRequiredCount / requiredDocs.length) * 100}%` }}
+              style={{ width: `${(uploadedRequiredCount / requiredDocsCount) * 100}%` }}
             />
           </div>
         </motion.div>
@@ -329,13 +299,14 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
           transition={{ delay: 0.2 }}
           className="space-y-4"
         >
-          {REQUIRED_DOCS.map((docDef) => {
-            const existingDoc = getDocumentStatus(docDef.type);
-            const isUploading = uploading === docDef.type;
+          {DOC_TYPES.map((docType) => {
+            const existingDoc = getDocumentStatus(docType);
+            const isUploading = uploading === docType;
+            const isRequired = REQUIRED_DOC_TYPES.includes(docType);
 
             return (
               <div
-                key={docDef.type}
+                key={docType}
                 className="bg-white p-6 border border-[#0C0C0C]/10"
               >
                 <div className="flex items-start justify-between gap-4">
@@ -351,15 +322,15 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
                     </div>
                     <div>
                       <h4 className="font-medium text-[#0C0C0C]">
-                        {docDef.label}
-                        {docDef.required && <span className="text-red-500 ml-1">*</span>}
+                        {t(`documents.${docType}.label`)}
+                        {isRequired && <span className="text-red-500 ml-1">*</span>}
                       </h4>
-                      <p className="text-sm text-[#6B6560] mt-1">{docDef.description}</p>
+                      <p className="text-sm text-[#6B6560] mt-1">{t(`documents.${docType}.description`)}</p>
                       {existingDoc && existingDoc.status !== 'missing' && (
                         <span
                           className={`inline-block mt-2 text-xs px-2 py-1 rounded border ${statusColors[existingDoc.status]}`}
                         >
-                          {statusLabels[existingDoc.status]}
+                          {t(`status.${existingDoc.status}`)}
                         </span>
                       )}
                     </div>
@@ -369,7 +340,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
                     {isUploading ? (
                       <div className="flex items-center gap-2 text-[#6B6560]">
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span className="text-sm">Uploaden...</span>
+                        <span className="text-sm">{t('actions.uploading')}</span>
                       </div>
                     ) : (
                       <label className="cursor-pointer">
@@ -380,15 +351,15 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              handleFileUpload(docDef.type, file);
+                              handleFileUpload(docType, file);
                             }
                           }}
                         />
                         <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#0C0C0C] text-white text-sm hover:bg-[#9A6B4C] transition-colors">
                           <Upload className="w-4 h-4" />
                           {existingDoc && existingDoc.status !== 'missing'
-                            ? 'Vervangen'
-                            : 'Uploaden'}
+                            ? t('actions.replace')
+                            : t('actions.upload')}
                         </span>
                       </label>
                     )}
@@ -396,14 +367,14 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
                 </div>
 
                 {/* Date fields for certificates */}
-                {(docDef.type === 'vca' || docDef.type === 'insurance') &&
+                {(docType === 'vca' || docType === 'insurance') &&
                   existingDoc &&
                   existingDoc.status !== 'missing' && (
                     <div className="mt-4 pt-4 border-t border-[#0C0C0C]/5 grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs text-[#6B6560] mb-1">
                           <Calendar className="w-3 h-3 inline mr-1" />
-                          Geldig vanaf
+                          {t('dates.validFrom')}
                         </label>
                         <input
                           type="date"
@@ -417,7 +388,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
                       <div>
                         <label className="block text-xs text-[#6B6560] mb-1">
                           <Calendar className="w-3 h-3 inline mr-1" />
-                          Geldig tot
+                          {t('dates.validTo')}
                         </label>
                         <input
                           type="date"
@@ -444,23 +415,23 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
         >
           <button
             onClick={handleSubmit}
-            disabled={submitting || uploadedRequiredCount < requiredDocs.length}
+            disabled={submitting || uploadedRequiredCount < requiredDocsCount}
             className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#9A6B4C] text-white font-medium hover:bg-[#0C0C0C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {submitting ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Indienen...
+                {t('actions.submitting')}
               </>
             ) : (
               <>
                 <Shield className="w-5 h-5" />
-                Documenten Indienen
+                {t('actions.submit')}
               </>
             )}
           </button>
           <p className="text-center text-sm text-[#6B6560] mt-3">
-            Na het indienen worden uw documenten beoordeeld door ons team.
+            {t('submitNote')}
           </p>
         </motion.div>
 
@@ -474,12 +445,12 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
           <div className="flex gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
             <div className="text-amber-800">
-              <p className="font-medium mb-1">Belangrijk</p>
+              <p className="font-medium mb-1">{t('infoBox.title')}</p>
               <ul className="list-disc list-inside space-y-1 text-amber-700">
-                <li>Alleen PDF en afbeeldingen worden geaccepteerd (max 10MB)</li>
-                <li>Documenten met * zijn verplicht voor prequalificatie</li>
-                <li>Zorg dat certificaten nog minimaal 3 maanden geldig zijn</li>
-                <li>Deze link is 30 dagen geldig</li>
+                <li>{t('infoBox.items.fileTypes')}</li>
+                <li>{t('infoBox.items.requiredDocs')}</li>
+                <li>{t('infoBox.items.validity')}</li>
+                <li>{t('infoBox.items.linkExpiry')}</li>
               </ul>
             </div>
           </div>
@@ -489,7 +460,7 @@ export function PartnerIntakeClient({ token }: PartnerIntakeClientProps) {
       {/* Footer */}
       <footer className="border-t border-[#0C0C0C]/10 mt-16">
         <div className="max-w-3xl mx-auto px-4 py-6 text-center text-sm text-[#6B6560]">
-          <p>© {new Date().getFullYear()} Bouwwerken De Raedt Ivan NV. Alle rechten voorbehouden.</p>
+          <p>{t('footer', { year: new Date().getFullYear() })}</p>
         </div>
       </footer>
     </div>

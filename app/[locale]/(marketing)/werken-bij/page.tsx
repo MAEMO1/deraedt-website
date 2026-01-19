@@ -2,7 +2,8 @@
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import {
   GraduationCap,
@@ -36,61 +37,17 @@ interface Job {
 const allJobs: Job[] = jobsData as Job[];
 const openPositions = allJobs.filter((job) => job.status === "published");
 
-function getEmploymentTypeLabel(type: string): string {
-  const types: Record<string, string> = {
-    full_time: "Voltijds",
-    part_time: "Deeltijds",
-    contract: "Contract",
-    internship: "Stage",
-  };
-  return types[type] || type;
-}
+const BENEFIT_KEYS = ["familyAtmosphere", "training", "growth", "varied"] as const;
+const BENEFIT_ICONS = {
+  familyAtmosphere: Heart,
+  training: GraduationCap,
+  growth: TrendingUp,
+  varied: Briefcase,
+};
 
-const benefits = [
-  {
-    icon: Heart,
-    title: "Familiale Sfeer",
-    description: "Werken in een hecht team met korte communicatielijnen en persoonlijke aandacht voor elke medewerker.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Opleiding & Groei",
-    description: "Continue investering in jouw professionele ontwikkeling, certificeringen en vakmanschap.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Doorgroeimogelijkheden",
-    description: "Duidelijke carrièrepaden binnen een groeiend familiebedrijf met een sterke reputatie.",
-  },
-  {
-    icon: Briefcase,
-    title: "Afwisselend Werk",
-    description: "Diverse projecten van erfgoedrenovatie tot moderne nieuwbouw bij prestigieuze opdrachtgevers.",
-  },
-];
-
-const culturePoints = [
-  {
-    number: "01",
-    title: "Vakmanschap",
-    description: "Wij waarderen traditioneel vakmanschap en geven je de ruimte om te excelleren in je vak.",
-  },
-  {
-    number: "02",
-    title: "Veiligheid",
-    description: "VCA** gecertificeerd. Jouw veiligheid staat altijd voorop — op elke werf, elke dag.",
-  },
-  {
-    number: "03",
-    title: "Ontwikkeling",
-    description: "Regelmatige opleidingen en de mogelijkheid om certificeringen te behalen op kosten van het bedrijf.",
-  },
-  {
-    number: "04",
-    title: "Teamspirit",
-    description: "Een hecht team waar iedereen elkaar kent. Regelmatige teamactiviteiten en uitjes.",
-  },
-];
+const CULTURE_KEYS = ["craftsmanship", "safety", "development", "teamspirit"] as const;
+const PERK_KEYS = ["fruit", "activities", "equipment"] as const;
+const BENEFIT_LIST_KEYS = ["salary", "car", "insurance", "bonus", "meals", "training"] as const;
 
 // Hero Section
 function HeroSection() {
@@ -101,6 +58,7 @@ function HeroSection() {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const t = useTranslations("careers");
 
   return (
     <section ref={ref} className="relative min-h-[90vh] bg-[#112337] overflow-hidden">
@@ -138,7 +96,7 @@ function HeroSection() {
               >
                 <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-8">
                   <span className="w-12 h-px bg-[#204CE5]" />
-                  Carrière
+                  {t("hero.badge")}
                 </span>
               </motion.div>
 
@@ -148,9 +106,9 @@ function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="text-[clamp(2.5rem,7vw,5rem)] font-bold text-white leading-[0.95] tracking-[-0.02em] mb-8"
               >
-                Bouw mee aan
+                {t("hero.headline")}
                 <br />
-                <span className="text-[#204CE5]">jouw toekomst</span>
+                <span className="text-[#204CE5]">{t("hero.headlineAccent")}</span>
               </motion.h1>
 
               <motion.p
@@ -159,8 +117,7 @@ function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="text-xl text-white/50 leading-relaxed max-w-lg mb-12"
               >
-                Word deel van een team met {STATS.yearsExperience} jaar ervaring.
-                Bij De Raedt combineer je traditioneel vakmanschap met moderne innovatie.
+                {t("hero.description", { years: STATS.yearsExperience })}
               </motion.p>
 
               <motion.div
@@ -173,7 +130,7 @@ function HeroSection() {
                   href="#vacatures"
                   className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-[0_20px_40px_rgba(32,76,229,0.3)]"
                 >
-                  Bekijk vacatures
+                  {t("hero.viewPositions")}
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 <a
@@ -181,7 +138,7 @@ function HeroSection() {
                   className="group inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-white/20 border border-white/10"
                 >
                   <Play className="w-4 h-4" />
-                  Spontaan solliciteren
+                  {t("hero.spontaneousApply")}
                 </a>
               </motion.div>
             </div>
@@ -195,10 +152,10 @@ function HeroSection() {
             >
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { value: STATS.employees, label: "Collega's", suffix: "+" },
-                  { value: STATS.yearsExperience.toString(), label: "Jaar ervaring", suffix: "" },
-                  { value: "VCA**", label: "Veiligheid", suffix: "" },
-                  { value: openPositions.length.toString(), label: "Vacatures", suffix: "" },
+                  { value: STATS.employees, label: t("stats.colleagues"), suffix: "+" },
+                  { value: STATS.yearsExperience.toString(), label: t("stats.yearsExperience"), suffix: "" },
+                  { value: "VCA**", label: t("stats.safety"), suffix: "" },
+                  { value: openPositions.length.toString(), label: t("stats.vacancies"), suffix: "" },
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}
@@ -242,6 +199,7 @@ function HeroSection() {
 function BenefitsSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("careers");
 
   return (
     <section ref={ref} className="py-24 lg:py-32 bg-white">
@@ -255,23 +213,23 @@ function BenefitsSection() {
         >
           <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
             <span className="w-12 h-px bg-[#204CE5]" />
-            Waarom De Raedt?
+            {t("benefitsSection.badge")}
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] leading-[1.1]">
-            Meer dan alleen een <span className="text-[#204CE5]">job</span>
+            {t("benefitsSection.title")} <span className="text-[#204CE5]">{t("benefitsSection.titleAccent")}</span>
           </h2>
           <p className="mt-6 text-xl text-[#686E77] leading-relaxed">
-            Wij bieden een carrière in een bedrijf waar jouw bijdrage écht telt.
+            {t("benefitsSection.subtitle")}
           </p>
         </motion.div>
 
         {/* Benefits Grid */}
         <div className="grid md:grid-cols-2 gap-6">
-          {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
+          {BENEFIT_KEYS.map((key, index) => {
+            const Icon = BENEFIT_ICONS[key];
             return (
               <motion.article
-                key={benefit.title}
+                key={key}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -283,10 +241,10 @@ function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-[#112337] group-hover:text-white transition-colors duration-500 mb-3">
-                      {benefit.title}
+                      {t(`benefitsSection.items.${key}.title`)}
                     </h3>
                     <p className="text-[#686E77] group-hover:text-white/60 transition-colors duration-500 leading-relaxed">
-                      {benefit.description}
+                      {t(`benefitsSection.items.${key}.description`)}
                     </p>
                   </div>
                 </div>
@@ -303,6 +261,7 @@ function BenefitsSection() {
 function TeamSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("careers");
 
   return (
     <section ref={ref} className="py-24 lg:py-32 bg-[#F8F9FA]">
@@ -328,7 +287,7 @@ function TeamSection() {
               {/* Floating badge */}
               <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl px-5 py-3 shadow-xl">
                 <div className="text-2xl font-bold text-[#112337]">{STATS.employees}+</div>
-                <div className="text-xs text-[#686E77] uppercase tracking-wider">Collega&apos;s</div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">{t("team.colleagues")}</div>
               </div>
             </motion.div>
           </div>
@@ -343,35 +302,25 @@ function TeamSection() {
             >
               <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
                 <span className="w-8 h-px bg-[#204CE5]" />
-                Ons Team
+                {t("team.badge")}
               </span>
 
               <h3 className="text-3xl lg:text-4xl font-bold text-[#112337] leading-tight mb-6">
-                {STATS.employees} collega&apos;s, één familie
+                {t("team.title", { count: STATS.employees })}
               </h3>
 
               <div className="space-y-4 text-[#686E77] leading-relaxed">
-                <p>
-                  Van ervaren vakmensen tot jonge talenten, iedereen draagt bij
-                  aan ons succes. Bij De Raedt word je niet zomaar een nummer.
-                </p>
-                <p>
-                  Je wordt deel van een hecht team dat al sinds 1930 samen bouwt
-                  aan de mooiste projecten in België.
-                </p>
+                <p>{t("team.description1")}</p>
+                <p>{t("team.description2")}</p>
               </div>
 
               {/* Team perks */}
               <div className="mt-8 pt-8 border-t border-[#E5E7EB]">
                 <ul className="space-y-3">
-                  {[
-                    "Dagelijks vers fruit en koffie op de werf",
-                    "Regelmatige teamactiviteiten",
-                    "Modern en veilig materiaal",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3">
+                  {PERK_KEYS.map((key) => (
+                    <li key={key} className="flex items-center gap-3">
                       <CheckCircle2 className="w-4 h-4 text-[#204CE5] flex-shrink-0" />
-                      <span className="text-sm text-[#112337]">{item}</span>
+                      <span className="text-sm text-[#112337]">{t(`team.perks.${key}`)}</span>
                     </li>
                   ))}
                 </ul>
@@ -388,6 +337,7 @@ function TeamSection() {
 function CultureSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("careers");
 
   return (
     <section ref={ref} className="py-24 lg:py-32 bg-[#112337] relative overflow-hidden">
@@ -413,18 +363,18 @@ function CultureSection() {
           className="max-w-3xl mb-16"
         >
           <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-            Onze Cultuur
+            {t("culture.badge")}
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
-            Wat ons <span className="text-[#204CE5]">drijft</span>
+            {t("culture.title")} <span className="text-[#204CE5]">{t("culture.titleAccent")}</span>
           </h2>
         </motion.div>
 
         {/* Culture points - Numbered list */}
         <div className="space-y-0 border-t border-white/10">
-          {culturePoints.map((point, index) => (
+          {CULTURE_KEYS.map((key, index) => (
             <motion.article
-              key={point.number}
+              key={key}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -433,16 +383,16 @@ function CultureSection() {
               <div className="py-8 sm:py-10 flex items-start gap-6 sm:gap-10">
                 {/* Number */}
                 <span className="text-5xl sm:text-6xl font-bold text-[#204CE5] leading-none min-w-[60px] sm:min-w-[80px]">
-                  {point.number}
+                  {t(`culture.items.${key}.number`)}
                 </span>
 
                 {/* Content */}
                 <div className="flex-1 pt-2">
                   <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:text-[#204CE5] transition-colors duration-300">
-                    {point.title}
+                    {t(`culture.items.${key}.title`)}
                   </h3>
                   <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl">
-                    {point.description}
+                    {t(`culture.items.${key}.description`)}
                   </p>
                 </div>
               </div>
@@ -473,6 +423,7 @@ function CultureSection() {
 function VacaturesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("careers");
 
   return (
     <section id="vacatures" ref={ref} className="py-24 lg:py-32 bg-white">
@@ -486,10 +437,10 @@ function VacaturesSection() {
         >
           <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
             <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-            {openPositions.length} openstaande vacatures
+            {t("positions.badge", { count: openPositions.length })}
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] leading-[1.1]">
-            Openstaande <span className="text-[#204CE5]">functies</span>
+            {t("positions.title")} <span className="text-[#204CE5]">{t("positions.titleAccent")}</span>
           </h2>
         </motion.div>
 
@@ -522,7 +473,7 @@ function VacaturesSection() {
                       </span>
                       <span className="flex items-center gap-2">
                         <Clock className="w-4 h-4" />
-                        {getEmploymentTypeLabel(position.employment_type)}
+                        {t(`employmentTypes.${position.employment_type}`)}
                       </span>
                       <span className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
@@ -531,7 +482,7 @@ function VacaturesSection() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3 text-[#204CE5] group-hover:text-white transition-colors duration-500">
-                    <span className="font-semibold whitespace-nowrap">Bekijk vacature</span>
+                    <span className="font-semibold whitespace-nowrap">{t("positions.viewPosition")}</span>
                     <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
@@ -555,16 +506,16 @@ function VacaturesSection() {
 
             <div className="relative">
               <h3 className="text-2xl sm:text-3xl font-bold text-white">
-                Staat jouw functie er niet bij?
+                {t("positions.notFound.title")}
               </h3>
               <p className="mt-4 text-white/50 max-w-lg mx-auto">
-                Stuur ons een spontane sollicitatie. Wij zijn altijd op zoek naar gemotiveerd talent!
+                {t("positions.notFound.description")}
               </p>
               <a
                 href={`mailto:${COMPANY.contact.jobs}`}
                 className="group inline-flex items-center gap-3 mt-8 bg-white text-[#112337] px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#204CE5] hover:text-white"
               >
-                Spontaan solliciteren
+                {t("positions.notFound.cta")}
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </div>
@@ -579,6 +530,7 @@ function VacaturesSection() {
 function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("careers");
 
   return (
     <section ref={ref} className="py-24 bg-[#F8F9FA]">
@@ -593,16 +545,15 @@ function CTASection() {
           <div>
             <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
               <span className="w-12 h-px bg-[#204CE5]" />
-              Contact
+              {t("cta.badge")}
             </span>
 
             <h2 className="text-4xl sm:text-5xl font-bold text-[#112337] leading-[1.1] mb-6">
-              Heb je nog <span className="text-[#204CE5]">vragen</span>?
+              {t("cta.title")} <span className="text-[#204CE5]">{t("cta.titleAccent")}</span>?
             </h2>
 
             <p className="text-lg text-[#686E77] leading-relaxed mb-8">
-              Neem gerust contact op met ons HR team. Wij helpen je graag verder
-              met al je vragen over werken bij De Raedt.
+              {t("cta.description")}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -610,7 +561,7 @@ function CTASection() {
                 href={`mailto:${COMPANY.contact.jobs}`}
                 className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-[0_20px_40px_rgba(32,76,229,0.3)]"
               >
-                Email HR team
+                {t("cta.emailHr")}
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
               <a
@@ -625,20 +576,13 @@ function CTASection() {
           {/* Right: Info card */}
           <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-xl">
             <h3 className="text-2xl font-bold text-[#112337] mb-6">
-              Onze voordelen
+              {t("cta.benefitsTitle")}
             </h3>
             <ul className="space-y-4">
-              {[
-                "Competitief salaris en extralegale voordelen",
-                "Bedrijfswagen (functie-afhankelijk)",
-                "Groepsverzekering en hospitalisatieverzekering",
-                "13e maand en eindejaarspremie",
-                "Maaltijdcheques",
-                "Opleiding op kosten van het bedrijf",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3">
+              {BENEFIT_LIST_KEYS.map((key) => (
+                <li key={key} className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-[#204CE5] flex-shrink-0" />
-                  <span className="text-[#112337]">{item}</span>
+                  <span className="text-[#112337]">{t(`cta.benefitsList.${key}`)}</span>
                 </li>
               ))}
             </ul>

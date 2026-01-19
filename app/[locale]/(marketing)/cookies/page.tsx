@@ -1,109 +1,108 @@
 import { Metadata } from "next";
+import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { COMPANY } from "@/lib/constants";
 
-export const metadata: Metadata = {
-  title: "Cookiebeleid",
-  description: "Cookiebeleid van Bouwwerken De Raedt Ivan NV",
+type Props = {
+  params: Promise<{ locale: string }>;
 };
 
-export default function CookiesPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "cookies" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
+
+export default async function CookiesPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return <CookiesContent />;
+}
+
+function CookiesContent() {
+  const t = useTranslations("cookies");
+
   return (
     <>
       <section className="bg-[#1E3A5F] pb-16 pt-32">
         <div className="container-custom">
           <h1 className="text-4xl font-bold text-white md:text-5xl">
-            Cookiebeleid
+            {t("title")}
           </h1>
-          <p className="mt-4 text-white/70">
-            Laatst bijgewerkt: januari 2024
-          </p>
+          <p className="mt-4 text-white/70">{t("lastUpdated")}</p>
         </div>
       </section>
 
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="prose max-w-3xl">
-            <h2>Wat zijn cookies?</h2>
-            <p>
-              Cookies zijn kleine tekstbestanden die op uw computer of mobiel
-              apparaat worden opgeslagen wanneer u onze website bezoekt. Ze
-              helpen ons om de website goed te laten functioneren en om uw
-              voorkeuren te onthouden.
-            </p>
+            {/* What are cookies */}
+            <h2>{t("sections.whatAreCookies.title")}</h2>
+            <p>{t("sections.whatAreCookies.content")}</p>
 
-            <h2>Welke cookies gebruiken wij?</h2>
+            {/* Which cookies */}
+            <h2>{t("sections.whichCookies.title")}</h2>
 
-            <h3>1. Noodzakelijke cookies</h3>
-            <p>
-              Deze cookies zijn essentieel voor het functioneren van de website.
-              Zonder deze cookies kunnen bepaalde onderdelen van de website niet
-              werken.
-            </p>
+            {/* Necessary cookies */}
+            <h3>{t("sections.whichCookies.necessary.title")}</h3>
+            <p>{t("sections.whichCookies.necessary.description")}</p>
             <table>
               <thead>
                 <tr>
-                  <th>Cookie</th>
-                  <th>Doel</th>
-                  <th>Bewaartermijn</th>
+                  <th>{t("sections.table.cookie")}</th>
+                  <th>{t("sections.table.purpose")}</th>
+                  <th>{t("sections.table.retention")}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>deraedt-cookie-consent</td>
-                  <td>Onthoudt uw cookievoorkeuren</td>
-                  <td>1 jaar</td>
+                  <td>{t("sections.table.cookies.consent.name")}</td>
+                  <td>{t("sections.table.cookies.consent.purpose")}</td>
+                  <td>{t("sections.table.oneYear")}</td>
                 </tr>
                 <tr>
-                  <td>sb-*-auth-token</td>
-                  <td>Authenticatie klantenportaal</td>
-                  <td>Sessie</td>
+                  <td>{t("sections.table.cookies.auth.name")}</td>
+                  <td>{t("sections.table.cookies.auth.purpose")}</td>
+                  <td>{t("sections.table.session")}</td>
                 </tr>
               </tbody>
             </table>
 
-            <h3>2. Analytische cookies</h3>
-            <p>
-              Deze cookies helpen ons te begrijpen hoe bezoekers de website
-              gebruiken. Wij gebruiken Plausible Analytics, een
-              privacy-vriendelijk alternatief dat geen persoonlijke gegevens
-              verzamelt.
-            </p>
+            {/* Analytical cookies */}
+            <h3>{t("sections.whichCookies.analytics.title")}</h3>
+            <p>{t("sections.whichCookies.analytics.description")}</p>
             <table>
               <thead>
                 <tr>
-                  <th>Cookie</th>
-                  <th>Doel</th>
-                  <th>Bewaartermijn</th>
+                  <th>{t("sections.table.cookie")}</th>
+                  <th>{t("sections.table.purpose")}</th>
+                  <th>{t("sections.table.retention")}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Geen cookies</td>
-                  <td>
-                    Plausible werkt zonder cookies en respecteert uw privacy
-                  </td>
-                  <td>-</td>
+                  <td>{t("sections.table.noCookies")}</td>
+                  <td>{t("sections.table.cookies.plausible.purpose")}</td>
+                  <td>{t("sections.table.none")}</td>
                 </tr>
               </tbody>
             </table>
 
-            <h2>Uw keuzes</h2>
+            {/* Your choices */}
+            <h2>{t("sections.choices.title")}</h2>
+            <p>{t("sections.choices.description")}</p>
             <p>
-              Bij uw eerste bezoek aan onze website kunt u kiezen welke cookies
-              u wilt accepteren. U kunt deze keuze op elk moment wijzigen door
-              de cookies in uw browser te verwijderen.
-            </p>
-            <p>
-              <strong>Belangrijk:</strong> Conform de Belgische
-              Gegevensbeschermingsautoriteit (GBA) bieden wij u een gelijkwaardige
-              keuze tussen het accepteren en weigeren van niet-essentiële cookies.
+              <strong>{t("sections.choices.important")}</strong>{" "}
+              {t("sections.choices.gbaNote")}
             </p>
 
-            <h2>Cookies beheren in uw browser</h2>
-            <p>
-              U kunt cookies ook beheren via uw browserinstellingen. Hier vindt u
-              instructies voor de meest gebruikte browsers:
-            </p>
+            {/* Browser management */}
+            <h2>{t("sections.browserManagement.title")}</h2>
+            <p>{t("sections.browserManagement.description")}</p>
             <ul>
               <li>
                 <a
@@ -143,10 +142,9 @@ export default function CookiesPage() {
               </li>
             </ul>
 
-            <h2>Contact</h2>
-            <p>
-              Heeft u vragen over ons cookiebeleid? Neem dan contact met ons op:
-            </p>
+            {/* Contact */}
+            <h2>{t("sections.contact.title")}</h2>
+            <p>{t("sections.contact.description")}</p>
             <p>
               {COMPANY.name}
               <br />

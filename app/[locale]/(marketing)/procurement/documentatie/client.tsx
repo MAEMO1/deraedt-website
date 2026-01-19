@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -22,40 +22,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
-const requestSchema = z.object({
-  name: z.string().min(2, "Naam is verplicht"),
-  organisation: z.string().min(2, "Organisatie is verplicht"),
-  email: z.string().email("Ongeldig emailadres"),
-  phone: z.string().optional(),
-  purpose: z.enum(["aanbesteding", "preselectie", "raamcontract", "other"], "Selecteer een doel"),
-  purposeOther: z.string().optional(),
-  message: z.string().optional(),
-});
-
-type RequestForm = z.infer<typeof requestSchema>;
-
-const purposeOptions = [
-  { value: "aanbesteding", label: "Aanbesteding / Openbare opdracht" },
-  { value: "preselectie", label: "Preselectie / Kandidaatstelling" },
-  { value: "raamcontract", label: "Raamcontract onderhandeling" },
-  { value: "other", label: "Anders" },
-];
-
-const availableDocuments = [
-  { name: "ISO 9001:2015 Certificaat", type: "Kwaliteit" },
-  { name: "VCA** Certificaat", type: "Veiligheid" },
-  { name: "CO₂-Prestatieladder Niveau 3", type: "Duurzaamheid" },
-  { name: "Erkenning Klasse 6 - Categorie D", type: "Erkenning" },
-  { name: "Erkenning Klasse 4 - Subcategorie D8", type: "Erkenning" },
-  { name: "Burgerlijke Aansprakelijkheid Attest", type: "Verzekering" },
-  { name: "Tienjarige Aansprakelijkheid Attest", type: "Verzekering" },
-  { name: "Referentielijst Overheidsopdrachten", type: "Referenties" },
-];
+const DOC_KEYS = ['iso', 'vca', 'co2', 'klasse6', 'klasse4', 'ba', 'tienjarige', 'referenties'] as const;
+const PURPOSE_KEYS = ['aanbesteding', 'preselectie', 'raamcontract', 'other'] as const;
 
 export function DocumentatieClient() {
+  const t = useTranslations("procurement.documentatie");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const requestSchema = z.object({
+    name: z.string().min(2, t("validation.nameRequired")),
+    organisation: z.string().min(2, t("validation.organisationRequired")),
+    email: z.string().email(t("validation.emailInvalid")),
+    phone: z.string().optional(),
+    purpose: z.enum(["aanbesteding", "preselectie", "raamcontract", "other"], t("validation.purposeRequired")),
+    purposeOther: z.string().optional(),
+    message: z.string().optional(),
+  });
+
+  type RequestForm = z.infer<typeof requestSchema>;
 
   const {
     register,
@@ -85,7 +72,7 @@ export function DocumentatieClient() {
           contact_email: data.email,
           contact_phone: data.phone || null,
           organisation: data.organisation,
-          message: `Doel: ${purposeOptions.find(p => p.value === data.purpose)?.label || data.purpose}${data.purposeOther ? ` (${data.purposeOther})` : ""}${data.message ? `\n\nBericht: ${data.message}` : ""}`,
+          message: `Doel: ${t(`purposes.${data.purpose}`)}${data.purposeOther ? ` (${data.purposeOther})` : ""}${data.message ? `\n\nBericht: ${data.message}` : ""}`,
           source: "tender-pack-request",
         }),
       });
@@ -95,13 +82,13 @@ export function DocumentatieClient() {
       }
 
       setIsSubmitted(true);
-      toast.success("Aanvraag verzonden!", {
-        description: "U ontvangt de documentatie binnen 24 uur.",
+      toast.success(t("toast.success"), {
+        description: t("toast.successDescription"),
       });
     } catch (err) {
       console.error("Submit error:", err);
-      toast.error("Er is iets misgegaan", {
-        description: "Probeer het later opnieuw of neem contact met ons op.",
+      toast.error(t("toast.error"), {
+        description: t("toast.errorDescription"),
       });
     } finally {
       setIsSubmitting(false);
@@ -118,7 +105,7 @@ export function DocumentatieClient() {
             className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm">Terug naar Procurement Hub</span>
+            <span className="text-sm">{t("backLink")}</span>
           </Link>
 
           <motion.div
@@ -130,17 +117,16 @@ export function DocumentatieClient() {
             <div className="flex items-center gap-4 mb-6">
               <span className="h-px w-12 bg-[#9A6B4C]" />
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
-                Tender Pack
+                {t("badge")}
               </span>
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl text-white leading-[0.95]">
-              Documentatie aanvragen
+              {t("title")}
             </h1>
 
             <p className="mt-6 text-white/50 leading-relaxed">
-              Vraag ons tender pack aan met alle certificaten en referenties die
-              u nodig heeft voor uw aanbesteding, preselectie of raamcontract.
+              {t("description")}
             </p>
           </motion.div>
         </div>
@@ -161,24 +147,23 @@ export function DocumentatieClient() {
                   <div className="text-center">
                     <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
                     <h2 className="font-display text-2xl text-[#0C0C0C] mb-4">
-                      Aanvraag ontvangen!
+                      {t("success.title")}
                     </h2>
                     <p className="text-[#6B6560] mb-8">
-                      Bedankt voor uw aanvraag. U ontvangt het tender pack met
-                      alle gevraagde documentatie binnen 24 uur per email.
+                      {t("success.message")}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                       <Link
                         href="/procurement"
                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#0C0C0C] text-white text-sm font-semibold transition-colors hover:bg-[#9A6B4C]"
                       >
-                        Terug naar Procurement Hub
+                        {t("success.backToHub")}
                       </Link>
                       <Link
                         href="/contact"
                         className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#0C0C0C]/20 text-[#0C0C0C] text-sm font-medium transition-colors hover:bg-[#0C0C0C] hover:text-white"
                       >
-                        Contact opnemen
+                        {t("success.contactUs")}
                       </Link>
                     </div>
                   </div>
@@ -186,18 +171,18 @@ export function DocumentatieClient() {
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 sm:p-10 border border-[#0C0C0C]/5">
                   <h2 className="font-display text-2xl text-[#0C0C0C] mb-6">
-                    Vul uw gegevens in
+                    {t("form.title")}
                   </h2>
 
                   <div className="space-y-6">
                     {/* Name */}
                     <div>
-                      <Label htmlFor="name">Naam *</Label>
+                      <Label htmlFor="name">{t("form.name")} {t("form.required")}</Label>
                       <Input
                         id="name"
                         {...register("name")}
                         className="mt-2"
-                        placeholder="Uw naam"
+                        placeholder={t("form.namePlaceholder")}
                       />
                       {errors.name && (
                         <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>
@@ -206,12 +191,12 @@ export function DocumentatieClient() {
 
                     {/* Organisation */}
                     <div>
-                      <Label htmlFor="organisation">Organisatie *</Label>
+                      <Label htmlFor="organisation">{t("form.organisation")} {t("form.required")}</Label>
                       <Input
                         id="organisation"
                         {...register("organisation")}
                         className="mt-2"
-                        placeholder="Uw organisatie"
+                        placeholder={t("form.organisationPlaceholder")}
                       />
                       {errors.organisation && (
                         <p className="text-sm text-red-600 mt-1">{errors.organisation.message}</p>
@@ -220,13 +205,13 @@ export function DocumentatieClient() {
 
                     {/* Email */}
                     <div>
-                      <Label htmlFor="email">Email *</Label>
+                      <Label htmlFor="email">{t("form.email")} {t("form.required")}</Label>
                       <Input
                         id="email"
                         type="email"
                         {...register("email")}
                         className="mt-2"
-                        placeholder="uw@email.be"
+                        placeholder={t("form.emailPlaceholder")}
                       />
                       {errors.email && (
                         <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
@@ -235,32 +220,32 @@ export function DocumentatieClient() {
 
                     {/* Phone */}
                     <div>
-                      <Label htmlFor="phone">Telefoon (optioneel)</Label>
+                      <Label htmlFor="phone">{t("form.phone")}</Label>
                       <Input
                         id="phone"
                         type="tel"
                         {...register("phone")}
                         className="mt-2"
-                        placeholder="+32 ..."
+                        placeholder={t("form.phonePlaceholder")}
                       />
                     </div>
 
                     {/* Purpose */}
                     <div>
-                      <Label>Doel van aanvraag *</Label>
+                      <Label>{t("form.purpose")} {t("form.required")}</Label>
                       <div className="mt-3 space-y-2">
-                        {purposeOptions.map((option) => (
+                        {PURPOSE_KEYS.map((key) => (
                           <label
-                            key={option.value}
+                            key={key}
                             className="flex items-center gap-3 p-3 border border-[#0C0C0C]/10 cursor-pointer hover:bg-[#FAF7F2] transition-colors"
                           >
                             <input
                               type="radio"
-                              value={option.value}
+                              value={key}
                               {...register("purpose")}
                               className="w-4 h-4 text-[#9A6B4C] border-gray-300 focus:ring-[#9A6B4C]"
                             />
-                            <span className="text-sm text-[#0C0C0C]">{option.label}</span>
+                            <span className="text-sm text-[#0C0C0C]">{t(`purposes.${key}`)}</span>
                           </label>
                         ))}
                       </div>
@@ -272,25 +257,25 @@ export function DocumentatieClient() {
                     {/* Purpose Other */}
                     {watchPurpose === "other" && (
                       <div>
-                        <Label htmlFor="purposeOther">Specificeer</Label>
+                        <Label htmlFor="purposeOther">{t("form.purposeOther")}</Label>
                         <Input
                           id="purposeOther"
                           {...register("purposeOther")}
                           className="mt-2"
-                          placeholder="Waarvoor heeft u de documentatie nodig?"
+                          placeholder={t("form.purposeOtherPlaceholder")}
                         />
                       </div>
                     )}
 
                     {/* Message */}
                     <div>
-                      <Label htmlFor="message">Aanvullende opmerkingen (optioneel)</Label>
+                      <Label htmlFor="message">{t("form.message")}</Label>
                       <textarea
                         id="message"
                         {...register("message")}
                         rows={3}
                         className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                        placeholder="Specifieke documenten of vragen..."
+                        placeholder={t("form.messagePlaceholder")}
                       />
                     </div>
 
@@ -303,11 +288,11 @@ export function DocumentatieClient() {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Verzenden...
+                          {t("form.submitting")}
                         </>
                       ) : (
                         <>
-                          Tender Pack Aanvragen
+                          {t("form.submit")}
                           <ArrowRight className="w-4 h-4 ml-2" />
                         </>
                       )}
@@ -324,18 +309,17 @@ export function DocumentatieClient() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="font-display text-2xl text-[#0C0C0C] mb-6">
-                Beschikbare documentatie
+                {t("documents.title")}
               </h2>
 
               <p className="text-[#6B6560] mb-8">
-                Het tender pack bevat alle documenten die u nodig heeft voor
-                aanbestedingen en preselecties. Na uw aanvraag ontvangt u:
+                {t("documents.description")}
               </p>
 
               <div className="space-y-4">
-                {availableDocuments.map((doc, index) => (
+                {DOC_KEYS.map((key, index) => (
                   <motion.div
-                    key={doc.name}
+                    key={key}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
@@ -345,8 +329,8 @@ export function DocumentatieClient() {
                       <FileText className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-medium text-[#0C0C0C]">{doc.name}</div>
-                      <div className="text-xs text-[#6B6560]">{doc.type}</div>
+                      <div className="font-medium text-[#0C0C0C]">{t(`documents.items.${key}.name`)}</div>
+                      <div className="text-xs text-[#6B6560]">{t(`documents.items.${key}.type`)}</div>
                     </div>
                     <Download className="w-4 h-4 text-[#6B6560]" />
                   </motion.div>
@@ -355,23 +339,23 @@ export function DocumentatieClient() {
 
               {/* Certifications Summary */}
               <div className="mt-10 p-6 bg-[#0C0C0C] text-white">
-                <h3 className="font-display text-lg mb-4">Onze certificeringen</h3>
+                <h3 className="font-display text-lg mb-4">{t("certSummary.title")}</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-2 text-sm text-white/70">
                     <Shield className="w-4 h-4 text-[#9A6B4C]" />
-                    Klasse 6 erkend
+                    {t("certSummary.klasse6")}
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white/70">
                     <Award className="w-4 h-4 text-[#9A6B4C]" />
-                    ISO 9001
+                    {t("certSummary.iso")}
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white/70">
                     <FileCheck className="w-4 h-4 text-[#9A6B4C]" />
-                    VCA**
+                    {t("certSummary.vca")}
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white/70">
                     <Leaf className="w-4 h-4 text-[#9A6B4C]" />
-                    CO₂-niveau 3
+                    {t("certSummary.co2")}
                   </div>
                 </div>
               </div>

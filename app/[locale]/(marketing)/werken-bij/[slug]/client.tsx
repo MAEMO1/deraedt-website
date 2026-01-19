@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useTranslations } from 'next-intl';
 import {
   ArrowLeft,
   Briefcase,
@@ -39,23 +40,24 @@ interface JobDetailClientProps {
   employmentTypeLabel: string;
 }
 
-const applicationSchema = z.object({
-  full_name: z.string().min(2, 'Naam moet minimaal 2 karakters bevatten'),
-  email: z.string().email('Ongeldig emailadres'),
-  phone: z.string().optional(),
-  cover_letter: z.string().optional(),
-  gdpr_consent: z.boolean().refine((val) => val === true, {
-    message: 'U moet akkoord gaan met de privacyverklaring',
-  }),
-});
-
-type ApplicationFormData = z.infer<typeof applicationSchema>;
-
 export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientProps) {
+  const t = useTranslations('careers.jobDetail');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [cvFile, setCvFile] = useState<File | null>(null);
+
+  const applicationSchema = z.object({
+    full_name: z.string().min(2, t('errors.nameMin')),
+    email: z.string().email(t('errors.emailInvalid')),
+    phone: z.string().optional(),
+    cover_letter: z.string().optional(),
+    gdpr_consent: z.boolean().refine((val) => val === true, {
+      message: t('errors.gdprRequired'),
+    }),
+  });
+
+  type ApplicationFormData = z.infer<typeof applicationSchema>;
 
   const {
     register,
@@ -73,12 +75,12 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
       const maxSize = 10 * 1024 * 1024; // 10MB
 
       if (!validTypes.includes(file.type)) {
-        setSubmitError('Alleen PDF en Word documenten zijn toegestaan');
+        setSubmitError(t('errors.fileTypeInvalid'));
         return;
       }
 
       if (file.size > maxSize) {
-        setSubmitError('Bestand mag maximaal 10MB zijn');
+        setSubmitError(t('errors.fileTooLarge'));
         return;
       }
 
@@ -138,10 +140,10 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
       if (result.success) {
         setSubmitSuccess(true);
       } else {
-        setSubmitError(result.error || 'Er ging iets mis. Probeer het opnieuw.');
+        setSubmitError(result.error || t('errors.submitError'));
       }
     } catch {
-      setSubmitError('Er ging iets mis. Probeer het opnieuw.');
+      setSubmitError(t('errors.submitError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -173,7 +175,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
               className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm">Alle vacatures</span>
+              <span className="text-sm">{t('backToJobs')}</span>
             </Link>
 
             <div className="mb-6">
@@ -217,7 +219,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                 transition={{ duration: 0.6 }}
               >
                 <h2 className="text-2xl font-bold text-[#112337] mb-6">
-                  Over deze functie
+                  {t('aboutRole')}
                 </h2>
                 <p className="text-[#686E77] leading-relaxed text-lg">
                   {job.description}
@@ -233,7 +235,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                 <div className="flex items-center gap-3 mb-6">
                   <Target className="w-5 h-5 text-[#204CE5]" />
                   <h2 className="text-2xl font-bold text-[#112337]">
-                    Wat wij verwachten
+                    {t('requirements')}
                   </h2>
                 </div>
                 <ul className="space-y-3">
@@ -255,7 +257,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                 <div className="flex items-center gap-3 mb-6">
                   <Gift className="w-5 h-5 text-[#204CE5]" />
                   <h2 className="text-2xl font-bold text-[#112337]">
-                    Wat wij bieden
+                    {t('benefits')}
                   </h2>
                 </div>
                 <ul className="space-y-3">
@@ -278,7 +280,7 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
             >
               <div className="bg-white rounded-xl p-8 shadow-lg">
                 <h3 className="text-2xl font-bold text-[#112337] mb-6">
-                  Solliciteer nu
+                  {t('applyNow')}
                 </h3>
 
                 {submitSuccess ? (
@@ -287,17 +289,17 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                       <CheckCircle className="w-8 h-8 text-green-600" />
                     </div>
                     <h4 className="text-xl font-bold text-[#112337] mb-2">
-                      Bedankt voor uw sollicitatie!
+                      {t('success.title')}
                     </h4>
                     <p className="text-[#686E77] text-sm">
-                      U ontvangt binnenkort een bevestiging per email. Wij nemen zo snel mogelijk contact met u op.
+                      {t('success.message')}
                     </p>
                     <Link
                       href="/werken-bij"
                       className="inline-flex items-center gap-2 text-[#204CE5] hover:underline mt-6"
                     >
                       <ArrowLeft className="w-4 h-4" />
-                      Terug naar vacatures
+                      {t('success.backToJobs')}
                     </Link>
                   </div>
                 ) : (
@@ -305,14 +307,14 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                     {/* Name */}
                     <div>
                       <label htmlFor="full_name" className="block text-sm font-medium text-[#112337] mb-2">
-                        Naam *
+                        {t('form.name')} {t('form.required')}
                       </label>
                       <input
                         id="full_name"
                         type="text"
                         {...register('full_name')}
                         className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors"
-                        placeholder="Uw volledige naam"
+                        placeholder={t('form.namePlaceholder')}
                       />
                       {errors.full_name && (
                         <p className="mt-1 text-sm text-red-600">{errors.full_name.message}</p>
@@ -322,14 +324,14 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                     {/* Email */}
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-[#112337] mb-2">
-                        Email *
+                        {t('form.email')} {t('form.required')}
                       </label>
                       <input
                         id="email"
                         type="email"
                         {...register('email')}
                         className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors"
-                        placeholder="uw.email@voorbeeld.be"
+                        placeholder={t('form.emailPlaceholder')}
                       />
                       {errors.email && (
                         <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -339,26 +341,26 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                     {/* Phone */}
                     <div>
                       <label htmlFor="phone" className="block text-sm font-medium text-[#112337] mb-2">
-                        Telefoon
+                        {t('form.phone')}
                       </label>
                       <input
                         id="phone"
                         type="tel"
                         {...register('phone')}
                         className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors"
-                        placeholder="+32 xxx xx xx xx"
+                        placeholder={t('form.phonePlaceholder')}
                       />
                     </div>
 
                     {/* CV Upload */}
                     <div>
                       <label className="block text-sm font-medium text-[#112337] mb-2">
-                        CV (PDF of Word)
+                        {t('form.cv')}
                       </label>
                       <label className="flex items-center justify-center gap-3 px-4 py-6 border-2 border-dashed border-[#112337]/10 rounded-xl hover:border-[#204CE5] cursor-pointer transition-colors">
                         <Upload className="w-5 h-5 text-[#686E77]" />
                         <span className="text-sm text-[#686E77]">
-                          {cvFile ? cvFile.name : 'Klik om te uploaden'}
+                          {cvFile ? cvFile.name : t('form.cvUpload')}
                         </span>
                         <input
                           type="file"
@@ -367,20 +369,20 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                           className="hidden"
                         />
                       </label>
-                      <p className="mt-1 text-xs text-[#686E77]">Max 10MB</p>
+                      <p className="mt-1 text-xs text-[#686E77]">{t('form.cvMaxSize')}</p>
                     </div>
 
                     {/* Motivation */}
                     <div>
                       <label htmlFor="cover_letter" className="block text-sm font-medium text-[#112337] mb-2">
-                        Motivatie
+                        {t('form.motivation')}
                       </label>
                       <textarea
                         id="cover_letter"
                         {...register('cover_letter')}
                         rows={4}
                         className="w-full px-4 py-3 border border-[#112337]/10 rounded-xl focus:border-[#204CE5] focus:outline-none transition-colors resize-none"
-                        placeholder="Vertel ons waarom u geïnteresseerd bent..."
+                        placeholder={t('form.motivationPlaceholder')}
                       />
                     </div>
 
@@ -393,11 +395,11 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                           className="mt-1 w-4 h-4 rounded border-[#112337]/20 text-[#204CE5] focus:ring-[#204CE5]"
                         />
                         <span className="text-xs text-[#686E77]">
-                          Ik ga akkoord met de{' '}
+                          {t('form.gdprConsent')}{' '}
                           <Link href="/privacy" className="text-[#204CE5] hover:underline">
-                            privacyverklaring
+                            {t('form.privacyPolicy')}
                           </Link>
-                          . Mijn gegevens worden 12 maanden bewaard conform GDPR. *
+                          . {t('form.gdprNote')} {t('form.required')}
                         </span>
                       </label>
                       {errors.gdpr_consent && (
@@ -422,19 +424,19 @@ export function JobDetailClient({ job, employmentTypeLabel }: JobDetailClientPro
                       {isSubmitting ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          Verzenden...
+                          {t('form.submitting')}
                         </>
                       ) : (
                         <>
                           <Send className="w-4 h-4" />
-                          Solliciteer
+                          {t('form.submit')}
                         </>
                       )}
                     </button>
 
                     {/* Alternative contact */}
                     <p className="text-center text-xs text-[#686E77]">
-                      Of mail uw sollicitatie naar{' '}
+                      {t('alternativeContact')}{' '}
                       <a
                         href={`mailto:${COMPANY.contact.jobs}`}
                         className="text-[#204CE5] hover:underline"

@@ -768,6 +768,284 @@
       ],
       "commands": ["pnpm verify"],
       "notes": "Created partner intake token system with 30-day expiry. Public upload page with progress tracking. Admin generates invite link via 'Genereer Upload Link' button. Documents stored in Supabase Storage. RLS policies allow anon uploads with valid token. Added partners:invite and partners:write permissions."
+    },
+    {
+      "id": "I18N-001",
+      "priority": 89,
+      "title": "Contact page i18n",
+      "description": "Add multilingual support to the contact page. Extract all hardcoded Dutch strings to translation files and use useTranslations hook.",
+      "acceptanceCriteria": [
+        "Contact page uses useTranslations('contact') hook",
+        "All 30+ hardcoded Dutch strings moved to messages/*.json",
+        "Form labels, placeholders, errors, success messages translated",
+        "Company info section translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/contact/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added useTranslations('contact') hook. Extended contact section in all 3 translation files with hero, cards, form, subjects, success, toast, company, map keys. Uses t.rich() for rich text with highlight tags."
+    },
+    {
+      "id": "I18N-002",
+      "priority": 90,
+      "title": "Careers (werken-bij) page i18n",
+      "description": "Add multilingual support to the careers page. Extract all hardcoded Dutch strings including benefits, culture points, and team section.",
+      "acceptanceCriteria": [
+        "Werken-bij page uses useTranslations('careers') hook",
+        "All 30+ hardcoded Dutch strings moved to messages/*.json",
+        "Benefits, culture points, team section translated",
+        "Job listings labels translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/werken-bij/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added useTranslations('careers') hook. Extended careers section in all 3 translation files with hero, stats, employmentTypes, benefitsSection, team, culture, positions, cta keys. Used typed const arrays (BENEFIT_KEYS, CULTURE_KEYS, etc.) for safe key iteration."
+    },
+    {
+      "id": "I18N-003",
+      "priority": 91,
+      "title": "Projects (projecten) page i18n",
+      "description": "Add multilingual support to the projects page. Extract all hardcoded Dutch strings including filters, stats, and CTA sections.",
+      "acceptanceCriteria": [
+        "Projecten page uses useTranslations('projectsPage') hook",
+        "All 20+ hardcoded Dutch strings moved to messages/*.json",
+        "Filter labels, stats, CTA sections translated",
+        "Search placeholder and empty state translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/projecten/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added projectsPage section to all 3 translation files with hero, stats, filter, card, cta, empty keys. Used typed const arrays for stats. Updated Link import to use @/i18n/navigation."
+    },
+    {
+      "id": "I18N-004",
+      "priority": 92,
+      "title": "About (over-ons) page i18n",
+      "description": "Add multilingual support to the about page. Extract all hardcoded Dutch strings including mission, story, timeline, values, and team sections.",
+      "acceptanceCriteria": [
+        "Over-ons page uses useTranslations('aboutPage') hook",
+        "All 40+ hardcoded Dutch strings moved to messages/*.json",
+        "Mission, story, timeline, 5 V's values translated",
+        "Team section and CTA translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/over-ons/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added aboutPage section to all 3 translation files with hero, stats, mission, story, timeline, values, team, cta keys. Used typed const arrays for values (VALUE_KEYS), timeline (TIMELINE_YEARS), and team features (TEAM_FEATURE_KEYS). Used interpolation for dynamic values."
+    },
+    {
+      "id": "I18N-005",
+      "priority": 93,
+      "title": "Services (diensten) page i18n",
+      "description": "Add multilingual support to the services overview page. Extract all hardcoded Dutch strings including service data, work process, and CTA sections.",
+      "acceptanceCriteria": [
+        "Diensten page uses useTranslations('servicesPage') hook",
+        "All 50+ hardcoded Dutch strings moved to messages/*.json",
+        "Service items, work process steps translated",
+        "Trust items and CTA sections translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/diensten/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added servicesPage section to all 3 translation files with hero, stats, nav, services (4 items with features arrays), card, process (5 steps), cta keys. Used typed const arrays (SERVICE_IDS, HERO_STAT_KEYS, PROCESS_STEPS) for safe iteration. Used t.raw() for array translations."
+    },
+    {
+      "id": "I18N-006",
+      "priority": 94,
+      "title": "Privacy page i18n",
+      "description": "Add multilingual support to the privacy policy page. Extract all hardcoded Dutch legal text to translation files.",
+      "acceptanceCriteria": [
+        "Privacy page uses useTranslations('privacy') hook",
+        "All privacy policy sections translated",
+        "Legal terminology correctly translated for BE/FR/EN",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/privacy/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added comprehensive privacy section to all 3 translation files with 10 sections covering data controller, collection, purposes, legal basis, retention, rights, security, third parties, complaints, and changes. Used typed const arrays (DATA_COLLECTION_KEYS, RIGHTS_KEYS) for safe iteration. Used t.raw() for array translations."
+    },
+    {
+      "id": "I18N-007",
+      "priority": 95,
+      "title": "Cookies page i18n",
+      "description": "Add multilingual support to the cookies policy page. Extract all hardcoded Dutch text to translation files.",
+      "acceptanceCriteria": [
+        "Cookies page uses useTranslations('cookies') hook",
+        "All cookies policy sections translated",
+        "Cookie type explanations translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/cookies/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Added comprehensive cookies section to all 3 translation files with sections for what cookies are, cookie types (necessary/analytics), table headers/values, choices, browser management, and contact. Cookie tables include consent and auth cookies."
+    },
+    {
+      "id": "I18N-008",
+      "priority": 96,
+      "title": "ProjectPlanner wizard i18n",
+      "description": "Add multilingual support to the project planner wizard. Extract all form labels, options, and messages to translation files.",
+      "acceptanceCriteria": [
+        "ProjectPlanner page uses useTranslations('projectPlanner') hook",
+        "All 40+ hardcoded Dutch strings moved to messages/*.json",
+        "Step titles, options, form labels translated",
+        "Success/error messages translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": true,
+      "pathsTouched": [
+        "app/[locale]/(wizard)/projectplanner/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": "Expanded projectPlanner section in all 3 translation files with questions, options (projectTypes, clientTypes, budgets, timelines, locations), form fields, buttons, success/toast messages. Refactored page to use useTranslations hook with typed const arrays for options. Split options helpers into getIconOptionsForQuestion and getTextOptionsForQuestion for type safety."
+    },
+    {
+      "id": "I18N-009",
+      "priority": 97,
+      "title": "Service detail pages i18n",
+      "description": "Add multilingual support to the 4 service detail pages (bouwwerken, dakwerken, erfgoed, facility).",
+      "acceptanceCriteria": [
+        "All 4 service detail pages use useTranslations hook",
+        "Service descriptions, features, CTAs translated",
+        "Pages work correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": false,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/diensten/bouwwerken/page.tsx",
+        "app/[locale]/(marketing)/diensten/dakwerken/page.tsx",
+        "app/[locale]/(marketing)/diensten/erfgoed/page.tsx",
+        "app/[locale]/(marketing)/diensten/facility/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": ""
+    },
+    {
+      "id": "I18N-010",
+      "priority": 98,
+      "title": "Job detail and Partner intake pages i18n",
+      "description": "Add multilingual support to job detail page and partner intake page.",
+      "acceptanceCriteria": [
+        "Job detail page uses useTranslations hook",
+        "Partner intake page uses useTranslations hook",
+        "Application form, job info sections translated",
+        "Partner upload instructions translated",
+        "Pages work correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": false,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/werken-bij/[slug]/page.tsx",
+        "app/[locale]/(marketing)/werken-bij/[slug]/client.tsx",
+        "app/[locale]/(public)/partner-intake/[token]/page.tsx",
+        "app/[locale]/(public)/partner-intake/[token]/client.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": ""
+    },
+    {
+      "id": "I18N-011",
+      "priority": 99,
+      "title": "Procurement pages i18n",
+      "description": "Add multilingual support to procurement overview and documentation pages.",
+      "acceptanceCriteria": [
+        "Procurement page uses useTranslations hook",
+        "Documentatie page uses useTranslations hook",
+        "Certifications list, form labels translated",
+        "Pages work correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": false,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/procurement/page.tsx",
+        "app/[locale]/(marketing)/procurement/documentatie/page.tsx",
+        "app/[locale]/(marketing)/procurement/documentatie/client.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": ""
+    },
+    {
+      "id": "I18N-012",
+      "priority": 100,
+      "title": "Sustainability (duurzaamheid) page i18n",
+      "description": "Add multilingual support to the sustainability page.",
+      "acceptanceCriteria": [
+        "Duurzaamheid page uses useTranslations hook",
+        "Sustainability initiatives translated",
+        "Environmental commitments translated",
+        "Page works correctly in NL, FR, and EN",
+        "pnpm verify passes"
+      ],
+      "passes": false,
+      "pathsTouched": [
+        "app/[locale]/(marketing)/duurzaamheid/page.tsx",
+        "messages/nl.json",
+        "messages/fr.json",
+        "messages/en.json"
+      ],
+      "commands": ["pnpm verify"],
+      "notes": ""
     }
   ]
 }

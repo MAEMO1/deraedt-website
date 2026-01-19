@@ -199,17 +199,36 @@
   "contact": {
     "title": "Contact",
     "subtitle": "Neem contact met ons op",
+    "hero": {
+      "headline": "Laten we",
+      "headlineAccent": "praten",
+      "description": "Heeft u een vraag of wilt u een vrijblijvende offerte? Wij reageren binnen 24 uur."
+    },
+    "cards": {
+      "phone": "Telefoon",
+      "email": "Email",
+      "address": "Adres"
+    },
+    "responseTime": {
+      "label": "Gemiddelde responstijd:",
+      "value": "4 uur"
+    },
     "form": {
+      "title": "Stuur een bericht",
+      "required": "Velden met * zijn verplicht",
       "name": "Naam",
-      "email": "E-mailadres",
-      "phone": "Telefoonnummer",
-      "company": "Bedrijf",
+      "namePlaceholder": "Uw naam",
+      "organisation": "Organisatie",
+      "organisationPlaceholder": "Bedrijf of instelling",
+      "email": "Email",
+      "emailPlaceholder": "uw@email.be",
+      "phone": "Telefoon",
+      "phonePlaceholder": "+32 ...",
       "subject": "Onderwerp",
       "message": "Bericht",
-      "privacy": "Ik ga akkoord met het",
-      "privacyLink": "privacybeleid",
+      "messagePlaceholder": "Vertel ons meer over uw project of vraag...",
       "submit": "Verstuur bericht",
-      "sending": "Versturen...",
+      "sending": "Verzenden...",
       "success": "Uw bericht is verzonden. We nemen zo snel mogelijk contact met u op.",
       "error": "Er is iets misgegaan. Probeer het later opnieuw."
     },
@@ -220,6 +239,31 @@
       "facility": "Facility Management",
       "sollicitatie": "Sollicitatie",
       "anders": "Anders"
+    },
+    "success": {
+      "badge": "Bericht verzonden",
+      "title": "Bedankt",
+      "message": "Wij nemen binnen <highlight>24 uur</highlight> contact met u op.",
+      "backHome": "Naar home",
+      "newMessage": "Nieuw bericht"
+    },
+    "toast": {
+      "success": "Bericht verzonden!",
+      "successDescription": "Wij nemen zo snel mogelijk contact met u op.",
+      "error": "Er is iets misgegaan",
+      "errorDescription": "Probeer het later opnieuw of neem telefonisch contact op.",
+      "sendFailed": "Verzenden mislukt"
+    },
+    "company": {
+      "title": "Bedrijf",
+      "kbo": "Ondernemingsnummer",
+      "btw": "BTW-nummer",
+      "years": "Jaar",
+      "craftsmen": "Vakmannen",
+      "class": "Klasse"
+    },
+    "map": {
+      "openInMaps": "Open in Google Maps"
     },
     "info": {
       "title": "Contactgegevens",
@@ -263,34 +307,62 @@
         "ontwikkelaar": "Ontwikkelaar"
       },
       "budgets": {
-        "small": "< €100.000",
-        "medium": "€100.000 - €500.000",
-        "large": "€500.000 - €2.000.000",
-        "enterprise": "> €2.000.000"
+        "small": "< €100K",
+        "medium": "€100K – €500K",
+        "large": "€500K – €2M",
+        "enterprise": "> €2M",
+        "unknown": "Nog onbekend"
       },
       "timelines": {
-        "asap": "Zo snel mogelijk",
-        "3months": "Binnen 3 maanden",
-        "6months": "Binnen 6 maanden",
-        "year": "Binnen een jaar",
-        "flexible": "Flexibel"
+        "urgent": "Direct",
+        "soon": "1-3 maanden",
+        "planned": "3-6 maanden",
+        "future": "Later"
+      },
+      "locations": {
+        "oost-vlaanderen": "Oost-Vlaanderen",
+        "west-vlaanderen": "West-Vlaanderen",
+        "antwerpen": "Antwerpen",
+        "vlaams-brabant": "Vlaams-Brabant",
+        "limburg": "Limburg",
+        "brussel": "Brussel",
+        "andere": "Andere"
       }
     },
     "form": {
-      "name": "Naam",
-      "email": "E-mailadres",
-      "phone": "Telefoonnummer",
+      "name": "Naam *",
+      "email": "E-mailadres *",
+      "phone": "Telefoonnummer *",
       "company": "Bedrijf (optioneel)",
       "message": "Bijkomende informatie (optioneel)",
       "privacy": "Door te versturen gaat u akkoord met ons",
       "privacyLink": "privacybeleid",
       "required": "Verplicht veld"
     },
+    "buttons": {
+      "next": "Volgende",
+      "submit": "Versturen",
+      "submitting": "Even geduld...",
+      "restart": "Opnieuw",
+      "viewProjects": "Bekijk projecten"
+    },
     "success": {
       "badge": "Aanvraag verzonden",
       "title": "Bedankt",
-      "message": "We analyseren uw project en nemen binnen {hours} uur contact op.",
+      "message": "We analyseren uw project en nemen binnen",
+      "hours": "{hours} uur",
+      "messageEnd": "contact op.",
       "backHome": "Naar home"
+    },
+    "toast": {
+      "success": {
+        "title": "Aanvraag verzonden!",
+        "description": "We nemen binnen 48 uur contact met u op."
+      },
+      "error": {
+        "title": "Er is iets misgegaan",
+        "description": "Probeer het later opnieuw of neem telefonisch contact op."
+      }
     },
     "error": {
       "title": "Er ging iets mis",
@@ -325,7 +397,232 @@
       "submit": "Sollicitatie versturen",
       "success": "Uw sollicitatie is ontvangen. We nemen zo snel mogelijk contact op.",
       "error": "Er is iets misgegaan. Probeer het later opnieuw."
+    },
+    "hero": {
+      "badge": "Carrière",
+      "headline": "Bouw mee aan",
+      "headlineAccent": "jouw toekomst",
+      "description": "Word deel van een team met {years} jaar ervaring. Bij De Raedt combineer je traditioneel vakmanschap met moderne innovatie.",
+      "viewPositions": "Bekijk vacatures",
+      "spontaneousApply": "Spontaan solliciteren"
+    },
+    "stats": {
+      "colleagues": "Collega's",
+      "yearsExperience": "Jaar ervaring",
+      "safety": "Veiligheid",
+      "vacancies": "Vacatures"
+    },
+    "employmentTypes": {
+      "full_time": "Voltijds",
+      "part_time": "Deeltijds",
+      "contract": "Contract",
+      "internship": "Stage"
+    },
+    "benefitsSection": {
+      "badge": "Waarom De Raedt?",
+      "title": "Meer dan alleen een",
+      "titleAccent": "job",
+      "subtitle": "Wij bieden een carrière in een bedrijf waar jouw bijdrage écht telt.",
+      "items": {
+        "familyAtmosphere": {
+          "title": "Familiale Sfeer",
+          "description": "Werken in een hecht team met korte communicatielijnen en persoonlijke aandacht voor elke medewerker."
+        },
+        "training": {
+          "title": "Opleiding & Groei",
+          "description": "Continue investering in jouw professionele ontwikkeling, certificeringen en vakmanschap."
+        },
+        "growth": {
+          "title": "Doorgroeimogelijkheden",
+          "description": "Duidelijke carrièrepaden binnen een groeiend familiebedrijf met een sterke reputatie."
+        },
+        "varied": {
+          "title": "Afwisselend Werk",
+          "description": "Diverse projecten van erfgoedrenovatie tot moderne nieuwbouw bij prestigieuze opdrachtgevers."
+        }
+      }
+    },
+    "team": {
+      "badge": "Ons Team",
+      "title": "{count} collega's, één familie",
+      "description1": "Van ervaren vakmensen tot jonge talenten, iedereen draagt bij aan ons succes. Bij De Raedt word je niet zomaar een nummer.",
+      "description2": "Je wordt deel van een hecht team dat al sinds 1930 samen bouwt aan de mooiste projecten in België.",
+      "colleagues": "Collega's",
+      "perks": {
+        "fruit": "Dagelijks vers fruit en koffie op de werf",
+        "activities": "Regelmatige teamactiviteiten",
+        "equipment": "Modern en veilig materiaal"
+      }
+    },
+    "culture": {
+      "badge": "Onze Cultuur",
+      "title": "Wat ons",
+      "titleAccent": "drijft",
+      "items": {
+        "craftsmanship": {
+          "number": "01",
+          "title": "Vakmanschap",
+          "description": "Wij waarderen traditioneel vakmanschap en geven je de ruimte om te excelleren in je vak."
+        },
+        "safety": {
+          "number": "02",
+          "title": "Veiligheid",
+          "description": "VCA** gecertificeerd. Jouw veiligheid staat altijd voorop — op elke werf, elke dag."
+        },
+        "development": {
+          "number": "03",
+          "title": "Ontwikkeling",
+          "description": "Regelmatige opleidingen en de mogelijkheid om certificeringen te behalen op kosten van het bedrijf."
+        },
+        "teamspirit": {
+          "number": "04",
+          "title": "Teamspirit",
+          "description": "Een hecht team waar iedereen elkaar kent. Regelmatige teamactiviteiten en uitjes."
+        }
+      }
+    },
+    "positions": {
+      "badge": "{count} openstaande vacatures",
+      "title": "Openstaande",
+      "titleAccent": "functies",
+      "viewPosition": "Bekijk vacature",
+      "notFound": {
+        "title": "Staat jouw functie er niet bij?",
+        "description": "Stuur ons een spontane sollicitatie. Wij zijn altijd op zoek naar gemotiveerd talent!",
+        "cta": "Spontaan solliciteren"
+      }
+    },
+    "cta": {
+      "badge": "Contact",
+      "title": "Heb je nog",
+      "titleAccent": "vragen",
+      "description": "Neem gerust contact op met ons HR team. Wij helpen je graag verder met al je vragen over werken bij De Raedt.",
+      "emailHr": "Email HR team",
+      "benefitsTitle": "Onze voordelen",
+      "benefitsList": {
+        "salary": "Competitief salaris en extralegale voordelen",
+        "car": "Bedrijfswagen (functie-afhankelijk)",
+        "insurance": "Groepsverzekering en hospitalisatieverzekering",
+        "bonus": "13e maand en eindejaarspremie",
+        "meals": "Maaltijdcheques",
+        "training": "Opleiding op kosten van het bedrijf"
+      }
+    },
+    "jobDetail": {
+      "backToJobs": "Alle vacatures",
+      "aboutRole": "Over deze functie",
+      "requirements": "Wat wij verwachten",
+      "benefits": "Wat wij bieden",
+      "applyNow": "Solliciteer nu",
+      "notFoundTitle": "Vacature niet gevonden",
+      "form": {
+        "name": "Naam",
+        "namePlaceholder": "Uw volledige naam",
+        "email": "Email",
+        "emailPlaceholder": "uw.email@voorbeeld.be",
+        "phone": "Telefoon",
+        "phonePlaceholder": "+32 xxx xx xx xx",
+        "cv": "CV (PDF of Word)",
+        "cvUpload": "Klik om te uploaden",
+        "cvMaxSize": "Max 10MB",
+        "motivation": "Motivatie",
+        "motivationPlaceholder": "Vertel ons waarom u geïnteresseerd bent...",
+        "gdprConsent": "Ik ga akkoord met de",
+        "privacyPolicy": "privacyverklaring",
+        "gdprNote": "Mijn gegevens worden 12 maanden bewaard conform GDPR.",
+        "required": "*",
+        "submit": "Solliciteer",
+        "submitting": "Verzenden..."
+      },
+      "success": {
+        "title": "Bedankt voor uw sollicitatie!",
+        "message": "U ontvangt binnenkort een bevestiging per email. Wij nemen zo snel mogelijk contact met u op.",
+        "backToJobs": "Terug naar vacatures"
+      },
+      "errors": {
+        "nameMin": "Naam moet minimaal 2 karakters bevatten",
+        "emailInvalid": "Ongeldig emailadres",
+        "gdprRequired": "U moet akkoord gaan met de privacyverklaring",
+        "fileTypeInvalid": "Alleen PDF en Word documenten zijn toegestaan",
+        "fileTooLarge": "Bestand mag maximaal 10MB zijn",
+        "submitError": "Er ging iets mis. Probeer het opnieuw."
+      },
+      "alternativeContact": "Of mail uw sollicitatie naar"
     }
+  },
+  "partnerIntake": {
+    "header": {
+      "title": "Partner Prequalificatie",
+      "subtitle": "Document Upload Portal"
+    },
+    "contactPerson": "Contactpersoon",
+    "progress": {
+      "title": "Voortgang",
+      "ofRequired": "van {total} verplichte documenten"
+    },
+    "documents": {
+      "vca": {
+        "label": "VCA Certificaat",
+        "description": "Geldig VCA* of VCA** certificaat"
+      },
+      "insurance": {
+        "label": "Verzekeringsbewijs",
+        "description": "BA-verzekering met minimaal €2.500.000 dekking"
+      },
+      "reference": {
+        "label": "Referenties",
+        "description": "Minimaal 3 projectreferenties van de afgelopen 3 jaar"
+      },
+      "kvk": {
+        "label": "KVK Uittreksel",
+        "description": "Recent uittreksel Kamer van Koophandel (max 3 maanden oud)"
+      }
+    },
+    "status": {
+      "missing": "Niet geüpload",
+      "pending": "In behandeling",
+      "approved": "Goedgekeurd",
+      "expired": "Verlopen"
+    },
+    "actions": {
+      "upload": "Uploaden",
+      "replace": "Vervangen",
+      "uploading": "Uploaden...",
+      "submit": "Documenten Indienen",
+      "submitting": "Indienen..."
+    },
+    "dates": {
+      "validFrom": "Geldig vanaf",
+      "validTo": "Geldig tot"
+    },
+    "errors": {
+      "fetchError": "Er is een fout opgetreden",
+      "cannotFetch": "Kan gegevens niet ophalen",
+      "uploadFailed": "Upload mislukt",
+      "networkError": "Netwerkfout bij uploaden",
+      "requiredMissing": "Upload eerst alle verplichte documenten",
+      "submitFailed": "Indienen mislukt",
+      "networkSubmitError": "Netwerkfout bij indienen"
+    },
+    "invalidLink": {
+      "title": "Link Ongeldig"
+    },
+    "success": {
+      "title": "Documenten Ingediend",
+      "message": "Bedankt! Uw documenten zijn succesvol ingediend en worden beoordeeld door ons team. U ontvangt bericht zodra de beoordeling is afgerond.",
+      "closeWindow": "U kunt dit venster nu sluiten."
+    },
+    "submitNote": "Na het indienen worden uw documenten beoordeeld door ons team.",
+    "infoBox": {
+      "title": "Belangrijk",
+      "items": {
+        "fileTypes": "Alleen PDF en afbeeldingen worden geaccepteerd (max 10MB)",
+        "requiredDocs": "Documenten met * zijn verplicht voor prequalificatie",
+        "validity": "Zorg dat certificaten nog minimaal 3 maanden geldig zijn",
+        "linkExpiry": "Deze link is 30 dagen geldig"
+      }
+    },
+    "footer": "© {year} Bouwwerken De Raedt Ivan NV. Alle rechten voorbehouden."
   },
   "procurement": {
     "title": "Procurement Hub",
@@ -356,20 +653,922 @@
         "title": "Raamcontract Ervaring",
         "description": "Ervaring met raamcontracten voor publieke opdrachtgevers (o.a. VEB)"
       }
+    },
+    "hero": {
+      "badge": "Voor Overheden & Facility Managers",
+      "description": "Alle documentatie voor aanbestedingen, preselecties en raamcontracten — georganiseerd, actueel en in een klik beschikbaar.",
+      "viewCertificates": "Bekijk certificaten",
+      "tenderPack": "Tender Pack"
+    },
+    "stats": {
+      "yearsExperience": "Jaar ervaring",
+      "frameworkContracts": "Raamcontracten",
+      "employees": "Medewerkers",
+      "classRecognition": "Klasse erkenning"
+    },
+    "certifications": {
+      "badge": "Certificeringen & Erkenningen",
+      "title": "Volledig",
+      "titleAccent": "gecertificeerd",
+      "titleSuffix": "voor uw aanbestedingen",
+      "description": "Al onze certificaten en erkenningen zijn actueel en direct beschikbaar voor opname in uw aanbestedingsdossier.",
+      "scope": "Scope",
+      "validUntil": "Geldig tot",
+      "downloadPrompt": "Alle certificaten nodig voor uw aanbesteding?",
+      "downloadTenderPack": "Download Tender Pack"
+    },
+    "raamcontracten": {
+      "badge": "Bewezen Trackrecord",
+      "title": "Actieve",
+      "titleAccent": "raamcontracten",
+      "description": "Wij hebben ervaring met raamcontracten voor publieke opdrachtgevers. Deze samenwerkingen getuigen van consistent kwaliteitswerk.",
+      "trustedBy": "Vertrouwd door",
+      "year": "Jaar",
+      "certified": "Gecertificeerd",
+      "fte": "FTE"
+    },
+    "process": {
+      "badge": "Onze Aanpak",
+      "title": "Hoe wij",
+      "titleAccent": "samenwerken",
+      "phases": {
+        "intake": {
+          "title": "Intake",
+          "description": "Analyse van bestek en projectvereisten"
+        },
+        "quote": {
+          "title": "Offerte",
+          "description": "Transparante prijsopbouw en planning"
+        },
+        "execution": {
+          "title": "Uitvoering",
+          "description": "Wekelijkse rapportage en QHSE-borging"
+        },
+        "delivery": {
+          "title": "Oplevering",
+          "description": "Documentatie en garantieafhandeling"
+        }
+      }
+    },
+    "cta": {
+      "badge": "Neem Contact Op",
+      "title": "Klaar voor een",
+      "titleAccent": "kennismaking",
+      "description": "Neem contact op voor een vrijblijvend gesprek over uw aanbestedingen, raamcontracten of facility management behoeften.",
+      "planMeeting": "Plan een gesprek"
+    },
+    "documentatie": {
+      "backLink": "Terug naar Procurement Hub",
+      "badge": "Tender Pack",
+      "title": "Documentatie aanvragen",
+      "description": "Vraag ons tender pack aan met alle certificaten en referenties die u nodig heeft voor uw aanbesteding, preselectie of raamcontract.",
+      "form": {
+        "title": "Vul uw gegevens in",
+        "name": "Naam",
+        "namePlaceholder": "Uw naam",
+        "organisation": "Organisatie",
+        "organisationPlaceholder": "Uw organisatie",
+        "email": "Email",
+        "emailPlaceholder": "uw@email.be",
+        "phone": "Telefoon (optioneel)",
+        "phonePlaceholder": "+32 ...",
+        "purpose": "Doel van aanvraag",
+        "purposeOther": "Specificeer",
+        "purposeOtherPlaceholder": "Waarvoor heeft u de documentatie nodig?",
+        "message": "Aanvullende opmerkingen (optioneel)",
+        "messagePlaceholder": "Specifieke documenten of vragen...",
+        "submit": "Tender Pack Aanvragen",
+        "submitting": "Verzenden...",
+        "required": "*"
+      },
+      "purposes": {
+        "aanbesteding": "Aanbesteding / Openbare opdracht",
+        "preselectie": "Preselectie / Kandidaatstelling",
+        "raamcontract": "Raamcontract onderhandeling",
+        "other": "Anders"
+      },
+      "validation": {
+        "nameRequired": "Naam is verplicht",
+        "organisationRequired": "Organisatie is verplicht",
+        "emailInvalid": "Ongeldig emailadres",
+        "purposeRequired": "Selecteer een doel"
+      },
+      "success": {
+        "title": "Aanvraag ontvangen!",
+        "message": "Bedankt voor uw aanvraag. U ontvangt het tender pack met alle gevraagde documentatie binnen 24 uur per email.",
+        "backToHub": "Terug naar Procurement Hub",
+        "contactUs": "Contact opnemen"
+      },
+      "toast": {
+        "success": "Aanvraag verzonden!",
+        "successDescription": "U ontvangt de documentatie binnen 24 uur.",
+        "error": "Er is iets misgegaan",
+        "errorDescription": "Probeer het later opnieuw of neem contact met ons op."
+      },
+      "documents": {
+        "title": "Beschikbare documentatie",
+        "description": "Het tender pack bevat alle documenten die u nodig heeft voor aanbestedingen en preselecties. Na uw aanvraag ontvangt u:",
+        "items": {
+          "iso": { "name": "ISO 9001:2015 Certificaat", "type": "Kwaliteit" },
+          "vca": { "name": "VCA** Certificaat", "type": "Veiligheid" },
+          "co2": { "name": "CO₂-Prestatieladder Niveau 3", "type": "Duurzaamheid" },
+          "klasse6": { "name": "Erkenning Klasse 6 - Categorie D", "type": "Erkenning" },
+          "klasse4": { "name": "Erkenning Klasse 4 - Subcategorie D8", "type": "Erkenning" },
+          "ba": { "name": "Burgerlijke Aansprakelijkheid Attest", "type": "Verzekering" },
+          "tienjarige": { "name": "Tienjarige Aansprakelijkheid Attest", "type": "Verzekering" },
+          "referenties": { "name": "Referentielijst Overheidsopdrachten", "type": "Referenties" }
+        }
+      },
+      "certSummary": {
+        "title": "Onze certificeringen",
+        "klasse6": "Klasse 6 erkend",
+        "iso": "ISO 9001",
+        "vca": "VCA**",
+        "co2": "CO₂-niveau 3"
+      }
     }
   },
   "sustainability": {
     "title": "Duurzaamheid",
     "subtitle": "Bouwen aan een duurzame toekomst",
-    "description": "Wij nemen onze verantwoordelijkheid voor het milieu serieus. Met het CO₂-Prestatieladder niveau 3 certificaat tonen we ons engagement voor duurzaam bouwen."
+    "description": "Wij nemen onze verantwoordelijkheid voor het milieu serieus. Met het CO₂-Prestatieladder niveau 3 certificaat tonen we ons engagement voor duurzaam bouwen.",
+    "hero": {
+      "badge": "CO₂-Prestatieladder Niveau 3 · Geldig tot 2028",
+      "label": "Duurzaamheid & CO₂",
+      "title": "CO₂-bewust bouwen",
+      "description": "Wij zijn gecertificeerd op niveau 3 van de CO₂-Prestatieladder. Dit betekent concrete CO₂-reductie en transparante rapportage.",
+      "viewCertificates": "Bekijk certificaten",
+      "contactUs": "Neem contact op"
+    },
+    "whatIs": {
+      "title": "Wat is de CO₂-Prestatieladder?",
+      "description": "De CO₂-Prestatieladder is een instrument dat bedrijven helpt om hun CO₂-uitstoot te reduceren. Het certificaat wordt steeds vaker gevraagd bij aanbestedingen en biedt gunningsvoordeel. Niveau 3 betekent dat wij onze CO₂-footprint kennen, actief reduceren én hier transparant over communiceren.",
+      "ourCertification": "Onze Certificering",
+      "level": "Niveau",
+      "scope": "Scope",
+      "validUntil": "Geldig tot"
+    },
+    "approach": {
+      "label": "Onze Aanpak",
+      "title": "4 pijlers van CO₂-management",
+      "pillars": {
+        "insight": {
+          "number": "01",
+          "title": "Inzicht",
+          "description": "Jaarlijkse CO₂-footprint berekening volgens ISO 14064-1. Wij meten om te verbeteren."
+        },
+        "reduction": {
+          "number": "02",
+          "title": "Reductie",
+          "description": "Concrete maatregelen om onze uitstoot structureel te verlagen op kantoor en werf."
+        },
+        "transparency": {
+          "number": "03",
+          "title": "Transparantie",
+          "description": "Publieke communicatie over onze voortgang en doelstellingen."
+        },
+        "participation": {
+          "number": "04",
+          "title": "Participatie",
+          "description": "Actieve deelname aan sector-initiatieven en kennisdeling met ketenpartners."
+        }
+      }
+    },
+    "measures": {
+      "label": "Concrete Maatregelen",
+      "title": "Hoe wij CO₂ reduceren",
+      "description": "Onze CO₂-reductie is geen papieren exercitie. Wij implementeren concrete maatregelen op kantoor, in ons wagenpark en op elke werf.",
+      "items": {
+        "transport": {
+          "title": "Duurzaam Transport",
+          "description": "Optimalisatie van transportroutes en inzet van Euro 6 voertuigen voor lagere uitstoot."
+        },
+        "machines": {
+          "title": "Efficiënte Machines",
+          "description": "Investering in moderne, energiezuinige machines en gereedschap op de werf."
+        },
+        "circular": {
+          "title": "Circulair Bouwen",
+          "description": "Maximale hergebruik van materialen en gescheiden afvalverwerking op elke werf."
+        },
+        "energy": {
+          "title": "Groene Energie",
+          "description": "Zonnepanelen op ons bedrijfspand en overstap naar groene energieleveranciers."
+        }
+      },
+      "reductionGoal": "Reductiedoel",
+      "certificateValid": "Certificaat geldig"
+    },
+    "benefits": {
+      "label": "Voordelen voor U",
+      "title": "Wat betekent dit voor uw project?",
+      "description": "Steeds meer aanbestedende diensten — waaronder Infrabel, Aquafin en grote gemeenten — hanteren CO₂-criteria in hun gunning. Door met De Raedt te werken, profiteert u van ons certificaat.",
+      "items": [
+        "Gunningsvoordeel bij aanbestedingen met CO₂-criteria",
+        "Lagere milieubelasting van uw bouwproject",
+        "Transparante rapportage over CO₂-prestaties",
+        "Bijdrage aan klimaatdoelstellingen",
+        "Samenwerking met gecertificeerde onderaannemers"
+      ],
+      "awardAdvantage": {
+        "title": "Gunningsvoordeel bij aanbestedingen",
+        "infrabel": {
+          "title": "Infrabel / Tucrail",
+          "description": "Implementeert CO₂-Prestatieladder in procurement vanaf september 2025"
+        },
+        "municipalities": {
+          "title": "Grote steden & gemeenten",
+          "description": "Steeds meer lokale overheden hanteren CO₂-criteria in aanbestedingen"
+        },
+        "discount": {
+          "title": "Fictieve korting",
+          "description": "CO₂-certificaat kan leiden tot gunningsvoordeel via fictieve korting op inschrijvingsprijs"
+        }
+      },
+      "viewCertificates": "Bekijk al onze certificaten"
+    },
+    "cta": {
+      "badge": "Gecertificeerd tot 2028",
+      "title": "Duurzaam bouwen begint hier",
+      "description": "Wilt u meer weten over onze CO₂-aanpak of hoe ons certificaat uw aanbesteding kan ondersteunen? Neem contact op.",
+      "startProject": "Start uw project",
+      "contactUs": "Neem contact op"
+    }
+  },
+  "servicesPage": {
+    "hero": {
+      "badge": "Onze Expertise",
+      "titleLine1": "Building",
+      "titleLine2": "Excellence",
+      "description": "{years} jaar vakmanschap. Van monumentale erfgoedrenovatie tot innovatieve nieuwbouw — Klasse 6 erkend voor projecten zonder grenzen.",
+      "startProject": "Start uw project",
+      "discoverServices": "Ontdek onze diensten"
+    },
+    "stats": {
+      "yearsExperience": "Jaar ervaring",
+      "recognitionClass": "Erkenningsklasse",
+      "annualRevenue": "Jaaromzet",
+      "employees": "Medewerkers"
+    },
+    "nav": {
+      "home": "Home",
+      "services": "Diensten"
+    },
+    "section": {
+      "badge": "Onze Diensten",
+      "title": "Comprehensive Building",
+      "titleAccent": "Solutions",
+      "description": "Van fundament tot dakwerk — een compleet dienstenpakket voor uw bouwproject, ondersteund door {years} jaar expertise."
+    },
+    "services": {
+      "bouwwerken": {
+        "title": "Algemene Bouwwerken",
+        "subtitle": "Klasse 6 erkend",
+        "shortDesc": "Bouwprojecten van A tot Z",
+        "description": "Van fundament tot afwerking — complete bouwprojecten voor overheden, scholen en bedrijven. Onze Klasse 6 erkenning staat garant voor projecten zonder aanbestedingsgrens.",
+        "features": ["Publieke gebouwen & onderwijsinfrastructuur", "Verbouwingen en uitbreidingen", "Structurele werken en afwerking", "Klasse 6 erkenning — geen projectlimiet"],
+        "statLabel": "Jaaromzet"
+      },
+      "dakwerken": {
+        "title": "Dakwerken",
+        "subtitle": "Dak- & gevelspecialist",
+        "shortDesc": "Hellend tot plat",
+        "description": "Experts in dakconstructie — van traditionele natuurleien tot moderne Sarking isolatie. Inclusief koperbekleding, zinkwerk en valbeveiliging conform de strengste veiligheidsnormen.",
+        "features": ["Hellende en platte daksystemen", "Sarking isolatie voor optimale EPB", "Koper- en zinkbekleding", "Valbeveiliging en dakgoten"],
+        "statLabel": "Veiligheidscertificaat"
+      },
+      "erfgoed": {
+        "title": "Erfgoedrenovatie",
+        "subtitle": "Monumentenrestauratie",
+        "shortDesc": "Beschermd erfgoed",
+        "description": "Gespecialiseerde restauratie van beschermd bouwkundig erfgoed. Met authentieke materialen, traditionele technieken en in nauwe samenwerking met Onroerend Erfgoed.",
+        "features": ["Monumentenrestauratie & -behoud", "Authentiek soldeerwerk en ambacht", "Natuurleien volgens historische methodes", "Referenties: Stadhuis Gent, Brussel, KU Leuven"],
+        "statLabel": "Jaar vakmanschap"
+      },
+      "facility": {
+        "title": "Onderhoud & Interventies",
+        "subtitle": "Raamcontracten",
+        "shortDesc": "Langlopende partnerships",
+        "description": "Langlopende raamcontracten voor dakonderhoud, herstellingen en renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel, VEB en KU Leuven.",
+        "features": ["Raamcontract Stad Gent & Brussel", "VEB scholenonderhoud", "24/7 interventies bij schade", "Preventief onderhoud & inspectie"],
+        "statLabel": "Raamcontracten"
+      }
+    },
+    "card": {
+      "moreInfo": "Meer informatie",
+      "requestQuote": "Offerte aanvragen"
+    },
+    "process": {
+      "badge": "Werkwijze",
+      "title": "Van plan tot",
+      "titleAccent": "oplevering",
+      "description": "Een transparant proces met duidelijke communicatie. U weet altijd waar u aan toe bent.",
+      "steps": {
+        "01": {"title": "Intake", "description": "Analyse van uw wensen en mogelijkheden"},
+        "02": {"title": "Ontwerp", "description": "Gedetailleerde offerte met transparante prijzen"},
+        "03": {"title": "Planning", "description": "Coördinatie van vergunningen en materialen"},
+        "04": {"title": "Uitvoering", "description": "Kwaliteitscontroles en voortgangsrapportage"},
+        "05": {"title": "Oplevering", "description": "Grondige controle en nazorggarantie"}
+      }
+    },
+    "cta": {
+      "badge": "Start Uw Project",
+      "title": "Klaar om te",
+      "titleAccent": "beginnen",
+      "description": "Plan uw project met onze gratis projectplanner. Binnen 48 uur ontvangt u een vrijblijvende offerte van ons team.",
+      "startPlanner": "Start projectplanner",
+      "whyUs": "Waarom De Raedt?",
+      "reasons": [
+        "{years} jaar ervaring in de bouwsector",
+        "Klasse 6 erkend voor overheidsopdrachten",
+        "ISO 9001 & VCA** gecertificeerd",
+        "CO₂-Prestatieladder niveau 3",
+        "Specialisten in erfgoedrenovatie"
+      ]
+    }
+  },
+  "serviceDetails": {
+    "common": {
+      "sectionLabels": {
+        "whatWeDo": "Wat wij doen",
+        "ourServices": "Onze diensten",
+        "process": "Werkwijze",
+        "expertise": "Onze Expertise",
+        "specializations": "Specialisaties",
+        "fullPackage": "Volledig Pakket",
+        "references": "Referenties"
+      }
+    },
+    "bouwwerken": {
+      "hero": {
+        "title": "Algemene Bouwwerken",
+        "subtitle": "Van fundament tot sleutel-op-de-deur. Klasse 6 erkend voor de meest complexe overheidsopdrachten en bedrijfsgebouwen.",
+        "breadcrumb": "Algemene Bouwwerken"
+      },
+      "twoColumn": {
+        "label": "Onze Expertise",
+        "title": "Complete bouwoplossingen voor elk project",
+        "paragraph1": "Als Klasse 6 erkend aannemer realiseren wij bouwprojecten van elke omvang. Van publieke gebouwen tot bedrijfspanden, wij leveren kwaliteit op maat.",
+        "paragraph2": "Met {years} jaar ervaring en een team van meer dan 40 vakmensen staan wij garant voor een professionele uitvoering van uw project."
+      },
+      "features": {
+        "sectionTitle": "Onze diensten",
+        "items": [
+          "Publieke gebouwen (scholen, sportinfrastructuur)",
+          "Kantoorgebouwen en bedrijfspanden",
+          "Verbouwingen en uitbreidingen",
+          "Structurele werken en funderingen",
+          "Metselwerk en betonwerken",
+          "Afwerking: vloeren, plafonds, pleisterwerk",
+          "Klasse 6 erkend voor grote projecten",
+          "Sleutel-op-de-deur projecten"
+        ]
+      },
+      "process": {
+        "title": "Van plan tot oplevering",
+        "subtitle": "Een transparant proces met duidelijke communicatie. U weet altijd waar u aan toe bent.",
+        "steps": {
+          "01": { "title": "Kennismaking & Analyse", "description": "Grondige inventarisatie van uw wensen, budget en planning. Technische haalbaarheidsanalyse." },
+          "02": { "title": "Offerte & Planning", "description": "Gedetailleerde prijsopgave met transparante kostenstructuur. Realistische planning met mijlpalen." },
+          "03": { "title": "Uitvoering", "description": "Professionele uitvoering door eigen vakmensen. Wekelijkse voortgangsrapportage." },
+          "04": { "title": "Oplevering & Nazorg", "description": "Grondige oplevering met kwaliteitscontrole. Garantie en onderhoudsadvies." }
+        }
+      },
+      "stats": {
+        "yearsExperience": "Jaar ervaring",
+        "classRecognition": "Klasse erkenning",
+        "certified": "Gecertificeerd",
+        "craftsmen": "Vakmensen"
+      },
+      "cta": {
+        "title": "Klaar om te bouwen?",
+        "subtitle": "Neem contact op voor een vrijblijvende offerte. Binnen 48 uur hoort u van ons."
+      }
+    },
+    "dakwerken": {
+      "hero": {
+        "title": "Dakwerken",
+        "subtitle": "Hellende en platte daken, isolatie en waterdichting. Van traditionele leien tot moderne EPDM-systemen.",
+        "breadcrumb": "Dakwerken"
+      },
+      "twoColumn": {
+        "label": "Dak- & Gevelspecialist",
+        "title": "Experts in alle types daken",
+        "paragraph1": "Van traditionele natuurleien tot moderne Sarking isolatie. Inclusief koperbekleding, zinkwerk en valbeveiliging conform de strengste veiligheidsnormen.",
+        "paragraph2": "Met {years} jaar ervaring en VCA** certificering staan wij garant voor veilige en kwalitatieve dakwerken."
+      },
+      "services": {
+        "sectionTitle": "Elk type dak",
+        "items": {
+          "hellendeDaken": {
+            "title": "Hellende Daken",
+            "description": "Dakpannen, leien, zink en koper. Traditioneel vakmanschap met moderne technieken.",
+            "features": ["Dakpannen en leien", "Zink- en koperbekleding", "Dakgoten en afvoeren", "Dakvensters"]
+          },
+          "platteDaken": {
+            "title": "Platte Daken",
+            "description": "EPDM, bitumen en groendaken. Waterdichte oplossingen met lange levensduur.",
+            "features": ["EPDM en bitumen", "Groendaken", "Isolatie", "Afwatering"]
+          },
+          "dakisolatie": {
+            "title": "Dakisolatie",
+            "description": "Sarking isolatie en energetische renovatie. Verbeter uw EPC-score.",
+            "features": ["Sarking methode", "Binnenisolatie", "Dampschermen", "Energiebesparend"]
+          },
+          "valbeveiliging": {
+            "title": "Valbeveiliging",
+            "description": "Veilige werkplekken op daken. Conform alle normen en regelgeving.",
+            "features": ["Ankerlijnen", "Loopbruggen", "Collectieve beveiliging", "Keuring en onderhoud"]
+          }
+        }
+      },
+      "features": {
+        "sectionTitle": "Wat wij doen",
+        "items": [
+          "Hellende daken in alle materialen",
+          "Platte daken: EPDM, bitumen, PVC",
+          "Sarking isolatie methode",
+          "Koperbekleding en zinkwerk",
+          "Dakgoten en regenwaterafvoer",
+          "Dakvensters en lichtstraten",
+          "Valbeveiliging installatie",
+          "Groendaken en sedumdaken"
+        ]
+      },
+      "stats": {
+        "yearsExperience": "Jaar ervaring",
+        "safety": "Veiligheid",
+        "classRecognition": "Klasse erkenning",
+        "craftsmen": "Vakmensen"
+      },
+      "cta": {
+        "title": "Nieuw dak nodig?",
+        "subtitle": "Van dakinspectie tot volledige renovatie. Wij adviseren u graag over de beste oplossing voor uw situatie."
+      }
+    },
+    "erfgoed": {
+      "hero": {
+        "title": "Erfgoedrenovatie",
+        "subtitle": "Restauratie van beschermd bouwkundig erfgoed met authentieke technieken. Vakmanschap dat generaties overstijgt.",
+        "breadcrumb": "Erfgoedrenovatie"
+      },
+      "twoColumn": {
+        "label": "Monumentenrestauratie",
+        "title": "Authentiek vakmanschap voor historisch erfgoed",
+        "paragraph1": "Gespecialiseerde restauratie van beschermd bouwkundig erfgoed. Met authentieke materialen, traditionele technieken en in nauwe samenwerking met Onroerend Erfgoed.",
+        "paragraph2": "Met {years} jaar ervaring en ISO 9001 certificering staan wij garant voor de hoogste kwaliteitsnormen bij erfgoedprojecten."
+      },
+      "expertise": {
+        "sectionTitle": "Specialisaties",
+        "items": {
+          "monumenten": {
+            "title": "Monumentenrestauratie",
+            "description": "Volledige restauratie van beschermde monumenten met respect voor het historische karakter.",
+            "examples": ["Stadhuis Gent", "Justitiepaleis Dendermonde", "Historische kerken"]
+          },
+          "dak": {
+            "title": "Dakrestauratie",
+            "description": "Authentieke materialen en technieken voor historische daken. Leien, koper en zink.",
+            "examples": ["Natuurleien", "Historisch koperbekleding", "Traditioneel soldeerwerk"]
+          },
+          "gevel": {
+            "title": "Gevelrestauratie",
+            "description": "Herstel van historisch metselwerk, voegwerk en ornamenten.",
+            "examples": ["Schoorsteenherstellingen", "Gevelreiniging", "Voegwerk renovatie"]
+          }
+        }
+      },
+      "references": {
+        "sectionTitle": "Bewezen trackrecord",
+        "description": "Wij werken voor de meest prestigieuze erfgoedprojecten in België. Van historische stadhuizen tot universiteitscampussen.",
+        "items": {
+          "stadhuisGent": { "name": "Stadhuis Gent", "type": "Raamcontract", "year": "2023" },
+          "stadhuisBrussel": { "name": "Stadhuis Brussel", "type": "Beschermd erfgoed", "year": "2023" },
+          "justitiepaleis": { "name": "Justitiepaleis Dendermonde", "type": "Beschermd erfgoed", "year": "2023" },
+          "kuleuven": { "name": "KU Leuven", "type": "10 campussen", "year": "Lopend" }
+        }
+      },
+      "features": {
+        "sectionTitle": "Onze diensten",
+        "items": [
+          "Monumentenrestauratie en -onderhoud",
+          "Authentieke materialen en technieken",
+          "Natuurleien vervangen en herstellen",
+          "Historisch koper- en zinkwerk",
+          "Traditioneel soldeerwerk",
+          "Beschermde stads- en dorpsgezichten",
+          "Werken voor KU Leuven campussen",
+          "Samenwerking met erfgoedconsulenten"
+        ]
+      },
+      "stats": {
+        "yearsExperience": "Jaar ervaring",
+        "isoQuality": "9001 kwaliteit",
+        "classRecognition": "Klasse erkenning",
+        "largeReferences": "Grote referenties"
+      },
+      "cta": {
+        "title": "Erfgoedproject?",
+        "subtitle": "Neem contact op voor een vrijblijvend adviesgesprek. Wij komen graag ter plaatse voor een eerste inventarisatie."
+      }
+    },
+    "facility": {
+      "hero": {
+        "title": "Onderhoud & Interventies",
+        "subtitle": "Raamcontracten, preventief onderhoud en snelle interventies. Wij ontzorgen u volledig met ons technisch beheer.",
+        "breadcrumb": "Onderhoud & Interventies"
+      },
+      "twoColumn": {
+        "label": "Facility Management",
+        "title": "Uw partner voor gebouwbeheer",
+        "paragraph1": "Langlopende raamcontracten voor dakonderhoud, herstellingen en renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel, VEB en KU Leuven.",
+        "paragraph2": "Met 4 actieve raamcontracten en 24/7 interventie service staan wij klaar wanneer u ons nodig heeft."
+      },
+      "services": {
+        "sectionTitle": "Vier pijlers van ontzorging",
+        "items": {
+          "raamcontracten": {
+            "title": "Raamcontracten",
+            "description": "Langlopende overeenkomsten met overheden en instellingen voor structureel onderhoud en renovatie.",
+            "features": ["Actieve contracten met Stad Gent, Brussel", "Ervaring met publieke aanbestedingen", "VEB scholen, KU Leuven campussen", "Klasse 6 erkend voor grote opdrachten"]
+          },
+          "dakonderhoud": {
+            "title": "Dakonderhoud",
+            "description": "Periodieke inspecties en herstellingen van daken. Preventief onderhoud voorkomt grote schade.",
+            "features": ["Dakinspecties en preventief onderhoud", "Dakgoten en regenwaterafvoer", "Klein herstel en waterdichting", "Zowel hellende als platte daken"]
+          },
+          "interventies": {
+            "title": "Interventies",
+            "description": "Snelle herstellingen bij schade of dringende problemen. Wij staan klaar wanneer u ons nodig heeft.",
+            "features": ["Waterschade en stormschade", "Herstellingen aan daken en gevels", "Voegwerk en gevelreparaties", "Structurele stabilisatie"]
+          },
+          "renovatiewerken": {
+            "title": "Renovatiewerken",
+            "description": "Structurele verbeteringen en energetische aanpassingen voor een duurzamer gebouwenbestand.",
+            "features": ["Gevelrenovatie en isolatie", "Energetische verbeteringen", "Valbeveiliging installatie", "Renovatie gemeenschappelijke delen"]
+          }
+        }
+      },
+      "raamcontracten": {
+        "sectionTitle": "Actieve Raamcontracten",
+        "subtitle": "Wij werken dagelijks voor toonaangevende overheden en instellingen."
+      },
+      "scope": {
+        "sectionTitle": "Wat wij wel en niet doen",
+        "includes": {
+          "title": "Onze diensten",
+          "items": [
+            "Dakonderhoud en -herstellingen (plat en hellend)",
+            "Gevelherstellingen en voegwerk",
+            "Waterdichtingswerken",
+            "Structurele herstellingen",
+            "Schilderwerk buitenschrijnwerk",
+            "Renovatie van gemeenschappelijke delen",
+            "Valbeveiliging en toegankelijkheid",
+            "Kleine verbouwingen en aanpassingen"
+          ]
+        },
+        "excludes": {
+          "title": "Via partners",
+          "items": [
+            "Elektriciteitswerken",
+            "HVAC-onderhoud",
+            "Liftonderhoud",
+            "Branddetectie en -beveiliging",
+            "Groenonderhoud en tuinwerken"
+          ],
+          "note": "Wij coördineren graag alle technische werken via ons netwerk van vaste partners."
+        }
+      },
+      "stats": {
+        "activeContracts": "Actieve raamcontracten",
+        "classRecognition": "Klasse erkenning",
+        "interventions": "Interventies",
+        "craftsmen": "Vakmensen"
+      },
+      "cta": {
+        "title": "Interesse in een raamcontract?",
+        "subtitle": "Neem contact met ons op voor een vrijblijvend gesprek over de mogelijkheden voor uw organisatie.",
+        "ctaText": "Offerte aanvragen"
+      }
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "badge": "Over Ons",
+      "titleYears": "{years} Jaar",
+      "titleCraftsmanship": "Vakmanschap",
+      "description": "Sinds {year} bouwt De Raedt mee aan de toekomst van België. Vakmanschap, innovatie en toewijding — generatie na generatie.",
+      "viewProjects": "Bekijk onze projecten",
+      "workWithUs": "Werk met ons"
+    },
+    "stats": {
+      "founded": "Opgericht",
+      "employees": "Medewerkers",
+      "recognition": "Erkenning",
+      "certified": "Gecertificeerd",
+      "craftsmen": "Vakmannen"
+    },
+    "mission": {
+      "badge": "Onze Missie",
+      "titleLine1": "Vakmanschap gedreven.",
+      "titleLine2": "Toekomstgericht.",
+      "description": "Wij bouwen niet zomaar gebouwen — wij bouwen aan de toekomst van België. Met respect voor erfgoed, oog voor innovatie en een onwrikbare toewijding aan kwaliteit. Al {years} jaar lang."
+    },
+    "story": {
+      "badge": "Ons Verhaal",
+      "title": "Al {years} jaar bouwen aan België",
+      "paragraph1": "Wat begon als een klein familiebedrijf in Zele, is uitgegroeid tot een gerenommeerd bouwbedrijf met meer dan {employees} medewerkers.",
+      "paragraph2": "Sinds 1930 combineren wij traditioneel vakmanschap met moderne bouwtechnieken. Onze specialisatie in erfgoedrenovatie maakt ons de partner bij uitstek voor de restauratie van historische gebouwen en monumenten.",
+      "paragraph3": "Met een Klasse 6 erkenning zijn wij bevoegd voor de meest complexe overheidsopdrachten. Onze ISO 9001 en VCA** certificeringen garanderen kwaliteit en veiligheid op elke werf."
+    },
+    "timeline": {
+      "badge": "Onze Geschiedenis",
+      "title": "Mijlpalen door de",
+      "titleAccent": "jaren",
+      "items": {
+        "1930": {
+          "title": "Roots",
+          "description": "Familiebedrijf actief sinds 1930 in de bouwsector in Zele"
+        },
+        "2024": {
+          "title": "Certificering",
+          "description": "ISO 9001 behaald en VCA** certificaat hernieuwd na succesvolle audit"
+        },
+        "2025": {
+          "title": "Duurzaamheid",
+          "description": "CO₂-Prestatieladder niveau 3 gecertificeerd door Vinçotte"
+        }
+      }
+    },
+    "values": {
+      "badge": "De 5 V's",
+      "title": "Waar wij voor",
+      "titleAccent": "staan",
+      "items": {
+        "responsibility": {
+          "title": "Verantwoordelijkheid",
+          "description": "Wij nemen volledige verantwoordelijkheid voor elk project. Van start tot oplevering staan wij garant voor kwaliteit."
+        },
+        "safety": {
+          "title": "Veiligheid",
+          "description": "VCA** gecertificeerd. Veiligheid van onze medewerkers en opdrachtgevers staat altijd voorop."
+        },
+        "freedom": {
+          "title": "Vrijheid",
+          "description": "Ruimte voor initiatief en creativiteit. Onze medewerkers krijgen de vrijheid om hun vakmanschap te tonen."
+        },
+        "trust": {
+          "title": "Vertrouwen",
+          "description": "Al meer dan {years} jaar een betrouwbare partner. Onze reputatie is gebouwd op wederzijds vertrouwen."
+        },
+        "progress": {
+          "title": "Vooruitgang",
+          "description": "Continue groei en ontwikkeling. Wij investeren in innovatie, opleiding en duurzaamheid."
+        }
+      }
+    },
+    "team": {
+      "badge": "Ons Team",
+      "title": "Vakmannen met passie voor",
+      "titleAccent": "bouwen",
+      "description": "Ons team van meer dan {employees} vakmannen brengt decennia aan ervaring samen. Van metselaars tot projectmanagers, iedereen deelt dezelfde passie voor kwaliteit en vakmanschap.",
+      "features": {
+        "leaders": "Ervaren projectleiders en werfleiders",
+        "specialists": "Gespecialiseerde metselaars en dakwerkers",
+        "team": "Eigen administratief en technisch team",
+        "training": "Continue opleiding en ontwikkeling"
+      },
+      "viewVacancies": "Bekijk vacatures",
+      "contactUs": "Neem contact op"
+    },
+    "cta": {
+      "badge": "Start Uw Project",
+      "title": "Klaar om te",
+      "titleAccent": "bouwen",
+      "description": "Neem contact op voor een vrijblijvend gesprek over uw bouwplannen. Wij denken graag met u mee.",
+      "startProject": "Start uw project",
+      "contactUs": "Contact opnemen"
+    }
+  },
+  "projectsPage": {
+    "hero": {
+      "badge": "Portfolio",
+      "titleLine1": "Onze",
+      "titleLine2": "Projecten",
+      "description": "Van monumentale erfgoedrenovatie tot kritische infrastructuur. Ontdek {years} jaar vakmanschap in actie.",
+      "viewPortfolio": "Bekijk portfolio",
+      "startProject": "Start uw project"
+    },
+    "stats": {
+      "yearsExperience": "Jaar ervaring",
+      "recognition": "Erkenning",
+      "referenceProjects": "Referentieprojecten",
+      "sectors": "Sectoren",
+      "craftsmanship": "Jaar vakmanschap",
+      "recognitionClass": "Erkenningsklasse",
+      "revenue": "Omzet 2024",
+      "employees": "Medewerkers"
+    },
+    "filter": {
+      "breadcrumbHome": "Home",
+      "breadcrumbProjects": "Projecten",
+      "projectCount": "{count} project",
+      "projectCountPlural": "{count} projecten",
+      "searchPlaceholder": "Zoek op naam, klant of beschrijving..."
+    },
+    "card": {
+      "viewProject": "Bekijk project"
+    },
+    "cta": {
+      "badge": "Nieuw Project",
+      "title": "Heeft u een project",
+      "titleAccent": "in gedachten",
+      "description": "Wij denken graag met u mee. Gebruik onze projectplanner voor een vrijblijvende offerte of neem direct contact op.",
+      "startPlanner": "Start projectplanner",
+      "contactUs": "Contact opnemen"
+    },
+    "empty": {
+      "title": "Geen projecten gevonden",
+      "description": "Probeer een andere zoekterm of selecteer een andere categorie.",
+      "showAll": "Alle projecten tonen"
+    }
   },
   "privacy": {
     "title": "Privacybeleid",
-    "lastUpdated": "Laatst bijgewerkt"
+    "description": "Privacybeleid van Bouwwerken De Raedt Ivan NV",
+    "lastUpdated": "Laatst bijgewerkt: januari 2024",
+    "sections": {
+      "controller": {
+        "title": "1. Verwerkingsverantwoordelijke",
+        "intro": "{company}, gevestigd te {address}, is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.",
+        "kbo": "KBO-nummer:",
+        "contact": "Contact:"
+      },
+      "dataCollection": {
+        "title": "2. Welke gegevens verzamelen wij?",
+        "intro": "Wij verwerken de volgende categorieën persoonsgegevens:",
+        "items": {
+          "contact": {
+            "label": "Contactgegevens:",
+            "description": "naam, emailadres, telefoonnummer, adres"
+          },
+          "communication": {
+            "label": "Communicatiegegevens:",
+            "description": "berichten via ons contactformulier"
+          },
+          "application": {
+            "label": "Sollicitatiegegevens:",
+            "description": "CV, motivatiebrief"
+          },
+          "technical": {
+            "label": "Technische gegevens:",
+            "description": "IP-adres, browsertype (geanonimiseerd)"
+          }
+        }
+      },
+      "purposes": {
+        "title": "3. Verwerkingsdoeleinden",
+        "intro": "Wij verwerken uw persoonsgegevens voor de volgende doeleinden:",
+        "items": [
+          "Het beantwoorden van uw vragen en verzoeken",
+          "Het versturen van offertes",
+          "Het verwerken van sollicitaties",
+          "Het verbeteren van onze website (geanonimiseerd)",
+          "Het voldoen aan wettelijke verplichtingen"
+        ]
+      },
+      "legalBasis": {
+        "title": "4. Rechtsgrond",
+        "intro": "De verwerking van uw persoonsgegevens is gebaseerd op één van de volgende rechtsgronden:",
+        "items": [
+          "Uw toestemming",
+          "De uitvoering van een overeenkomst",
+          "Een wettelijke verplichting",
+          "Ons gerechtvaardigd belang"
+        ]
+      },
+      "retention": {
+        "title": "5. Bewaartermijn",
+        "intro": "Wij bewaren uw persoonsgegevens niet langer dan strikt noodzakelijk is om de doelen te realiseren waarvoor uw gegevens worden verzameld. Onze bewaartermijnen zijn:",
+        "items": [
+          "Contactformulier berichten: 2 jaar",
+          "Sollicitaties: 1 jaar na afronding procedure",
+          "Klantenportaal gegevens: duur van de samenwerking + 7 jaar"
+        ]
+      },
+      "rights": {
+        "title": "6. Uw rechten",
+        "intro": "Op grond van de AVG heeft u de volgende rechten:",
+        "items": {
+          "access": {
+            "label": "Recht op inzage:",
+            "description": "U heeft het recht om uw persoonsgegevens in te zien."
+          },
+          "rectification": {
+            "label": "Recht op rectificatie:",
+            "description": "U heeft het recht om onjuiste gegevens te laten corrigeren."
+          },
+          "erasure": {
+            "label": "Recht op verwijdering:",
+            "description": "U heeft het recht om uw gegevens te laten verwijderen."
+          },
+          "restriction": {
+            "label": "Recht op beperking:",
+            "description": "U heeft het recht om de verwerking te beperken."
+          },
+          "portability": {
+            "label": "Recht op overdraagbaarheid:",
+            "description": "U heeft het recht om uw gegevens over te dragen."
+          },
+          "objection": {
+            "label": "Recht van bezwaar:",
+            "description": "U heeft het recht om bezwaar te maken tegen de verwerking."
+          }
+        },
+        "contact": "Om uw rechten uit te oefenen, kunt u contact met ons opnemen via {email}."
+      },
+      "security": {
+        "title": "7. Beveiliging",
+        "content": "Wij nemen passende technische en organisatorische maatregelen om uw persoonsgegevens te beschermen tegen verlies, ongeautoriseerde toegang, en andere vormen van onrechtmatige verwerking."
+      },
+      "thirdParties": {
+        "title": "8. Delen met derden",
+        "content": "Wij delen uw persoonsgegevens alleen met derden indien dit nodig is voor de uitvoering van onze diensten of om te voldoen aan een wettelijke verplichting. Met bedrijven die uw gegevens verwerken in onze opdracht, sluiten wij een verwerkersovereenkomst."
+      },
+      "complaints": {
+        "title": "9. Klachten",
+        "intro": "Indien u een klacht heeft over de verwerking van uw persoonsgegevens, kunt u contact met ons opnemen. U heeft daarnaast het recht om een klacht in te dienen bij de Belgische Gegevensbeschermingsautoriteit (GBA):",
+        "authority": {
+          "name": "Gegevensbeschermingsautoriteit",
+          "address": "Drukpersstraat 35, 1000 Brussel",
+          "email": "contact@apd-gba.be",
+          "website": "www.gegevensbeschermingsautoriteit.be"
+        }
+      },
+      "changes": {
+        "title": "10. Wijzigingen",
+        "content": "Wij behouden ons het recht voor om dit privacybeleid te wijzigen. Wijzigingen worden op deze pagina gepubliceerd."
+      }
+    }
   },
   "cookies": {
     "title": "Cookiebeleid",
-    "lastUpdated": "Laatst bijgewerkt"
+    "description": "Cookiebeleid van Bouwwerken De Raedt Ivan NV",
+    "lastUpdated": "Laatst bijgewerkt: januari 2024",
+    "sections": {
+      "whatAreCookies": {
+        "title": "Wat zijn cookies?",
+        "content": "Cookies zijn kleine tekstbestanden die op uw computer of mobiel apparaat worden opgeslagen wanneer u onze website bezoekt. Ze helpen ons om de website goed te laten functioneren en om uw voorkeuren te onthouden."
+      },
+      "whichCookies": {
+        "title": "Welke cookies gebruiken wij?",
+        "necessary": {
+          "title": "1. Noodzakelijke cookies",
+          "description": "Deze cookies zijn essentieel voor het functioneren van de website. Zonder deze cookies kunnen bepaalde onderdelen van de website niet werken."
+        },
+        "analytics": {
+          "title": "2. Analytische cookies",
+          "description": "Deze cookies helpen ons te begrijpen hoe bezoekers de website gebruiken. Wij gebruiken Plausible Analytics, een privacy-vriendelijk alternatief dat geen persoonlijke gegevens verzamelt."
+        }
+      },
+      "table": {
+        "cookie": "Cookie",
+        "purpose": "Doel",
+        "retention": "Bewaartermijn",
+        "session": "Sessie",
+        "oneYear": "1 jaar",
+        "none": "-",
+        "noCookies": "Geen cookies",
+        "cookies": {
+          "consent": {
+            "name": "deraedt-cookie-consent",
+            "purpose": "Onthoudt uw cookievoorkeuren"
+          },
+          "auth": {
+            "name": "sb-*-auth-token",
+            "purpose": "Authenticatie klantenportaal"
+          },
+          "plausible": {
+            "purpose": "Plausible werkt zonder cookies en respecteert uw privacy"
+          }
+        }
+      },
+      "choices": {
+        "title": "Uw keuzes",
+        "description": "Bij uw eerste bezoek aan onze website kunt u kiezen welke cookies u wilt accepteren. U kunt deze keuze op elk moment wijzigen door de cookies in uw browser te verwijderen.",
+        "important": "Belangrijk:",
+        "gbaNote": "Conform de Belgische Gegevensbeschermingsautoriteit (GBA) bieden wij u een gelijkwaardige keuze tussen het accepteren en weigeren van niet-essentiële cookies."
+      },
+      "browserManagement": {
+        "title": "Cookies beheren in uw browser",
+        "description": "U kunt cookies ook beheren via uw browserinstellingen. Hier vindt u instructies voor de meest gebruikte browsers:"
+      },
+      "contact": {
+        "title": "Contact",
+        "description": "Heeft u vragen over ons cookiebeleid? Neem dan contact met ons op:"
+      }
+    }
   },
   "partnerIntake": {
     "title": "Partner Documentatie",

@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { CheckCircle2, Building2, X } from "lucide-react";
 import { RAAMCONTRACTEN } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 import {
   ServicePageHero,
   TwoColumnSection,
@@ -12,110 +13,51 @@ import {
   SectionHeader,
 } from "@/components/marketing/diensten";
 
-const services = [
-  {
-    title: "Raamcontracten",
-    description: "Langlopende overeenkomsten met overheden en instellingen voor structureel onderhoud en renovatie.",
-    features: [
-      "Actieve contracten met Stad Gent, Brussel",
-      "Ervaring met publieke aanbestedingen",
-      "VEB scholen, KU Leuven campussen",
-      "Klasse 6 erkend voor grote opdrachten",
-    ],
-  },
-  {
-    title: "Dakonderhoud",
-    description: "Periodieke inspecties en herstellingen van daken. Preventief onderhoud voorkomt grote schade.",
-    features: [
-      "Dakinspecties en preventief onderhoud",
-      "Dakgoten en regenwaterafvoer",
-      "Klein herstel en waterdichting",
-      "Zowel hellende als platte daken",
-    ],
-  },
-  {
-    title: "Interventies",
-    description: "Snelle herstellingen bij schade of dringende problemen. Wij staan klaar wanneer u ons nodig heeft.",
-    features: [
-      "Waterschade en stormschade",
-      "Herstellingen aan daken en gevels",
-      "Voegwerk en gevelreparaties",
-      "Structurele stabilisatie",
-    ],
-  },
-  {
-    title: "Renovatiewerken",
-    description: "Structurele verbeteringen en energetische aanpassingen voor een duurzamer gebouwenbestand.",
-    features: [
-      "Gevelrenovatie en isolatie",
-      "Energetische verbeteringen",
-      "Valbeveiliging installatie",
-      "Renovatie gemeenschappelijke delen",
-    ],
-  },
-];
-
-const scopeIncludes = [
-  "Dakonderhoud en -herstellingen (plat en hellend)",
-  "Gevelherstellingen en voegwerk",
-  "Waterdichtingswerken",
-  "Structurele herstellingen",
-  "Schilderwerk buitenschrijnwerk",
-  "Renovatie van gemeenschappelijke delen",
-  "Valbeveiliging en toegankelijkheid",
-  "Kleine verbouwingen en aanpassingen",
-];
-
-const scopeExcludes = [
-  "Elektriciteitswerken",
-  "HVAC-onderhoud",
-  "Liftonderhoud",
-  "Branddetectie en -beveiliging",
-  "Groenonderhoud en tuinwerken",
-];
-
-const stats = [
-  { value: "4", suffix: "", label: "Actieve raamcontracten" },
-  { value: "6", suffix: "", label: "Klasse erkenning" },
-  { value: "24", suffix: "/7", label: "Interventies" },
-  { value: "40", suffix: "+", label: "Vakmensen" },
-];
+const SERVICE_KEYS = ["raamcontracten", "dakonderhoud", "interventies", "renovatiewerken"] as const;
 
 // Services Section
 function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("serviceDetails.facility");
+  const tCommon = useTranslations("serviceDetails.common.sectionLabels");
 
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-[#F8F9FA]">
       <div className="container-wide">
-        <SectionHeader label="Onze Diensten" title="Vier pijlers van ontzorging" />
+        <SectionHeader
+          label={tCommon("ourServices")}
+          title={t("services.sectionTitle")}
+        />
 
         <div className="grid md:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <motion.article
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white border border-gray-200 rounded-lg p-8 hover:border-[#204CE5]/30 hover:shadow-sm transition-all duration-300"
-            >
-              <h3 className="text-xl font-bold text-[#112337] mb-3">
-                {service.title}
-              </h3>
-              <p className="text-[#686E77] mb-6 leading-relaxed">
-                {service.description}
-              </p>
-              <ul className="space-y-2">
-                {service.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm text-[#112337]">
-                    <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-          ))}
+          {SERVICE_KEYS.map((key, index) => {
+            const features = t.raw(`services.items.${key}.features`) as string[];
+            return (
+              <motion.article
+                key={key}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white border border-gray-200 rounded-lg p-8 hover:border-[#204CE5]/30 hover:shadow-sm transition-all duration-300"
+              >
+                <h3 className="text-xl font-bold text-[#112337] mb-3">
+                  {t(`services.items.${key}.title`)}
+                </h3>
+                <p className="text-[#686E77] mb-6 leading-relaxed">
+                  {t(`services.items.${key}.description`)}
+                </p>
+                <ul className="space-y-2">
+                  {features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2 text-sm text-[#112337]">
+                      <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -126,14 +68,16 @@ function ServicesSection() {
 function RaamcontractenSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("serviceDetails.facility");
+  const tCommon = useTranslations("serviceDetails.common.sectionLabels");
 
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-white">
       <div className="container-wide">
         <SectionHeader
-          label="Referenties"
-          title="Actieve Raamcontracten"
-          subtitle="Wij werken dagelijks voor toonaangevende overheden en instellingen."
+          label={tCommon("references")}
+          title={t("raamcontracten.sectionTitle")}
+          subtitle={t("raamcontracten.subtitle")}
           centered
         />
 
@@ -170,11 +114,19 @@ function RaamcontractenSection() {
 function ScopeSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("serviceDetails.facility");
+
+  const scopeIncludes = t.raw("scope.includes.items") as string[];
+  const scopeExcludes = t.raw("scope.excludes.items") as string[];
 
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-[#F8F9FA]">
       <div className="container-wide">
-        <SectionHeader label="Scope" title="Wat wij wel en niet doen" centered />
+        <SectionHeader
+          label="Scope"
+          title={t("scope.sectionTitle")}
+          centered
+        />
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* What we do */}
@@ -188,7 +140,9 @@ function ScopeSection() {
               <div className="w-10 h-10 rounded-lg bg-[#204CE5]/10 flex items-center justify-center">
                 <CheckCircle2 className="w-5 h-5 text-[#204CE5]" />
               </div>
-              <h3 className="text-xl font-bold text-[#112337]">Onze diensten</h3>
+              <h3 className="text-xl font-bold text-[#112337]">
+                {t("scope.includes.title")}
+              </h3>
             </div>
             <ul className="space-y-3">
               {scopeIncludes.map((item) => (
@@ -211,7 +165,9 @@ function ScopeSection() {
               <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
                 <X className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white">Via partners</h3>
+              <h3 className="text-xl font-bold text-white">
+                {t("scope.excludes.title")}
+              </h3>
             </div>
             <ul className="space-y-3">
               {scopeExcludes.map((item) => (
@@ -222,7 +178,7 @@ function ScopeSection() {
               ))}
             </ul>
             <p className="mt-6 pt-6 border-t border-white/10 text-sm text-white/50">
-              Wij coördineren graag alle technische werken via ons netwerk van vaste partners.
+              {t("scope.excludes.note")}
             </p>
           </motion.div>
         </div>
@@ -232,28 +188,34 @@ function ScopeSection() {
 }
 
 export function FacilityClient() {
+  const t = useTranslations("serviceDetails.facility");
+
+  const stats = [
+    { value: "4", suffix: "", label: t("stats.activeContracts") },
+    { value: "6", suffix: "", label: t("stats.classRecognition") },
+    { value: "24", suffix: "/7", label: t("stats.interventions") },
+    { value: "40", suffix: "+", label: t("stats.craftsmen") },
+  ];
+
   return (
     <>
       <ServicePageHero
-        title="Onderhoud & Interventies"
-        subtitle="Raamcontracten, preventief onderhoud en snelle interventies. Wij ontzorgen u volledig met ons technisch beheer."
+        title={t("hero.title")}
+        subtitle={t("hero.subtitle")}
         backgroundImage="/images/original-site/Koning-Boudewijn-Stadion.webp"
-        breadcrumbLabel="Onderhoud & Interventies"
+        breadcrumbLabel={t("hero.breadcrumb")}
       />
       <TwoColumnSection
-        label="Facility Management"
-        title="Uw partner voor gebouwbeheer"
+        label={t("twoColumn.label")}
+        title={t("twoColumn.title")}
         image="/images/original-site/Koning-Boudewijn-Stadion.webp"
         imageAlt="Facility Management"
       >
         <p className="text-[#686E77] text-lg leading-relaxed">
-          Langlopende raamcontracten voor dakonderhoud, herstellingen en
-          renovatiewerken. Actieve contracten met Stad Gent, Stad Brussel,
-          VEB en KU Leuven.
+          {t("twoColumn.paragraph1")}
         </p>
         <p className="mt-4 text-[#686E77] leading-relaxed">
-          Met 4 actieve raamcontracten en 24/7 interventie service staan wij
-          klaar wanneer u ons nodig heeft.
+          {t("twoColumn.paragraph2")}
         </p>
       </TwoColumnSection>
       <ServicesSection />
@@ -261,9 +223,9 @@ export function FacilityClient() {
       <ScopeSection />
       <ServicePageStats stats={stats} />
       <PageCTA
-        title="Interesse in een raamcontract?"
-        subtitle="Neem contact met ons op voor een vrijblijvend gesprek over de mogelijkheden voor uw organisatie."
-        ctaText="Offerte aanvragen"
+        title={t("cta.title")}
+        subtitle={t("cta.subtitle")}
+        ctaText={t("cta.ctaText")}
       />
     </>
   );

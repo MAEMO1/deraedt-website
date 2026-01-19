@@ -1,32 +1,37 @@
 import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { SITE_CONFIG, COMPANY } from '@/lib/constants';
 
-export const metadata: Metadata = {
-  title: 'Duurzaamheid & CO₂-Reductie',
-  description: `${COMPANY.name} is CO₂-Prestatieladder niveau 3 gecertificeerd. Ontdek onze duurzaamheidsstrategie, CO₂-reductiedoelen en hoe wij bijdragen aan een groenere bouwsector.`,
-  openGraph: {
-    title: `Duurzaamheid & CO₂ | ${SITE_CONFIG.name}`,
-    description: 'CO₂-Prestatieladder niveau 3 gecertificeerd. Onze bijdrage aan duurzaam en klimaatvriendelijk bouwen.',
-    url: `${SITE_CONFIG.url}/duurzaamheid`,
-    type: 'website',
-  },
-  alternates: {
-    canonical: `${SITE_CONFIG.url}/duurzaamheid`,
-  },
-  keywords: [
-    'duurzaam bouwen',
-    'CO2-Prestatieladder',
-    'klimaatneutraal',
-    'ESG',
-    'groene bouwsector',
-    'milieubewust',
-  ],
-};
-
-export default function DuurzaamheidLayout({
-  children,
-}: {
+interface LayoutProps {
   children: React.ReactNode;
-}) {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'sustainability' });
+
+  return {
+    title: t('title'),
+    description: `${COMPANY.name}: ${t('description')}`,
+    openGraph: {
+      title: `${t('title')} | ${SITE_CONFIG.name}`,
+      description: t('description'),
+      url: `${SITE_CONFIG.url}/duurzaamheid`,
+      type: 'website',
+    },
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/duurzaamheid`,
+    },
+  };
+}
+
+export default async function DuurzaamheidLayout({
+  children,
+  params,
+}: LayoutProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return children;
 }

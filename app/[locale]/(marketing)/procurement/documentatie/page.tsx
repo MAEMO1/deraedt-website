@@ -1,20 +1,33 @@
 import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { SITE_CONFIG, COMPANY } from '@/lib/constants';
 import { DocumentatieClient } from './client';
 
-export const metadata: Metadata = {
-  title: 'Tender Pack Aanvragen',
-  description: `Vraag het ${COMPANY.name} tender pack aan met alle certificaten en referenties voor uw aanbesteding, preselectie of raamcontract.`,
-  openGraph: {
-    title: `Tender Pack Aanvragen | ${SITE_CONFIG.name}`,
-    description: 'Download onze certificaten en referenties voor aanbestedingen. ISO 9001, VCA**, CO₂-Prestatieladder en meer.',
-    url: `${SITE_CONFIG.url}/procurement/documentatie`,
-  },
-  alternates: {
-    canonical: `${SITE_CONFIG.url}/procurement/documentatie`,
-  },
-};
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
 
-export default function DocumentatiePage() {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'procurement.documentatie' });
+
+  return {
+    title: t('title'),
+    description: `${t('description')} ${COMPANY.name}.`,
+    openGraph: {
+      title: `${t('title')} | ${SITE_CONFIG.name}`,
+      description: t('description'),
+      url: `${SITE_CONFIG.url}/procurement/documentatie`,
+    },
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/procurement/documentatie`,
+    },
+  };
+}
+
+export default async function DocumentatiePage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return <DocumentatieClient />;
 }

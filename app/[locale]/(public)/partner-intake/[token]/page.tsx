@@ -1,18 +1,25 @@
 import { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PartnerIntakeClient } from './client';
 
-export const metadata: Metadata = {
-  title: 'Partner Document Upload | De Raedt',
-  description: 'Upload uw prequalificatie documenten',
-  robots: 'noindex, nofollow',
-};
-
 interface PageProps {
-  params: Promise<{ token: string }>;
+  params: Promise<{ token: string; locale: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'partnerIntake' });
+
+  return {
+    title: `${t('header.title')} | De Raedt`,
+    description: t('header.subtitle'),
+    robots: 'noindex, nofollow',
+  };
 }
 
 export default async function PartnerIntakePage({ params }: PageProps) {
-  const { token } = await params;
+  const { token, locale } = await params;
+  setRequestLocale(locale);
 
   return <PartnerIntakeClient token={token} />;
 }

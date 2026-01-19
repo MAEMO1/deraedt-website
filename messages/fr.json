@@ -199,15 +199,34 @@
   "contact": {
     "title": "Contact",
     "subtitle": "Contactez-nous",
+    "hero": {
+      "headline": "Parlons",
+      "headlineAccent": "ensemble",
+      "description": "Vous avez une question ou souhaitez un devis gratuit ? Nous répondons sous 24 heures."
+    },
+    "cards": {
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "address": "Adresse"
+    },
+    "responseTime": {
+      "label": "Temps de réponse moyen :",
+      "value": "4 heures"
+    },
     "form": {
+      "title": "Envoyez-nous un message",
+      "required": "Les champs marqués * sont obligatoires",
       "name": "Nom",
-      "email": "Adresse e-mail",
-      "phone": "Numéro de téléphone",
-      "company": "Entreprise",
+      "namePlaceholder": "Votre nom",
+      "organisation": "Organisation",
+      "organisationPlaceholder": "Entreprise ou institution",
+      "email": "E-mail",
+      "emailPlaceholder": "votre@email.be",
+      "phone": "Téléphone",
+      "phonePlaceholder": "+32 ...",
       "subject": "Sujet",
       "message": "Message",
-      "privacy": "J'accepte la",
-      "privacyLink": "politique de confidentialité",
+      "messagePlaceholder": "Dites-nous en plus sur votre projet ou question...",
       "submit": "Envoyer le message",
       "sending": "Envoi en cours...",
       "success": "Votre message a été envoyé. Nous vous contacterons dans les plus brefs délais.",
@@ -220,6 +239,31 @@
       "facility": "Facility Management",
       "sollicitatie": "Candidature",
       "anders": "Autre"
+    },
+    "success": {
+      "badge": "Message envoyé",
+      "title": "Merci",
+      "message": "Nous vous contacterons dans les <highlight>24 heures</highlight>.",
+      "backHome": "Retour à l'accueil",
+      "newMessage": "Nouveau message"
+    },
+    "toast": {
+      "success": "Message envoyé !",
+      "successDescription": "Nous vous contacterons dans les plus brefs délais.",
+      "error": "Une erreur s'est produite",
+      "errorDescription": "Veuillez réessayer plus tard ou contactez-nous par téléphone.",
+      "sendFailed": "Échec de l'envoi"
+    },
+    "company": {
+      "title": "Entreprise",
+      "kbo": "Numéro d'entreprise",
+      "btw": "Numéro de TVA",
+      "years": "Ans",
+      "craftsmen": "Artisans",
+      "class": "Classe"
+    },
+    "map": {
+      "openInMaps": "Ouvrir dans Google Maps"
     },
     "info": {
       "title": "Coordonnées",
@@ -263,34 +307,62 @@
         "ontwikkelaar": "Promoteur"
       },
       "budgets": {
-        "small": "< 100.000€",
-        "medium": "100.000€ - 500.000€",
-        "large": "500.000€ - 2.000.000€",
-        "enterprise": "> 2.000.000€"
+        "small": "< 100K€",
+        "medium": "100K€ – 500K€",
+        "large": "500K€ – 2M€",
+        "enterprise": "> 2M€",
+        "unknown": "Encore inconnu"
       },
       "timelines": {
-        "asap": "Dès que possible",
-        "3months": "Dans les 3 mois",
-        "6months": "Dans les 6 mois",
-        "year": "Dans l'année",
-        "flexible": "Flexible"
+        "urgent": "Immédiatement",
+        "soon": "1-3 mois",
+        "planned": "3-6 mois",
+        "future": "Plus tard"
+      },
+      "locations": {
+        "oost-vlaanderen": "Flandre-Orientale",
+        "west-vlaanderen": "Flandre-Occidentale",
+        "antwerpen": "Anvers",
+        "vlaams-brabant": "Brabant flamand",
+        "limburg": "Limbourg",
+        "brussel": "Bruxelles",
+        "andere": "Autre"
       }
     },
     "form": {
-      "name": "Nom",
-      "email": "Adresse e-mail",
-      "phone": "Numéro de téléphone",
+      "name": "Nom *",
+      "email": "Adresse e-mail *",
+      "phone": "Numéro de téléphone *",
       "company": "Entreprise (optionnel)",
       "message": "Informations supplémentaires (optionnel)",
       "privacy": "En envoyant, vous acceptez notre",
       "privacyLink": "politique de confidentialité",
       "required": "Champ obligatoire"
     },
+    "buttons": {
+      "next": "Suivant",
+      "submit": "Envoyer",
+      "submitting": "Un moment...",
+      "restart": "Recommencer",
+      "viewProjects": "Voir les projets"
+    },
     "success": {
       "badge": "Demande envoyée",
       "title": "Merci",
-      "message": "Nous analysons votre projet et vous contacterons dans les {hours} heures.",
+      "message": "Nous analysons votre projet et vous contacterons dans les",
+      "hours": "{hours} heures",
+      "messageEnd": ".",
       "backHome": "Retour à l'accueil"
+    },
+    "toast": {
+      "success": {
+        "title": "Demande envoyée !",
+        "description": "Nous vous contacterons dans les 48 heures."
+      },
+      "error": {
+        "title": "Une erreur s'est produite",
+        "description": "Veuillez réessayer plus tard ou contactez-nous par téléphone."
+      }
     },
     "error": {
       "title": "Une erreur s'est produite",
@@ -325,7 +397,232 @@
       "submit": "Envoyer la candidature",
       "success": "Votre candidature a été reçue. Nous vous contacterons dans les plus brefs délais.",
       "error": "Une erreur s'est produite. Veuillez réessayer plus tard."
+    },
+    "hero": {
+      "badge": "Carrière",
+      "headline": "Construisez",
+      "headlineAccent": "votre avenir",
+      "description": "Rejoignez une équipe de {years} ans d'expérience. Chez De Raedt, vous combinez savoir-faire traditionnel et innovation moderne.",
+      "viewPositions": "Voir les postes",
+      "spontaneousApply": "Candidature spontanée"
+    },
+    "stats": {
+      "colleagues": "Collègues",
+      "yearsExperience": "Années d'expérience",
+      "safety": "Sécurité",
+      "vacancies": "Postes"
+    },
+    "employmentTypes": {
+      "full_time": "Temps plein",
+      "part_time": "Temps partiel",
+      "contract": "Contrat",
+      "internship": "Stage"
+    },
+    "benefitsSection": {
+      "badge": "Pourquoi De Raedt ?",
+      "title": "Plus qu'un simple",
+      "titleAccent": "emploi",
+      "subtitle": "Nous offrons une carrière dans une entreprise où votre contribution compte vraiment.",
+      "items": {
+        "familyAtmosphere": {
+          "title": "Ambiance Familiale",
+          "description": "Travaillez dans une équipe soudée avec des lignes de communication courtes et une attention personnelle pour chaque collaborateur."
+        },
+        "training": {
+          "title": "Formation & Croissance",
+          "description": "Investissement continu dans votre développement professionnel, certifications et savoir-faire."
+        },
+        "growth": {
+          "title": "Possibilités d'évolution",
+          "description": "Parcours de carrière clairs au sein d'une entreprise familiale en croissance avec une solide réputation."
+        },
+        "varied": {
+          "title": "Travail Varié",
+          "description": "Projets diversifiés de la rénovation du patrimoine à la construction neuve moderne chez des maîtres d'ouvrage prestigieux."
+        }
+      }
+    },
+    "team": {
+      "badge": "Notre Équipe",
+      "title": "{count} collègues, une famille",
+      "description1": "Des artisans expérimentés aux jeunes talents, chacun contribue à notre succès. Chez De Raedt, vous n'êtes pas un simple numéro.",
+      "description2": "Vous rejoignez une équipe soudée qui construit ensemble les plus beaux projets de Belgique depuis 1930.",
+      "colleagues": "Collègues",
+      "perks": {
+        "fruit": "Fruits frais et café sur le chantier quotidiennement",
+        "activities": "Activités d'équipe régulières",
+        "equipment": "Matériel moderne et sécurisé"
+      }
+    },
+    "culture": {
+      "badge": "Notre Culture",
+      "title": "Ce qui nous",
+      "titleAccent": "motive",
+      "items": {
+        "craftsmanship": {
+          "number": "01",
+          "title": "Savoir-faire",
+          "description": "Nous valorisons le savoir-faire traditionnel et vous donnons l'espace pour exceller dans votre métier."
+        },
+        "safety": {
+          "number": "02",
+          "title": "Sécurité",
+          "description": "Certifié VCA**. Votre sécurité est toujours notre priorité — sur chaque chantier, chaque jour."
+        },
+        "development": {
+          "number": "03",
+          "title": "Développement",
+          "description": "Formations régulières et possibilité d'obtenir des certifications aux frais de l'entreprise."
+        },
+        "teamspirit": {
+          "number": "04",
+          "title": "Esprit d'équipe",
+          "description": "Une équipe soudée où tout le monde se connaît. Activités d'équipe et sorties régulières."
+        }
+      }
+    },
+    "positions": {
+      "badge": "{count} postes ouverts",
+      "title": "Postes",
+      "titleAccent": "ouverts",
+      "viewPosition": "Voir le poste",
+      "notFound": {
+        "title": "Votre fonction n'y figure pas ?",
+        "description": "Envoyez-nous une candidature spontanée. Nous sommes toujours à la recherche de talents motivés !",
+        "cta": "Candidature spontanée"
+      }
+    },
+    "cta": {
+      "badge": "Contact",
+      "title": "Des",
+      "titleAccent": "questions",
+      "description": "N'hésitez pas à contacter notre équipe RH. Nous nous ferons un plaisir de répondre à toutes vos questions sur le travail chez De Raedt.",
+      "emailHr": "Contacter les RH",
+      "benefitsTitle": "Nos avantages",
+      "benefitsList": {
+        "salary": "Salaire compétitif et avantages extralégaux",
+        "car": "Voiture de société (selon la fonction)",
+        "insurance": "Assurance groupe et hospitalisation",
+        "bonus": "13e mois et prime de fin d'année",
+        "meals": "Chèques-repas",
+        "training": "Formation aux frais de l'entreprise"
+      }
+    },
+    "jobDetail": {
+      "backToJobs": "Toutes les offres",
+      "aboutRole": "À propos de ce poste",
+      "requirements": "Ce que nous attendons",
+      "benefits": "Ce que nous offrons",
+      "applyNow": "Postuler maintenant",
+      "notFoundTitle": "Offre d'emploi introuvable",
+      "form": {
+        "name": "Nom",
+        "namePlaceholder": "Votre nom complet",
+        "email": "Email",
+        "emailPlaceholder": "votre.email@exemple.be",
+        "phone": "Téléphone",
+        "phonePlaceholder": "+32 xxx xx xx xx",
+        "cv": "CV (PDF ou Word)",
+        "cvUpload": "Cliquez pour télécharger",
+        "cvMaxSize": "Max 10MB",
+        "motivation": "Motivation",
+        "motivationPlaceholder": "Dites-nous pourquoi vous êtes intéressé(e)...",
+        "gdprConsent": "J'accepte la",
+        "privacyPolicy": "politique de confidentialité",
+        "gdprNote": "Mes données seront conservées 12 mois conformément au RGPD.",
+        "required": "*",
+        "submit": "Postuler",
+        "submitting": "Envoi en cours..."
+      },
+      "success": {
+        "title": "Merci pour votre candidature !",
+        "message": "Vous recevrez bientôt une confirmation par email. Nous vous contacterons dans les meilleurs délais.",
+        "backToJobs": "Retour aux offres"
+      },
+      "errors": {
+        "nameMin": "Le nom doit contenir au moins 2 caractères",
+        "emailInvalid": "Adresse email invalide",
+        "gdprRequired": "Vous devez accepter la politique de confidentialité",
+        "fileTypeInvalid": "Seuls les documents PDF et Word sont autorisés",
+        "fileTooLarge": "Le fichier ne peut pas dépasser 10MB",
+        "submitError": "Une erreur s'est produite. Veuillez réessayer."
+      },
+      "alternativeContact": "Ou envoyez votre candidature à"
     }
+  },
+  "partnerIntake": {
+    "header": {
+      "title": "Préqualification Partenaire",
+      "subtitle": "Portail de téléchargement de documents"
+    },
+    "contactPerson": "Personne de contact",
+    "progress": {
+      "title": "Progression",
+      "ofRequired": "sur {total} documents obligatoires"
+    },
+    "documents": {
+      "vca": {
+        "label": "Certificat VCA",
+        "description": "Certificat VCA* ou VCA** valide"
+      },
+      "insurance": {
+        "label": "Attestation d'assurance",
+        "description": "Assurance RC avec couverture minimale de €2.500.000"
+      },
+      "reference": {
+        "label": "Références",
+        "description": "Minimum 3 références de projets des 3 dernières années"
+      },
+      "kvk": {
+        "label": "Extrait BCE",
+        "description": "Extrait récent de la Banque-Carrefour des Entreprises (max 3 mois)"
+      }
+    },
+    "status": {
+      "missing": "Non téléchargé",
+      "pending": "En cours de traitement",
+      "approved": "Approuvé",
+      "expired": "Expiré"
+    },
+    "actions": {
+      "upload": "Télécharger",
+      "replace": "Remplacer",
+      "uploading": "Téléchargement...",
+      "submit": "Soumettre les documents",
+      "submitting": "Soumission..."
+    },
+    "dates": {
+      "validFrom": "Valide à partir de",
+      "validTo": "Valide jusqu'au"
+    },
+    "errors": {
+      "fetchError": "Une erreur s'est produite",
+      "cannotFetch": "Impossible de récupérer les données",
+      "uploadFailed": "Échec du téléchargement",
+      "networkError": "Erreur réseau lors du téléchargement",
+      "requiredMissing": "Veuillez d'abord télécharger tous les documents obligatoires",
+      "submitFailed": "Échec de la soumission",
+      "networkSubmitError": "Erreur réseau lors de la soumission"
+    },
+    "invalidLink": {
+      "title": "Lien invalide"
+    },
+    "success": {
+      "title": "Documents soumis",
+      "message": "Merci ! Vos documents ont été soumis avec succès et seront examinés par notre équipe. Vous serez informé dès que l'évaluation sera terminée.",
+      "closeWindow": "Vous pouvez maintenant fermer cette fenêtre."
+    },
+    "submitNote": "Après soumission, vos documents seront examinés par notre équipe.",
+    "infoBox": {
+      "title": "Important",
+      "items": {
+        "fileTypes": "Seuls les PDF et images sont acceptés (max 10MB)",
+        "requiredDocs": "Les documents marqués * sont obligatoires pour la préqualification",
+        "validity": "Assurez-vous que les certificats sont valides encore au moins 3 mois",
+        "linkExpiry": "Ce lien est valide pendant 30 jours"
+      }
+    },
+    "footer": "© {year} Bouwwerken De Raedt Ivan NV. Tous droits réservés."
   },
   "procurement": {
     "title": "Hub Procurement",
@@ -356,20 +653,922 @@
         "title": "Expérience Contrats-cadres",
         "description": "Expérience avec les contrats-cadres pour les pouvoirs publics (dont VEB)"
       }
+    },
+    "hero": {
+      "badge": "Pour Administrations & Facility Managers",
+      "description": "Toute la documentation pour les marchés publics, présélections et contrats-cadres — organisée, à jour et disponible en un clic.",
+      "viewCertificates": "Voir les certificats",
+      "tenderPack": "Pack Appel d'offres"
+    },
+    "stats": {
+      "yearsExperience": "Années d'expérience",
+      "frameworkContracts": "Contrats-cadres",
+      "employees": "Collaborateurs",
+      "classRecognition": "Classe d'agrément"
+    },
+    "certifications": {
+      "badge": "Certifications & Agréments",
+      "title": "Entièrement",
+      "titleAccent": "certifié",
+      "titleSuffix": "pour vos marchés publics",
+      "description": "Tous nos certificats et agréments sont à jour et directement disponibles pour inclusion dans votre dossier d'appel d'offres.",
+      "scope": "Portée",
+      "validUntil": "Valide jusqu'au",
+      "downloadPrompt": "Besoin de tous les certificats pour votre marché ?",
+      "downloadTenderPack": "Télécharger le Pack"
+    },
+    "raamcontracten": {
+      "badge": "Historique Prouvé",
+      "title": "Contrats-cadres",
+      "titleAccent": "actifs",
+      "description": "Nous avons l'expérience des contrats-cadres avec les pouvoirs publics. Ces collaborations témoignent d'un travail de qualité constant.",
+      "trustedBy": "Ils nous font confiance",
+      "year": "Année",
+      "certified": "Certifié",
+      "fte": "ETP"
+    },
+    "process": {
+      "badge": "Notre Approche",
+      "title": "Comment nous",
+      "titleAccent": "collaborons",
+      "phases": {
+        "intake": {
+          "title": "Analyse",
+          "description": "Analyse du cahier des charges et des exigences"
+        },
+        "quote": {
+          "title": "Offre",
+          "description": "Structure de prix transparente et planning"
+        },
+        "execution": {
+          "title": "Exécution",
+          "description": "Rapports hebdomadaires et garantie QHSE"
+        },
+        "delivery": {
+          "title": "Réception",
+          "description": "Documentation et gestion des garanties"
+        }
+      }
+    },
+    "cta": {
+      "badge": "Contactez-nous",
+      "title": "Prêt pour une",
+      "titleAccent": "rencontre",
+      "description": "Contactez-nous pour une discussion sans engagement sur vos marchés publics, contrats-cadres ou besoins en facility management.",
+      "planMeeting": "Planifier un entretien"
+    },
+    "documentatie": {
+      "backLink": "Retour au Hub Procurement",
+      "badge": "Pack Appel d'offres",
+      "title": "Demander la documentation",
+      "description": "Demandez notre pack d'appel d'offres avec tous les certificats et références nécessaires pour votre marché public, présélection ou contrat-cadre.",
+      "form": {
+        "title": "Remplissez vos coordonnées",
+        "name": "Nom",
+        "namePlaceholder": "Votre nom",
+        "organisation": "Organisation",
+        "organisationPlaceholder": "Votre organisation",
+        "email": "Email",
+        "emailPlaceholder": "votre@email.be",
+        "phone": "Téléphone (optionnel)",
+        "phonePlaceholder": "+32 ...",
+        "purpose": "But de la demande",
+        "purposeOther": "Précisez",
+        "purposeOtherPlaceholder": "Pourquoi avez-vous besoin de cette documentation ?",
+        "message": "Remarques supplémentaires (optionnel)",
+        "messagePlaceholder": "Documents spécifiques ou questions...",
+        "submit": "Demander le Pack",
+        "submitting": "Envoi en cours...",
+        "required": "*"
+      },
+      "purposes": {
+        "aanbesteding": "Marché public / Appel d'offres",
+        "preselectie": "Présélection / Candidature",
+        "raamcontract": "Négociation contrat-cadre",
+        "other": "Autre"
+      },
+      "validation": {
+        "nameRequired": "Le nom est obligatoire",
+        "organisationRequired": "L'organisation est obligatoire",
+        "emailInvalid": "Adresse email invalide",
+        "purposeRequired": "Sélectionnez un objectif"
+      },
+      "success": {
+        "title": "Demande reçue !",
+        "message": "Merci pour votre demande. Vous recevrez le pack d'appel d'offres avec toute la documentation demandée dans les 24 heures par email.",
+        "backToHub": "Retour au Hub Procurement",
+        "contactUs": "Nous contacter"
+      },
+      "toast": {
+        "success": "Demande envoyée !",
+        "successDescription": "Vous recevrez la documentation dans les 24 heures.",
+        "error": "Une erreur s'est produite",
+        "errorDescription": "Veuillez réessayer plus tard ou contactez-nous."
+      },
+      "documents": {
+        "title": "Documentation disponible",
+        "description": "Le pack d'appel d'offres contient tous les documents nécessaires pour les marchés publics et présélections. Après votre demande, vous recevrez :",
+        "items": {
+          "iso": { "name": "Certificat ISO 9001:2015", "type": "Qualité" },
+          "vca": { "name": "Certificat VCA**", "type": "Sécurité" },
+          "co2": { "name": "Échelle de performance CO₂ Niveau 3", "type": "Durabilité" },
+          "klasse6": { "name": "Agrément Classe 6 - Catégorie D", "type": "Agrément" },
+          "klasse4": { "name": "Agrément Classe 4 - Sous-catégorie D8", "type": "Agrément" },
+          "ba": { "name": "Attestation Responsabilité Civile", "type": "Assurance" },
+          "tienjarige": { "name": "Attestation Responsabilité Décennale", "type": "Assurance" },
+          "referenties": { "name": "Liste de références Marchés Publics", "type": "Références" }
+        }
+      },
+      "certSummary": {
+        "title": "Nos certifications",
+        "klasse6": "Agréé Classe 6",
+        "iso": "ISO 9001",
+        "vca": "VCA**",
+        "co2": "CO₂ niveau 3"
+      }
     }
   },
   "sustainability": {
     "title": "Durabilité",
     "subtitle": "Construire un avenir durable",
-    "description": "Nous prenons notre responsabilité environnementale au sérieux. Avec le certificat Échelle de performance CO₂ niveau 3, nous démontrons notre engagement pour la construction durable."
+    "description": "Nous prenons notre responsabilité environnementale au sérieux. Avec le certificat Échelle de performance CO₂ niveau 3, nous démontrons notre engagement pour la construction durable.",
+    "hero": {
+      "badge": "Échelle CO₂ Niveau 3 · Valide jusqu'en 2028",
+      "label": "Durabilité & CO₂",
+      "title": "Construction consciente du CO₂",
+      "description": "Nous sommes certifiés niveau 3 de l'Échelle de performance CO₂. Cela signifie une réduction concrète du CO₂ et un reporting transparent.",
+      "viewCertificates": "Voir les certificats",
+      "contactUs": "Contactez-nous"
+    },
+    "whatIs": {
+      "title": "Qu'est-ce que l'Échelle de performance CO₂?",
+      "description": "L'Échelle de performance CO₂ est un instrument qui aide les entreprises à réduire leurs émissions de CO₂. Le certificat est de plus en plus demandé dans les marchés publics et offre un avantage d'attribution. Le niveau 3 signifie que nous connaissons notre empreinte CO₂, la réduisons activement et communiquons de manière transparente.",
+      "ourCertification": "Notre Certification",
+      "level": "Niveau",
+      "scope": "Portée",
+      "validUntil": "Valide jusqu'au"
+    },
+    "approach": {
+      "label": "Notre Approche",
+      "title": "4 piliers de la gestion CO₂",
+      "pillars": {
+        "insight": {
+          "number": "01",
+          "title": "Aperçu",
+          "description": "Calcul annuel de l'empreinte CO₂ selon ISO 14064-1. Nous mesurons pour améliorer."
+        },
+        "reduction": {
+          "number": "02",
+          "title": "Réduction",
+          "description": "Mesures concrètes pour réduire structurellement nos émissions au bureau et sur chantier."
+        },
+        "transparency": {
+          "number": "03",
+          "title": "Transparence",
+          "description": "Communication publique sur notre progression et nos objectifs."
+        },
+        "participation": {
+          "number": "04",
+          "title": "Participation",
+          "description": "Participation active aux initiatives sectorielles et partage de connaissances avec les partenaires de la chaîne."
+        }
+      }
+    },
+    "measures": {
+      "label": "Mesures Concrètes",
+      "title": "Comment nous réduisons le CO₂",
+      "description": "Notre réduction de CO₂ n'est pas un exercice théorique. Nous mettons en œuvre des mesures concrètes au bureau, dans notre flotte et sur chaque chantier.",
+      "items": {
+        "transport": {
+          "title": "Transport Durable",
+          "description": "Optimisation des itinéraires de transport et utilisation de véhicules Euro 6 pour des émissions réduites."
+        },
+        "machines": {
+          "title": "Machines Efficaces",
+          "description": "Investissement dans des machines et outils modernes et économes en énergie sur le chantier."
+        },
+        "circular": {
+          "title": "Construction Circulaire",
+          "description": "Réutilisation maximale des matériaux et traitement séparé des déchets sur chaque chantier."
+        },
+        "energy": {
+          "title": "Énergie Verte",
+          "description": "Panneaux solaires sur notre bâtiment et passage à des fournisseurs d'énergie verte."
+        }
+      },
+      "reductionGoal": "Objectif de réduction",
+      "certificateValid": "Certificat valide"
+    },
+    "benefits": {
+      "label": "Avantages pour Vous",
+      "title": "Que signifie ceci pour votre projet?",
+      "description": "De plus en plus d'organismes adjudicateurs — dont Infrabel, Aquafin et les grandes communes — appliquent des critères CO₂ dans leur attribution. En travaillant avec De Raedt, vous bénéficiez de notre certificat.",
+      "items": [
+        "Avantage d'attribution dans les marchés publics avec critères CO₂",
+        "Charge environnementale réduite de votre projet de construction",
+        "Reporting transparent sur les performances CO₂",
+        "Contribution aux objectifs climatiques",
+        "Collaboration avec des sous-traitants certifiés"
+      ],
+      "awardAdvantage": {
+        "title": "Avantage d'attribution dans les marchés publics",
+        "infrabel": {
+          "title": "Infrabel / Tucrail",
+          "description": "Implémente l'Échelle de performance CO₂ dans les achats à partir de septembre 2025"
+        },
+        "municipalities": {
+          "title": "Grandes villes & communes",
+          "description": "De plus en plus d'autorités locales appliquent des critères CO₂ dans les marchés publics"
+        },
+        "discount": {
+          "title": "Remise fictive",
+          "description": "Le certificat CO₂ peut conduire à un avantage d'attribution via une remise fictive sur le prix de soumission"
+        }
+      },
+      "viewCertificates": "Voir tous nos certificats"
+    },
+    "cta": {
+      "badge": "Certifié jusqu'en 2028",
+      "title": "La construction durable commence ici",
+      "description": "Vous voulez en savoir plus sur notre approche CO₂ ou comment notre certificat peut soutenir votre marché public? Contactez-nous.",
+      "startProject": "Démarrez votre projet",
+      "contactUs": "Contactez-nous"
+    }
+  },
+  "servicesPage": {
+    "hero": {
+      "badge": "Notre Expertise",
+      "titleLine1": "Building",
+      "titleLine2": "Excellence",
+      "description": "{years} ans de savoir-faire. De la rénovation monumentale du patrimoine à la construction neuve innovante — agréé Classe 6 pour des projets sans limites.",
+      "startProject": "Démarrez votre projet",
+      "discoverServices": "Découvrez nos services"
+    },
+    "stats": {
+      "yearsExperience": "Ans d'expérience",
+      "recognitionClass": "Classe d'agrément",
+      "annualRevenue": "Chiffre d'affaires",
+      "employees": "Collaborateurs"
+    },
+    "nav": {
+      "home": "Accueil",
+      "services": "Services"
+    },
+    "section": {
+      "badge": "Nos Services",
+      "title": "Comprehensive Building",
+      "titleAccent": "Solutions",
+      "description": "Des fondations à la toiture — une gamme complète de services pour votre projet de construction, soutenue par {years} ans d'expertise."
+    },
+    "services": {
+      "bouwwerken": {
+        "title": "Travaux de Construction",
+        "subtitle": "Agréé Classe 6",
+        "shortDesc": "Projets de A à Z",
+        "description": "Des fondations à la finition — projets de construction complets pour administrations, écoles et entreprises. Notre agrément Classe 6 garantit des projets sans limite de montant.",
+        "features": ["Bâtiments publics & infrastructures éducatives", "Rénovations et extensions", "Travaux structurels et finitions", "Agrément Classe 6 — sans limite de projet"],
+        "statLabel": "Chiffre d'affaires"
+      },
+      "dakwerken": {
+        "title": "Travaux de Toiture",
+        "subtitle": "Spécialiste toiture & façade",
+        "shortDesc": "Incliné à plat",
+        "description": "Experts en construction de toiture — de l'ardoise naturelle traditionnelle à l'isolation Sarking moderne. Y compris revêtement cuivre, travaux de zinc et protection antichute conformes aux normes de sécurité les plus strictes.",
+        "features": ["Systèmes de toiture inclinée et plate", "Isolation Sarking pour PEB optimal", "Revêtement cuivre et zinc", "Protection antichute et gouttières"],
+        "statLabel": "Certificat de sécurité"
+      },
+      "erfgoed": {
+        "title": "Rénovation du Patrimoine",
+        "subtitle": "Restauration de monuments",
+        "shortDesc": "Patrimoine protégé",
+        "description": "Restauration spécialisée du patrimoine architectural protégé. Avec des matériaux authentiques, des techniques traditionnelles et en étroite collaboration avec le Patrimoine Immobilier.",
+        "features": ["Restauration & conservation de monuments", "Soudure authentique et artisanat", "Ardoises naturelles selon méthodes historiques", "Références: Hôtels de Ville de Gand, Bruxelles, KU Leuven"],
+        "statLabel": "Ans de savoir-faire"
+      },
+      "facility": {
+        "title": "Entretien & Interventions",
+        "subtitle": "Contrats-cadres",
+        "shortDesc": "Partenariats à long terme",
+        "description": "Contrats-cadres à long terme pour l'entretien des toitures, réparations et travaux de rénovation. Contrats actifs avec Ville de Gand, Ville de Bruxelles, VEB et KU Leuven.",
+        "features": ["Contrat-cadre Ville de Gand & Bruxelles", "Entretien scolaire VEB", "Interventions 24/7 en cas de dommages", "Entretien préventif & inspection"],
+        "statLabel": "Contrats-cadres"
+      }
+    },
+    "card": {
+      "moreInfo": "Plus d'informations",
+      "requestQuote": "Demander un devis"
+    },
+    "process": {
+      "badge": "Méthode de travail",
+      "title": "Du plan à la",
+      "titleAccent": "livraison",
+      "description": "Un processus transparent avec une communication claire. Vous savez toujours où vous en êtes.",
+      "steps": {
+        "01": {"title": "Prise de contact", "description": "Analyse de vos souhaits et possibilités"},
+        "02": {"title": "Conception", "description": "Devis détaillé avec prix transparents"},
+        "03": {"title": "Planification", "description": "Coordination des permis et matériaux"},
+        "04": {"title": "Exécution", "description": "Contrôles qualité et rapports d'avancement"},
+        "05": {"title": "Livraison", "description": "Contrôle approfondi et garantie de suivi"}
+      }
+    },
+    "cta": {
+      "badge": "Démarrez Votre Projet",
+      "title": "Prêt à",
+      "titleAccent": "commencer",
+      "description": "Planifiez votre projet avec notre planificateur gratuit. Dans les 48 heures, vous recevrez un devis sans engagement de notre équipe.",
+      "startPlanner": "Démarrer le planificateur",
+      "whyUs": "Pourquoi De Raedt ?",
+      "reasons": [
+        "{years} ans d'expérience dans le secteur de la construction",
+        "Agréé Classe 6 pour les marchés publics",
+        "Certifié ISO 9001 & VCA**",
+        "Échelle de performance CO₂ niveau 3",
+        "Spécialistes en rénovation du patrimoine"
+      ]
+    }
+  },
+  "serviceDetails": {
+    "common": {
+      "sectionLabels": {
+        "whatWeDo": "Ce que nous faisons",
+        "ourServices": "Nos services",
+        "process": "Méthode de travail",
+        "expertise": "Notre Expertise",
+        "specializations": "Spécialisations",
+        "fullPackage": "Offre complète",
+        "references": "Références"
+      }
+    },
+    "bouwwerken": {
+      "hero": {
+        "title": "Construction Générale",
+        "subtitle": "Des fondations à la remise des clés. Agréé Classe 6 pour les marchés publics les plus complexes et les bâtiments d'entreprise.",
+        "breadcrumb": "Construction Générale"
+      },
+      "twoColumn": {
+        "label": "Notre Expertise",
+        "title": "Solutions de construction complètes pour chaque projet",
+        "paragraph1": "En tant qu'entrepreneur agréé Classe 6, nous réalisons des projets de construction de toute envergure. Des bâtiments publics aux locaux d'entreprise, nous livrons une qualité sur mesure.",
+        "paragraph2": "Avec {years} ans d'expérience et une équipe de plus de 40 professionnels, nous garantissons une exécution professionnelle de votre projet."
+      },
+      "features": {
+        "sectionTitle": "Nos services",
+        "items": [
+          "Bâtiments publics (écoles, infrastructures sportives)",
+          "Immeubles de bureaux et locaux d'entreprise",
+          "Transformations et extensions",
+          "Travaux structurels et fondations",
+          "Maçonnerie et travaux de béton",
+          "Finitions : sols, plafonds, plâtrerie",
+          "Agréé Classe 6 pour grands projets",
+          "Projets clé en main"
+        ]
+      },
+      "process": {
+        "title": "Du plan à la livraison",
+        "subtitle": "Un processus transparent avec une communication claire. Vous savez toujours où vous en êtes.",
+        "steps": {
+          "01": { "title": "Rencontre & Analyse", "description": "Inventaire approfondi de vos souhaits, budget et planning. Analyse de faisabilité technique." },
+          "02": { "title": "Devis & Planning", "description": "Offre détaillée avec structure de coûts transparente. Planning réaliste avec jalons." },
+          "03": { "title": "Exécution", "description": "Exécution professionnelle par nos propres artisans. Rapport d'avancement hebdomadaire." },
+          "04": { "title": "Livraison & Suivi", "description": "Livraison approfondie avec contrôle qualité. Garantie et conseils d'entretien." }
+        }
+      },
+      "stats": {
+        "yearsExperience": "Ans d'expérience",
+        "classRecognition": "Agrément classe",
+        "certified": "Certifié",
+        "craftsmen": "Artisans"
+      },
+      "cta": {
+        "title": "Prêt à construire ?",
+        "subtitle": "Contactez-nous pour un devis sans engagement. Vous aurez de nos nouvelles dans les 48 heures."
+      }
+    },
+    "dakwerken": {
+      "hero": {
+        "title": "Travaux de Toiture",
+        "subtitle": "Toitures inclinées et plates, isolation et étanchéité. Des ardoises traditionnelles aux systèmes EPDM modernes.",
+        "breadcrumb": "Travaux de Toiture"
+      },
+      "twoColumn": {
+        "label": "Spécialiste Toiture & Façade",
+        "title": "Experts en tous types de toitures",
+        "paragraph1": "Des ardoises naturelles traditionnelles à l'isolation Sarking moderne. Y compris le bardage en cuivre, le travail du zinc et la protection contre les chutes conformément aux normes de sécurité les plus strictes.",
+        "paragraph2": "Avec {years} ans d'expérience et la certification VCA**, nous garantissons des travaux de toiture sûrs et de qualité."
+      },
+      "services": {
+        "sectionTitle": "Tous types de toits",
+        "items": {
+          "hellendeDaken": {
+            "title": "Toitures Inclinées",
+            "description": "Tuiles, ardoises, zinc et cuivre. Artisanat traditionnel avec techniques modernes.",
+            "features": ["Tuiles et ardoises", "Bardage zinc et cuivre", "Gouttières et évacuations", "Fenêtres de toit"]
+          },
+          "platteDaken": {
+            "title": "Toitures Plates",
+            "description": "EPDM, bitume et toitures végétalisées. Solutions étanches à longue durée de vie.",
+            "features": ["EPDM et bitume", "Toitures vertes", "Isolation", "Évacuation"]
+          },
+          "dakisolatie": {
+            "title": "Isolation de Toiture",
+            "description": "Isolation Sarking et rénovation énergétique. Améliorez votre score PEB.",
+            "features": ["Méthode Sarking", "Isolation intérieure", "Pare-vapeur", "Économe en énergie"]
+          },
+          "valbeveiliging": {
+            "title": "Protection Antichute",
+            "description": "Postes de travail sécurisés sur les toits. Conforme à toutes les normes et réglementations.",
+            "features": ["Lignes d'ancrage", "Passerelles", "Protection collective", "Inspection et entretien"]
+          }
+        }
+      },
+      "features": {
+        "sectionTitle": "Ce que nous faisons",
+        "items": [
+          "Toitures inclinées en tous matériaux",
+          "Toitures plates : EPDM, bitume, PVC",
+          "Méthode d'isolation Sarking",
+          "Bardage cuivre et travail du zinc",
+          "Gouttières et évacuation des eaux pluviales",
+          "Fenêtres de toit et verrières",
+          "Installation de protection antichute",
+          "Toitures vertes et sedum"
+        ]
+      },
+      "stats": {
+        "yearsExperience": "Ans d'expérience",
+        "safety": "Sécurité",
+        "classRecognition": "Agrément classe",
+        "craftsmen": "Artisans"
+      },
+      "cta": {
+        "title": "Besoin d'un nouveau toit ?",
+        "subtitle": "De l'inspection de toiture à la rénovation complète. Nous vous conseillons volontiers sur la meilleure solution pour votre situation."
+      }
+    },
+    "erfgoed": {
+      "hero": {
+        "title": "Rénovation du Patrimoine",
+        "subtitle": "Restauration du patrimoine architectural protégé avec des techniques authentiques. Un savoir-faire qui transcende les générations.",
+        "breadcrumb": "Rénovation du Patrimoine"
+      },
+      "twoColumn": {
+        "label": "Restauration de Monuments",
+        "title": "Savoir-faire authentique pour le patrimoine historique",
+        "paragraph1": "Restauration spécialisée du patrimoine architectural protégé. Avec des matériaux authentiques, des techniques traditionnelles et en étroite collaboration avec le Patrimoine Immobilier.",
+        "paragraph2": "Avec {years} ans d'expérience et la certification ISO 9001, nous garantissons les plus hautes normes de qualité pour les projets patrimoniaux."
+      },
+      "expertise": {
+        "sectionTitle": "Spécialisations",
+        "items": {
+          "monumenten": {
+            "title": "Restauration de Monuments",
+            "description": "Restauration complète de monuments protégés dans le respect du caractère historique.",
+            "examples": ["Hôtel de ville de Gand", "Palais de justice de Termonde", "Églises historiques"]
+          },
+          "dak": {
+            "title": "Restauration de Toiture",
+            "description": "Matériaux et techniques authentiques pour toitures historiques. Ardoises, cuivre et zinc.",
+            "examples": ["Ardoises naturelles", "Bardage cuivre historique", "Soudure traditionnelle"]
+          },
+          "gevel": {
+            "title": "Restauration de Façade",
+            "description": "Réparation de maçonnerie historique, jointoiement et ornements.",
+            "examples": ["Réparations de cheminées", "Nettoyage de façade", "Rénovation des joints"]
+          }
+        }
+      },
+      "references": {
+        "sectionTitle": "Historique éprouvé",
+        "description": "Nous travaillons sur les projets patrimoniaux les plus prestigieux de Belgique. Des hôtels de ville historiques aux campus universitaires.",
+        "items": {
+          "stadhuisGent": { "name": "Hôtel de ville de Gand", "type": "Contrat-cadre", "year": "2023" },
+          "stadhuisBrussel": { "name": "Hôtel de ville de Bruxelles", "type": "Patrimoine protégé", "year": "2023" },
+          "justitiepaleis": { "name": "Palais de justice de Termonde", "type": "Patrimoine protégé", "year": "2023" },
+          "kuleuven": { "name": "KU Leuven", "type": "10 campus", "year": "En cours" }
+        }
+      },
+      "features": {
+        "sectionTitle": "Nos services",
+        "items": [
+          "Restauration et entretien de monuments",
+          "Matériaux et techniques authentiques",
+          "Remplacement et réparation d'ardoises naturelles",
+          "Travail historique du cuivre et du zinc",
+          "Soudure traditionnelle",
+          "Paysages urbains et villageois protégés",
+          "Travaux pour les campus KU Leuven",
+          "Collaboration avec consultants patrimoniaux"
+        ]
+      },
+      "stats": {
+        "yearsExperience": "Ans d'expérience",
+        "isoQuality": "9001 qualité",
+        "classRecognition": "Agrément classe",
+        "largeReferences": "Grandes références"
+      },
+      "cta": {
+        "title": "Projet patrimonial ?",
+        "subtitle": "Contactez-nous pour un entretien conseil sans engagement. Nous nous déplaçons volontiers pour un premier inventaire."
+      }
+    },
+    "facility": {
+      "hero": {
+        "title": "Entretien & Interventions",
+        "subtitle": "Contrats-cadres, entretien préventif et interventions rapides. Nous vous déchargeons complètement avec notre gestion technique.",
+        "breadcrumb": "Entretien & Interventions"
+      },
+      "twoColumn": {
+        "label": "Facility Management",
+        "title": "Votre partenaire pour la gestion immobilière",
+        "paragraph1": "Contrats-cadres à long terme pour l'entretien des toitures, les réparations et les travaux de rénovation. Contrats actifs avec la Ville de Gand, la Ville de Bruxelles, VEB et KU Leuven.",
+        "paragraph2": "Avec 4 contrats-cadres actifs et un service d'intervention 24/7, nous sommes prêts quand vous avez besoin de nous."
+      },
+      "services": {
+        "sectionTitle": "Quatre piliers de service",
+        "items": {
+          "raamcontracten": {
+            "title": "Contrats-cadres",
+            "description": "Accords à long terme avec les autorités et institutions pour l'entretien structurel et la rénovation.",
+            "features": ["Contrats actifs avec Ville de Gand, Bruxelles", "Expérience des marchés publics", "Écoles VEB, campus KU Leuven", "Agréé Classe 6 pour grands marchés"]
+          },
+          "dakonderhoud": {
+            "title": "Entretien de Toiture",
+            "description": "Inspections périodiques et réparations de toitures. L'entretien préventif évite les gros dégâts.",
+            "features": ["Inspections et entretien préventif", "Gouttières et évacuation", "Petites réparations et étanchéité", "Toitures inclinées et plates"]
+          },
+          "interventies": {
+            "title": "Interventions",
+            "description": "Réparations rapides en cas de dommages ou problèmes urgents. Nous sommes prêts quand vous avez besoin de nous.",
+            "features": ["Dégâts des eaux et tempêtes", "Réparations de toitures et façades", "Jointoiement et réparations de façade", "Stabilisation structurelle"]
+          },
+          "renovatiewerken": {
+            "title": "Travaux de Rénovation",
+            "description": "Améliorations structurelles et adaptations énergétiques pour un parc immobilier plus durable.",
+            "features": ["Rénovation de façade et isolation", "Améliorations énergétiques", "Installation protection antichute", "Rénovation parties communes"]
+          }
+        }
+      },
+      "raamcontracten": {
+        "sectionTitle": "Contrats-cadres Actifs",
+        "subtitle": "Nous travaillons quotidiennement pour des autorités et institutions de premier plan."
+      },
+      "scope": {
+        "sectionTitle": "Ce que nous faisons et ne faisons pas",
+        "includes": {
+          "title": "Nos services",
+          "items": [
+            "Entretien et réparations de toiture (plate et inclinée)",
+            "Réparations de façade et jointoiement",
+            "Travaux d'étanchéité",
+            "Réparations structurelles",
+            "Peinture menuiserie extérieure",
+            "Rénovation des parties communes",
+            "Protection antichute et accessibilité",
+            "Petites transformations et adaptations"
+          ]
+        },
+        "excludes": {
+          "title": "Via partenaires",
+          "items": [
+            "Travaux d'électricité",
+            "Entretien HVAC",
+            "Entretien d'ascenseurs",
+            "Détection et sécurité incendie",
+            "Entretien des espaces verts"
+          ],
+          "note": "Nous coordonnons volontiers tous les travaux techniques via notre réseau de partenaires fixes."
+        }
+      },
+      "stats": {
+        "activeContracts": "Contrats-cadres actifs",
+        "classRecognition": "Agrément classe",
+        "interventions": "Interventions",
+        "craftsmen": "Artisans"
+      },
+      "cta": {
+        "title": "Intéressé par un contrat-cadre ?",
+        "subtitle": "Contactez-nous pour un entretien sans engagement sur les possibilités pour votre organisation.",
+        "ctaText": "Demander un devis"
+      }
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "badge": "À Propos",
+      "titleYears": "{years} Ans",
+      "titleCraftsmanship": "de Savoir-faire",
+      "description": "Depuis {year}, De Raedt contribue à l'avenir de la Belgique. Savoir-faire, innovation et dévouement — génération après génération.",
+      "viewProjects": "Voir nos projets",
+      "workWithUs": "Travaillez avec nous"
+    },
+    "stats": {
+      "founded": "Fondé",
+      "employees": "Collaborateurs",
+      "recognition": "Agrément",
+      "certified": "Certifié",
+      "craftsmen": "Artisans"
+    },
+    "mission": {
+      "badge": "Notre Mission",
+      "titleLine1": "Guidé par le savoir-faire.",
+      "titleLine2": "Tourné vers l'avenir.",
+      "description": "Nous ne construisons pas simplement des bâtiments — nous construisons l'avenir de la Belgique. Avec respect pour le patrimoine, un œil pour l'innovation et un dévouement inébranlable pour la qualité. Depuis {years} ans."
+    },
+    "story": {
+      "badge": "Notre Histoire",
+      "title": "Construire la Belgique depuis {years} ans",
+      "paragraph1": "Ce qui a commencé comme une petite entreprise familiale à Zele est devenu une entreprise de construction renommée avec plus de {employees} collaborateurs.",
+      "paragraph2": "Depuis 1930, nous combinons l'artisanat traditionnel avec les techniques de construction modernes. Notre spécialisation dans la rénovation du patrimoine fait de nous le partenaire idéal pour la restauration de bâtiments et monuments historiques.",
+      "paragraph3": "Avec un agrément Classe 6, nous sommes qualifiés pour les marchés publics les plus complexes. Nos certifications ISO 9001 et VCA** garantissent qualité et sécurité sur chaque chantier."
+    },
+    "timeline": {
+      "badge": "Notre Histoire",
+      "title": "Jalons à travers les",
+      "titleAccent": "années",
+      "items": {
+        "1930": {
+          "title": "Origines",
+          "description": "Entreprise familiale active depuis 1930 dans le secteur de la construction à Zele"
+        },
+        "2024": {
+          "title": "Certification",
+          "description": "ISO 9001 obtenu et certificat VCA** renouvelé après un audit réussi"
+        },
+        "2025": {
+          "title": "Durabilité",
+          "description": "Échelle de performance CO₂ niveau 3 certifié par Vinçotte"
+        }
+      }
+    },
+    "values": {
+      "badge": "Les 5 V",
+      "title": "Ce que nous",
+      "titleAccent": "défendons",
+      "items": {
+        "responsibility": {
+          "title": "Responsabilité",
+          "description": "Nous assumons la pleine responsabilité de chaque projet. Du début à la livraison, nous garantissons la qualité."
+        },
+        "safety": {
+          "title": "Sécurité",
+          "description": "Certifié VCA**. La sécurité de nos collaborateurs et clients est toujours prioritaire."
+        },
+        "freedom": {
+          "title": "Liberté",
+          "description": "Place à l'initiative et à la créativité. Nos collaborateurs ont la liberté de montrer leur savoir-faire."
+        },
+        "trust": {
+          "title": "Confiance",
+          "description": "Un partenaire fiable depuis plus de {years} ans. Notre réputation est construite sur la confiance mutuelle."
+        },
+        "progress": {
+          "title": "Progrès",
+          "description": "Croissance et développement continus. Nous investissons dans l'innovation, la formation et la durabilité."
+        }
+      }
+    },
+    "team": {
+      "badge": "Notre Équipe",
+      "title": "Des artisans passionnés par la",
+      "titleAccent": "construction",
+      "description": "Notre équipe de plus de {employees} artisans réunit des décennies d'expérience. Des maçons aux chefs de projet, tous partagent la même passion pour la qualité et le savoir-faire.",
+      "features": {
+        "leaders": "Chefs de projet et conducteurs de travaux expérimentés",
+        "specialists": "Maçons et couvreurs spécialisés",
+        "team": "Équipe administrative et technique propre",
+        "training": "Formation et développement continus"
+      },
+      "viewVacancies": "Voir les postes",
+      "contactUs": "Nous contacter"
+    },
+    "cta": {
+      "badge": "Démarrez Votre Projet",
+      "title": "Prêt à",
+      "titleAccent": "construire",
+      "description": "Contactez-nous pour une discussion sans engagement sur vos projets de construction. Nous aimons réfléchir avec vous.",
+      "startProject": "Démarrez votre projet",
+      "contactUs": "Nous contacter"
+    }
+  },
+  "projectsPage": {
+    "hero": {
+      "badge": "Portfolio",
+      "titleLine1": "Nos",
+      "titleLine2": "Projets",
+      "description": "De la rénovation monumentale du patrimoine aux infrastructures critiques. Découvrez {years} ans de savoir-faire en action.",
+      "viewPortfolio": "Voir le portfolio",
+      "startProject": "Démarrez votre projet"
+    },
+    "stats": {
+      "yearsExperience": "Ans d'expérience",
+      "recognition": "Agrément",
+      "referenceProjects": "Projets de référence",
+      "sectors": "Secteurs",
+      "craftsmanship": "Ans de savoir-faire",
+      "recognitionClass": "Classe d'agrément",
+      "revenue": "Chiffre d'affaires 2024",
+      "employees": "Collaborateurs"
+    },
+    "filter": {
+      "breadcrumbHome": "Accueil",
+      "breadcrumbProjects": "Projets",
+      "projectCount": "{count} projet",
+      "projectCountPlural": "{count} projets",
+      "searchPlaceholder": "Rechercher par nom, client ou description..."
+    },
+    "card": {
+      "viewProject": "Voir le projet"
+    },
+    "cta": {
+      "badge": "Nouveau Projet",
+      "title": "Vous avez un projet",
+      "titleAccent": "en tête",
+      "description": "Nous aimons réfléchir avec vous. Utilisez notre planificateur de projet pour un devis sans engagement ou contactez-nous directement.",
+      "startPlanner": "Démarrer le planificateur",
+      "contactUs": "Nous contacter"
+    },
+    "empty": {
+      "title": "Aucun projet trouvé",
+      "description": "Essayez un autre terme de recherche ou sélectionnez une autre catégorie.",
+      "showAll": "Afficher tous les projets"
+    }
   },
   "privacy": {
     "title": "Politique de confidentialité",
-    "lastUpdated": "Dernière mise à jour"
+    "description": "Politique de confidentialité de Bouwwerken De Raedt Ivan NV",
+    "lastUpdated": "Dernière mise à jour : janvier 2024",
+    "sections": {
+      "controller": {
+        "title": "1. Responsable du traitement",
+        "intro": "{company}, établi à {address}, est responsable du traitement des données personnelles tel que décrit dans cette déclaration de confidentialité.",
+        "kbo": "Numéro d'entreprise :",
+        "contact": "Contact :"
+      },
+      "dataCollection": {
+        "title": "2. Quelles données collectons-nous ?",
+        "intro": "Nous traitons les catégories suivantes de données personnelles :",
+        "items": {
+          "contact": {
+            "label": "Coordonnées :",
+            "description": "nom, adresse e-mail, numéro de téléphone, adresse"
+          },
+          "communication": {
+            "label": "Données de communication :",
+            "description": "messages via notre formulaire de contact"
+          },
+          "application": {
+            "label": "Données de candidature :",
+            "description": "CV, lettre de motivation"
+          },
+          "technical": {
+            "label": "Données techniques :",
+            "description": "adresse IP, type de navigateur (anonymisé)"
+          }
+        }
+      },
+      "purposes": {
+        "title": "3. Finalités du traitement",
+        "intro": "Nous traitons vos données personnelles aux fins suivantes :",
+        "items": [
+          "Répondre à vos questions et demandes",
+          "Envoyer des devis",
+          "Traiter les candidatures",
+          "Améliorer notre site web (anonymisé)",
+          "Respecter les obligations légales"
+        ]
+      },
+      "legalBasis": {
+        "title": "4. Base juridique",
+        "intro": "Le traitement de vos données personnelles est basé sur l'une des bases juridiques suivantes :",
+        "items": [
+          "Votre consentement",
+          "L'exécution d'un contrat",
+          "Une obligation légale",
+          "Notre intérêt légitime"
+        ]
+      },
+      "retention": {
+        "title": "5. Durée de conservation",
+        "intro": "Nous ne conservons pas vos données personnelles plus longtemps que strictement nécessaire pour atteindre les objectifs pour lesquels vos données sont collectées. Nos durées de conservation sont :",
+        "items": [
+          "Messages du formulaire de contact : 2 ans",
+          "Candidatures : 1 an après la fin de la procédure",
+          "Données du portail client : durée de la collaboration + 7 ans"
+        ]
+      },
+      "rights": {
+        "title": "6. Vos droits",
+        "intro": "En vertu du RGPD, vous disposez des droits suivants :",
+        "items": {
+          "access": {
+            "label": "Droit d'accès :",
+            "description": "Vous avez le droit de consulter vos données personnelles."
+          },
+          "rectification": {
+            "label": "Droit de rectification :",
+            "description": "Vous avez le droit de faire corriger des données incorrectes."
+          },
+          "erasure": {
+            "label": "Droit à l'effacement :",
+            "description": "Vous avez le droit de faire supprimer vos données."
+          },
+          "restriction": {
+            "label": "Droit à la limitation :",
+            "description": "Vous avez le droit de limiter le traitement."
+          },
+          "portability": {
+            "label": "Droit à la portabilité :",
+            "description": "Vous avez le droit de transférer vos données."
+          },
+          "objection": {
+            "label": "Droit d'opposition :",
+            "description": "Vous avez le droit de vous opposer au traitement."
+          }
+        },
+        "contact": "Pour exercer vos droits, vous pouvez nous contacter à {email}."
+      },
+      "security": {
+        "title": "7. Sécurité",
+        "content": "Nous prenons des mesures techniques et organisationnelles appropriées pour protéger vos données personnelles contre la perte, l'accès non autorisé et d'autres formes de traitement illicite."
+      },
+      "thirdParties": {
+        "title": "8. Partage avec des tiers",
+        "content": "Nous ne partageons vos données personnelles avec des tiers que si cela est nécessaire à l'exécution de nos services ou pour respecter une obligation légale. Avec les entreprises qui traitent vos données pour notre compte, nous concluons un accord de sous-traitance."
+      },
+      "complaints": {
+        "title": "9. Réclamations",
+        "intro": "Si vous avez une réclamation concernant le traitement de vos données personnelles, vous pouvez nous contacter. Vous avez également le droit de déposer une plainte auprès de l'Autorité belge de protection des données (APD) :",
+        "authority": {
+          "name": "Autorité de protection des données",
+          "address": "Rue de la Presse 35, 1000 Bruxelles",
+          "email": "contact@apd-gba.be",
+          "website": "www.autoriteprotectiondonnees.be"
+        }
+      },
+      "changes": {
+        "title": "10. Modifications",
+        "content": "Nous nous réservons le droit de modifier cette politique de confidentialité. Les modifications seront publiées sur cette page."
+      }
+    }
   },
   "cookies": {
     "title": "Politique de cookies",
-    "lastUpdated": "Dernière mise à jour"
+    "description": "Politique de cookies de Bouwwerken De Raedt Ivan NV",
+    "lastUpdated": "Dernière mise à jour : janvier 2024",
+    "sections": {
+      "whatAreCookies": {
+        "title": "Que sont les cookies ?",
+        "content": "Les cookies sont de petits fichiers texte stockés sur votre ordinateur ou appareil mobile lorsque vous visitez notre site web. Ils nous aident à faire fonctionner correctement le site et à mémoriser vos préférences."
+      },
+      "whichCookies": {
+        "title": "Quels cookies utilisons-nous ?",
+        "necessary": {
+          "title": "1. Cookies nécessaires",
+          "description": "Ces cookies sont essentiels au fonctionnement du site web. Sans ces cookies, certaines parties du site ne peuvent pas fonctionner."
+        },
+        "analytics": {
+          "title": "2. Cookies analytiques",
+          "description": "Ces cookies nous aident à comprendre comment les visiteurs utilisent le site. Nous utilisons Plausible Analytics, une alternative respectueuse de la vie privée qui ne collecte pas de données personnelles."
+        }
+      },
+      "table": {
+        "cookie": "Cookie",
+        "purpose": "Objectif",
+        "retention": "Durée de conservation",
+        "session": "Session",
+        "oneYear": "1 an",
+        "none": "-",
+        "noCookies": "Aucun cookie",
+        "cookies": {
+          "consent": {
+            "name": "deraedt-cookie-consent",
+            "purpose": "Mémorise vos préférences de cookies"
+          },
+          "auth": {
+            "name": "sb-*-auth-token",
+            "purpose": "Authentification du portail client"
+          },
+          "plausible": {
+            "purpose": "Plausible fonctionne sans cookies et respecte votre vie privée"
+          }
+        }
+      },
+      "choices": {
+        "title": "Vos choix",
+        "description": "Lors de votre première visite sur notre site, vous pouvez choisir quels cookies accepter. Vous pouvez modifier ce choix à tout moment en supprimant les cookies de votre navigateur.",
+        "important": "Important :",
+        "gbaNote": "Conformément à l'Autorité belge de protection des données (APD), nous vous offrons un choix équivalent entre accepter et refuser les cookies non essentiels."
+      },
+      "browserManagement": {
+        "title": "Gérer les cookies dans votre navigateur",
+        "description": "Vous pouvez également gérer les cookies via les paramètres de votre navigateur. Voici les instructions pour les navigateurs les plus utilisés :"
+      },
+      "contact": {
+        "title": "Contact",
+        "description": "Vous avez des questions sur notre politique de cookies ? Contactez-nous :"
+      }
+    }
   },
   "partnerIntake": {
     "title": "Documentation Partenaire",

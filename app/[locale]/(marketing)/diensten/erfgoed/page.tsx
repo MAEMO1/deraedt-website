@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { CheckCircle2, Building2 } from "lucide-react";
 import { STATS } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 import {
   ServicePageHero,
   TwoColumnSection,
@@ -13,84 +14,52 @@ import {
   SectionHeader,
 } from "@/components/marketing/diensten";
 
-const expertise = [
-  {
-    title: "Monumentenrestauratie",
-    description: "Volledige restauratie van beschermde monumenten met respect voor het historische karakter.",
-    examples: ["Stadhuis Gent", "Justitiepaleis Dendermonde", "Historische kerken"],
-  },
-  {
-    title: "Dakrestauratie",
-    description: "Authentieke materialen en technieken voor historische daken. Leien, koper en zink.",
-    examples: ["Natuurleien", "Historisch koperbekleding", "Traditioneel soldeerwerk"],
-  },
-  {
-    title: "Gevelrestauratie",
-    description: "Herstel van historisch metselwerk, voegwerk en ornamenten.",
-    examples: ["Schoorsteenherstellingen", "Gevelreiniging", "Voegwerk renovatie"],
-  },
-];
-
-const features = [
-  "Monumentenrestauratie en -onderhoud",
-  "Authentieke materialen en technieken",
-  "Natuurleien vervangen en herstellen",
-  "Historisch koper- en zinkwerk",
-  "Traditioneel soldeerwerk",
-  "Beschermde stads- en dorpsgezichten",
-  "Werken voor KU Leuven campussen",
-  "Samenwerking met erfgoedconsulenten",
-];
-
-const references = [
-  { name: "Stadhuis Gent", type: "Raamcontract", year: "2023" },
-  { name: "Stadhuis Brussel", type: "Beschermd erfgoed", year: "2023" },
-  { name: "Justitiepaleis Dendermonde", type: "Beschermd erfgoed", year: "2023" },
-  { name: "KU Leuven", type: "10 campussen", year: "Lopend" },
-];
-
-const stats = [
-  { value: STATS.yearsExperience, suffix: "+", label: "Jaar ervaring" },
-  { value: "ISO", suffix: "", label: "9001 kwaliteit" },
-  { value: "6", suffix: "", label: "Klasse erkenning" },
-  { value: "4", suffix: "", label: "Grote referenties" },
-];
+const EXPERTISE_KEYS = ["monumenten", "dak", "gevel"] as const;
+const REFERENCE_KEYS = ["stadhuisGent", "stadhuisBrussel", "justitiepaleis", "kuleuven"] as const;
 
 // Expertise Section
 function ExpertiseSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("serviceDetails.erfgoed");
+  const tCommon = useTranslations("serviceDetails.common.sectionLabels");
 
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-[#F8F9FA]">
       <div className="container-wide">
-        <SectionHeader label="Onze Expertise" title="Specialisaties" />
+        <SectionHeader
+          label={tCommon("expertise")}
+          title={t("expertise.sectionTitle")}
+        />
 
         <div className="grid md:grid-cols-3 gap-6">
-          {expertise.map((item, index) => (
-            <motion.article
-              key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white border border-gray-200 rounded-lg p-8 hover:border-[#204CE5]/30 hover:shadow-sm transition-all duration-300"
-            >
-              <h3 className="text-xl font-bold text-[#112337] mb-3">
-                {item.title}
-              </h3>
-              <p className="text-[#686E77] mb-6 leading-relaxed">
-                {item.description}
-              </p>
-              <div className="space-y-2">
-                {item.examples.map((example) => (
-                  <div key={example} className="flex items-center gap-2 text-sm text-[#112337]">
-                    <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
-                    {example}
-                  </div>
-                ))}
-              </div>
-            </motion.article>
-          ))}
+          {EXPERTISE_KEYS.map((key, index) => {
+            const examples = t.raw(`expertise.items.${key}.examples`) as string[];
+            return (
+              <motion.article
+                key={key}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white border border-gray-200 rounded-lg p-8 hover:border-[#204CE5]/30 hover:shadow-sm transition-all duration-300"
+              >
+                <h3 className="text-xl font-bold text-[#112337] mb-3">
+                  {t(`expertise.items.${key}.title`)}
+                </h3>
+                <p className="text-[#686E77] mb-6 leading-relaxed">
+                  {t(`expertise.items.${key}.description`)}
+                </p>
+                <div className="space-y-2">
+                  {examples.map((example) => (
+                    <div key={example} className="flex items-center gap-2 text-sm text-[#112337]">
+                      <CheckCircle2 className="w-4 h-4 text-[#204CE5]" />
+                      {example}
+                    </div>
+                  ))}
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -101,6 +70,8 @@ function ExpertiseSection() {
 function ReferencesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("serviceDetails.erfgoed");
+  const tCommon = useTranslations("serviceDetails.common.sectionLabels");
 
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-white">
@@ -112,20 +83,19 @@ function ReferencesSection() {
             transition={{ duration: 0.6 }}
           >
             <span className="text-[#204CE5] text-sm font-semibold uppercase tracking-wider">
-              Referenties
+              {tCommon("references")}
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#112337]">
-              Bewezen trackrecord
+              {t("references.sectionTitle")}
             </h2>
             <p className="mt-6 text-[#686E77] text-lg leading-relaxed">
-              Wij werken voor de meest prestigieuze erfgoedprojecten in België.
-              Van historische stadhuizen tot universiteitscampussen.
+              {t("references.description")}
             </p>
 
             <div className="mt-8 space-y-4">
-              {references.map((refItem, i) => (
+              {REFERENCE_KEYS.map((key, i) => (
                 <motion.div
-                  key={refItem.name}
+                  key={key}
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
@@ -136,11 +106,17 @@ function ReferencesSection() {
                       <Building2 className="w-5 h-5 text-[#204CE5]" />
                     </div>
                     <div>
-                      <div className="font-semibold text-[#112337]">{refItem.name}</div>
-                      <div className="text-sm text-[#686E77]">{refItem.type}</div>
+                      <div className="font-semibold text-[#112337]">
+                        {t(`references.items.${key}.name`)}
+                      </div>
+                      <div className="text-sm text-[#686E77]">
+                        {t(`references.items.${key}.type`)}
+                      </div>
                     </div>
                   </div>
-                  <span className="text-sm text-[#204CE5] font-medium">{refItem.year}</span>
+                  <span className="text-sm text-[#204CE5] font-medium">
+                    {t(`references.items.${key}.year`)}
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -171,11 +147,19 @@ function ReferencesSection() {
 function FeaturesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("serviceDetails.erfgoed");
+  const tCommon = useTranslations("serviceDetails.common.sectionLabels");
+
+  const features = t.raw("features.items") as string[];
 
   return (
     <section ref={ref} className="py-20 lg:py-28 bg-[#F8F9FA]">
       <div className="container-wide">
-        <SectionHeader label="Volledig Pakket" title="Onze diensten" centered />
+        <SectionHeader
+          label={tCommon("fullPackage")}
+          title={t("features.sectionTitle")}
+          centered
+        />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, i) => (
@@ -199,28 +183,34 @@ function FeaturesSection() {
 }
 
 export default function ErfgoedPage() {
+  const t = useTranslations("serviceDetails.erfgoed");
+
+  const stats = [
+    { value: STATS.yearsExperience, suffix: "+", label: t("stats.yearsExperience") },
+    { value: "ISO", suffix: "", label: t("stats.isoQuality") },
+    { value: "6", suffix: "", label: t("stats.classRecognition") },
+    { value: "4", suffix: "", label: t("stats.largeReferences") },
+  ];
+
   return (
     <>
       <ServicePageHero
-        title="Erfgoedrenovatie"
-        subtitle="Restauratie van beschermd bouwkundig erfgoed met authentieke technieken. Vakmanschap dat generaties overstijgt."
+        title={t("hero.title")}
+        subtitle={t("hero.subtitle")}
         backgroundImage="/images/original-site/Justitiepaleis-Dendermonde.jpg"
-        breadcrumbLabel="Erfgoedrenovatie"
+        breadcrumbLabel={t("hero.breadcrumb")}
       />
       <TwoColumnSection
-        label="Monumentenrestauratie"
-        title="Authentiek vakmanschap voor historisch erfgoed"
+        label={t("twoColumn.label")}
+        title={t("twoColumn.title")}
         image="/images/original-site/Foto-Stadhuis-Gent.jpeg"
         imageAlt="Stadhuis Gent"
       >
         <p className="text-[#686E77] text-lg leading-relaxed">
-          Gespecialiseerde restauratie van beschermd bouwkundig erfgoed. Met
-          authentieke materialen, traditionele technieken en in nauwe
-          samenwerking met Onroerend Erfgoed.
+          {t("twoColumn.paragraph1")}
         </p>
         <p className="mt-4 text-[#686E77] leading-relaxed">
-          Met {STATS.yearsExperience} jaar ervaring en ISO 9001 certificering staan wij
-          garant voor de hoogste kwaliteitsnormen bij erfgoedprojecten.
+          {t("twoColumn.paragraph2", { years: STATS.yearsExperience })}
         </p>
       </TwoColumnSection>
       <ExpertiseSection />
@@ -228,8 +218,8 @@ export default function ErfgoedPage() {
       <FeaturesSection />
       <ServicePageStats stats={stats} />
       <PageCTA
-        title="Erfgoedproject?"
-        subtitle="Neem contact op voor een vrijblijvend adviesgesprek. Wij komen graag ter plaatse voor een eerste inventarisatie."
+        title={t("cta.title")}
+        subtitle={t("cta.subtitle")}
       />
     </>
   );

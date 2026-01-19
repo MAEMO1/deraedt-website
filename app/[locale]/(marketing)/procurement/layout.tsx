@@ -1,34 +1,37 @@
 import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { SITE_CONFIG, COMPANY } from '@/lib/constants';
 
-export const metadata: Metadata = {
-  title: 'Voor Overheden - Procurement Hub',
-  description: `${COMPANY.name}: Klasse 6 erkend aannemer voor overheidsopdrachten. ISO 9001, VCA** en CO₂-Prestatieladder niveau 3 gecertificeerd. Download ons tender pack voor aanbestedingen.`,
-  openGraph: {
-    title: `Procurement Hub | ${SITE_CONFIG.name}`,
-    description: 'Klasse 6 erkend aannemer met triple certificering. Download certificaten en referenties voor uw aanbesteding.',
-    url: `${SITE_CONFIG.url}/procurement`,
-    type: 'website',
-  },
-  alternates: {
-    canonical: `${SITE_CONFIG.url}/procurement`,
-  },
-  keywords: [
-    'overheidsopdrachten',
-    'aanbesteding',
-    'tender',
-    'klasse 6',
-    'erkend aannemer',
-    'raamcontract',
-    'publieke werken',
-    'certificaten',
-  ],
-};
-
-export default function ProcurementLayout({
-  children,
-}: {
+interface LayoutProps {
   children: React.ReactNode;
-}) {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'procurement' });
+
+  return {
+    title: t('title'),
+    description: `${COMPANY.name}: ${t('subtitle')}. ${t('description')}`,
+    openGraph: {
+      title: `${t('title')} | ${SITE_CONFIG.name}`,
+      description: t('description'),
+      url: `${SITE_CONFIG.url}/procurement`,
+      type: 'website',
+    },
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/procurement`,
+    },
+  };
+}
+
+export default async function ProcurementLayout({
+  children,
+  params,
+}: LayoutProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return children;
 }

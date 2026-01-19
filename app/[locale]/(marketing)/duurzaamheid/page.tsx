@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useRef } from "react";
 import {
   Leaf,
@@ -19,64 +19,23 @@ import {
   Building2,
 } from "lucide-react";
 import { CERTIFICATIONS } from "@/lib/constants";
+import { useTranslations } from "next-intl";
+import type { LucideIcon } from "lucide-react";
 
 const co2Certification = CERTIFICATIONS.find((c) => c.id === "co2");
 
-const reductionMeasures = [
-  {
-    icon: Truck,
-    title: "Duurzaam Transport",
-    description: "Optimalisatie van transportroutes en inzet van Euro 6 voertuigen voor lagere uitstoot.",
-  },
-  {
-    icon: Factory,
-    title: "Efficiënte Machines",
-    description: "Investering in moderne, energiezuinige machines en gereedschap op de werf.",
-  },
-  {
-    icon: Recycle,
-    title: "Circulair Bouwen",
-    description: "Maximale hergebruik van materialen en gescheiden afvalverwerking op elke werf.",
-  },
-  {
-    icon: Sun,
-    title: "Groene Energie",
-    description: "Zonnepanelen op ons bedrijfspand en overstap naar groene energieleveranciers.",
-  },
-];
+const PILLAR_KEYS = ['insight', 'reduction', 'transparency', 'participation'] as const;
+const MEASURE_KEYS = ['transport', 'machines', 'circular', 'energy'] as const;
 
-const co2Pillars = [
-  {
-    number: "01",
-    title: "Inzicht",
-    description: "Jaarlijkse CO₂-footprint berekening volgens ISO 14064-1. Wij meten om te verbeteren.",
-  },
-  {
-    number: "02",
-    title: "Reductie",
-    description: "Concrete maatregelen om onze uitstoot structureel te verlagen op kantoor en werf.",
-  },
-  {
-    number: "03",
-    title: "Transparantie",
-    description: "Publieke communicatie over onze voortgang en doelstellingen.",
-  },
-  {
-    number: "04",
-    title: "Participatie",
-    description: "Actieve deelname aan sector-initiatieven en kennisdeling met ketenpartners.",
-  },
-];
-
-const benefits = [
-  "Gunningsvoordeel bij aanbestedingen met CO₂-criteria",
-  "Lagere milieubelasting van uw bouwproject",
-  "Transparante rapportage over CO₂-prestaties",
-  "Bijdrage aan klimaatdoelstellingen",
-  "Samenwerking met gecertificeerde onderaannemers",
-];
+const measureIcons: Record<typeof MEASURE_KEYS[number], LucideIcon> = {
+  transport: Truck,
+  machines: Factory,
+  circular: Recycle,
+  energy: Sun,
+};
 
 export default function DuurzaamheidPage() {
+  const t = useTranslations('sustainability');
   const heroRef = useRef<HTMLDivElement>(null);
   const approachRef = useRef<HTMLDivElement>(null);
   const measuresRef = useRef<HTMLDivElement>(null);
@@ -86,6 +45,8 @@ export default function DuurzaamheidPage() {
   const isMeasuresInView = useInView(measuresRef, { once: true, margin: "-100px" });
   const isBenefitsInView = useInView(benefitsRef, { once: true, margin: "-100px" });
 
+  const benefits = t.raw('benefits.items') as string[];
+
   return (
     <>
       {/* Hero Section */}
@@ -93,7 +54,7 @@ export default function DuurzaamheidPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/original-site/Atlas-College-Genk-10-scaled.jpg"
-            alt="Duurzaam bouwen"
+            alt={t('hero.title')}
             fill
             className="object-cover image-cinematic opacity-40"
             priority
@@ -111,21 +72,20 @@ export default function DuurzaamheidPage() {
             {/* Certification badge */}
             <div className="inline-flex items-center gap-3 bg-green-600 text-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.1em] mb-8">
               <Leaf className="w-4 h-4" />
-              CO₂-Prestatieladder Niveau 3 · Geldig tot 2028
+              {t('hero.badge')}
             </div>
 
             <div className="flex items-center gap-4 mb-6">
               <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Duurzaamheid & CO₂</span>
+              <span className="label-overline">{t('hero.label')}</span>
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-[0.95] tracking-[-0.02em]">
-              CO₂-bewust bouwen
+              {t('hero.title')}
             </h1>
 
             <p className="mt-8 text-lg sm:text-xl text-white/50 leading-relaxed max-w-xl font-serif font-light">
-              Wij zijn gecertificeerd op niveau 3 van de CO₂-Prestatieladder.
-              Dit betekent concrete CO₂-reductie en transparante rapportage.
+              {t('hero.description')}
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
@@ -133,14 +93,14 @@ export default function DuurzaamheidPage() {
                 href="/procurement"
                 className="group inline-flex items-center gap-3 bg-[#9A6B4C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#BA8B6C]"
               >
-                Bekijk certificaten
+                {t('hero.viewCertificates')}
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/contact?subject=raamcontract"
                 className="inline-flex items-center gap-3 border border-white/20 text-white px-8 py-4 text-sm font-medium transition-all duration-300 hover:bg-white/5"
               >
-                Neem contact op
+                {t('hero.contactUs')}
               </Link>
             </div>
           </motion.div>
@@ -153,31 +113,28 @@ export default function DuurzaamheidPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <h2 className="font-display text-2xl text-white mb-4">
-                Wat is de CO₂-Prestatieladder?
+                {t('whatIs.title')}
               </h2>
               <p className="text-white/60 leading-relaxed">
-                De CO₂-Prestatieladder is een instrument dat bedrijven helpt om hun CO₂-uitstoot
-                te reduceren. Het certificaat wordt steeds vaker gevraagd bij aanbestedingen
-                en biedt gunningsvoordeel. Niveau 3 betekent dat wij onze CO₂-footprint kennen,
-                actief reduceren én hier transparant over communiceren.
+                {t('whatIs.description')}
               </p>
             </div>
             <div className="bg-white/5 p-6 border border-white/10">
               <div className="text-[10px] text-green-400 uppercase tracking-[0.2em] mb-2">
-                Onze Certificering
+                {t('whatIs.ourCertification')}
               </div>
-              <div className="font-display text-3xl text-white">Niveau 3</div>
+              <div className="font-display text-3xl text-white">{t('whatIs.level')} 3</div>
               <div className="text-sm text-white/50 mt-2">
                 CO₂-Prestatieladder 3.1
               </div>
               <div className="mt-4 pt-4 border-t border-white/10">
-                <div className="text-xs text-white/40">Scope</div>
+                <div className="text-xs text-white/40">{t('whatIs.scope')}</div>
                 <div className="text-sm text-white/70 mt-1">
                   {co2Certification && "scope" in co2Certification ? co2Certification.scope : "Algemene bouw-, dak- en infrastructuurwerken"}
                 </div>
               </div>
               <div className="mt-3">
-                <div className="text-xs text-white/40">Geldig tot</div>
+                <div className="text-xs text-white/40">{t('whatIs.validUntil')}</div>
                 <div className="text-sm text-white/70 mt-1">
                   {co2Certification && "validUntil" in co2Certification ? co2Certification.validUntil : "14 januari 2028"}
                 </div>
@@ -200,29 +157,31 @@ export default function DuurzaamheidPage() {
           >
             <div className="flex items-center justify-center gap-4 mb-6">
               <span className="h-px w-12 bg-[#9A6B4C]" />
-              <span className="label-overline">Onze Aanpak</span>
+              <span className="label-overline">{t('approach.label')}</span>
               <span className="h-px w-12 bg-[#9A6B4C]" />
             </div>
             <h2 className="heading-section text-[#0C0C0C]">
-              4 pijlers van CO₂-management
+              {t('approach.title')}
             </h2>
           </motion.header>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {co2Pillars.map((pillar, index) => (
+            {PILLAR_KEYS.map((key, index) => (
               <motion.article
-                key={pillar.number}
+                key={key}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isApproachInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white p-8 border border-[#0C0C0C]/5"
               >
                 <div className="font-display text-5xl text-[#0C0C0C]/10 mb-4">
-                  {pillar.number}
+                  {t(`approach.pillars.${key}.number`)}
                 </div>
-                <h3 className="font-display text-xl text-[#0C0C0C]">{pillar.title}</h3>
+                <h3 className="font-display text-xl text-[#0C0C0C]">
+                  {t(`approach.pillars.${key}.title`)}
+                </h3>
                 <p className="mt-3 text-sm text-[#6B6560] leading-relaxed">
-                  {pillar.description}
+                  {t(`approach.pillars.${key}.description`)}
                 </p>
               </motion.article>
             ))}
@@ -241,24 +200,23 @@ export default function DuurzaamheidPage() {
             >
               <div className="flex items-center gap-4 mb-6">
                 <span className="h-px w-12 bg-[#9A6B4C]" />
-                <span className="label-overline">Concrete Maatregelen</span>
+                <span className="label-overline">{t('measures.label')}</span>
               </div>
 
               <h2 className="heading-section text-[#0C0C0C]">
-                Hoe wij CO₂ reduceren
+                {t('measures.title')}
               </h2>
 
               <p className="mt-8 text-[#6B6560] leading-relaxed">
-                Onze CO₂-reductie is geen papieren exercitie. Wij implementeren
-                concrete maatregelen op kantoor, in ons wagenpark en op elke werf.
+                {t('measures.description')}
               </p>
 
               <div className="mt-10 space-y-6">
-                {reductionMeasures.map((measure, index) => {
-                  const Icon = measure.icon;
+                {MEASURE_KEYS.map((key, index) => {
+                  const Icon = measureIcons[key];
                   return (
                     <motion.div
-                      key={measure.title}
+                      key={key}
                       initial={{ opacity: 0, x: -20 }}
                       animate={isMeasuresInView ? { opacity: 1, x: 0 } : {}}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -268,8 +226,12 @@ export default function DuurzaamheidPage() {
                         <Icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-[#0C0C0C]">{measure.title}</h3>
-                        <p className="mt-1 text-sm text-[#6B6560]">{measure.description}</p>
+                        <h3 className="font-semibold text-[#0C0C0C]">
+                          {t(`measures.items.${key}.title`)}
+                        </h3>
+                        <p className="mt-1 text-sm text-[#6B6560]">
+                          {t(`measures.items.${key}.description`)}
+                        </p>
                       </div>
                     </motion.div>
                   );
@@ -286,7 +248,7 @@ export default function DuurzaamheidPage() {
               <div className="aspect-square relative">
                 <Image
                   src="/images/original-site/team-collage.jpg"
-                  alt="Duurzaam bouwen in de praktijk"
+                  alt={t('measures.title')}
                   fill
                   className="object-cover"
                 />
@@ -299,11 +261,11 @@ export default function DuurzaamheidPage() {
               <div className="absolute -bottom-8 -right-8 bg-[#0C0C0C] text-white p-8">
                 <div className="flex items-center gap-2 text-green-400 mb-2">
                   <TrendingDown className="w-5 h-5" />
-                  <span className="text-xs uppercase tracking-[0.15em]">Reductiedoel</span>
+                  <span className="text-xs uppercase tracking-[0.15em]">{t('measures.reductionGoal')}</span>
                 </div>
                 <div className="font-display text-4xl">2028</div>
                 <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1">
-                  Certificaat geldig
+                  {t('measures.certificateValid')}
                 </div>
               </div>
             </motion.div>
@@ -324,23 +286,21 @@ export default function DuurzaamheidPage() {
             >
               <div className="flex items-center gap-4 mb-6">
                 <span className="h-px w-12 bg-[#9A6B4C]" />
-                <span className="label-overline">Voordelen voor U</span>
+                <span className="label-overline">{t('benefits.label')}</span>
               </div>
 
               <h2 className="font-display text-4xl sm:text-5xl text-white leading-[0.95]">
-                Wat betekent dit voor uw project?
+                {t('benefits.title')}
               </h2>
 
               <p className="mt-8 text-white/50 leading-relaxed">
-                Steeds meer aanbestedende diensten — waaronder Infrabel, Aquafin en
-                grote gemeenten — hanteren CO₂-criteria in hun gunning. Door met
-                De Raedt te werken, profiteert u van ons certificaat.
+                {t('benefits.description')}
               </p>
 
               <ul className="mt-10 space-y-4">
                 {benefits.map((benefit, index) => (
                   <motion.li
-                    key={benefit}
+                    key={index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={isBenefitsInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -360,7 +320,7 @@ export default function DuurzaamheidPage() {
               className="bg-white/5 border border-white/10 p-10"
             >
               <h3 className="font-display text-2xl text-white mb-8">
-                Gunningsvoordeel bij aanbestedingen
+                {t('benefits.awardAdvantage.title')}
               </h3>
 
               <div className="space-y-6">
@@ -369,9 +329,11 @@ export default function DuurzaamheidPage() {
                     <Target className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="font-semibold text-white">Infrabel / Tucrail</div>
+                    <div className="font-semibold text-white">
+                      {t('benefits.awardAdvantage.infrabel.title')}
+                    </div>
                     <div className="text-sm text-white/50 mt-1">
-                      Implementeert CO₂-Prestatieladder in procurement vanaf september 2025
+                      {t('benefits.awardAdvantage.infrabel.description')}
                     </div>
                   </div>
                 </div>
@@ -381,9 +343,11 @@ export default function DuurzaamheidPage() {
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="font-semibold text-white">Grote steden & gemeenten</div>
+                    <div className="font-semibold text-white">
+                      {t('benefits.awardAdvantage.municipalities.title')}
+                    </div>
                     <div className="text-sm text-white/50 mt-1">
-                      Steeds meer lokale overheden hanteren CO₂-criteria in aanbestedingen
+                      {t('benefits.awardAdvantage.municipalities.description')}
                     </div>
                   </div>
                 </div>
@@ -393,9 +357,11 @@ export default function DuurzaamheidPage() {
                     <BarChart3 className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="font-semibold text-white">Fictieve korting</div>
+                    <div className="font-semibold text-white">
+                      {t('benefits.awardAdvantage.discount.title')}
+                    </div>
                     <div className="text-sm text-white/50 mt-1">
-                      CO₂-certificaat kan leiden tot gunningsvoordeel via fictieve korting op inschrijvingsprijs
+                      {t('benefits.awardAdvantage.discount.description')}
                     </div>
                   </div>
                 </div>
@@ -406,7 +372,7 @@ export default function DuurzaamheidPage() {
                   href="/procurement"
                   className="group inline-flex items-center gap-2 text-[#9A6B4C] text-sm font-semibold uppercase tracking-[0.1em] hover:text-[#BA8B6C] transition-colors"
                 >
-                  Bekijk al onze certificaten
+                  {t('benefits.viewCertificates')}
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -423,16 +389,15 @@ export default function DuurzaamheidPage() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-green-500/10 text-green-700 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.1em] mb-8">
               <FileCheck className="w-4 h-4" />
-              Gecertificeerd tot 2028
+              {t('cta.badge')}
             </div>
 
             <h2 className="font-display text-4xl sm:text-5xl text-[#0C0C0C] leading-[0.95]">
-              Duurzaam bouwen begint hier
+              {t('cta.title')}
             </h2>
 
             <p className="mt-6 text-[#6B6560] leading-relaxed max-w-xl mx-auto">
-              Wilt u meer weten over onze CO₂-aanpak of hoe ons certificaat
-              uw aanbesteding kan ondersteunen? Neem contact op.
+              {t('cta.description')}
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -440,14 +405,14 @@ export default function DuurzaamheidPage() {
                 href="/projectplanner"
                 className="group inline-flex items-center gap-3 bg-[#0C0C0C] text-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#9A6B4C]"
               >
-                Start uw project
+                {t('cta.startProject')}
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/contact?subject=raamcontract"
                 className="group inline-flex items-center gap-3 border border-[#0C0C0C]/20 text-[#0C0C0C] px-8 py-4 text-sm font-medium transition-all duration-300 hover:bg-[#0C0C0C] hover:text-white"
               >
-                Neem contact op
+                {t('cta.contactUs')}
               </Link>
             </div>
           </div>

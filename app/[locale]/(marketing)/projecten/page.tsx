@@ -3,7 +3,8 @@
 import { useState, useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { Search, ArrowUpRight, ArrowRight, ChevronRight, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { FEATURED_PROJECTS, PROJECT_CATEGORIES, STATS, CERTIFICATIONS } from "@/lib/constants";
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils";
 function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[number] }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("projectsPage");
 
   return (
     <motion.article
@@ -60,7 +62,7 @@ function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[
 
               {/* CTA */}
               <div className="inline-flex items-center gap-3 text-white font-semibold group-hover:text-[#204CE5] transition-colors">
-                <span>Bekijk project</span>
+                <span>{t("card.viewProject")}</span>
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#204CE5] transition-all">
                   <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
@@ -83,6 +85,7 @@ function ProjectCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const t = useTranslations("projectsPage");
 
   return (
     <motion.article
@@ -125,7 +128,7 @@ function ProjectCard({
             {/* Hover indicator */}
             <div className="mt-4 flex items-center gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
               <span className="text-sm font-semibold text-[#204CE5]">
-                Bekijk project
+                {t("card.viewProject")}
               </span>
               <ArrowUpRight className="w-4 h-4 text-[#204CE5]" />
             </div>
@@ -139,12 +142,16 @@ function ProjectCard({
 // Hero Section
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const t = useTranslations("projectsPage");
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const STAT_KEYS = ["yearsExperience", "recognition", "referenceProjects", "sectors"] as const;
+  const STAT_VALUES = [STATS.yearsExperience.toString(), "Klasse 6", "5", "4"];
 
   return (
     <section ref={ref} className="relative min-h-[85vh] bg-[#112337] overflow-hidden">
@@ -182,7 +189,7 @@ function HeroSection() {
               >
                 <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-8">
                   <span className="w-12 h-px bg-[#204CE5]" />
-                  Portfolio
+                  {t("hero.badge")}
                 </span>
               </motion.div>
 
@@ -192,9 +199,9 @@ function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="text-[clamp(3rem,8vw,5.5rem)] font-bold text-white leading-[0.95] tracking-[-0.02em] mb-8"
               >
-                Onze
+                {t("hero.titleLine1")}
                 <br />
-                <span className="text-[#204CE5]">Projecten</span>
+                <span className="text-[#204CE5]">{t("hero.titleLine2")}</span>
               </motion.h1>
 
               <motion.p
@@ -203,8 +210,7 @@ function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="text-xl text-white/50 leading-relaxed max-w-lg mb-12"
               >
-                Van monumentale erfgoedrenovatie tot kritische infrastructuur.
-                Ontdek {STATS.yearsExperience} jaar vakmanschap in actie.
+                {t("hero.description", { years: STATS.yearsExperience })}
               </motion.p>
 
               <motion.div
@@ -217,7 +223,7 @@ function HeroSection() {
                   href="#projecten"
                   className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-[0_20px_40px_rgba(32,76,229,0.3)]"
                 >
-                  Bekijk portfolio
+                  {t("hero.viewPortfolio")}
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link
@@ -225,7 +231,7 @@ function HeroSection() {
                   className="group inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-white/20 border border-white/10"
                 >
                   <Play className="w-4 h-4" />
-                  Start uw project
+                  {t("hero.startProject")}
                 </Link>
               </motion.div>
             </div>
@@ -238,21 +244,16 @@ function HeroSection() {
               className="hidden lg:block"
             >
               <div className="grid grid-cols-2 gap-4">
-                {[
-                  { value: STATS.yearsExperience.toString(), label: "Jaar ervaring" },
-                  { value: "Klasse 6", label: "Erkenning" },
-                  { value: "5", label: "Referentieprojecten" },
-                  { value: "4", label: "Sectoren" },
-                ].map((stat, index) => (
+                {STAT_KEYS.map((key, index) => (
                   <motion.div
-                    key={stat.label}
+                    key={key}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                     className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors duration-300"
                   >
-                    <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                    <div className="text-sm text-white/40">{stat.label}</div>
+                    <div className="text-3xl font-bold text-white mb-1">{STAT_VALUES[index]}</div>
+                    <div className="text-sm text-white/40">{t(`stats.${key}`)}</div>
                   </motion.div>
                 ))}
               </div>
@@ -294,19 +295,23 @@ function FilterBar({
   setSearchQuery: (q: string) => void;
   projectCount: number;
 }) {
+  const t = useTranslations("projectsPage");
+
   return (
     <section className="sticky top-[72px] z-40 bg-white/95 backdrop-blur-xl border-b border-[#E5E7EB] py-4">
       <div className="container-wide">
         {/* Breadcrumb + Count */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2 text-sm text-[#686E77]">
-            <Link href="/" className="hover:text-[#204CE5] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-[#204CE5] transition-colors">{t("filter.breadcrumbHome")}</Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-[#112337] font-medium">Projecten</span>
+            <span className="text-[#112337] font-medium">{t("filter.breadcrumbProjects")}</span>
           </div>
           <span className="text-sm text-[#686E77]">
-            <span className="font-semibold text-[#112337]">{projectCount}</span>
-            {" "}project{projectCount !== 1 ? "en" : ""}
+            {projectCount === 1
+              ? t("filter.projectCount", { count: projectCount })
+              : t("filter.projectCountPlural", { count: projectCount })
+            }
           </span>
         </div>
 
@@ -335,7 +340,7 @@ function FilterBar({
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#686E77]" />
             <Input
               type="search"
-              placeholder="Zoek op naam, klant of beschrijving..."
+              placeholder={t("filter.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-11 py-5 bg-[#F5F5F5] border-0 rounded-xl text-sm placeholder:text-[#686E77]/50 focus:ring-2 focus:ring-[#204CE5]/20"
@@ -351,13 +356,16 @@ function FilterBar({
 function StatsSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("projectsPage");
 
-  const stats = [
-    { value: STATS.yearsExperience.toString(), label: "Jaar vakmanschap", suffix: "" },
-    { value: "6", label: "Erkenningsklasse", suffix: "" },
-    { value: STATS.revenueDisplay.replace("€", ""), label: "Omzet 2024", suffix: "" },
-    { value: STATS.employees, label: "Medewerkers", suffix: "+" },
+  const STAT_SECTION_KEYS = ["craftsmanship", "recognitionClass", "revenue", "employees"] as const;
+  const STAT_SECTION_VALUES = [
+    STATS.yearsExperience.toString(),
+    "6",
+    STATS.revenueDisplay.replace("€", ""),
+    STATS.employees,
   ];
+  const STAT_SUFFIXES = ["", "", "", "+"];
 
   return (
     <section ref={ref} className="py-20 bg-[#112337] relative overflow-hidden">
@@ -368,19 +376,19 @@ function StatsSection() {
 
       <div className="container-wide relative">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {stats.map((stat, index) => (
+          {STAT_SECTION_KEYS.map((key, index) => (
             <motion.div
-              key={stat.label}
+              key={key}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="text-center"
             >
               <div className="text-4xl lg:text-6xl font-bold text-[#204CE5] mb-2">
-                {stat.value}{stat.suffix}
+                {STAT_SECTION_VALUES[index]}{STAT_SUFFIXES[index]}
               </div>
               <div className="text-sm lg:text-base text-white/50 uppercase tracking-wider">
-                {stat.label}
+                {t(`stats.${key}`)}
               </div>
             </motion.div>
           ))}
@@ -411,6 +419,7 @@ function StatsSection() {
 function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const t = useTranslations("projectsPage");
 
   return (
     <section ref={ref} className="py-24 bg-white">
@@ -430,16 +439,15 @@ function CTASection() {
             <div>
               <span className="inline-flex items-center gap-3 text-[#204CE5] text-sm font-semibold tracking-[0.2em] uppercase mb-6">
                 <span className="w-12 h-px bg-[#204CE5]" />
-                Nieuw Project
+                {t("cta.badge")}
               </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                Heeft u een project{" "}
-                <span className="text-[#204CE5]">in gedachten</span>?
+                {t("cta.title")}{" "}
+                <span className="text-[#204CE5]">{t("cta.titleAccent")}</span>?
               </h2>
               <p className="mt-6 text-white/50 leading-relaxed text-lg">
-                Wij denken graag met u mee. Gebruik onze projectplanner voor een
-                vrijblijvende offerte of neem direct contact op.
+                {t("cta.description")}
               </p>
             </div>
 
@@ -448,14 +456,14 @@ function CTASection() {
                 href="/projectplanner"
                 className="group inline-flex items-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#4D6FEB] hover:shadow-[0_20px_40px_rgba(32,76,229,0.4)]"
               >
-                Start projectplanner
+                {t("cta.startPlanner")}
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-white/20 border border-white/10"
               >
-                Contact opnemen
+                {t("cta.contactUs")}
               </Link>
             </div>
           </div>
@@ -467,6 +475,8 @@ function CTASection() {
 
 // Empty State
 function EmptyState({ onReset }: { onReset: () => void }) {
+  const t = useTranslations("projectsPage");
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -477,16 +487,16 @@ function EmptyState({ onReset }: { onReset: () => void }) {
         <Search className="h-8 w-8 text-[#204CE5]" />
       </div>
       <h3 className="text-2xl font-bold text-[#112337]">
-        Geen projecten gevonden
+        {t("empty.title")}
       </h3>
       <p className="mt-3 text-[#686E77]">
-        Probeer een andere zoekterm of selecteer een andere categorie.
+        {t("empty.description")}
       </p>
       <button
         onClick={onReset}
         className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#204CE5] hover:text-[#1A3BB8] transition-colors"
       >
-        Alle projecten tonen
+        {t("empty.showAll")}
         <ArrowRight className="w-4 h-4" />
       </button>
     </motion.div>

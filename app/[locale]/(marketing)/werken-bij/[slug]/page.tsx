@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { COMPANY, SITE_CONFIG } from '@/lib/constants';
 import jobsData from '@/scripts/seed/jobs.json';
 import { JobDetailClient } from './client';
@@ -21,7 +22,7 @@ interface Job {
 const jobs: Job[] = jobsData as Job[];
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 function getJob(slug: string): Job | undefined {
@@ -29,12 +30,13 @@ function getJob(slug: string): Job | undefined {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const job = getJob(slug);
+  const t = await getTranslations({ locale, namespace: 'careers.jobDetail' });
 
   if (!job) {
     return {
-      title: 'Vacature niet gevonden',
+      title: t('notFoundTitle'),
     };
   }
 
@@ -59,16 +61,6 @@ export async function generateStaticParams() {
     .map((job) => ({
       slug: job.slug,
     }));
-}
-
-function getEmploymentTypeLabel(type: string): string {
-  const types: Record<string, string> = {
-    full_time: 'Voltijds',
-    part_time: 'Deeltijds',
-    contract: 'Contract',
-    internship: 'Stage',
-  };
-  return types[type] || type;
 }
 
 function getEmploymentTypeSchema(type: string): string {
@@ -128,15 +120,18 @@ function getJobPostingSchema(job: Job) {
 }
 
 export default async function JobDetailPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  setRequestLocale(locale);
+
   const job = getJob(slug);
+  const t = await getTranslations({ locale, namespace: 'careers' });
 
   if (!job) {
     notFound();
   }
 
   const jobPostingSchema = getJobPostingSchema(job);
-  const employmentTypeLabel = getEmploymentTypeLabel(job.employment_type);
+  const employmentTypeLabel = t(`employmentTypes.${job.employment_type}`);
 
   return (
     <>

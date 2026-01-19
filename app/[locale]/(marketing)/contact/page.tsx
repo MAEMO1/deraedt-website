@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import {
   Mail,
   MapPin,
@@ -14,9 +15,9 @@ import {
   Clock,
   Building2,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useRef } from "react";
-import { COMPANY, CONTACT_SUBJECTS, STATS } from "@/lib/constants";
+import { COMPANY, STATS } from "@/lib/constants";
 import { contactSchema, type ContactFormData } from "@/lib/validations/contact";
 import { toast } from "sonner";
 
@@ -26,6 +27,18 @@ export default function ContactPage() {
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const isFormInView = useInView(formRef, { once: true, margin: "-100px" });
+
+  const t = useTranslations("contact");
+
+  // Subject options - use translation keys
+  const CONTACT_SUBJECTS = [
+    { value: "raamcontract", label: t("subjects.raamcontract") },
+    { value: "offerte", label: t("subjects.offerte") },
+    { value: "interventie", label: t("subjects.interventie") },
+    { value: "facility", label: t("subjects.facility") },
+    { value: "sollicitatie", label: t("subjects.sollicitatie") },
+    { value: "anders", label: t("subjects.anders") },
+  ];
 
   const {
     register,
@@ -60,17 +73,17 @@ export default function ContactPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Verzenden mislukt");
+        throw new Error(t("toast.sendFailed"));
       }
 
       setIsSuccess(true);
       reset();
-      toast.success("Bericht verzonden!", {
-        description: "Wij nemen zo snel mogelijk contact met u op.",
+      toast.success(t("toast.success"), {
+        description: t("toast.successDescription"),
       });
     } catch {
-      toast.error("Er is iets misgegaan", {
-        description: "Probeer het later opnieuw of neem telefonisch contact op.",
+      toast.error(t("toast.error"), {
+        description: t("toast.errorDescription"),
       });
     } finally {
       setIsSubmitting(false);
@@ -103,7 +116,7 @@ export default function ContactPage() {
           >
             <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
               <span className="w-2 h-2 bg-white rounded-full" />
-              Bericht verzonden
+              {t("success.badge")}
             </span>
           </motion.div>
 
@@ -113,7 +126,7 @@ export default function ContactPage() {
             transition={{ delay: 0.4 }}
             className="text-5xl sm:text-6xl font-bold text-[#112337]"
           >
-            Bedankt
+            {t("success.title")}
           </motion.h1>
 
           <motion.p
@@ -122,7 +135,9 @@ export default function ContactPage() {
             transition={{ delay: 0.5 }}
             className="mt-6 text-lg text-[#686E77]"
           >
-            Wij nemen binnen <span className="text-[#204CE5] font-semibold">24 uur</span> contact met u op.
+            {t.rich("success.message", {
+              highlight: (chunks) => <span className="text-[#204CE5] font-semibold">{chunks}</span>
+            })}
           </motion.p>
 
           <motion.div
@@ -135,14 +150,14 @@ export default function ContactPage() {
               href="/"
               className="group inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8] hover:shadow-xl"
             >
-              <span>Naar home</span>
+              <span>{t("success.backHome")}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <button
               onClick={() => setIsSuccess(false)}
               className="inline-flex items-center justify-center gap-3 bg-white text-[#112337] px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#F5F5F5]"
             >
-              Nieuw bericht
+              {t("success.newMessage")}
             </button>
           </motion.div>
         </motion.div>
@@ -162,17 +177,16 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="label-overline">Contact</span>
+              <span className="label-overline">{t("title")}</span>
 
               <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-bold text-[#112337] leading-tight">
-                Laten we
+                {t("hero.headline")}
                 <br />
-                <span className="text-[#204CE5]">praten</span>
+                <span className="text-[#204CE5]">{t("hero.headlineAccent")}</span>
               </h1>
 
               <p className="mt-8 text-lg text-[#686E77] leading-relaxed max-w-md">
-                Heeft u een vraag of wilt u een vrijblijvende offerte?
-                Wij reageren binnen 24 uur.
+                {t("hero.description")}
               </p>
 
               {/* Contact cards */}
@@ -189,7 +203,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
-                      Telefoon
+                      {t("cards.phone")}
                     </div>
                     <div className="text-lg text-[#112337] font-semibold">
                       {COMPANY.contact.phone}
@@ -209,7 +223,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
-                      Email
+                      {t("cards.email")}
                     </div>
                     <div className="text-lg text-[#112337] font-semibold">
                       {COMPANY.contact.email}
@@ -228,7 +242,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
-                      Adres
+                      {t("cards.address")}
                     </div>
                     <div className="text-[#112337] font-semibold">
                       {COMPANY.address.street}, {COMPANY.address.postal} {COMPANY.address.city}
@@ -246,7 +260,7 @@ export default function ContactPage() {
               >
                 <Clock className="w-4 h-4 text-[#204CE5]" />
                 <span className="text-sm text-[#686E77]">
-                  Gemiddelde responstijd: <span className="text-[#204CE5] font-semibold">4 uur</span>
+                  {t("responseTime.label")} <span className="text-[#204CE5] font-semibold">{t("responseTime.value")}</span>
                 </span>
               </motion.div>
             </motion.div>
@@ -265,10 +279,10 @@ export default function ContactPage() {
                 {/* Form header */}
                 <div className="mb-10">
                   <h2 className="text-2xl font-bold text-[#112337]">
-                    Stuur een bericht
+                    {t("form.title")}
                   </h2>
                   <p className="mt-2 text-sm text-[#686E77]">
-                    Velden met * zijn verplicht
+                    {t("form.required")}
                   </p>
                 </div>
 
@@ -286,13 +300,13 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm text-[#112337] font-medium mb-2">
-                        Naam <span className="text-[#204CE5]">*</span>
+                        {t("form.name")} <span className="text-[#204CE5]">*</span>
                       </label>
                       <input
                         {...register("naam")}
                         onFocus={() => setFocusedField("naam")}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="Uw naam"
+                        placeholder={t("form.namePlaceholder")}
                         className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "naam"
                             ? "border-[#204CE5] bg-white"
@@ -308,13 +322,13 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-sm text-[#112337] font-medium mb-2">
-                        Organisatie
+                        {t("form.organisation")}
                       </label>
                       <input
                         {...register("organisatie")}
                         onFocus={() => setFocusedField("organisatie")}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="Bedrijf of instelling"
+                        placeholder={t("form.organisationPlaceholder")}
                         className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "organisatie"
                             ? "border-[#204CE5] bg-white"
@@ -328,14 +342,14 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm text-[#112337] font-medium mb-2">
-                        Email <span className="text-[#204CE5]">*</span>
+                        {t("form.email")} <span className="text-[#204CE5]">*</span>
                       </label>
                       <input
                         type="email"
                         {...register("email")}
                         onFocus={() => setFocusedField("email")}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="uw@email.be"
+                        placeholder={t("form.emailPlaceholder")}
                         className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "email"
                             ? "border-[#204CE5] bg-white"
@@ -351,14 +365,14 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-sm text-[#112337] font-medium mb-2">
-                        Telefoon
+                        {t("form.phone")}
                       </label>
                       <input
                         type="tel"
                         {...register("telefoon")}
                         onFocus={() => setFocusedField("telefoon")}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="+32 ..."
+                        placeholder={t("form.phonePlaceholder")}
                         className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 ${
                           focusedField === "telefoon"
                             ? "border-[#204CE5] bg-white"
@@ -371,7 +385,7 @@ export default function ContactPage() {
                   {/* Subject */}
                   <div>
                     <label className="block text-sm text-[#112337] font-medium mb-3">
-                      Onderwerp <span className="text-[#204CE5]">*</span>
+                      {t("form.subject")} <span className="text-[#204CE5]">*</span>
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {CONTACT_SUBJECTS.map((subject) => (
@@ -397,13 +411,13 @@ export default function ContactPage() {
                   {/* Message */}
                   <div>
                     <label className="block text-sm text-[#112337] font-medium mb-2">
-                      Bericht <span className="text-[#204CE5]">*</span>
+                      {t("form.message")} <span className="text-[#204CE5]">*</span>
                     </label>
                     <textarea
                       {...register("bericht")}
                       onFocus={() => setFocusedField("bericht")}
                       onBlur={() => setFocusedField(null)}
-                      placeholder="Vertel ons meer over uw project of vraag..."
+                      placeholder={t("form.messagePlaceholder")}
                       rows={5}
                       className={`w-full bg-[#F5F5F5] border-2 rounded-xl px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none transition-all duration-300 resize-none ${
                         focusedField === "bericht"
@@ -431,11 +445,11 @@ export default function ContactPage() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Verzenden...
+                        {t("form.sending")}
                       </>
                     ) : (
                       <>
-                        Verstuur bericht
+                        {t("form.submit")}
                         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                       </>
                     )}
@@ -457,7 +471,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
-                  Bedrijf
+                  {t("company.title")}
                 </div>
                 <div className="text-[#112337] font-semibold">{COMPANY.name}</div>
               </div>
@@ -469,7 +483,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
-                  Ondernemingsnummer
+                  {t("company.kbo")}
                 </div>
                 <div className="text-[#112337] font-semibold">{COMPANY.kbo}</div>
               </div>
@@ -481,7 +495,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <div className="text-xs text-[#686E77] uppercase tracking-wider mb-1">
-                  BTW-nummer
+                  {t("company.btw")}
                 </div>
                 <div className="text-[#112337] font-semibold">{COMPANY.btw}</div>
               </div>
@@ -490,15 +504,15 @@ export default function ContactPage() {
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
                 <div className="text-3xl font-bold text-[#112337]">{STATS.yearsExperience}</div>
-                <div className="text-xs text-[#686E77] uppercase tracking-wider">Jaar</div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">{t("company.years")}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-[#112337]">40<span className="text-[#204CE5]">+</span></div>
-                <div className="text-xs text-[#686E77] uppercase tracking-wider">Vakmannen</div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">{t("company.craftsmen")}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-[#112337]">6</div>
-                <div className="text-xs text-[#686E77] uppercase tracking-wider">Klasse</div>
+                <div className="text-xs text-[#686E77] uppercase tracking-wider">{t("company.class")}</div>
               </div>
             </div>
           </div>
@@ -523,7 +537,7 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 mt-4 bg-[#204CE5] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#1A3BB8] transition-colors"
             >
-              Open in Google Maps
+              {t("map.openInMaps")}
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>

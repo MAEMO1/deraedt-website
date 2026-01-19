@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import {
   Building2,
   Hammer,
@@ -16,78 +17,40 @@ import {
   X,
   Phone,
   Loader2,
+  LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { COMPANY } from "@/lib/constants";
 
-// Streamlined questions
-const questions = [
-  {
-    id: "projectType",
-    headline: "Wat wilt u bouwen?",
-    type: "icons" as const,
-    options: [
-      { id: "nieuwbouw", icon: Building2, label: "Nieuwbouw" },
-      { id: "renovatie", icon: Hammer, label: "Renovatie" },
-      { id: "erfgoed", icon: Landmark, label: "Erfgoed" },
-      { id: "onderhoud", icon: Wrench, label: "Onderhoud" },
-    ],
-  },
-  {
-    id: "clientType",
-    headline: "Wie bent u?",
-    type: "icons" as const,
-    options: [
-      { id: "particulier", icon: Home, label: "Particulier" },
-      { id: "bedrijf", icon: Building, label: "Bedrijf" },
-      { id: "overheid", icon: Landmark, label: "Overheid" },
-      { id: "ontwikkelaar", icon: Briefcase, label: "Ontwikkelaar" },
-    ],
-  },
-  {
-    id: "scope",
-    headline: "Wat is uw budget?",
-    type: "options" as const,
-    options: [
-      { id: "small", label: "< €100K" },
-      { id: "medium", label: "€100K – €500K" },
-      { id: "large", label: "€500K – €2M" },
-      { id: "enterprise", label: "> €2M" },
-      { id: "unknown", label: "Nog onbekend" },
-    ],
-  },
-  {
-    id: "timeline",
-    headline: "Wanneer wilt u starten?",
-    type: "options" as const,
-    options: [
-      { id: "urgent", label: "Direct" },
-      { id: "soon", label: "1-3 maanden" },
-      { id: "planned", label: "3-6 maanden" },
-      { id: "future", label: "Later" },
-    ],
-  },
-  {
-    id: "location",
-    headline: "Waar is het project?",
-    type: "options" as const,
-    options: [
-      { id: "oost-vlaanderen", label: "Oost-Vlaanderen" },
-      { id: "west-vlaanderen", label: "West-Vlaanderen" },
-      { id: "antwerpen", label: "Antwerpen" },
-      { id: "vlaams-brabant", label: "Vlaams-Brabant" },
-      { id: "limburg", label: "Limburg" },
-      { id: "brussel", label: "Brussel" },
-      { id: "andere", label: "Andere" },
-    ],
-  },
-  {
-    id: "contact",
-    headline: "Uw contactgegevens",
-    type: "form" as const,
-    options: [],
-  },
-];
+const PROJECT_TYPE_ICONS: Record<string, LucideIcon> = {
+  nieuwbouw: Building2,
+  renovatie: Hammer,
+  erfgoed: Landmark,
+  onderhoud: Wrench,
+};
+
+const CLIENT_TYPE_ICONS: Record<string, LucideIcon> = {
+  particulier: Home,
+  bedrijf: Building,
+  overheid: Landmark,
+  ontwikkelaar: Briefcase,
+};
+
+const PROJECT_TYPES = ["nieuwbouw", "renovatie", "erfgoed", "onderhoud"] as const;
+const CLIENT_TYPES = ["particulier", "bedrijf", "overheid", "ontwikkelaar"] as const;
+const BUDGETS = ["small", "medium", "large", "enterprise", "unknown"] as const;
+const TIMELINES = ["urgent", "soon", "planned", "future"] as const;
+const LOCATIONS = [
+  "oost-vlaanderen",
+  "west-vlaanderen",
+  "antwerpen",
+  "vlaams-brabant",
+  "limburg",
+  "brussel",
+  "andere",
+] as const;
+
+type QuestionId = "projectType" | "clientType" | "scope" | "timeline" | "location" | "contact";
 
 interface FormData {
   projectType: string;
@@ -102,6 +65,7 @@ interface FormData {
 }
 
 export default function ProjectplannerPage() {
+  const t = useTranslations("projectPlanner");
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     projectType: "",
@@ -116,6 +80,15 @@ export default function ProjectplannerPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+
+  const questions: { id: QuestionId; type: "icons" | "options" | "form" }[] = [
+    { id: "projectType", type: "icons" },
+    { id: "clientType", type: "icons" },
+    { id: "scope", type: "options" },
+    { id: "timeline", type: "options" },
+    { id: "location", type: "options" },
+    { id: "contact", type: "form" },
+  ];
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
@@ -156,17 +129,17 @@ export default function ProjectplannerPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Verzenden mislukt");
+        throw new Error(result.error || t("toast.error.title"));
       }
 
-      toast.success("Aanvraag verzonden!", {
-        description: "We nemen binnen 48 uur contact met u op.",
+      toast.success(t("toast.success.title"), {
+        description: t("toast.success.description"),
       });
       setIsComplete(true);
     } catch (error) {
       console.error("[PROJECTPLANNER] Submit error:", error);
-      toast.error("Er is iets misgegaan", {
-        description: "Probeer het later opnieuw of neem telefonisch contact op.",
+      toast.error(t("toast.error.title"), {
+        description: t("toast.error.description"),
       });
     } finally {
       setIsSubmitting(false);
@@ -189,7 +162,7 @@ export default function ProjectplannerPage() {
     setIsComplete(false);
   };
 
-  // Success screen - minimal animation
+  // Success screen
   if (isComplete) {
     return (
       <div className="fixed inset-0 bg-[#F5F5F5] overflow-hidden">
@@ -205,16 +178,19 @@ export default function ProjectplannerPage() {
             </div>
 
             <div className="inline-flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-              Aanvraag verzonden
+              {t("success.badge")}
             </div>
 
             <h1 className="text-5xl sm:text-6xl font-bold text-[#112337]">
-              Bedankt
+              {t("success.title")}
             </h1>
 
             <p className="mt-6 text-lg text-[#686E77]">
-              We analyseren uw project en nemen binnen{" "}
-              <span className="text-[#204CE5] font-medium">48 uur</span> contact op.
+              {t("success.message")}{" "}
+              <span className="text-[#204CE5] font-medium">
+                {t("success.hours", { hours: 48 })}
+              </span>{" "}
+              {t("success.messageEnd")}
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
@@ -222,14 +198,14 @@ export default function ProjectplannerPage() {
                 href="/"
                 className="group inline-flex items-center justify-center gap-3 bg-[#204CE5] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#1A3BB8]"
               >
-                <span>Naar home</span>
+                <span>{t("success.backHome")}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/projecten"
                 className="inline-flex items-center justify-center gap-3 bg-white text-[#112337] px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-[#112337]/5"
               >
-                Bekijk projecten
+                {t("buttons.viewProjects")}
               </Link>
             </div>
           </motion.div>
@@ -238,9 +214,50 @@ export default function ProjectplannerPage() {
     );
   }
 
+  const getIconOptionsForQuestion = () => {
+    switch (currentQuestion.id) {
+      case "projectType":
+        return PROJECT_TYPES.map((id) => ({
+          id,
+          icon: PROJECT_TYPE_ICONS[id],
+          label: t(`options.projectTypes.${id}`),
+        }));
+      case "clientType":
+        return CLIENT_TYPES.map((id) => ({
+          id,
+          icon: CLIENT_TYPE_ICONS[id],
+          label: t(`options.clientTypes.${id}`),
+        }));
+      default:
+        return [];
+    }
+  };
+
+  const getTextOptionsForQuestion = () => {
+    switch (currentQuestion.id) {
+      case "scope":
+        return BUDGETS.map((id) => ({
+          id,
+          label: t(`options.budgets.${id}`),
+        }));
+      case "timeline":
+        return TIMELINES.map((id) => ({
+          id,
+          label: t(`options.timelines.${id}`),
+        }));
+      case "location":
+        return LOCATIONS.map((id) => ({
+          id,
+          label: t(`options.locations.${id}`),
+        }));
+      default:
+        return [];
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-white overflow-hidden">
-      {/* Progress bar - subtle like McCownGordon */}
+      {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 z-50">
         <div className="h-1 bg-[#112337]/5">
           <motion.div
@@ -294,19 +311,19 @@ export default function ProjectplannerPage() {
                 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#112337] mb-3 sm:mb-4"
                 style={{ fontFamily: "Georgia, serif", fontStyle: "italic" }}
               >
-                Laten we bouwen
+                {t("title")}
               </h1>
 
               {/* Question */}
               <p className="text-lg sm:text-2xl text-[#112337] mb-8 sm:mb-16">
-                {currentQuestion.headline}
+                {t(`questions.${currentQuestion.id}`)}
               </p>
 
-              {/* Icon buttons - McCownGordon style */}
+              {/* Icon buttons */}
               {currentQuestion.type === "icons" && (
                 <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-4 sm:gap-10 lg:gap-14 max-w-md sm:max-w-none mx-auto">
-                  {currentQuestion.options.map((option) => {
-                    const Icon = option.icon!;
+                  {getIconOptionsForQuestion().map((option) => {
+                    const Icon = option.icon;
                     const isSelected =
                       formData[currentQuestion.id as keyof FormData] === option.id;
                     return (
@@ -315,13 +332,7 @@ export default function ProjectplannerPage() {
                         onClick={() => selectOption(option.id)}
                         className="flex flex-col items-center gap-3 sm:gap-5 group"
                       >
-                        {/* Circular container with shadow on select */}
-                        <div
-                          className="relative"
-                          style={{
-                            transition: "all 0.25s ease-in-out",
-                          }}
-                        >
+                        <div className="relative">
                           <div
                             className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-all duration-300 ease-in-out ${
                               isSelected
@@ -354,10 +365,10 @@ export default function ProjectplannerPage() {
                 </div>
               )}
 
-              {/* Text options - McCownGordon pill style */}
+              {/* Text options */}
               {currentQuestion.type === "options" && (
                 <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-2xl mx-auto px-2">
-                  {currentQuestion.options.map((option) => {
+                  {getTextOptionsForQuestion().map((option) => {
                     const isSelected =
                       formData[currentQuestion.id as keyof FormData] === option.id;
                     return (
@@ -377,14 +388,14 @@ export default function ProjectplannerPage() {
                 </div>
               )}
 
-              {/* Form - Premium input styling */}
+              {/* Form */}
               {currentQuestion.type === "form" && (
                 <div className="max-w-lg mx-auto space-y-4 sm:space-y-5 px-2">
                   {[
-                    { key: "name", placeholder: "Naam *", type: "text" },
-                    { key: "email", placeholder: "E-mailadres *", type: "email" },
-                    { key: "phone", placeholder: "Telefoonnummer *", type: "tel" },
-                    { key: "company", placeholder: "Bedrijf (optioneel)", type: "text" },
+                    { key: "name", placeholder: t("form.name"), type: "text" },
+                    { key: "email", placeholder: t("form.email"), type: "email" },
+                    { key: "phone", placeholder: t("form.phone"), type: "tel" },
+                    { key: "company", placeholder: t("form.company"), type: "text" },
                   ].map((field) => {
                     const hasValue = formData[field.key as keyof FormData];
                     return (
@@ -405,9 +416,9 @@ export default function ProjectplannerPage() {
                   })}
 
                   <p className="text-xs sm:text-sm text-[#686E77]/60 text-center pt-4 sm:pt-6">
-                    Door te versturen gaat u akkoord met ons{" "}
+                    {t("form.privacy")}{" "}
                     <Link href="/privacy" className="text-[#204CE5] hover:underline">
-                      privacybeleid
+                      {t("form.privacyLink")}
                     </Link>
                   </p>
                 </div>
@@ -434,11 +445,11 @@ export default function ProjectplannerPage() {
               {isSubmitting ? (
                 <span className="flex items-center gap-2 sm:gap-3">
                   <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
-                  Even geduld...
+                  {t("buttons.submitting")}
                 </span>
               ) : (
                 <span className="flex items-center gap-2 sm:gap-3">
-                  Versturen
+                  {t("buttons.submit")}
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               )}
@@ -454,18 +465,18 @@ export default function ProjectplannerPage() {
               }`}
             >
               <span className="flex items-center gap-2 sm:gap-3">
-                Volgende
+                {t("buttons.next")}
                 <ArrowRight className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${canProceed() ? "group-hover:translate-x-1" : ""}`} />
               </span>
             </button>
           )}
 
-          {/* Start over - below on mobile, absolute on desktop */}
+          {/* Start over */}
           <button
             onClick={restart}
             className="sm:absolute sm:right-10 sm:bottom-10 text-sm font-medium text-[#DADADA] hover:text-[#112337] uppercase tracking-widest transition-all duration-300"
           >
-            Opnieuw
+            {t("buttons.restart")}
           </button>
         </div>
       </footer>

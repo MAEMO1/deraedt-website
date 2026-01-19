@@ -175,3 +175,35 @@ Notes: Created lib/config.ts with typed env object and helper functions. Email s
 Status: DONE
 Notes: All 7 PROD stories (PROD-001 to PROD-007) implemented and verified. Production-readiness gaps addressed: schema alignment, RBAC enforcement, cron security, seed data guards, security headers, rate limiting, env validation.
 ---
+[I18N-001] - Contact page i18n
+Status: DONE
+Notes: Added useTranslations('contact') hook. Extended contact section in all 3 translation files (nl.json, fr.json, en.json) with hero, cards, responseTime, form, subjects, success, toast, company, map keys. Uses t.rich() for rich text with highlight tags. All hardcoded Dutch strings replaced.
+---
+[I18N-002] - Careers (werken-bij) page i18n
+Status: DONE
+Notes: Added useTranslations('careers') hook. Extended careers section in all 3 translation files with hero, stats, employmentTypes, benefitsSection, team, culture, positions, cta keys. Used typed const arrays (BENEFIT_KEYS, CULTURE_KEYS, etc.) for safe key iteration. All hardcoded Dutch strings replaced.
+---
+[I18N-003] - Projects (projecten) page i18n
+Status: DONE
+Notes: Added projectsPage section to all 3 translation files with hero, stats, filter, card, cta, empty keys. Used typed const arrays for stats. Updated Link import to use @/i18n/navigation. All hardcoded Dutch strings replaced.
+---
+[I18N-004] - About (over-ons) page i18n
+Status: DONE
+Notes: Added aboutPage section to all 3 translation files with hero, stats, mission, story, timeline, values, team, cta keys. Used typed const arrays for values (VALUE_KEYS), timeline (TIMELINE_YEARS), and team features (TEAM_FEATURE_KEYS). Used interpolation for dynamic values (years, employees).
+---
+[I18N-005] - Services (diensten) page i18n
+Status: DONE
+Notes: Added servicesPage section to all 3 translation files with hero, stats, nav, services (4 items with features arrays), card, process (5 steps), cta keys. Used typed const arrays (SERVICE_IDS, HERO_STAT_KEYS, PROCESS_STEPS) for safe iteration. Used t.raw() for array translations.
+---
+[I18N-006] - Privacy page i18n
+Status: DONE
+Notes: Added comprehensive privacy section to all 3 translation files with 10 sections covering data controller, collection, purposes, legal basis, retention, rights, security, third parties, complaints, and changes. Used typed const arrays (DATA_COLLECTION_KEYS, RIGHTS_KEYS) for safe iteration. Used t.raw() for array translations.
+---
+[I18N-007] - Cookies page i18n
+Status: DONE
+Notes: Added comprehensive cookies section to all 3 translation files with sections for what cookies are, cookie types (necessary/analytics), table headers/values, choices, browser management, and contact. Cookie tables include consent and auth cookies.
+---
+[I18N-008] - ProjectPlanner wizard i18n
+Status: DONE
+Notes: Expanded projectPlanner section in all 3 translation files with questions, options (projectTypes, clientTypes, budgets, timelines, locations), form fields, buttons, success/toast messages. Refactored page to use useTranslations hook with typed const arrays for options. Split options helpers for type safety.
+---

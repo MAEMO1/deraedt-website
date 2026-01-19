@@ -199,15 +199,34 @@
   "contact": {
     "title": "Contact",
     "subtitle": "Get in touch",
+    "hero": {
+      "headline": "Let's",
+      "headlineAccent": "talk",
+      "description": "Have a question or want a free quote? We respond within 24 hours."
+    },
+    "cards": {
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address"
+    },
+    "responseTime": {
+      "label": "Average response time:",
+      "value": "4 hours"
+    },
     "form": {
+      "title": "Send a message",
+      "required": "Fields marked * are required",
       "name": "Name",
-      "email": "Email address",
-      "phone": "Phone number",
-      "company": "Company",
+      "namePlaceholder": "Your name",
+      "organisation": "Organisation",
+      "organisationPlaceholder": "Company or institution",
+      "email": "Email",
+      "emailPlaceholder": "your@email.be",
+      "phone": "Phone",
+      "phonePlaceholder": "+32 ...",
       "subject": "Subject",
       "message": "Message",
-      "privacy": "I agree to the",
-      "privacyLink": "privacy policy",
+      "messagePlaceholder": "Tell us more about your project or question...",
       "submit": "Send message",
       "sending": "Sending...",
       "success": "Your message has been sent. We'll get back to you as soon as possible.",
@@ -220,6 +239,31 @@
       "facility": "Facility Management",
       "sollicitatie": "Job application",
       "anders": "Other"
+    },
+    "success": {
+      "badge": "Message sent",
+      "title": "Thank you",
+      "message": "We will contact you within <highlight>24 hours</highlight>.",
+      "backHome": "Back to home",
+      "newMessage": "New message"
+    },
+    "toast": {
+      "success": "Message sent!",
+      "successDescription": "We'll get back to you as soon as possible.",
+      "error": "Something went wrong",
+      "errorDescription": "Please try again later or contact us by phone.",
+      "sendFailed": "Failed to send"
+    },
+    "company": {
+      "title": "Company",
+      "kbo": "Company number",
+      "btw": "VAT number",
+      "years": "Years",
+      "craftsmen": "Craftsmen",
+      "class": "Class"
+    },
+    "map": {
+      "openInMaps": "Open in Google Maps"
     },
     "info": {
       "title": "Contact information",
@@ -263,34 +307,62 @@
         "ontwikkelaar": "Developer"
       },
       "budgets": {
-        "small": "< €100,000",
-        "medium": "€100,000 - €500,000",
-        "large": "€500,000 - €2,000,000",
-        "enterprise": "> €2,000,000"
+        "small": "< €100K",
+        "medium": "€100K – €500K",
+        "large": "€500K – €2M",
+        "enterprise": "> €2M",
+        "unknown": "Not yet known"
       },
       "timelines": {
-        "asap": "As soon as possible",
-        "3months": "Within 3 months",
-        "6months": "Within 6 months",
-        "year": "Within a year",
-        "flexible": "Flexible"
+        "urgent": "Immediately",
+        "soon": "1-3 months",
+        "planned": "3-6 months",
+        "future": "Later"
+      },
+      "locations": {
+        "oost-vlaanderen": "East Flanders",
+        "west-vlaanderen": "West Flanders",
+        "antwerpen": "Antwerp",
+        "vlaams-brabant": "Flemish Brabant",
+        "limburg": "Limburg",
+        "brussel": "Brussels",
+        "andere": "Other"
       }
     },
     "form": {
-      "name": "Name",
-      "email": "Email address",
-      "phone": "Phone number",
+      "name": "Name *",
+      "email": "Email address *",
+      "phone": "Phone number *",
       "company": "Company (optional)",
       "message": "Additional information (optional)",
       "privacy": "By submitting, you agree to our",
       "privacyLink": "privacy policy",
       "required": "Required field"
     },
+    "buttons": {
+      "next": "Next",
+      "submit": "Submit",
+      "submitting": "Please wait...",
+      "restart": "Start over",
+      "viewProjects": "View projects"
+    },
     "success": {
       "badge": "Request submitted",
       "title": "Thank you",
-      "message": "We're analyzing your project and will contact you within {hours} hours.",
+      "message": "We're analyzing your project and will contact you within",
+      "hours": "{hours} hours",
+      "messageEnd": ".",
       "backHome": "Back to home"
+    },
+    "toast": {
+      "success": {
+        "title": "Request submitted!",
+        "description": "We'll contact you within 48 hours."
+      },
+      "error": {
+        "title": "Something went wrong",
+        "description": "Please try again later or contact us by phone."
+      }
     },
     "error": {
       "title": "Something went wrong",
@@ -325,7 +397,232 @@
       "submit": "Submit application",
       "success": "Your application has been received. We'll get back to you as soon as possible.",
       "error": "Something went wrong. Please try again later."
+    },
+    "hero": {
+      "badge": "Careers",
+      "headline": "Build",
+      "headlineAccent": "your future",
+      "description": "Join a team with {years} years of experience. At De Raedt, you combine traditional craftsmanship with modern innovation.",
+      "viewPositions": "View positions",
+      "spontaneousApply": "Spontaneous application"
+    },
+    "stats": {
+      "colleagues": "Colleagues",
+      "yearsExperience": "Years of experience",
+      "safety": "Safety",
+      "vacancies": "Vacancies"
+    },
+    "employmentTypes": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "contract": "Contract",
+      "internship": "Internship"
+    },
+    "benefitsSection": {
+      "badge": "Why De Raedt?",
+      "title": "More than just a",
+      "titleAccent": "job",
+      "subtitle": "We offer a career in a company where your contribution truly matters.",
+      "items": {
+        "familyAtmosphere": {
+          "title": "Family Atmosphere",
+          "description": "Work in a close-knit team with short communication lines and personal attention for every employee."
+        },
+        "training": {
+          "title": "Training & Growth",
+          "description": "Continuous investment in your professional development, certifications and craftsmanship."
+        },
+        "growth": {
+          "title": "Career Opportunities",
+          "description": "Clear career paths within a growing family business with a strong reputation."
+        },
+        "varied": {
+          "title": "Varied Work",
+          "description": "Diverse projects from heritage renovation to modern new construction for prestigious clients."
+        }
+      }
+    },
+    "team": {
+      "badge": "Our Team",
+      "title": "{count} colleagues, one family",
+      "description1": "From experienced craftsmen to young talents, everyone contributes to our success. At De Raedt, you're not just a number.",
+      "description2": "You become part of a close-knit team that has been building Belgium's finest projects together since 1930.",
+      "colleagues": "Colleagues",
+      "perks": {
+        "fruit": "Fresh fruit and coffee on site daily",
+        "activities": "Regular team activities",
+        "equipment": "Modern and safe equipment"
+      }
+    },
+    "culture": {
+      "badge": "Our Culture",
+      "title": "What",
+      "titleAccent": "drives us",
+      "items": {
+        "craftsmanship": {
+          "number": "01",
+          "title": "Craftsmanship",
+          "description": "We value traditional craftsmanship and give you the space to excel in your trade."
+        },
+        "safety": {
+          "number": "02",
+          "title": "Safety",
+          "description": "VCA** certified. Your safety always comes first — on every site, every day."
+        },
+        "development": {
+          "number": "03",
+          "title": "Development",
+          "description": "Regular training and the opportunity to obtain certifications at company expense."
+        },
+        "teamspirit": {
+          "number": "04",
+          "title": "Team Spirit",
+          "description": "A close-knit team where everyone knows each other. Regular team activities and outings."
+        }
+      }
+    },
+    "positions": {
+      "badge": "{count} open positions",
+      "title": "Open",
+      "titleAccent": "positions",
+      "viewPosition": "View position",
+      "notFound": {
+        "title": "Your position not listed?",
+        "description": "Send us a spontaneous application. We're always looking for motivated talent!",
+        "cta": "Apply spontaneously"
+      }
+    },
+    "cta": {
+      "badge": "Contact",
+      "title": "Any",
+      "titleAccent": "questions",
+      "description": "Feel free to contact our HR team. We're happy to help with all your questions about working at De Raedt.",
+      "emailHr": "Email HR team",
+      "benefitsTitle": "Our benefits",
+      "benefitsList": {
+        "salary": "Competitive salary and extra-legal benefits",
+        "car": "Company car (depending on function)",
+        "insurance": "Group insurance and hospitalization insurance",
+        "bonus": "13th month and year-end bonus",
+        "meals": "Meal vouchers",
+        "training": "Training at company expense"
+      }
+    },
+    "jobDetail": {
+      "backToJobs": "All positions",
+      "aboutRole": "About this role",
+      "requirements": "What we expect",
+      "benefits": "What we offer",
+      "applyNow": "Apply now",
+      "notFoundTitle": "Position not found",
+      "form": {
+        "name": "Name",
+        "namePlaceholder": "Your full name",
+        "email": "Email",
+        "emailPlaceholder": "your.email@example.be",
+        "phone": "Phone",
+        "phonePlaceholder": "+32 xxx xx xx xx",
+        "cv": "CV (PDF or Word)",
+        "cvUpload": "Click to upload",
+        "cvMaxSize": "Max 10MB",
+        "motivation": "Motivation",
+        "motivationPlaceholder": "Tell us why you're interested...",
+        "gdprConsent": "I agree to the",
+        "privacyPolicy": "privacy policy",
+        "gdprNote": "My data will be stored for 12 months in accordance with GDPR.",
+        "required": "*",
+        "submit": "Apply",
+        "submitting": "Submitting..."
+      },
+      "success": {
+        "title": "Thank you for your application!",
+        "message": "You will receive a confirmation by email shortly. We will contact you as soon as possible.",
+        "backToJobs": "Back to positions"
+      },
+      "errors": {
+        "nameMin": "Name must be at least 2 characters",
+        "emailInvalid": "Invalid email address",
+        "gdprRequired": "You must agree to the privacy policy",
+        "fileTypeInvalid": "Only PDF and Word documents are allowed",
+        "fileTooLarge": "File cannot exceed 10MB",
+        "submitError": "Something went wrong. Please try again."
+      },
+      "alternativeContact": "Or email your application to"
     }
+  },
+  "partnerIntake": {
+    "header": {
+      "title": "Partner Prequalification",
+      "subtitle": "Document Upload Portal"
+    },
+    "contactPerson": "Contact person",
+    "progress": {
+      "title": "Progress",
+      "ofRequired": "of {total} required documents"
+    },
+    "documents": {
+      "vca": {
+        "label": "VCA Certificate",
+        "description": "Valid VCA* or VCA** certificate"
+      },
+      "insurance": {
+        "label": "Insurance Certificate",
+        "description": "Liability insurance with minimum €2,500,000 coverage"
+      },
+      "reference": {
+        "label": "References",
+        "description": "Minimum 3 project references from the past 3 years"
+      },
+      "kvk": {
+        "label": "Chamber of Commerce Extract",
+        "description": "Recent Chamber of Commerce extract (max 3 months old)"
+      }
+    },
+    "status": {
+      "missing": "Not uploaded",
+      "pending": "Under review",
+      "approved": "Approved",
+      "expired": "Expired"
+    },
+    "actions": {
+      "upload": "Upload",
+      "replace": "Replace",
+      "uploading": "Uploading...",
+      "submit": "Submit Documents",
+      "submitting": "Submitting..."
+    },
+    "dates": {
+      "validFrom": "Valid from",
+      "validTo": "Valid until"
+    },
+    "errors": {
+      "fetchError": "An error occurred",
+      "cannotFetch": "Unable to retrieve data",
+      "uploadFailed": "Upload failed",
+      "networkError": "Network error during upload",
+      "requiredMissing": "Please upload all required documents first",
+      "submitFailed": "Submission failed",
+      "networkSubmitError": "Network error during submission"
+    },
+    "invalidLink": {
+      "title": "Invalid Link"
+    },
+    "success": {
+      "title": "Documents Submitted",
+      "message": "Thank you! Your documents have been successfully submitted and will be reviewed by our team. You will be notified once the review is complete.",
+      "closeWindow": "You can now close this window."
+    },
+    "submitNote": "After submission, your documents will be reviewed by our team.",
+    "infoBox": {
+      "title": "Important",
+      "items": {
+        "fileTypes": "Only PDF and images are accepted (max 10MB)",
+        "requiredDocs": "Documents marked with * are required for prequalification",
+        "validity": "Ensure certificates are valid for at least 3 more months",
+        "linkExpiry": "This link is valid for 30 days"
+      }
+    },
+    "footer": "© {year} Bouwwerken De Raedt Ivan NV. All rights reserved."
   },
   "procurement": {
     "title": "Procurement Hub",
@@ -356,20 +653,1008 @@
         "title": "Framework Contract Experience",
         "description": "Experience with framework contracts for public authorities (incl. VEB)"
       }
+    },
+    "hero": {
+      "badge": "For Governments & Facility Managers",
+      "description": "All documentation for tenders, preselections and framework contracts — organized, up-to-date and available at a click.",
+      "viewCertificates": "View certificates",
+      "tenderPack": "Tender Pack"
+    },
+    "stats": {
+      "yearsExperience": "Years experience",
+      "frameworkContracts": "Framework contracts",
+      "employees": "Employees",
+      "classRecognition": "Class recognition"
+    },
+    "certifications": {
+      "badge": "Certifications & Accreditations",
+      "title": "Fully",
+      "titleAccent": "certified",
+      "titleSuffix": "for your tenders",
+      "description": "All our certificates and accreditations are current and directly available for inclusion in your tender file.",
+      "scope": "Scope",
+      "validUntil": "Valid until",
+      "downloadPrompt": "Need all certificates for your tender?",
+      "downloadTenderPack": "Download Tender Pack"
+    },
+    "raamcontracten": {
+      "badge": "Proven Track Record",
+      "title": "Active framework",
+      "titleAccent": "contracts",
+      "description": "We have experience with framework contracts for public authorities. These partnerships demonstrate consistent quality work.",
+      "trustedBy": "Trusted by",
+      "year": "Year",
+      "certified": "Certified",
+      "fte": "FTE"
+    },
+    "process": {
+      "badge": "Our Approach",
+      "title": "How we",
+      "titleAccent": "collaborate",
+      "phases": {
+        "intake": {
+          "title": "Intake",
+          "description": "Analysis of specifications and project requirements"
+        },
+        "quote": {
+          "title": "Quote",
+          "description": "Transparent pricing structure and planning"
+        },
+        "execution": {
+          "title": "Execution",
+          "description": "Weekly reporting and QHSE assurance"
+        },
+        "delivery": {
+          "title": "Delivery",
+          "description": "Documentation and warranty handling"
+        }
+      }
+    },
+    "cta": {
+      "badge": "Contact Us",
+      "title": "Ready for an",
+      "titleAccent": "introduction",
+      "description": "Contact us for a no-obligation discussion about your tenders, framework contracts or facility management needs.",
+      "planMeeting": "Schedule a meeting"
+    },
+    "documentatie": {
+      "backLink": "Back to Procurement Hub",
+      "badge": "Tender Pack",
+      "title": "Request documentation",
+      "description": "Request our tender pack with all certificates and references you need for your tender, preselection or framework contract.",
+      "form": {
+        "title": "Enter your details",
+        "name": "Name",
+        "namePlaceholder": "Your name",
+        "organisation": "Organisation",
+        "organisationPlaceholder": "Your organisation",
+        "email": "Email",
+        "emailPlaceholder": "your@email.be",
+        "phone": "Phone (optional)",
+        "phonePlaceholder": "+32 ...",
+        "purpose": "Purpose of request",
+        "purposeOther": "Specify",
+        "purposeOtherPlaceholder": "What do you need the documentation for?",
+        "message": "Additional remarks (optional)",
+        "messagePlaceholder": "Specific documents or questions...",
+        "submit": "Request Tender Pack",
+        "submitting": "Submitting...",
+        "required": "*"
+      },
+      "purposes": {
+        "aanbesteding": "Tender / Public contract",
+        "preselectie": "Preselection / Candidacy",
+        "raamcontract": "Framework contract negotiation",
+        "other": "Other"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "organisationRequired": "Organisation is required",
+        "emailInvalid": "Invalid email address",
+        "purposeRequired": "Select a purpose"
+      },
+      "success": {
+        "title": "Request received!",
+        "message": "Thank you for your request. You will receive the tender pack with all requested documentation within 24 hours by email.",
+        "backToHub": "Back to Procurement Hub",
+        "contactUs": "Contact us"
+      },
+      "toast": {
+        "success": "Request sent!",
+        "successDescription": "You will receive the documentation within 24 hours.",
+        "error": "Something went wrong",
+        "errorDescription": "Please try again later or contact us."
+      },
+      "documents": {
+        "title": "Available documentation",
+        "description": "The tender pack contains all documents you need for tenders and preselections. After your request, you will receive:",
+        "items": {
+          "iso": { "name": "ISO 9001:2015 Certificate", "type": "Quality" },
+          "vca": { "name": "VCA** Certificate", "type": "Safety" },
+          "co2": { "name": "CO₂ Performance Ladder Level 3", "type": "Sustainability" },
+          "klasse6": { "name": "Class 6 Accreditation - Category D", "type": "Accreditation" },
+          "klasse4": { "name": "Class 4 Accreditation - Subcategory D8", "type": "Accreditation" },
+          "ba": { "name": "Civil Liability Certificate", "type": "Insurance" },
+          "tienjarige": { "name": "Ten-Year Liability Certificate", "type": "Insurance" },
+          "referenties": { "name": "Government Contract Reference List", "type": "References" }
+        }
+      },
+      "certSummary": {
+        "title": "Our certifications",
+        "klasse6": "Class 6 certified",
+        "iso": "ISO 9001",
+        "vca": "VCA**",
+        "co2": "CO₂ level 3"
+      }
     }
   },
   "sustainability": {
     "title": "Sustainability",
     "subtitle": "Building a sustainable future",
-    "description": "We take our environmental responsibility seriously. With the CO₂ Performance Ladder level 3 certificate, we demonstrate our commitment to sustainable construction."
+    "description": "We take our environmental responsibility seriously. With the CO₂ Performance Ladder level 3 certificate, we demonstrate our commitment to sustainable construction.",
+    "hero": {
+      "badge": "CO₂ Performance Ladder Level 3 · Valid until 2028",
+      "label": "Sustainability & CO₂",
+      "title": "CO₂-conscious construction",
+      "description": "We are certified at level 3 of the CO₂ Performance Ladder. This means concrete CO₂ reduction and transparent reporting.",
+      "viewCertificates": "View certificates",
+      "contactUs": "Contact us"
+    },
+    "whatIs": {
+      "title": "What is the CO₂ Performance Ladder?",
+      "description": "The CO₂ Performance Ladder is an instrument that helps companies reduce their CO₂ emissions. The certificate is increasingly required in tenders and offers award advantages. Level 3 means we know our CO₂ footprint, actively reduce it and communicate transparently about it.",
+      "ourCertification": "Our Certification",
+      "level": "Level",
+      "scope": "Scope",
+      "validUntil": "Valid until"
+    },
+    "approach": {
+      "label": "Our Approach",
+      "title": "4 pillars of CO₂ management",
+      "pillars": {
+        "insight": {
+          "number": "01",
+          "title": "Insight",
+          "description": "Annual CO₂ footprint calculation according to ISO 14064-1. We measure to improve."
+        },
+        "reduction": {
+          "number": "02",
+          "title": "Reduction",
+          "description": "Concrete measures to structurally reduce our emissions at the office and on site."
+        },
+        "transparency": {
+          "number": "03",
+          "title": "Transparency",
+          "description": "Public communication about our progress and objectives."
+        },
+        "participation": {
+          "number": "04",
+          "title": "Participation",
+          "description": "Active participation in sector initiatives and knowledge sharing with chain partners."
+        }
+      }
+    },
+    "measures": {
+      "label": "Concrete Measures",
+      "title": "How we reduce CO₂",
+      "description": "Our CO₂ reduction is not a paper exercise. We implement concrete measures at the office, in our fleet and on every site.",
+      "items": {
+        "transport": {
+          "title": "Sustainable Transport",
+          "description": "Optimization of transport routes and deployment of Euro 6 vehicles for lower emissions."
+        },
+        "machines": {
+          "title": "Efficient Machines",
+          "description": "Investment in modern, energy-efficient machines and tools on site."
+        },
+        "circular": {
+          "title": "Circular Construction",
+          "description": "Maximum reuse of materials and separated waste processing on every site."
+        },
+        "energy": {
+          "title": "Green Energy",
+          "description": "Solar panels on our building and switch to green energy suppliers."
+        }
+      },
+      "reductionGoal": "Reduction goal",
+      "certificateValid": "Certificate valid"
+    },
+    "benefits": {
+      "label": "Benefits for You",
+      "title": "What does this mean for your project?",
+      "description": "More and more contracting authorities — including Infrabel, Aquafin and large municipalities — apply CO₂ criteria in their award. By working with De Raedt, you benefit from our certificate.",
+      "items": [
+        "Award advantage in tenders with CO₂ criteria",
+        "Lower environmental impact of your construction project",
+        "Transparent reporting on CO₂ performance",
+        "Contribution to climate objectives",
+        "Collaboration with certified subcontractors"
+      ],
+      "awardAdvantage": {
+        "title": "Award advantage in tenders",
+        "infrabel": {
+          "title": "Infrabel / Tucrail",
+          "description": "Implements CO₂ Performance Ladder in procurement from September 2025"
+        },
+        "municipalities": {
+          "title": "Large cities & municipalities",
+          "description": "More and more local authorities apply CO₂ criteria in tenders"
+        },
+        "discount": {
+          "title": "Fictitious discount",
+          "description": "CO₂ certificate can lead to award advantage via fictitious discount on tender price"
+        }
+      },
+      "viewCertificates": "View all our certificates"
+    },
+    "cta": {
+      "badge": "Certified until 2028",
+      "title": "Sustainable construction starts here",
+      "description": "Want to know more about our CO₂ approach or how our certificate can support your tender? Contact us.",
+      "startProject": "Start your project",
+      "contactUs": "Contact us"
+    }
+  },
+  "servicesPage": {
+    "hero": {
+      "badge": "Our Expertise",
+      "titleLine1": "Building",
+      "titleLine2": "Excellence",
+      "description": "{years} years of craftsmanship. From monumental heritage renovation to innovative new construction — Class 6 certified for projects without limits.",
+      "startProject": "Start your project",
+      "discoverServices": "Discover our services"
+    },
+    "stats": {
+      "yearsExperience": "Years experience",
+      "recognitionClass": "Recognition class",
+      "annualRevenue": "Annual revenue",
+      "employees": "Employees"
+    },
+    "nav": {
+      "home": "Home",
+      "services": "Services"
+    },
+    "section": {
+      "badge": "Our Services",
+      "title": "Comprehensive Building",
+      "titleAccent": "Solutions",
+      "description": "From foundation to roofing — a complete service package for your construction project, supported by {years} years of expertise."
+    },
+    "services": {
+      "bouwwerken": {
+        "title": "General Construction",
+        "subtitle": "Class 6 certified",
+        "shortDesc": "Construction A to Z",
+        "description": "From foundation to finishing — complete construction projects for governments, schools and businesses. Our Class 6 certification guarantees projects without tender limits.",
+        "features": ["Public buildings & educational infrastructure", "Renovations and extensions", "Structural work and finishing", "Class 6 certification — no project limit"],
+        "statLabel": "Annual revenue"
+      },
+      "dakwerken": {
+        "title": "Roofing",
+        "subtitle": "Roof & facade specialist",
+        "shortDesc": "Pitched to flat",
+        "description": "Experts in roof construction — from traditional natural slates to modern Sarking insulation. Including copper cladding, zinc work and fall protection according to the strictest safety standards.",
+        "features": ["Pitched and flat roof systems", "Sarking insulation for optimal EPB", "Copper and zinc cladding", "Fall protection and gutters"],
+        "statLabel": "Safety certificate"
+      },
+      "erfgoed": {
+        "title": "Heritage Renovation",
+        "subtitle": "Monument restoration",
+        "shortDesc": "Protected heritage",
+        "description": "Specialized restoration of protected architectural heritage. With authentic materials, traditional techniques and in close collaboration with Heritage authorities.",
+        "features": ["Monument restoration & preservation", "Authentic soldering and craftsmanship", "Natural slates using historical methods", "References: City Halls of Ghent, Brussels, KU Leuven"],
+        "statLabel": "Years craftsmanship"
+      },
+      "facility": {
+        "title": "Maintenance & Interventions",
+        "subtitle": "Framework contracts",
+        "shortDesc": "Long-term partnerships",
+        "description": "Long-term framework contracts for roof maintenance, repairs and renovation work. Active contracts with City of Ghent, City of Brussels, VEB and KU Leuven.",
+        "features": ["Framework contract City of Ghent & Brussels", "VEB school maintenance", "24/7 damage interventions", "Preventive maintenance & inspection"],
+        "statLabel": "Framework contracts"
+      }
+    },
+    "card": {
+      "moreInfo": "More information",
+      "requestQuote": "Request quote"
+    },
+    "process": {
+      "badge": "Work method",
+      "title": "From plan to",
+      "titleAccent": "delivery",
+      "description": "A transparent process with clear communication. You always know where you stand.",
+      "steps": {
+        "01": {"title": "Intake", "description": "Analysis of your wishes and possibilities"},
+        "02": {"title": "Design", "description": "Detailed quote with transparent prices"},
+        "03": {"title": "Planning", "description": "Coordination of permits and materials"},
+        "04": {"title": "Execution", "description": "Quality controls and progress reporting"},
+        "05": {"title": "Delivery", "description": "Thorough inspection and aftercare guarantee"}
+      }
+    },
+    "cta": {
+      "badge": "Start Your Project",
+      "title": "Ready to",
+      "titleAccent": "begin",
+      "description": "Plan your project with our free project planner. Within 48 hours you'll receive a no-obligation quote from our team.",
+      "startPlanner": "Start project planner",
+      "whyUs": "Why De Raedt?",
+      "reasons": [
+        "{years} years of experience in construction",
+        "Class 6 certified for government contracts",
+        "ISO 9001 & VCA** certified",
+        "CO₂ Performance Ladder level 3",
+        "Specialists in heritage renovation"
+      ]
+    }
+  },
+  "serviceDetails": {
+    "common": {
+      "sectionLabels": {
+        "whatWeDo": "What we do",
+        "ourServices": "Our services",
+        "process": "Work method",
+        "expertise": "Our Expertise",
+        "specializations": "Specializations",
+        "fullPackage": "Full Package",
+        "references": "References"
+      }
+    },
+    "bouwwerken": {
+      "hero": {
+        "title": "General Construction",
+        "subtitle": "From foundation to turnkey. Class 6 certified for the most complex government contracts and commercial buildings.",
+        "breadcrumb": "General Construction"
+      },
+      "twoColumn": {
+        "label": "Our Expertise",
+        "title": "Complete construction solutions for every project",
+        "paragraph1": "As a Class 6 certified contractor, we realize construction projects of any size. From public buildings to commercial properties, we deliver tailored quality.",
+        "paragraph2": "With {years} years of experience and a team of more than 40 professionals, we guarantee professional execution of your project."
+      },
+      "features": {
+        "sectionTitle": "Our services",
+        "items": [
+          "Public buildings (schools, sports infrastructure)",
+          "Office buildings and commercial premises",
+          "Renovations and extensions",
+          "Structural works and foundations",
+          "Masonry and concrete works",
+          "Finishing: floors, ceilings, plasterwork",
+          "Class 6 certified for large projects",
+          "Turnkey projects"
+        ]
+      },
+      "process": {
+        "title": "From plan to delivery",
+        "subtitle": "A transparent process with clear communication. You always know where you stand.",
+        "steps": {
+          "01": { "title": "Introduction & Analysis", "description": "Thorough inventory of your wishes, budget and planning. Technical feasibility analysis." },
+          "02": { "title": "Quote & Planning", "description": "Detailed price quote with transparent cost structure. Realistic planning with milestones." },
+          "03": { "title": "Execution", "description": "Professional execution by our own craftsmen. Weekly progress reporting." },
+          "04": { "title": "Delivery & Aftercare", "description": "Thorough delivery with quality control. Warranty and maintenance advice." }
+        }
+      },
+      "stats": {
+        "yearsExperience": "Years of experience",
+        "classRecognition": "Class recognition",
+        "certified": "Certified",
+        "craftsmen": "Craftsmen"
+      },
+      "cta": {
+        "title": "Ready to build?",
+        "subtitle": "Contact us for a no-obligation quote. You'll hear from us within 48 hours."
+      }
+    },
+    "dakwerken": {
+      "hero": {
+        "title": "Roofing Works",
+        "subtitle": "Pitched and flat roofs, insulation and waterproofing. From traditional slate to modern EPDM systems.",
+        "breadcrumb": "Roofing Works"
+      },
+      "twoColumn": {
+        "label": "Roof & Facade Specialist",
+        "title": "Experts in all types of roofs",
+        "paragraph1": "From traditional natural slate to modern Sarking insulation. Including copper cladding, zinc work and fall protection in compliance with the strictest safety standards.",
+        "paragraph2": "With {years} years of experience and VCA** certification, we guarantee safe and quality roofing work."
+      },
+      "services": {
+        "sectionTitle": "All types of roofs",
+        "items": {
+          "hellendeDaken": {
+            "title": "Pitched Roofs",
+            "description": "Tiles, slate, zinc and copper. Traditional craftsmanship with modern techniques.",
+            "features": ["Tiles and slate", "Zinc and copper cladding", "Gutters and drains", "Roof windows"]
+          },
+          "platteDaken": {
+            "title": "Flat Roofs",
+            "description": "EPDM, bitumen and green roofs. Waterproof solutions with long lifespan.",
+            "features": ["EPDM and bitumen", "Green roofs", "Insulation", "Drainage"]
+          },
+          "dakisolatie": {
+            "title": "Roof Insulation",
+            "description": "Sarking insulation and energy renovation. Improve your EPC score.",
+            "features": ["Sarking method", "Internal insulation", "Vapor barriers", "Energy saving"]
+          },
+          "valbeveiliging": {
+            "title": "Fall Protection",
+            "description": "Safe workplaces on roofs. Compliant with all standards and regulations.",
+            "features": ["Anchor lines", "Walkways", "Collective protection", "Inspection and maintenance"]
+          }
+        }
+      },
+      "features": {
+        "sectionTitle": "What we do",
+        "items": [
+          "Pitched roofs in all materials",
+          "Flat roofs: EPDM, bitumen, PVC",
+          "Sarking insulation method",
+          "Copper cladding and zinc work",
+          "Gutters and rainwater drainage",
+          "Roof windows and skylights",
+          "Fall protection installation",
+          "Green roofs and sedum roofs"
+        ]
+      },
+      "stats": {
+        "yearsExperience": "Years of experience",
+        "safety": "Safety",
+        "classRecognition": "Class recognition",
+        "craftsmen": "Craftsmen"
+      },
+      "cta": {
+        "title": "Need a new roof?",
+        "subtitle": "From roof inspection to complete renovation. We are happy to advise you on the best solution for your situation."
+      }
+    },
+    "erfgoed": {
+      "hero": {
+        "title": "Heritage Renovation",
+        "subtitle": "Restoration of protected architectural heritage with authentic techniques. Craftsmanship that transcends generations.",
+        "breadcrumb": "Heritage Renovation"
+      },
+      "twoColumn": {
+        "label": "Monument Restoration",
+        "title": "Authentic craftsmanship for historical heritage",
+        "paragraph1": "Specialized restoration of protected architectural heritage. With authentic materials, traditional techniques and in close collaboration with Heritage Agency.",
+        "paragraph2": "With {years} years of experience and ISO 9001 certification, we guarantee the highest quality standards for heritage projects."
+      },
+      "expertise": {
+        "sectionTitle": "Specializations",
+        "items": {
+          "monumenten": {
+            "title": "Monument Restoration",
+            "description": "Complete restoration of protected monuments with respect for historical character.",
+            "examples": ["Ghent Town Hall", "Dendermonde Court of Justice", "Historic churches"]
+          },
+          "dak": {
+            "title": "Roof Restoration",
+            "description": "Authentic materials and techniques for historic roofs. Slate, copper and zinc.",
+            "examples": ["Natural slate", "Historic copper cladding", "Traditional soldering"]
+          },
+          "gevel": {
+            "title": "Facade Restoration",
+            "description": "Restoration of historic masonry, pointing and ornaments.",
+            "examples": ["Chimney repairs", "Facade cleaning", "Pointing renovation"]
+          }
+        }
+      },
+      "references": {
+        "sectionTitle": "Proven track record",
+        "description": "We work on the most prestigious heritage projects in Belgium. From historic town halls to university campuses.",
+        "items": {
+          "stadhuisGent": { "name": "Ghent Town Hall", "type": "Framework contract", "year": "2023" },
+          "stadhuisBrussel": { "name": "Brussels Town Hall", "type": "Protected heritage", "year": "2023" },
+          "justitiepaleis": { "name": "Dendermonde Court of Justice", "type": "Protected heritage", "year": "2023" },
+          "kuleuven": { "name": "KU Leuven", "type": "10 campuses", "year": "Ongoing" }
+        }
+      },
+      "features": {
+        "sectionTitle": "Our services",
+        "items": [
+          "Monument restoration and maintenance",
+          "Authentic materials and techniques",
+          "Replacing and repairing natural slate",
+          "Historic copper and zinc work",
+          "Traditional soldering",
+          "Protected cityscapes and village views",
+          "Works for KU Leuven campuses",
+          "Collaboration with heritage consultants"
+        ]
+      },
+      "stats": {
+        "yearsExperience": "Years of experience",
+        "isoQuality": "9001 quality",
+        "classRecognition": "Class recognition",
+        "largeReferences": "Major references"
+      },
+      "cta": {
+        "title": "Heritage project?",
+        "subtitle": "Contact us for a no-obligation consultation. We are happy to come on-site for an initial assessment."
+      }
+    },
+    "facility": {
+      "hero": {
+        "title": "Maintenance & Interventions",
+        "subtitle": "Framework contracts, preventive maintenance and fast interventions. We take care of everything with our technical management.",
+        "breadcrumb": "Maintenance & Interventions"
+      },
+      "twoColumn": {
+        "label": "Facility Management",
+        "title": "Your partner for building management",
+        "paragraph1": "Long-term framework contracts for roof maintenance, repairs and renovation works. Active contracts with City of Ghent, City of Brussels, VEB and KU Leuven.",
+        "paragraph2": "With 4 active framework contracts and 24/7 intervention service, we are ready when you need us."
+      },
+      "services": {
+        "sectionTitle": "Four pillars of relief",
+        "items": {
+          "raamcontracten": {
+            "title": "Framework Contracts",
+            "description": "Long-term agreements with governments and institutions for structural maintenance and renovation.",
+            "features": ["Active contracts with City of Ghent, Brussels", "Experience with public tenders", "VEB schools, KU Leuven campuses", "Class 6 certified for large projects"]
+          },
+          "dakonderhoud": {
+            "title": "Roof Maintenance",
+            "description": "Periodic inspections and repairs of roofs. Preventive maintenance prevents major damage.",
+            "features": ["Roof inspections and preventive maintenance", "Gutters and rainwater drainage", "Minor repairs and waterproofing", "Both pitched and flat roofs"]
+          },
+          "interventies": {
+            "title": "Interventions",
+            "description": "Fast repairs for damage or urgent problems. We are ready when you need us.",
+            "features": ["Water damage and storm damage", "Repairs to roofs and facades", "Pointing and facade repairs", "Structural stabilization"]
+          },
+          "renovatiewerken": {
+            "title": "Renovation Works",
+            "description": "Structural improvements and energy upgrades for a more sustainable building stock.",
+            "features": ["Facade renovation and insulation", "Energy improvements", "Fall protection installation", "Renovation of common areas"]
+          }
+        }
+      },
+      "raamcontracten": {
+        "sectionTitle": "Active Framework Contracts",
+        "subtitle": "We work daily for leading governments and institutions."
+      },
+      "scope": {
+        "sectionTitle": "What we do and don't do",
+        "includes": {
+          "title": "Our services",
+          "items": [
+            "Roof maintenance and repairs (flat and pitched)",
+            "Facade repairs and pointing",
+            "Waterproofing works",
+            "Structural repairs",
+            "Exterior joinery painting",
+            "Renovation of common areas",
+            "Fall protection and accessibility",
+            "Minor renovations and modifications"
+          ]
+        },
+        "excludes": {
+          "title": "Via partners",
+          "items": [
+            "Electrical work",
+            "HVAC maintenance",
+            "Elevator maintenance",
+            "Fire detection and security",
+            "Green maintenance and landscaping"
+          ],
+          "note": "We are happy to coordinate all technical works through our network of regular partners."
+        }
+      },
+      "stats": {
+        "activeContracts": "Active framework contracts",
+        "classRecognition": "Class recognition",
+        "interventions": "Interventions",
+        "craftsmen": "Craftsmen"
+      },
+      "cta": {
+        "title": "Interested in a framework contract?",
+        "subtitle": "Contact us for a no-obligation conversation about the possibilities for your organization.",
+        "ctaText": "Request quote"
+      }
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "badge": "About Us",
+      "titleYears": "{years} Years",
+      "titleCraftsmanship": "of Craftsmanship",
+      "description": "Since {year}, De Raedt has been building Belgium's future. Craftsmanship, innovation and dedication — generation after generation.",
+      "viewProjects": "View our projects",
+      "workWithUs": "Work with us"
+    },
+    "stats": {
+      "founded": "Founded",
+      "employees": "Employees",
+      "recognition": "Recognition",
+      "certified": "Certified",
+      "craftsmen": "Craftsmen"
+    },
+    "mission": {
+      "badge": "Our Mission",
+      "titleLine1": "Craftsmanship driven.",
+      "titleLine2": "Future focused.",
+      "description": "We don't just build buildings — we build Belgium's future. With respect for heritage, an eye for innovation and an unwavering dedication to quality. For {years} years."
+    },
+    "story": {
+      "badge": "Our Story",
+      "title": "Building Belgium for {years} years",
+      "paragraph1": "What started as a small family business in Zele has grown into a renowned construction company with more than {employees} employees.",
+      "paragraph2": "Since 1930, we have combined traditional craftsmanship with modern construction techniques. Our specialization in heritage renovation makes us the partner of choice for the restoration of historic buildings and monuments.",
+      "paragraph3": "With Class 6 recognition, we are qualified for the most complex government contracts. Our ISO 9001 and VCA** certifications guarantee quality and safety on every site."
+    },
+    "timeline": {
+      "badge": "Our History",
+      "title": "Milestones through the",
+      "titleAccent": "years",
+      "items": {
+        "1930": {
+          "title": "Roots",
+          "description": "Family business active since 1930 in the construction sector in Zele"
+        },
+        "2024": {
+          "title": "Certification",
+          "description": "ISO 9001 achieved and VCA** certificate renewed after successful audit"
+        },
+        "2025": {
+          "title": "Sustainability",
+          "description": "CO₂ Performance Ladder level 3 certified by Vinçotte"
+        }
+      }
+    },
+    "values": {
+      "badge": "The 5 V's",
+      "title": "What we",
+      "titleAccent": "stand for",
+      "items": {
+        "responsibility": {
+          "title": "Responsibility",
+          "description": "We take full responsibility for every project. From start to delivery, we guarantee quality."
+        },
+        "safety": {
+          "title": "Safety",
+          "description": "VCA** certified. Safety of our employees and clients always comes first."
+        },
+        "freedom": {
+          "title": "Freedom",
+          "description": "Room for initiative and creativity. Our employees have the freedom to show their craftsmanship."
+        },
+        "trust": {
+          "title": "Trust",
+          "description": "A reliable partner for over {years} years. Our reputation is built on mutual trust."
+        },
+        "progress": {
+          "title": "Progress",
+          "description": "Continuous growth and development. We invest in innovation, training, and sustainability."
+        }
+      }
+    },
+    "team": {
+      "badge": "Our Team",
+      "title": "Craftsmen passionate about",
+      "titleAccent": "building",
+      "description": "Our team of over {employees} craftsmen brings together decades of experience. From masons to project managers, everyone shares the same passion for quality and craftsmanship.",
+      "features": {
+        "leaders": "Experienced project and site managers",
+        "specialists": "Specialized masons and roofers",
+        "team": "Our own administrative and technical team",
+        "training": "Continuous training and development"
+      },
+      "viewVacancies": "View vacancies",
+      "contactUs": "Contact us",
+      "management": "Management",
+      "managers": {
+        "ivan": {
+          "name": "Ivan De Raedt",
+          "role": "CEO"
+        },
+        "isabelle": {
+          "name": "Isabelle De Raedt",
+          "role": "CFO"
+        },
+        "steven": {
+          "name": "Steven Van der Beken",
+          "role": "COO"
+        }
+      },
+      "workWithUs": "Want to work with us?",
+      "joinTeam": "Join our team"
+    },
+    "cta": {
+      "badge": "Start Your Project",
+      "title": "Ready to",
+      "titleAccent": "build",
+      "description": "Contact us for a no-obligation conversation about your construction plans. We look forward to thinking along with you.",
+      "startProject": "Start your project",
+      "contactUs": "Contact us"
+    }
+  },
+  "careersPage": {
+    "hero": {
+      "badge": "Careers",
+      "titleLine1": "Build the",
+      "titleLine2": "Future",
+      "description": "Join a team of more than {employees} craftsmen who are building Belgium's future. With craftsmanship, passion and room for growth.",
+      "viewVacancies": "View vacancies",
+      "aboutUs": "About us"
+    },
+    "stats": {
+      "employees": "Employees",
+      "experience": "Experience",
+      "training": "Training",
+      "safety": "VCA**"
+    },
+    "culture": {
+      "badge": "Our Culture",
+      "title": "More than a",
+      "titleAccent": "job",
+      "description": "At De Raedt, you are part of a close-knit team that has been building Belgium's future for {years} years. We invest in our people and offer opportunities for growth.",
+      "values": {
+        "growth": {
+          "title": "Room for Growth",
+          "description": "We invest in training, certifications and career development."
+        },
+        "safety": {
+          "title": "Safety First",
+          "description": "VCA** certified. Your safety always comes first."
+        },
+        "team": {
+          "title": "Strong Team",
+          "description": "Part of a close-knit team of experienced professionals."
+        },
+        "variation": {
+          "title": "Varied Work",
+          "description": "From heritage restoration to modern construction."
+        }
+      }
+    },
+    "benefits": {
+      "badge": "Benefits",
+      "title": "What we",
+      "titleAccent": "offer",
+      "items": [
+        "Competitive salary based on experience",
+        "Company car (depending on role)",
+        "Meal vouchers and eco vouchers",
+        "Group insurance and hospitalization",
+        "Training opportunities and certifications",
+        "Varied projects throughout Flanders"
+      ]
+    },
+    "vacancies": {
+      "badge": "Vacancies",
+      "title": "Current",
+      "titleAccent": "opportunities",
+      "noVacancies": "No vacancies at this time",
+      "spontaneous": "Didn't find a suitable position? Send us your resume for a spontaneous application.",
+      "apply": "Apply",
+      "viewDetails": "View details"
+    },
+    "cta": {
+      "badge": "Apply Now",
+      "title": "Ready to build with us?",
+      "description": "Didn't find a suitable position? Send us your resume for a spontaneous application. We're always looking for motivated craftsmen.",
+      "applyNow": "Apply now",
+      "contact": "Contact HR"
+    }
+  },
+  "projectsPage": {
+    "hero": {
+      "badge": "Portfolio",
+      "titleLine1": "Our",
+      "titleLine2": "Projects",
+      "description": "From monumental heritage renovation to critical infrastructure. Discover {years} years of craftsmanship in action.",
+      "viewPortfolio": "View portfolio",
+      "startProject": "Start your project"
+    },
+    "stats": {
+      "yearsExperience": "Years experience",
+      "recognition": "Recognition",
+      "referenceProjects": "Reference projects",
+      "sectors": "Sectors",
+      "craftsmanship": "Years craftsmanship",
+      "recognitionClass": "Recognition class",
+      "revenue": "Revenue 2024",
+      "employees": "Employees"
+    },
+    "filter": {
+      "breadcrumbHome": "Home",
+      "breadcrumbProjects": "Projects",
+      "projectCount": "{count} project",
+      "projectCountPlural": "{count} projects",
+      "searchPlaceholder": "Search by name, client or description..."
+    },
+    "card": {
+      "viewProject": "View project"
+    },
+    "cta": {
+      "badge": "New Project",
+      "title": "Do you have a project",
+      "titleAccent": "in mind",
+      "description": "We'd love to think along with you. Use our project planner for a no-obligation quote or contact us directly.",
+      "startPlanner": "Start project planner",
+      "contactUs": "Contact us"
+    },
+    "empty": {
+      "title": "No projects found",
+      "description": "Try a different search term or select a different category.",
+      "showAll": "Show all projects"
+    }
   },
   "privacy": {
     "title": "Privacy Policy",
-    "lastUpdated": "Last updated"
+    "description": "Privacy Policy of Bouwwerken De Raedt Ivan NV",
+    "lastUpdated": "Last updated: January 2024",
+    "sections": {
+      "controller": {
+        "title": "1. Data Controller",
+        "intro": "{company}, located at {address}, is responsible for the processing of personal data as described in this privacy statement.",
+        "kbo": "Company number:",
+        "contact": "Contact:"
+      },
+      "dataCollection": {
+        "title": "2. What data do we collect?",
+        "intro": "We process the following categories of personal data:",
+        "items": {
+          "contact": {
+            "label": "Contact details:",
+            "description": "name, email address, phone number, address"
+          },
+          "communication": {
+            "label": "Communication data:",
+            "description": "messages via our contact form"
+          },
+          "application": {
+            "label": "Application data:",
+            "description": "CV, cover letter"
+          },
+          "technical": {
+            "label": "Technical data:",
+            "description": "IP address, browser type (anonymized)"
+          }
+        }
+      },
+      "purposes": {
+        "title": "3. Processing purposes",
+        "intro": "We process your personal data for the following purposes:",
+        "items": [
+          "Responding to your questions and requests",
+          "Sending quotes",
+          "Processing job applications",
+          "Improving our website (anonymized)",
+          "Complying with legal obligations"
+        ]
+      },
+      "legalBasis": {
+        "title": "4. Legal basis",
+        "intro": "The processing of your personal data is based on one of the following legal grounds:",
+        "items": [
+          "Your consent",
+          "Performance of a contract",
+          "A legal obligation",
+          "Our legitimate interest"
+        ]
+      },
+      "retention": {
+        "title": "5. Retention period",
+        "intro": "We do not retain your personal data longer than strictly necessary to achieve the purposes for which your data is collected. Our retention periods are:",
+        "items": [
+          "Contact form messages: 2 years",
+          "Job applications: 1 year after completion of procedure",
+          "Customer portal data: duration of collaboration + 7 years"
+        ]
+      },
+      "rights": {
+        "title": "6. Your rights",
+        "intro": "Under GDPR, you have the following rights:",
+        "items": {
+          "access": {
+            "label": "Right of access:",
+            "description": "You have the right to view your personal data."
+          },
+          "rectification": {
+            "label": "Right to rectification:",
+            "description": "You have the right to have incorrect data corrected."
+          },
+          "erasure": {
+            "label": "Right to erasure:",
+            "description": "You have the right to have your data deleted."
+          },
+          "restriction": {
+            "label": "Right to restriction:",
+            "description": "You have the right to restrict processing."
+          },
+          "portability": {
+            "label": "Right to data portability:",
+            "description": "You have the right to transfer your data."
+          },
+          "objection": {
+            "label": "Right to object:",
+            "description": "You have the right to object to processing."
+          }
+        },
+        "contact": "To exercise your rights, you can contact us at {email}."
+      },
+      "security": {
+        "title": "7. Security",
+        "content": "We take appropriate technical and organizational measures to protect your personal data against loss, unauthorized access, and other forms of unlawful processing."
+      },
+      "thirdParties": {
+        "title": "8. Sharing with third parties",
+        "content": "We only share your personal data with third parties if this is necessary for the performance of our services or to comply with a legal obligation. With companies that process your data on our behalf, we conclude a processing agreement."
+      },
+      "complaints": {
+        "title": "9. Complaints",
+        "intro": "If you have a complaint about the processing of your personal data, you can contact us. You also have the right to file a complaint with the Belgian Data Protection Authority (GBA):",
+        "authority": {
+          "name": "Data Protection Authority",
+          "address": "Drukpersstraat 35, 1000 Brussels",
+          "email": "contact@apd-gba.be",
+          "website": "www.dataprotectionauthority.be"
+        }
+      },
+      "changes": {
+        "title": "10. Changes",
+        "content": "We reserve the right to modify this privacy policy. Changes will be published on this page."
+      }
+    }
   },
   "cookies": {
     "title": "Cookie Policy",
-    "lastUpdated": "Last updated"
+    "description": "Cookie Policy of Bouwwerken De Raedt Ivan NV",
+    "lastUpdated": "Last updated: January 2024",
+    "sections": {
+      "whatAreCookies": {
+        "title": "What are cookies?",
+        "content": "Cookies are small text files stored on your computer or mobile device when you visit our website. They help us make the website function properly and remember your preferences."
+      },
+      "whichCookies": {
+        "title": "Which cookies do we use?",
+        "necessary": {
+          "title": "1. Necessary cookies",
+          "description": "These cookies are essential for the website to function. Without these cookies, certain parts of the website cannot work."
+        },
+        "analytics": {
+          "title": "2. Analytical cookies",
+          "description": "These cookies help us understand how visitors use the website. We use Plausible Analytics, a privacy-friendly alternative that does not collect personal data."
+        }
+      },
+      "table": {
+        "cookie": "Cookie",
+        "purpose": "Purpose",
+        "retention": "Retention period",
+        "session": "Session",
+        "oneYear": "1 year",
+        "none": "-",
+        "noCookies": "No cookies",
+        "cookies": {
+          "consent": {
+            "name": "deraedt-cookie-consent",
+            "purpose": "Remembers your cookie preferences"
+          },
+          "auth": {
+            "name": "sb-*-auth-token",
+            "purpose": "Customer portal authentication"
+          },
+          "plausible": {
+            "purpose": "Plausible works without cookies and respects your privacy"
+          }
+        }
+      },
+      "choices": {
+        "title": "Your choices",
+        "description": "On your first visit to our website, you can choose which cookies to accept. You can change this choice at any time by deleting the cookies in your browser.",
+        "important": "Important:",
+        "gbaNote": "In accordance with the Belgian Data Protection Authority (GBA), we offer you an equivalent choice between accepting and refusing non-essential cookies."
+      },
+      "browserManagement": {
+        "title": "Managing cookies in your browser",
+        "description": "You can also manage cookies through your browser settings. Here are instructions for the most commonly used browsers:"
+      },
+      "contact": {
+        "title": "Contact",
+        "description": "Do you have questions about our cookie policy? Contact us:"
+      }
+    }
   },
   "partnerIntake": {
     "title": "Partner Documentation",
