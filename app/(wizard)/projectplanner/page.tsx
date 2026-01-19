@@ -278,7 +278,7 @@ export default function ProjectplannerPage() {
       </header>
 
       {/* Main content */}
-      <main className="absolute inset-0 flex flex-col items-center justify-center px-6">
+      <main className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 pt-24 pb-40 sm:pb-32 overflow-y-auto">
         <div className="w-full max-w-3xl">
           <AnimatePresence mode="wait">
             <motion.div
@@ -291,20 +291,20 @@ export default function ProjectplannerPage() {
             >
               {/* Title */}
               <h1
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#112337] mb-4"
+                className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#112337] mb-3 sm:mb-4"
                 style={{ fontFamily: "Georgia, serif", fontStyle: "italic" }}
               >
                 Laten we bouwen
               </h1>
 
               {/* Question */}
-              <p className="text-xl sm:text-2xl text-[#112337] mb-16">
+              <p className="text-lg sm:text-2xl text-[#112337] mb-8 sm:mb-16">
                 {currentQuestion.headline}
               </p>
 
               {/* Icon buttons - McCownGordon style */}
               {currentQuestion.type === "icons" && (
-                <div className="flex flex-wrap justify-center gap-6 sm:gap-10 lg:gap-14">
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-4 sm:gap-10 lg:gap-14 max-w-md sm:max-w-none mx-auto">
                   {currentQuestion.options.map((option) => {
                     const Icon = option.icon!;
                     const isSelected =
@@ -313,7 +313,7 @@ export default function ProjectplannerPage() {
                       <button
                         key={option.id}
                         onClick={() => selectOption(option.id)}
-                        className="flex flex-col items-center gap-5 group"
+                        className="flex flex-col items-center gap-3 sm:gap-5 group"
                       >
                         {/* Circular container with shadow on select */}
                         <div
@@ -323,14 +323,14 @@ export default function ProjectplannerPage() {
                           }}
                         >
                           <div
-                            className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-all duration-300 ease-in-out ${
+                            className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-all duration-300 ease-in-out ${
                               isSelected
                                 ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.6)]"
                                 : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.1)] group-hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.15)]"
                             }`}
                           >
                             <Icon
-                              className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 transition-all duration-300 ease-in-out ${
+                              className={`w-8 h-8 sm:w-14 sm:h-14 lg:w-16 lg:h-16 transition-all duration-300 ease-in-out ${
                                 isSelected
                                   ? "text-[#204CE5]"
                                   : "text-[#DADADA] group-hover:text-[#204CE5]/50"
@@ -340,7 +340,7 @@ export default function ProjectplannerPage() {
                           </div>
                         </div>
                         <span
-                          className={`text-sm sm:text-base font-medium tracking-wide transition-all duration-300 ${
+                          className={`text-xs sm:text-base font-medium tracking-wide transition-all duration-300 ${
                             isSelected
                               ? "text-[#112337]"
                               : "text-[#686E77] group-hover:text-[#112337]"
@@ -356,7 +356,7 @@ export default function ProjectplannerPage() {
 
               {/* Text options - McCownGordon pill style */}
               {currentQuestion.type === "options" && (
-                <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-2xl mx-auto px-2">
                   {currentQuestion.options.map((option) => {
                     const isSelected =
                       formData[currentQuestion.id as keyof FormData] === option.id;
@@ -364,7 +364,7 @@ export default function ProjectplannerPage() {
                       <button
                         key={option.id}
                         onClick={() => selectOption(option.id)}
-                        className={`px-8 py-4 text-base rounded-full transition-all duration-300 ease-in-out ${
+                        className={`px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base rounded-full transition-all duration-300 ease-in-out ${
                           isSelected
                             ? "bg-white text-[#204CE5] font-semibold shadow-[0_0_34px_-6px_rgba(32,76,229,0.5)]"
                             : "bg-white text-[#686E77] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.12)] hover:text-[#112337]"
@@ -379,7 +379,7 @@ export default function ProjectplannerPage() {
 
               {/* Form - Premium input styling */}
               {currentQuestion.type === "form" && (
-                <div className="max-w-lg mx-auto space-y-5">
+                <div className="max-w-lg mx-auto space-y-4 sm:space-y-5 px-2">
                   {[
                     { key: "name", placeholder: "Naam *", type: "text" },
                     { key: "email", placeholder: "E-mailadres *", type: "email" },
@@ -394,7 +394,7 @@ export default function ProjectplannerPage() {
                           value={formData[field.key as keyof FormData]}
                           onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
                           placeholder={field.placeholder}
-                          className={`w-full bg-white rounded-xl px-6 py-5 text-[#112337] text-lg placeholder:text-[#DADADA] focus:outline-none transition-all duration-300 ${
+                          className={`w-full bg-white rounded-xl px-4 py-4 sm:px-6 sm:py-5 text-[#112337] text-base sm:text-lg placeholder:text-[#DADADA] focus:outline-none transition-all duration-300 ${
                             hasValue
                               ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.3)]"
                               : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] focus:shadow-[0_8px_30px_-4px_rgba(32,76,229,0.2)]"
@@ -404,7 +404,7 @@ export default function ProjectplannerPage() {
                     );
                   })}
 
-                  <p className="text-sm text-[#686E77]/60 text-center pt-6">
+                  <p className="text-xs sm:text-sm text-[#686E77]/60 text-center pt-4 sm:pt-6">
                     Door te versturen gaat u akkoord met ons{" "}
                     <Link href="/privacy" className="text-[#204CE5] hover:underline">
                       privacybeleid
@@ -425,21 +425,21 @@ export default function ProjectplannerPage() {
             <button
               onClick={handleSubmit}
               disabled={!canProceed() || isSubmitting}
-              className={`group px-14 py-5 text-base font-semibold rounded-full transition-all duration-300 ${
+              className={`group px-8 py-4 sm:px-14 sm:py-5 text-sm sm:text-base font-semibold rounded-full transition-all duration-300 ${
                 canProceed() && !isSubmitting
                   ? "bg-[#204CE5] text-white shadow-[0_8px_30px_-4px_rgba(32,76,229,0.4)] hover:shadow-[0_12px_40px_-4px_rgba(32,76,229,0.5)] hover:bg-[#1A3BB8]"
                   : "bg-white text-[#DADADA] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] cursor-not-allowed"
               }`}
             >
               {isSubmitting ? (
-                <span className="flex items-center gap-3">
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="flex items-center gap-2 sm:gap-3">
+                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   Even geduld...
                 </span>
               ) : (
-                <span className="flex items-center gap-3">
+                <span className="flex items-center gap-2 sm:gap-3">
                   Versturen
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               )}
             </button>
@@ -447,15 +447,15 @@ export default function ProjectplannerPage() {
             <button
               onClick={nextStep}
               disabled={!canProceed()}
-              className={`group px-14 py-5 text-base font-semibold rounded-full transition-all duration-300 ${
+              className={`group px-8 py-4 sm:px-14 sm:py-5 text-sm sm:text-base font-semibold rounded-full transition-all duration-300 ${
                 canProceed()
                   ? "bg-[#204CE5] text-white shadow-[0_8px_30px_-4px_rgba(32,76,229,0.4)] hover:shadow-[0_12px_40px_-4px_rgba(32,76,229,0.5)] hover:bg-[#1A3BB8]"
                   : "bg-white text-[#DADADA] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] cursor-not-allowed"
               }`}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex items-center gap-2 sm:gap-3">
                 Volgende
-                <ArrowRight className={`w-5 h-5 transition-all duration-300 ${canProceed() ? "group-hover:translate-x-1" : ""}`} />
+                <ArrowRight className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${canProceed() ? "group-hover:translate-x-1" : ""}`} />
               </span>
             </button>
           )}
