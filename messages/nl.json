@@ -98,12 +98,19 @@
     "allProjects": "Alle Projecten",
     "categories": {
       "all": "Alle Projecten",
+      "alle": "Alle Projecten",
       "heritage": "Erfgoed & Monumenten",
+      "erfgoed": "Erfgoed & Monumenten",
       "education": "Onderwijs",
+      "onderwijs": "Onderwijs",
       "healthcare": "Zorg",
+      "zorg": "Zorg",
       "residential": "Residentieel",
+      "residentieel": "Residentieel",
       "infrastructure": "Infrastructuur",
-      "government": "Overheid"
+      "infrastructuur": "Infrastructuur",
+      "government": "Overheid",
+      "overheid": "Overheid"
     },
     "scope": "Scope",
     "client": "Opdrachtgever",
@@ -723,6 +730,12 @@
     },
     "hero": {
       "badge": "Voor Overheden & Facility Managers",
+      "titleLine1": "Procurement",
+      "titleLine2": "Hub",
+      "badges": {
+        "klasse6": "Klasse 6",
+        "co2": "CO₂-Niveau 3"
+      },
       "description": "Alle documentatie voor aanbestedingen, preselecties en raamcontracten — georganiseerd, actueel en in een klik beschikbaar.",
       "viewCertificates": "Bekijk certificaten",
       "tenderPack": "Tender Pack"

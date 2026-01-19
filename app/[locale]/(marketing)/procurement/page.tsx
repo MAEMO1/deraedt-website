@@ -122,11 +122,11 @@ export default function ProcurementPage() {
                 >
                   <div className="flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-semibold">
                     <Shield className="w-4 h-4" />
-                    Klasse 6
+                    {t('hero.badges.klasse6')}
                   </div>
                   <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
                     <Leaf className="w-4 h-4 text-[#204CE5]" />
-                    CO2-Niveau 3
+                    {t('hero.badges.co2')}
                   </div>
                 </motion.div>
 
@@ -148,9 +148,9 @@ export default function ProcurementPage() {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight"
                 >
-                  Procurement
+                  {t('hero.titleLine1')}
                   <br />
-                  <span className="text-[#204CE5]">Hub</span>
+                  <span className="text-[#204CE5]">{t('hero.titleLine2')}</span>
                 </motion.h1>
 
                 <motion.p

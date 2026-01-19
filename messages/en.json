@@ -98,12 +98,19 @@
     "allProjects": "All Projects",
     "categories": {
       "all": "All Projects",
+      "alle": "All Projects",
       "heritage": "Heritage & Monuments",
+      "erfgoed": "Heritage & Monuments",
       "education": "Education",
+      "onderwijs": "Education",
       "healthcare": "Healthcare",
+      "zorg": "Healthcare",
       "residential": "Residential",
+      "residentieel": "Residential",
       "infrastructure": "Infrastructure",
-      "government": "Government"
+      "infrastructuur": "Infrastructure",
+      "government": "Government",
+      "overheid": "Government"
     },
     "scope": "Scope",
     "client": "Client",
@@ -723,6 +730,12 @@
     },
     "hero": {
       "badge": "For Governments & Facility Managers",
+      "titleLine1": "Procurement",
+      "titleLine2": "Hub",
+      "badges": {
+        "klasse6": "Class 6",
+        "co2": "CO₂-Level 3"
+      },
       "description": "All documentation for tenders, preselections and framework contracts — organized, up-to-date and available at a click.",
       "viewCertificates": "View certificates",
       "tenderPack": "Tender Pack"

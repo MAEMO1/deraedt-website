@@ -98,12 +98,19 @@
     "allProjects": "Tous les projets",
     "categories": {
       "all": "Tous les projets",
+      "alle": "Tous les projets",
       "heritage": "Patrimoine & Monuments",
+      "erfgoed": "Patrimoine & Monuments",
       "education": "Enseignement",
+      "onderwijs": "Enseignement",
       "healthcare": "Soins de santé",
+      "zorg": "Soins de santé",
       "residential": "Résidentiel",
+      "residentieel": "Résidentiel",
       "infrastructure": "Infrastructure",
-      "government": "Administrations"
+      "infrastructuur": "Infrastructure",
+      "government": "Administrations",
+      "overheid": "Administrations"
     },
     "scope": "Portée",
     "client": "Maître d'ouvrage",
@@ -723,6 +730,12 @@
     },
     "hero": {
       "badge": "Pour Administrations & Facility Managers",
+      "titleLine1": "Hub",
+      "titleLine2": "Procurement",
+      "badges": {
+        "klasse6": "Classe 6",
+        "co2": "CO₂-Niveau 3"
+      },
       "description": "Toute la documentation pour les marchés publics, présélections et contrats-cadres — organisée, à jour et disponible en un clic.",
       "viewCertificates": "Voir les certificats",
       "tenderPack": "Pack Appel d'offres"

@@ -15,6 +15,7 @@ function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const t = useTranslations("projectsPage");
+  const tProjects = useTranslations("projects");
 
   return (
     <motion.article
@@ -40,7 +41,7 @@ function FeaturedProjectCard({ project }: { project: (typeof FEATURED_PROJECTS)[
             <div className="p-8 lg:p-12 max-w-2xl">
               {/* Category badge */}
               <span className="inline-flex items-center gap-2 bg-[#204CE5] text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
-                {PROJECT_CATEGORIES.find((c) => c.value === project.category)?.label || project.category}
+                {tProjects(`categories.${project.category}`)}
               </span>
 
               {/* Title */}
@@ -86,6 +87,7 @@ function ProjectCard({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const t = useTranslations("projectsPage");
+  const tProjects = useTranslations("projects");
 
   return (
     <motion.article
@@ -110,7 +112,7 @@ function ProjectCard({
           <div className="absolute inset-0 flex flex-col justify-end p-6">
             {/* Category */}
             <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full w-fit mb-4">
-              {PROJECT_CATEGORIES.find((c) => c.value === project.category)?.label || project.category}
+              {tProjects(`categories.${project.category}`)}
             </span>
 
             {/* Title */}
@@ -143,6 +145,7 @@ function ProjectCard({
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const t = useTranslations("projectsPage");
+  const tCerts = useTranslations("certifications");
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -151,7 +154,7 @@ function HeroSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const STAT_KEYS = ["yearsExperience", "recognition", "referenceProjects", "sectors"] as const;
-  const STAT_VALUES = [STATS.yearsExperience.toString(), "Klasse 6", "5", "4"];
+  const STAT_VALUES = [STATS.yearsExperience.toString(), tCerts("klasse6.name"), "5", "4"];
 
   return (
     <section ref={ref} className="relative min-h-[85vh] bg-[#112337] overflow-hidden">
@@ -296,6 +299,7 @@ function FilterBar({
   projectCount: number;
 }) {
   const t = useTranslations("projectsPage");
+  const tProjects = useTranslations("projects");
 
   return (
     <section className="sticky top-[72px] z-40 bg-white/95 backdrop-blur-xl border-b border-[#E5E7EB] py-4">
@@ -330,7 +334,7 @@ function FilterBar({
                     : "bg-[#F5F5F5] text-[#686E77] hover:bg-[#112337]/5 hover:text-[#112337]"
                 )}
               >
-                {category.label}
+                {tProjects(`categories.${category.value}`)}
               </button>
             ))}
           </div>
