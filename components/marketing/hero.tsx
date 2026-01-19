@@ -2,11 +2,38 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Play, Shield, Award, Leaf } from "lucide-react";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
+import { ArrowRight, Play } from "lucide-react";
 import { STATS } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+
+// Animated counter for stats
+function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const controls = animate(0, value, {
+      duration: 2,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => {
+        setDisplayValue(Math.round(latest));
+      },
+    });
+
+    return () => controls.stop();
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref}>
+      {displayValue}{suffix}
+    </span>
+  );
+}
 
 export function Hero() {
   const t = useTranslations("hero");
@@ -22,6 +49,7 @@ export function Hero() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
+    <>
     <section ref={heroRef} className="relative min-h-screen bg-[#112337] overflow-hidden">
       {/* Background with parallax */}
       <motion.div style={{ y: heroImageY }} className="absolute inset-0">
@@ -42,38 +70,6 @@ export function Hero() {
           <div className="flex items-center min-h-[70vh]">
             {/* Content */}
             <div className="max-w-3xl">
-              {/* Trust badges */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="flex flex-wrap gap-3 mb-8"
-              >
-                <div className="flex items-center gap-2 bg-[#204CE5] text-white px-4 py-2 rounded-full text-sm font-semibold">
-                  <Shield className="w-4 h-4" />
-                  {t("badges.klasse6")}
-                </div>
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
-                  <Award className="w-4 h-4 text-[#204CE5]" />
-                  {t("badges.iso9001")}
-                </div>
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
-                  <Leaf className="w-4 h-4 text-[#204CE5]" />
-                  {t("badges.co2")}
-                </div>
-              </motion.div>
-
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="inline-flex items-center gap-2 bg-[#204CE5]/20 border border-[#204CE5]/30 text-[#204CE5] px-4 py-2 rounded-full text-sm font-medium mb-6"
-              >
-                <span className="w-2 h-2 bg-[#204CE5] rounded-full animate-pulse" />
-                {t("badge")}
-              </motion.div>
-
               {/* Headline */}
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
@@ -142,5 +138,62 @@ export function Hero() {
         </motion.div>
       </motion.div>
     </section>
+
+    {/* Stats Bar */}
+    <section className="relative z-10 bg-[#204CE5]">
+      <div className="container-wide">
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="py-8 lg:py-10 text-center"
+          >
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              <AnimatedCounter value={STATS.yearsExperience} />
+            </div>
+            <div className="mt-2 text-sm text-white/70">{t("stats.yearsExperience")}</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="py-8 lg:py-10 text-center"
+          >
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              <AnimatedCounter value={6} />
+            </div>
+            <div className="mt-2 text-sm text-white/70">{t("stats.classRecognition")}</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="py-8 lg:py-10 text-center"
+          >
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              <AnimatedCounter value={STATS.employeesExact} suffix="+" />
+            </div>
+            <div className="mt-2 text-sm text-white/70">{t("stats.employees")}</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="py-8 lg:py-10 text-center"
+          >
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              <AnimatedCounter value={3} suffix="x" />
+            </div>
+            <div className="mt-2 text-sm text-white/70">{t("stats.certified")}</div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+    </>
   );
 }
