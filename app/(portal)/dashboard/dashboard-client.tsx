@@ -122,7 +122,7 @@ const tenderStages = [
 ];
 
 const leadTypeConfig: Record<string, { icon: React.ElementType; label: string; color: string }> = {
-  project: { icon: Building2, label: 'Project', color: '#C9A87C' },
+  project: { icon: Building2, label: 'Project', color: '#204CE5' },
   facility: { icon: Wrench, label: 'Facility', color: '#0EA5E9' },
   partner: { icon: Handshake, label: 'Partner', color: '#8B5CF6' },
   procurement: { icon: FileText, label: 'Procurement', color: '#10B981' },
@@ -150,7 +150,7 @@ function AnimatedValue({ value, prefix = '', suffix = '' }: { value: number; pre
 }
 
 // Radial progress component
-function RadialProgress({ value, max, size = 80, strokeWidth = 6, color = '#C9A87C' }: { value: number; max: number; size?: number; strokeWidth?: number; color?: string }) {
+function RadialProgress({ value, max, size = 80, strokeWidth = 6, color = '#204CE5' }: { value: number; max: number; size?: number; strokeWidth?: number; color?: string }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const progress = (value / max) * circumference;
@@ -246,7 +246,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
   const greeting = currentTime.getHours() < 12 ? 'Goedemorgen' : currentTime.getHours() < 18 ? 'Goedemiddag' : 'Goedenavond';
 
   return (
-    <div className="min-h-screen bg-[#0A0A09]">
+    <div className="min-h-screen bg-[#0d1b2a]">
       <Sidebar />
 
       <div className="ml-64">
@@ -266,7 +266,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="font-display text-4xl text-white tracking-tight">
-                  {greeting}, <span className="text-[#C9A87C]">{firstName}</span>
+                  {greeting}, <span className="text-[#204CE5]">{firstName}</span>
                 </h1>
                 <p className="mt-2 text-white/40 text-sm">
                   {currentTime.toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
@@ -322,7 +322,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
           {/* Key Metrics Row */}
           <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: Target, label: 'Actieve Tenders', value: tenderCounts.go + tenderCounts.in_preparation + tenderCounts.submitted, color: '#C9A87C' },
+              { icon: Target, label: 'Actieve Tenders', value: tenderCounts.go + tenderCounts.in_preparation + tenderCounts.submitted, color: '#204CE5' },
               { icon: TrendingUp, label: 'Pipeline Waarde', value: totalTenderValue, prefix: '€', suffix: '', format: 'currency', color: '#10B981' },
               { icon: Users, label: 'Nieuwe Leads', value: leads.filter((l) => l.status === 'new').length, color: '#0EA5E9' },
               { icon: Briefcase, label: 'Win Rate', value: winRate, suffix: '%', color: '#8B5CF6' },
@@ -365,7 +365,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
             >
               <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
                 <h3 className="font-semibold text-white">Tender Pipeline</h3>
-                <Link href="/dashboard/tenders" className="text-sm text-[#C9A87C] hover:text-[#E5D4B8] transition-colors flex items-center gap-1">
+                <Link href="/dashboard/tenders" className="text-sm text-[#204CE5] hover:text-[#6B8AFF] transition-colors flex items-center gap-1">
                   Bekijk alles <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -407,7 +407,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
             >
               <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
                 <h3 className="font-semibold text-white">Expiry Radar</h3>
-                <Link href="/dashboard/compliance" className="text-sm text-[#C9A87C] hover:text-[#E5D4B8] transition-colors">
+                <Link href="/dashboard/compliance" className="text-sm text-[#204CE5] hover:text-[#6B8AFF] transition-colors">
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -432,7 +432,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
             >
               <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
                 <h3 className="font-semibold text-white">Lead Pipeline</h3>
-                <Link href="/dashboard/leads" className="text-sm text-[#C9A87C] hover:text-[#E5D4B8] transition-colors">
+                <Link href="/dashboard/leads" className="text-sm text-[#204CE5] hover:text-[#6B8AFF] transition-colors">
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -494,7 +494,7 @@ export function DashboardClient({ user, tenders, leads, complianceDocs }: Dashbo
                         <p className="text-sm font-medium text-white truncate">{tender.title}</p>
                         <p className="text-xs text-white/40 mt-0.5">{tender.buyer}</p>
                       </div>
-                      <Link href={`/dashboard/tenders/${tender.id}`} className="p-2 text-white/30 hover:text-[#C9A87C] transition-colors">
+                      <Link href={`/dashboard/tenders/${tender.id}`} className="p-2 text-white/30 hover:text-[#204CE5] transition-colors">
                         <ArrowUpRight className="w-4 h-4" />
                       </Link>
                     </motion.div>

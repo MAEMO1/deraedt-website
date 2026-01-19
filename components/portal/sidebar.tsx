@@ -13,6 +13,7 @@ import {
   Handshake,
   BarChart3,
   LogOut,
+  ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -32,15 +33,23 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-white/[0.06] bg-[#0A0A09]">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-white/10 bg-[#112337]">
       <div className="flex h-full flex-col">
-        <div className="border-b border-white/[0.06] p-5">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="font-display text-xl tracking-tight text-white">DE RAEDT</span>
+        {/* Logo */}
+        <div className="border-b border-white/10 p-6">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-[#204CE5] flex items-center justify-center">
+              <span className="font-bold text-white text-lg">DR</span>
+            </div>
+            <div>
+              <span className="block font-bold text-white tracking-tight">DE RAEDT</span>
+              <span className="block text-[10px] text-white/40 uppercase tracking-wider">Growth OS</span>
+            </div>
           </Link>
         </div>
 
-        <nav className="flex-1 space-y-1 p-4">
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.exact
@@ -52,22 +61,27 @@ export function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                  "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                   isActive
-                    ? "bg-white/[0.08] text-white"
-                    : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
+                    ? "bg-[#204CE5] text-white shadow-lg shadow-[#204CE5]/20"
+                    : "text-white/60 hover:bg-white/5 hover:text-white"
                 )}
               >
-                <Icon className="h-5 w-5" strokeWidth={1.5} />
-                {item.label}
+                <Icon className={cn(
+                  "h-5 w-5 transition-colors",
+                  isActive ? "text-white" : "text-white/40 group-hover:text-[#204CE5]"
+                )} strokeWidth={1.5} />
+                <span className="flex-1">{item.label}</span>
+                {isActive && <ChevronRight className="w-4 h-4 opacity-60" />}
               </Link>
             );
           })}
         </nav>
 
-        <div className="border-t border-white/[0.06] p-4">
+        {/* Logout */}
+        <div className="border-t border-white/10 p-4">
           <button
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/50 transition-all hover:bg-white/[0.04] hover:text-white/80"
+            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-white/50 transition-all hover:bg-red-500/10 hover:text-red-400"
             onClick={() => {
               window.location.href = "/login";
             }}
