@@ -302,9 +302,9 @@ export default function ProjectplannerPage() {
                 {currentQuestion.headline}
               </p>
 
-              {/* Icon buttons */}
+              {/* Icon buttons - McCownGordon style */}
               {currentQuestion.type === "icons" && (
-                <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
+                <div className="flex flex-wrap justify-center gap-6 sm:gap-10 lg:gap-14">
                   {currentQuestion.options.map((option) => {
                     const Icon = option.icon!;
                     const isSelected =
@@ -313,25 +313,37 @@ export default function ProjectplannerPage() {
                       <button
                         key={option.id}
                         onClick={() => selectOption(option.id)}
-                        className="flex flex-col items-center gap-4 group"
+                        className="flex flex-col items-center gap-5 group"
                       >
+                        {/* Circular container with shadow on select */}
                         <div
-                          className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                            isSelected
-                              ? "border-[#204CE5] bg-[#204CE5]/5"
-                              : "border-[#112337]/20 hover:border-[#204CE5]/50"
-                          }`}
+                          className="relative"
+                          style={{
+                            transition: "all 0.25s ease-in-out",
+                          }}
                         >
-                          <Icon
-                            className={`w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-200 ${
-                              isSelected ? "text-[#204CE5]" : "text-[#112337]/40 group-hover:text-[#204CE5]/60"
+                          <div
+                            className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-all duration-300 ease-in-out ${
+                              isSelected
+                                ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.6)]"
+                                : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.1)] group-hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.15)]"
                             }`}
-                            strokeWidth={1.5}
-                          />
+                          >
+                            <Icon
+                              className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 transition-all duration-300 ease-in-out ${
+                                isSelected
+                                  ? "text-[#204CE5]"
+                                  : "text-[#DADADA] group-hover:text-[#204CE5]/50"
+                              }`}
+                              strokeWidth={1.25}
+                            />
+                          </div>
                         </div>
                         <span
-                          className={`text-sm sm:text-base font-medium transition-colors duration-200 ${
-                            isSelected ? "text-[#112337]" : "text-[#686E77]"
+                          className={`text-sm sm:text-base font-medium tracking-wide transition-all duration-300 ${
+                            isSelected
+                              ? "text-[#112337]"
+                              : "text-[#686E77] group-hover:text-[#112337]"
                           }`}
                         >
                           {option.label}
@@ -342,9 +354,9 @@ export default function ProjectplannerPage() {
                 </div>
               )}
 
-              {/* Text options */}
+              {/* Text options - McCownGordon pill style */}
               {currentQuestion.type === "options" && (
-                <div className="flex flex-wrap justify-center gap-3 max-w-xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
                   {currentQuestion.options.map((option) => {
                     const isSelected =
                       formData[currentQuestion.id as keyof FormData] === option.id;
@@ -352,10 +364,10 @@ export default function ProjectplannerPage() {
                       <button
                         key={option.id}
                         onClick={() => selectOption(option.id)}
-                        className={`px-6 py-3 text-base rounded-full border-2 transition-all duration-200 ${
+                        className={`px-8 py-4 text-base rounded-full transition-all duration-300 ease-in-out ${
                           isSelected
-                            ? "border-[#204CE5] bg-[#204CE5]/5 text-[#204CE5] font-medium"
-                            : "border-[#112337]/10 text-[#686E77] hover:border-[#204CE5]/30 hover:text-[#112337]"
+                            ? "bg-white text-[#204CE5] font-semibold shadow-[0_0_34px_-6px_rgba(32,76,229,0.5)]"
+                            : "bg-white text-[#686E77] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.12)] hover:text-[#112337]"
                         }`}
                       >
                         {option.label}
@@ -365,26 +377,34 @@ export default function ProjectplannerPage() {
                 </div>
               )}
 
-              {/* Form */}
+              {/* Form - Premium input styling */}
               {currentQuestion.type === "form" && (
-                <div className="max-w-md mx-auto space-y-4">
+                <div className="max-w-lg mx-auto space-y-5">
                   {[
                     { key: "name", placeholder: "Naam *", type: "text" },
                     { key: "email", placeholder: "E-mailadres *", type: "email" },
                     { key: "phone", placeholder: "Telefoonnummer *", type: "tel" },
                     { key: "company", placeholder: "Bedrijf (optioneel)", type: "text" },
-                  ].map((field) => (
-                    <input
-                      key={field.key}
-                      type={field.type}
-                      value={formData[field.key as keyof FormData]}
-                      onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
-                      placeholder={field.placeholder}
-                      className="w-full bg-white border-2 border-[#112337]/10 rounded-lg px-5 py-4 text-[#112337] placeholder:text-[#686E77]/50 focus:outline-none focus:border-[#204CE5] transition-colors"
-                    />
-                  ))}
+                  ].map((field) => {
+                    const hasValue = formData[field.key as keyof FormData];
+                    return (
+                      <div key={field.key} className="relative">
+                        <input
+                          type={field.type}
+                          value={formData[field.key as keyof FormData]}
+                          onChange={(e) => updateField(field.key as keyof FormData, e.target.value)}
+                          placeholder={field.placeholder}
+                          className={`w-full bg-white rounded-xl px-6 py-5 text-[#112337] text-lg placeholder:text-[#DADADA] focus:outline-none transition-all duration-300 ${
+                            hasValue
+                              ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.3)]"
+                              : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] focus:shadow-[0_8px_30px_-4px_rgba(32,76,229,0.2)]"
+                          }`}
+                        />
+                      </div>
+                    );
+                  })}
 
-                  <p className="text-xs text-[#686E77]/60 text-center pt-4">
+                  <p className="text-sm text-[#686E77]/60 text-center pt-6">
                     Door te versturen gaat u akkoord met ons{" "}
                     <Link href="/privacy" className="text-[#204CE5] hover:underline">
                       privacybeleid
@@ -398,47 +418,53 @@ export default function ProjectplannerPage() {
       </main>
 
       {/* Footer */}
-      <footer className="absolute bottom-0 left-0 right-0 z-40 p-6 sm:p-8">
+      <footer className="absolute bottom-0 left-0 right-0 z-40 p-6 sm:p-10">
         <div className="flex items-center justify-center max-w-4xl mx-auto">
           {currentQuestion.type === "form" ? (
             <button
               onClick={handleSubmit}
               disabled={!canProceed() || isSubmitting}
-              className={`px-12 py-4 text-base font-semibold rounded transition-all duration-200 ${
+              className={`group px-14 py-5 text-base font-semibold rounded-full transition-all duration-300 ${
                 canProceed() && !isSubmitting
-                  ? "bg-[#204CE5] text-white hover:bg-[#1A3BB8]"
-                  : "bg-[#112337]/10 text-[#686E77]/50 cursor-not-allowed"
+                  ? "bg-[#204CE5] text-white shadow-[0_8px_30px_-4px_rgba(32,76,229,0.4)] hover:shadow-[0_12px_40px_-4px_rgba(32,76,229,0.5)] hover:bg-[#1A3BB8]"
+                  : "bg-white text-[#DADADA] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] cursor-not-allowed"
               }`}
             >
               {isSubmitting ? (
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-3">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Even geduld...
                 </span>
               ) : (
-                "Versturen"
+                <span className="flex items-center gap-3">
+                  Versturen
+                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
               )}
             </button>
           ) : (
             <button
               onClick={nextStep}
               disabled={!canProceed()}
-              className={`px-12 py-4 text-base font-semibold rounded transition-all duration-200 ${
+              className={`group px-14 py-5 text-base font-semibold rounded-full transition-all duration-300 ${
                 canProceed()
-                  ? "bg-[#204CE5] text-white hover:bg-[#1A3BB8]"
-                  : "bg-[#112337]/10 text-[#686E77]/50 cursor-not-allowed"
+                  ? "bg-[#204CE5] text-white shadow-[0_8px_30px_-4px_rgba(32,76,229,0.4)] hover:shadow-[0_12px_40px_-4px_rgba(32,76,229,0.5)] hover:bg-[#1A3BB8]"
+                  : "bg-white text-[#DADADA] shadow-[0_4px_20px_-4px_rgba(17,35,55,0.08)] cursor-not-allowed"
               }`}
             >
-              Volgende
+              <span className="flex items-center gap-3">
+                Volgende
+                <ArrowRight className={`w-5 h-5 transition-all duration-300 ${canProceed() ? "group-hover:translate-x-1" : ""}`} />
+              </span>
             </button>
           )}
         </div>
 
         {/* Start over */}
-        <div className="absolute right-6 sm:right-8 bottom-6 sm:bottom-8">
+        <div className="absolute right-6 sm:right-10 bottom-6 sm:bottom-10">
           <button
             onClick={restart}
-            className="text-sm font-medium text-[#686E77] hover:text-[#112337] uppercase tracking-wider transition-colors"
+            className="text-sm font-medium text-[#DADADA] hover:text-[#112337] uppercase tracking-widest transition-all duration-300"
           >
             Opnieuw
           </button>
