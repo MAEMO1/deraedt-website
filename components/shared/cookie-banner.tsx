@@ -52,11 +52,11 @@ export function CookieBanner() {
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EBF4FF] text-[#1E3A5F]">
                   <Cookie className="h-5 w-5" />
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-[#1E3A5F]">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-[#1E3A5F] break-words">
                     {t("title")}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-600">
+                  <p className="mt-1 text-sm text-gray-600 break-words">
                     {t("description")}
                     {!showDetails && (
                       <button

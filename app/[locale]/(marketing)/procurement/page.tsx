@@ -383,9 +383,9 @@ export default function ProcurementPage() {
                     transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                     className="group flex items-center gap-6 p-5 bg-[#F5F5F5] rounded-xl border-l-4 border-[#204CE5] hover:bg-[#204CE5]/5 transition-colors duration-300"
                   >
-                    <div className="flex-1">
-                      <div className="font-semibold text-[#112337]">{tRaam(`${contractKey}.client`)}</div>
-                      <div className="text-sm text-[#686E77] mt-0.5">{tRaam(`${contractKey}.scope`)}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-[#112337] break-words">{tRaam(`${contractKey}.client`)}</div>
+                      <div className="text-sm text-[#686E77] mt-0.5 break-words">{tRaam(`${contractKey}.scope`)}</div>
                     </div>
                     <div className="text-xs text-[#204CE5] uppercase tracking-wider font-semibold">
                       {tRaam(`${contractKey}.type`)}

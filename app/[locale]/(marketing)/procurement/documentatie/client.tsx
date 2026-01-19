@@ -328,9 +328,9 @@ export function DocumentatieClient() {
                     <div className="w-10 h-10 flex items-center justify-center bg-[#9A6B4C]/10 text-[#9A6B4C]">
                       <FileText className="w-5 h-5" />
                     </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-[#0C0C0C]">{t(`documents.items.${key}.name`)}</div>
-                      <div className="text-xs text-[#6B6560]">{t(`documents.items.${key}.type`)}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-[#0C0C0C] break-words">{t(`documents.items.${key}.name`)}</div>
+                      <div className="text-xs text-[#6B6560] break-words">{t(`documents.items.${key}.type`)}</div>
                     </div>
                     <Download className="w-4 h-4 text-[#6B6560]" />
                   </motion.div>

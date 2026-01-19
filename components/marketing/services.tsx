@@ -101,11 +101,11 @@ export function Services() {
                   onMouseLeave={() => setHoveredService(null)}
                 >
                   <div className="flex items-center justify-between p-8 lg:p-10 transition-all duration-300 group-hover:bg-white group-hover:pl-12">
-                    <div className="flex-1">
-                      <h3 className="text-2xl lg:text-3xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-2xl lg:text-3xl font-bold text-[#112337] group-hover:text-[#204CE5] transition-colors duration-300 break-words">
                         {t(`${serviceId}.title`)}
                       </h3>
-                      <p className="mt-2 text-[#686E77] text-sm lg:text-base max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="mt-2 text-[#686E77] text-sm lg:text-base max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 break-words">
                         {t(`${serviceId}.description`)}
                       </p>
                     </div>
