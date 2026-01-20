@@ -23,10 +23,10 @@ export function Footer() {
   ] as const;
 
   const services = [
-    { labelKey: "newbuild" },
-    { labelKey: "renovation" },
-    { labelKey: "heritage" },
-    { labelKey: "facility" },
+    { labelKey: "newbuild", href: "/diensten#bouwwerken" },
+    { labelKey: "renovation", href: "/diensten#renovatie" },
+    { labelKey: "heritage", href: "/diensten#erfgoed" },
+    { labelKey: "facility", href: "/diensten#facility" },
   ] as const;
 
   return (
@@ -87,7 +87,12 @@ export function Footer() {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.labelKey}>
-                  <span className="text-white/70">{t(`servicesList.${service.labelKey}`)}</span>
+                  <Link
+                    href={service.href}
+                    className="text-white/70 hover:text-white transition-colors duration-200"
+                  >
+                    {t(`servicesList.${service.labelKey}`)}
+                  </Link>
                 </li>
               ))}
             </ul>

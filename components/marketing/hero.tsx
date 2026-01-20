@@ -142,7 +142,7 @@ export function Hero() {
     {/* Stats Bar */}
     <section className="relative z-10 bg-[#204CE5]">
       <div className="container-wide">
-        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/20">
+        <div className="grid grid-cols-2 lg:grid-cols-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

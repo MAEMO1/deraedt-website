@@ -124,26 +124,26 @@ function ProjectCard({
           <div className="absolute inset-0 bg-gradient-to-t from-[#112337] via-[#112337]/40 to-transparent opacity-90" />
 
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-end p-6">
+          <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-6 overflow-hidden">
             {/* Category */}
-            <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full w-fit mb-4">
+            <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full w-fit mb-3 sm:mb-4">
               {tProjects(`categories.${project.category}`)}
             </span>
 
             {/* Title */}
-            <h3 className="text-xl lg:text-2xl font-bold text-white leading-tight mb-2">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white leading-tight mb-2 line-clamp-2">
               {tFeatured(`${projectKey}.title`)}
             </h3>
 
             {/* Client & Year */}
-            <div className="flex items-center gap-3 text-sm text-white/50">
-              <span>{tFeatured(`${projectKey}.client`)}</span>
-              <span className="w-1 h-1 rounded-full bg-white/30" />
+            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-white/50">
+              <span className="truncate">{tFeatured(`${projectKey}.client`)}</span>
+              <span className="w-1 h-1 rounded-full bg-white/30 flex-shrink-0" />
               <span>{project.year}</span>
             </div>
 
-            {/* Hover indicator */}
-            <div className="mt-4 flex items-center gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            {/* Hover indicator - hidden on mobile */}
+            <div className="hidden sm:flex mt-4 items-center gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
               <span className="text-sm font-semibold text-[#204CE5]">
                 {t("card.viewProject")}
               </span>
