@@ -343,7 +343,7 @@ export default function ProjectplannerPage() {
                             className={`w-10 h-10 sm:w-16 sm:h-16 lg:w-20 lg:h-20 transition-colors duration-150 ${
                               isSelected
                                 ? "text-[#204CE5]"
-                                : "text-[#112337]/40 group-hover:text-[#204CE5]/70"
+                                : "text-[#A0A7AF] group-hover:text-[#6382ED]"
                             }`}
                             strokeWidth={2}
                           />
