@@ -30,12 +30,20 @@ export async function updateSession(
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
-          supabaseResponse = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
+          if (existingResponse) {
+            // Preserve the rewrite (e.g. next-intl `/` → `/nl`); only add cookies.
+            cookiesToSet.forEach(({ name, value, options }) =>
+              existingResponse.cookies.set(name, value, options)
+            );
+            supabaseResponse = existingResponse;
+          } else {
+            supabaseResponse = NextResponse.next({
+              request,
+            });
+            cookiesToSet.forEach(({ name, value, options }) =>
+              supabaseResponse.cookies.set(name, value, options)
+            );
+          }
         },
       },
     }
