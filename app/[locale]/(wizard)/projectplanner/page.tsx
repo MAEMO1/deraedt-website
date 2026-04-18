@@ -332,26 +332,24 @@ export default function ProjectplannerPage() {
                         onClick={() => selectOption(option.id)}
                         className="flex flex-col items-center gap-3 sm:gap-5 group"
                       >
-                        <div className="relative">
-                          <div
-                            className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center transition-shadow duration-75 ${
+                        <div
+                          className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full flex items-center justify-center transition-[background-color,box-shadow] duration-150 ${
+                            isSelected
+                              ? "bg-[#204CE5]/10 shadow-[0_0_34px_-6px_rgba(32,76,229,0.35)]"
+                              : ""
+                          }`}
+                        >
+                          <Icon
+                            className={`w-10 h-10 sm:w-16 sm:h-16 lg:w-20 lg:h-20 transition-colors duration-150 ${
                               isSelected
-                                ? "shadow-[0_0_34px_-6px_rgba(32,76,229,0.6)]"
-                                : "shadow-[0_4px_20px_-4px_rgba(17,35,55,0.1)] group-hover:shadow-[0_8px_30px_-4px_rgba(17,35,55,0.15)]"
+                                ? "text-[#204CE5]"
+                                : "text-[#112337]/40 group-hover:text-[#204CE5]/70"
                             }`}
-                          >
-                            <Icon
-                              className={`w-8 h-8 sm:w-14 sm:h-14 lg:w-16 lg:h-16 transition-colors duration-75 ${
-                                isSelected
-                                  ? "text-[#204CE5]"
-                                  : "text-[#DADADA] group-hover:text-[#204CE5]/50"
-                              }`}
-                              strokeWidth={1.25}
-                            />
-                          </div>
+                            strokeWidth={2}
+                          />
                         </div>
                         <span
-                          className={`text-xs sm:text-base font-medium tracking-wide transition-colors duration-75 ${
+                          className={`text-xs sm:text-base font-medium tracking-wide transition-colors duration-150 ${
                             isSelected
                               ? "text-[#112337]"
                               : "text-[#686E77] group-hover:text-[#112337]"
